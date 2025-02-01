@@ -7,7 +7,7 @@ Discord: <a href="https://discord.gg/BrXGxGeY8r">discord.gg/moonlight </a><br>
 QQ: 713315328
 </div>
 
-main dev(randumbguy/opZywl) will back when 7/2
+main dev(randumbguy) will back when 7/2
 
 ## Issues
 Found a bug or have an idea for a new feature? You can let us know by clicking [here](https://github.com/randomguy3725/MoonLight/issues) to open an issue.
