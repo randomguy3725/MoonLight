@@ -182,6 +182,7 @@ import org.lwjglx.util.glu.GLU;
 import wtf.moonlight.Moonlight;
 import wtf.moonlight.events.impl.misc.KeyPressEvent;
 import wtf.moonlight.events.impl.misc.TickEvent;
+import wtf.moonlight.gui.mainmenu.NewGuiMainMenu;
 
 public class Minecraft implements IThreadListener, IPlayerUsage
 {
@@ -486,11 +487,11 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
         if (this.serverName != null)
         {
-            this.displayGuiScreen(new GuiConnecting(new GuiMainMenu(), this, this.serverName, this.serverPort));
+            this.displayGuiScreen(new GuiConnecting(new NewGuiMainMenu(), this, this.serverName, this.serverPort));
         }
         else
         {
-            this.displayGuiScreen(new GuiMainMenu());
+            this.displayGuiScreen(new NewGuiMainMenu());
         }
 
         this.renderEngine.deleteTexture(this.mojangLogo);
@@ -862,14 +863,14 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
         if (guiScreenIn == null && this.theWorld == null)
         {
-            guiScreenIn = new GuiMainMenu();
+            guiScreenIn = new NewGuiMainMenu();
         }
         else if (guiScreenIn == null && this.thePlayer.getHealth() <= 0.0F)
         {
             guiScreenIn = new GuiGameOver();
         }
 
-        if (guiScreenIn instanceof GuiMainMenu)
+        if (guiScreenIn instanceof NewGuiMainMenu)
         {
             this.gameSettings.showDebugInfo = false;
             this.ingameGUI.getChatGUI().clearChatMessages();

@@ -12,6 +12,8 @@ package wtf.moonlight.utils.render;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
+import org.lwjgl.opengl.GL11;
 import wtf.moonlight.utils.InstanceAccess;
 import wtf.moonlight.utils.render.shader.ShaderUtils;
 
@@ -125,5 +127,40 @@ public class RoundedUtils implements InstanceAccess {
                 (Minecraft.getMinecraft().displayHeight - (height * sr.getScaleFactor())) - (y * sr.getScaleFactor()));
         roundedTexturedShader.setUniformf("rectSize", width * sr.getScaleFactor(), height * sr.getScaleFactor());
         roundedTexturedShader.setUniformf("radius", radius * sr.getScaleFactor());
+    }
+
+    public static void drawLine(float startX, float startY, float endX, float endY, float width, int color) {
+        // 提取颜色的 RGBA 值
+        float red = (color >> 16 & 0xFF) / 255.0F;
+        float green = (color >> 8 & 0xFF) / 255.0F;
+        float blue = (color & 0xFF) / 255.0F;
+        float alpha = ((color >> 24) & 0xFF) / 255.0F;
+
+        // 保存当前的 OpenGL 状态
+        GlStateManager.pushMatrix();
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+        GlStateManager.shadeModel(GL11.GL_SMOOTH);
+        GlStateManager.disableDepth();
+
+        // 设置线条宽度
+        GL11.glLineWidth(width);
+
+        // 开始绘制线条
+        GL11.glBegin(GL11.GL_LINES);
+        GL11.glColor4f(red, green, blue, alpha);
+        GL11.glVertex2d(startX, startY);
+        GL11.glVertex2d(endX, endY);
+        GL11.glEnd();
+
+        // 恢复 OpenGL 状态
+        GlStateManager.shadeModel(GL11.GL_FLAT);
+        GlStateManager.disableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableTexture2D();
+        GlStateManager.enableDepth();
+        GlStateManager.popMatrix();
     }
 }
