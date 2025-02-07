@@ -103,7 +103,7 @@ public class Interface extends Module {
     public final ModeValue tags = new ModeValue("Suffix", new String[]{"None", "Simple", "Simple 2", "Bracket", "Dash"}, "None", this, () -> elements.isEnabled("Module List"));
     public final ModeValue outline = new ModeValue("Outline", new String[]{"Right","Left","None"}, "Right", this, () -> elements.isEnabled("Module List"));
     public final ModeValue armorMode = new ModeValue("Armor Mode", new String[]{"Default"}, "Default", this,() -> elements.isEnabled("Armor"));
-    public final ModeValue infoMode = new ModeValue("Info Mode", new String[]{"Default", "Moon", "Moon 2","Tenacity"}, "Default", this,() -> elements.isEnabled("Info"));
+    public final ModeValue infoMode = new ModeValue("Info Mode", new String[]{"Exhi", "Moon", "Moon 2","Tenacity"}, "Default", this,() -> elements.isEnabled("Info"));
     public final ModeValue versionMode = new ModeValue("Version Mode", new String[]{"Default"}, "Default",this,() -> elements.isEnabled("Version Info"));
     public final ModeValue potionHudMode = new ModeValue("Potion Mode", new String[]{"Default","Nursultan","Exhi","Moon","Sexy","Type 1","NeverLose","Mod"}, "Default", this,() -> elements.isEnabled("Potion HUD"));
     public final ModeValue targetHudMode = new ModeValue("TargetHUD Mode", new String[]{"Astolfo", "Type 1", "Type 2","Exhi","Adjust","Moon","Augustus","New","Novo 1","Novo 2","Novo 3","Novo 4"}, "Astolfo", this,() -> elements.isEnabled("Target HUD"));
@@ -115,7 +115,7 @@ public class Interface extends Module {
     public final ModeValue color = new ModeValue("Color Setting", new String[]{"Custom", "Rainbow", "Dynamic", "Fade","Astolfo","NeverLose"}, "NeverLose", this);
     private final ColorValue mainColor = new ColorValue("Main Color", new Color(128, 128, 255), this,() -> !color.is("NeverLose"));
     private final ColorValue secondColor = new ColorValue("Second Color", new Color(128, 255, 255), this, () -> color.is("Fade"));
-    public final SliderValue fadeSpeed = new SliderValue("Fade Speed", 1, 1, 10, 1, this, () -> color.is("Dynamic") || color.is("Astolfo") || color.is("Fade"));
+    public final SliderValue fadeSpeed = new SliderValue("Fade Speed", 1, 1, 10, 1, this, () -> color.is("Dynamic") || color.is("Fade"));
     public final BoolValue background = new BoolValue("Background",true,this, () -> elements.isEnabled("Module List"));
     public final ModeValue bgColor = new ModeValue("Background Color", new String[]{"Dark", "Synced","Custom","NeverLose"}, "Synced", this,background::get);
     private final ColorValue bgCustomColor = new ColorValue("Background Custom Color", new Color(32, 32, 64), this,() -> bgColor.canDisplay() && bgColor.is("Custom"));
@@ -281,15 +281,43 @@ public class Interface extends Module {
             }
         }
 
+
         if (infoMode.canDisplay()) {
             switch (infoMode.get()) {
                 case "Exhi":
                     float textY = (event.getScaledResolution().getScaledHeight() - 9) + (mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f);
-                    mc.fontRendererObj.drawStringWithShadow("XYZ: " + EnumChatFormatting.WHITE +
+                    mc.fontRendererObj.drawStringWithShadow("XYZ: " +  EnumChatFormatting.WHITE +
                                     xyzFormat.format(mc.thePlayer.posX) + " " +
                                     xyzFormat.format(mc.thePlayer.posY) + " " +
                                     xyzFormat.format(mc.thePlayer.posZ) + " " + EnumChatFormatting.RESET + "BPS: " + EnumChatFormatting.WHITE + this.bpsFormat.format(MovementUtils.getBPS())
                             , 2, textY, color(0));
+                    break;
+                case "Moon":
+                    textY = (event.getScaledResolution().getScaledHeight() - 9) + (mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f);
+                    mc.fontRendererObj.drawStringWithShadow("FPS: " + EnumChatFormatting.WHITE + Minecraft.getDebugFPS(), 2, textY, color(0));
+                    break;
+                case "Moon 2":
+                    textY = (event.getScaledResolution().getScaledHeight() - 6.5F) + (mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f);
+                    Fonts.interSemiBold.get(19).drawStringWithShadow("§fFPS: " + Minecraft.getDebugFPS(), 1.5F, textY, color(0));
+                    break;
+                case "Tenacity":
+                    float XYZText = (event.getScaledResolution().getScaledHeight() - 9);
+                    float SpeedText = (event.getScaledResolution().getScaledHeight() - 18);
+                    float FPSText = (event.getScaledResolution().getScaledHeight() - 27);
+
+                    Fonts.psBold.get(19).drawStringWithShadow("XYZ: ", 2, XYZText, color(0));
+                    Fonts.psRegular.get(19).drawStringWithShadow(EnumChatFormatting.WHITE + xyzFormat.format(mc.thePlayer.posX) + " " + xyzFormat.format(mc.thePlayer.posY) + " " + xyzFormat.format(mc.thePlayer.posZ), 26, XYZText, color(0));
+                    Fonts.psBold.get(19).drawStringWithShadow("Speed:", 2, SpeedText, color(0));
+                    Fonts.psRegular.get(19).drawStringWithShadow(EnumChatFormatting.WHITE + bpsFormat.format(MovementUtils.getBPS()), 35, SpeedText, color(0));
+                    Fonts.psBold.get(19).drawStringWithShadow("FPS:", 2, FPSText, color(0));
+                    Fonts.psRegular.get(19).drawStringWithShadow(EnumChatFormatting.WHITE + fpsFormat.format(Minecraft.getDebugFPS()), 24, FPSText, color(0));
+            }
+        }
+        if (versionMode.canDisplay()) {
+            switch (versionMode.get()) {
+                case "Default":
+                     float textY = (event.getScaledResolution().getScaledHeight() - 9) + (mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f);
+                    Fonts.interMedium.get(17).drawStringWithShadow(EnumChatFormatting.WHITE + "Alpha " + "§7- " + EnumChatFormatting.WHITE + Moonlight.INSTANCE.getDiscordRP().getName() + " §7- " + EnumChatFormatting.WHITE + Sys.getVersion(), 973F - (2 + Fonts.interMedium.get(19).getStringWidth(EnumChatFormatting.WHITE + "Development " + "§7- " + EnumChatFormatting.WHITE + Moonlight.INSTANCE.getDiscordRP().getName() + " §7- " + EnumChatFormatting.WHITE + Sys.getVersion())), textY + 3.5, color (0));
                     break;
             }
         }
