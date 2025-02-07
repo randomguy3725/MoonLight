@@ -179,6 +179,12 @@ public class Interface extends Module {
                             "§7[§f" + Minecraft.getDebugFPS() + " FPS§7]§r ";
                     mc.fontRendererObj.drawStringWithShadow(text, 2.0f, 2.0f, color());
                     break;
+                case "Exhi 2":
+                    shouldChange = RenderUtils.COLOR_PATTERN.matcher(clientName.get()).find();
+                    text = shouldChange ? "§r" + clientName.get() : clientName.get().charAt(0) + "§r§f" + clientName.get().substring(1) +
+                            " §7[§f" + Minecraft.getDebugFPS() + " FPS§7]§r ";
+                    Fonts.Tahoma.get(15).drawStringWithShadow(text, 1.0f, 2.0f, color());
+                    break;
                 case "Type 1":
                     float posX = 4.0F;
                     float posY = 4.0F;
