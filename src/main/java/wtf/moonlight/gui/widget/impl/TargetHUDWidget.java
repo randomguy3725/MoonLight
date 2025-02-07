@@ -86,7 +86,7 @@ public class TargetHUDWidget extends Widget {
             case "Adjust" -> 130;
             case "Moon" -> 35 + Fonts.interSemiBold.get(18).getStringWidth(entity.getName()) + 33;
             case "Augustus" -> 35 + Fonts.interSemiBold.get(18).getStringWidth(entity.getName()) + 33;
-            case "New" -> Math.max(160, Fonts.quicksand.get(17).getStringWidth(entity.getName()) + 30);
+            case "New" -> Math.max(160, Fonts.interSemiBold.get(17).getStringWidth(entity.getName()) + 30);
             case "Novo 1", "Novo 2" -> 35 + mc.fontRendererObj.getStringWidth(entity.getName()) + 33;
             case "Novo 3" -> 35 + mc.fontRendererObj.getStringWidth(entity.getName()) + 34;
             case "Novo 4" -> 135.0f;
