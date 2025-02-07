@@ -84,11 +84,10 @@ public class ESP extends Module {
     }
 
     @EventTarget
-    public void onRender2D(Render2DEvent event) {
-
-        if (!esp2d.get() && !fontTags.get()) {
-            return;
-        }
+    public void onWorld(WorldEvent event) {
+        entityPosMap.clear();
+        playerRotationMap.clear();
+    }
 
         for (EntityPlayer player : entityPosMap.keySet()) {
             if ((player.getDistanceToEntity(mc.thePlayer) < 1.0F && mc.gameSettings.thirdPersonView == 0) ||
