@@ -488,24 +488,54 @@ public class Interface extends Module {
                 y -= 9.0f;
             }
         }
+        if (elements.isEnabled("Potion HUD") && potionHudMode.is("Moon")) {
+            ArrayList<PotionEffect> potions = new ArrayList<>(mc.thePlayer.getActivePotionEffects());
+            potions.sort(Comparator.comparingDouble(effect -> -Fonts.interMedium.get(19).getStringWidth(I18n.format(Potion.potionTypes[effect.getPotionID()].getName()))));
+            float y = mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f;
+            for (PotionEffect potionEffect : potions) {
+                Potion potionType = Potion.potionTypes[potionEffect.getPotionID()];
+                String potionName = I18n.format(potionType.getName());
+                String type = " §7-";
+                if (potionEffect.getAmplifier() == 1) {
+                    potionName = potionName + " 2";
+                } else if (potionEffect.getAmplifier() == 2) {
+                    potionName = potionName + " 3";
+                } else if (potionEffect.getAmplifier() == 3) {
+                    potionName = potionName + " 4";
+                }
+                if (potionEffect.getDuration() < 600 && potionEffect.getDuration() > 300) {
+                    type = type + " §f" + Potion.getDurationString(potionEffect);
+                } else if (potionEffect.getDuration() < 300) {
+                    type = type + " §f" + Potion.getDurationString(potionEffect);
+                } else if (potionEffect.getDuration() > 600) {
+                    type = type + " §f" + Potion.getDurationString(potionEffect);
+                }
+                GlStateManager.pushMatrix();
+                Fonts.interMedium.get(17).drawStringWithShadow(potionName, (float) event.getScaledResolution().getScaledWidth() - Fonts.interSemiBold.get(17).getStringWidth(type + potionName) - 2.0f, (event.getScaledResolution().getScaledHeight() - 15) + y, new Color(potionType.getLiquidColor()).getRGB());
+                Fonts.interMedium.get(17).drawStringWithShadow(type, (float) event.getScaledResolution().getScaledWidth() - Fonts.interMedium.get(17).getStringWidth(type) - 2.0f, (event.getScaledResolution().getScaledHeight() - 15) + y, new Color(255, 255, 255).getRGB());
+
+                GlStateManager.popMatrix();
+                y -= 9.5f;
+            }
+        }
 
         if (elements.isEnabled("Potion HUD") && potionHudMode.is("Mod")) {
             GL11.glPushMatrix();
             GL11.glTranslatef(25, event.getScaledResolution().getScaledHeight() / 2f, 0F);
-            float yPos = 0F;
+            float yPos = -75F;
             float width = 0F;
             for (final PotionEffect effect : mc.thePlayer.getActivePotionEffects()) {
                 final Potion potion = Potion.potionTypes[effect.getPotionID()];
                 final String number = intToRomanByGreedy(effect.getAmplifier());
                 final String name = I18n.format(potion.getName()) + " " + number;
                 final float stringWidth = mc.fontRendererObj.getStringWidth(name)
-                        + mc.fontRendererObj.getStringWidth("§7" + Potion.getDurationString(effect));
+                        + mc.fontRendererObj.getStringWidth("§f" + Potion.getDurationString(effect));
 
                 if (width < stringWidth)
                     width = stringWidth;
                 final float finalY = yPos;
-                mc.fontRendererObj.drawString(name, 2f, finalY - 7f, potion.getLiquidColor(), true);
-                mc.fontRendererObj.drawStringWithShadow("§7" + Potion.getDurationString(effect), 2f, finalY + 4, -1);
+                mc.fontRendererObj.drawString(name, 2f, finalY - 7f, Color.white.getRGB(), true);
+                mc.fontRendererObj.drawStringWithShadow("§f" + Potion.getDurationString(effect), 2f, finalY + 4, -1);
                 if (potion.hasStatusIcon()) {
                     GL11.glPushMatrix();
                     final boolean is2949 = GL11.glIsEnabled(2929);
