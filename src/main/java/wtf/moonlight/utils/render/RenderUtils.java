@@ -719,6 +719,12 @@ public class RenderUtils implements InstanceAccess {
         return days + hours + minutes + seconds;
     }
 
+    public static String sessionTime2() {
+        int elapsedTime = ((int)System.currentTimeMillis() - INSTANCE.getStartTime()) / 1000;
+        String minutes = elapsedTime > 60 ? elapsedTime / 60 + " minutes " : "";
+        return minutes;
+    }
+
     public static void drawExhiRect(float x, float y, float x2, float y2, float alpha) {
         x2 = x + x2;
         y2 = y + y2;
