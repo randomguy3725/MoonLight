@@ -100,7 +100,7 @@ public class ScaffoldCounter implements InstanceAccess {
                 } else if (scaffold.getBlockCount() >= 128) {
                     c = ColorUtils.getColor(0, 255, 0, 150);
                 }
-                ScaledResolution scaledResolution = new ScaledResolution(mc);
+                scaledResolution = new ScaledResolution(mc);
                 Fonts.interMedium.get(18).drawCenteredStringWithShadow(String.valueOf(scaffold.getBlockCount()), scaledResolution.getScaledWidth() / 2f, scaledResolution.getScaledHeight() / 2f + 10, new Color(c).brighter().getRGB());
                 break;
             }
