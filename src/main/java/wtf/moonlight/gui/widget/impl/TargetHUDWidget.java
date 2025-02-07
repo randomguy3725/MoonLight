@@ -85,6 +85,8 @@ public class TargetHUDWidget extends Widget {
             case "Exhi" -> Math.max(124.0f, Fonts.interBold.get(17).getStringWidth(entity.getName()) + 54.0f);
             case "Adjust" -> 130;
             case "Moon" -> 35 + Fonts.interSemiBold.get(18).getStringWidth(entity.getName()) + 33;
+            case "Augustus" -> 35 + Fonts.interSemiBold.get(18).getStringWidth(entity.getName()) + 33;
+            case "New" -> Math.max(160, Fonts.quicksand.get(17).getStringWidth(entity.getName()) + 30);
             case "Novo 1", "Novo 2" -> 35 + mc.fontRendererObj.getStringWidth(entity.getName()) + 33;
             case "Novo 3" -> 35 + mc.fontRendererObj.getStringWidth(entity.getName()) + 34;
             case "Novo 4" -> 135.0f;
@@ -101,6 +103,8 @@ public class TargetHUDWidget extends Widget {
             case "Exhi" -> 38;
             case "Adjust" -> 35;
             case "Moon" -> 40.5f;
+            case "Augustus" -> 40.5f;
+            case "New" -> 40.5f;
             case "Novo 1" -> 37.5f;
             case "Novo 2", "Novo 3" -> 36f;
             case "Novo 4" -> 45.0f;
@@ -182,8 +186,8 @@ class TargetHUD implements InstanceAccess {
                 }
             }
 
-            if(setting.targetHudParticle.get()){
-                ParticleRenderer.renderParticle(target,x + 4,  y + 4,34 / 2f);
+            if (setting.targetHudParticle.get()) {
+                ParticleRenderer.renderParticle(target, x + 4, y + 4, 34 / 2f);
             }
             break;
 
@@ -223,8 +227,8 @@ class TargetHUD implements InstanceAccess {
                     RoundedUtils.drawGradientHorizontal(x, y, width, height, 4, new Color(setting.color(0)), new Color(setting.color(90)));
                 }
 
-                if(setting.targetHudParticle.get()){
-                    ParticleRenderer.renderParticle(target,x + 5, y + 6.8f,26.5f / 2f);
+                if (setting.targetHudParticle.get()) {
+                    ParticleRenderer.renderParticle(target, x + 5, y + 6.8f, 26.5f / 2f);
                 }
             }
             break;
@@ -315,8 +319,8 @@ class TargetHUD implements InstanceAccess {
                     }
                 }
 
-                if(setting.targetHudParticle.get()){
-                    ParticleRenderer.renderParticle(target,x + padding, y + padding,(28 - padding) / 2);
+                if (setting.targetHudParticle.get()) {
+                    ParticleRenderer.renderParticle(target, x + padding, y + padding, (28 - padding) / 2);
                 }
             }
             break;
@@ -340,6 +344,60 @@ class TargetHUD implements InstanceAccess {
                     Fonts.interSemiBold.get(18).drawStringWithShadow(target.getName(), x + 40, y + 6, -1);
                 } else {
                     RoundedUtils.drawRound(x, y, width, height, 8, new Color(setting.color()));
+                }
+
+                if (setting.targetHudParticle.get()) {
+                    ParticleRenderer.renderParticle(target, x + 2.5f, y + 2.5f, 35 / 2f);
+                }
+            }
+            break;
+            case "Augustus": {
+                target.healthAnimation.animate((width - 52) * MathHelper.clamp_float(target.getHealth() / target.getMaxHealth(), 0, 1), 30);
+                float hurtTime = (target.hurtTime == 0 ? 0 :
+                        target.hurtTime - mc.timer.renderPartialTicks) * 0.5f;
+                float healthPercentage = target.getHealth() / target.getMaxHealth();
+                float space = (width - 51) / 100;
+
+                target.healthAnimation.animate((100 * space) * MathHelper.clamp_float(healthPercentage, 0, 1), 30);
+
+                if (!shader) {
+                    RoundedUtils.drawRound(x, y, width, height, 8, new Color (0,0,0, 100));
+
+                    RoundedUtils.drawRound(x + 45, y + 23f, (100 * space), 10, 5, new Color(0, 0, 0, 255));
+
+                    RoundedUtils.drawRound(x + 45, y + 23f, target.healthAnimation.getOutput(), 10f, 4, new Color(255,0, 0));
+                    RenderUtils.renderPlayer2D(target, x + 2.5f + (hurtTime) / 2, y + 2.5f + (hurtTime) / 2, 35 - hurtTime, 15, ColorUtils.interpolateColor2(Color.WHITE, Color.RED, hurtTime / 7));
+                    Fonts.interSemiBold.get(18).drawString(target.getName(), x + 52.5F, y + 10.5f, -1);
+                } else {
+                    RoundedUtils.drawRound(x, y, width, height, 8, new Color(setting.color()));
+                }
+
+                if (setting.targetHudParticle.get()) {
+                    ParticleRenderer.renderParticle(target, x + 2.5f, y + 2.5f, 35 / 2f);
+                }
+            }
+            break;
+            case "New": {
+
+                float healthPercentage =  target.getHealth() / target.getMaxHealth();
+                float space = (width - 48) / 100;
+
+                target.healthAnimation.animate((100 * space) * MathHelper.clamp_float(healthPercentage, 0, 1), 30);
+
+                if (!shader) {
+                    RoundedUtils.drawRound(x, y, width, height, 8, new Color(setting.bgColor(), true));
+
+                    RoundedUtils.drawRound(x + 42, y + 22f, (100 * space), 6, 3, new Color(0, 0, 0, 120));
+                    String text = String.format("%.1f", target.getHealth());
+
+                    RoundedUtils.drawRound(x + 42, y + 22f, target.healthAnimation.getOutput(), 6f, 3, new Color(setting.color(0)));
+                    RoundedUtils.drawRoundOutline (x, y, this.width, this.height, 5, 0.1f, new Color(0, 0, 0, 0), new Color(setting.color(0)));
+                    RenderUtils.renderPlayer2D(target, x + 4.0f, y + 3.3f, 33, 12, -1);
+                    Fonts.interSemiBold.get(19).drawString(text + "  ", x + 134, y + 9, setting.color());
+                    Fonts.interSemiBold.get(17).drawString(target.getName(), x + 42, y + 9, setting.color());
+                } else {
+                    RoundedUtils.drawRound(x, y, width, height, 3, new Color(setting.color()));
+                    RoundedUtils.drawRoundOutline (x, y, this.width, this.height, 5, 0.1f, new Color(0, 0, 0, 0), new Color(setting.color(0)));
                 }
 
                 if(setting.targetHudParticle.get()){
