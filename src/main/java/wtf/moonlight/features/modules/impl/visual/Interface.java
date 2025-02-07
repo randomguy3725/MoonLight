@@ -129,6 +129,7 @@ public class Interface extends Module {
     public final BoolValue enchanted = new BoolValue("Enchanted", true, this, () -> cape.get() && !wavey.get());
     private final DecimalFormat bpsFormat = new DecimalFormat("0.00");
     private final DecimalFormat xyzFormat = new DecimalFormat("0");
+    private final DecimalFormat fpsFormat = new DecimalFormat("0");
     private final DecimalFormat healthFormat = new DecimalFormat("0.#", new DecimalFormatSymbols(Locale.ENGLISH));
     private final DateFormat dateFormat = new SimpleDateFormat("hh:mm");
     public final Map<EntityPlayer, DecelerateAnimation> animationEntityPlayerMap = new HashMap<>();
