@@ -35,6 +35,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+import org.lwjglx.Sys;
 import wtf.moonlight.Moonlight;
 import wtf.moonlight.events.annotations.EventTarget;
 import wtf.moonlight.events.impl.misc.TickEvent;
@@ -86,33 +87,35 @@ public class Interface extends Module {
             new BoolValue("Notification",true),
             new BoolValue("Pointer", true),
             new BoolValue("Session Info",true),
-            new BoolValue("Key Bind", true)
+            new BoolValue("Key Bind", true),
+            new BoolValue("Version Info", true)
     ), this);
 
     public final BoolValue cFont = new BoolValue("C Fonts",true,this, () -> elements.isEnabled("Module List"));
-    public final ModeValue fontMode = new ModeValue("C Fonts Mode", new String[]{"Bold","Semi Bold","Regular","Tahoma"}, "Semi Bold", this,() -> cFont.canDisplay() && cFont.get());
+    public final ModeValue fontMode = new ModeValue("C Fonts Mode", new String[]{"Bold","Semi Bold","Medium","Regular","Tahoma","Astolfo"}, "Semi Bold", this,() -> cFont.canDisplay() && cFont.get());
     public final SliderValue fontSize = new SliderValue("Font Size",15,10,25,this,cFont::get);
-    public final ModeValue watemarkMode = new ModeValue("Watermark Mode", new String[]{"Text", "Styles","Nursultan","Exhi","Type 1","NeverLose"}, "Text", this,() -> elements.isEnabled("Watermark"));
+    public final ModeValue watemarkMode = new ModeValue("Watermark Mode", new String[]{"Text","Styles","Nursultan","Exhi","Exhi 2","Type 1","NeverLose"}, "Text", this,() -> elements.isEnabled("Watermark"));
     public final ModeValue animation = new ModeValue("Animation", new String[]{"ScaleIn", "MoveIn","Slide In"}, "ScaleIn", this, () -> elements.isEnabled("Module List"));
     public final ModeValue arrayPosition = new ModeValue("Position", new String[]{"Right","Left"}, "Right", this, () -> elements.isEnabled("Module List"));
     public final SliderValue x = new SliderValue("Module List X", 0, -50, 50, this, () -> elements.isEnabled("Module List"));
     public final SliderValue y = new SliderValue("Module List Y", 0, -50, 50, this, () -> elements.isEnabled("Module List"));
     public final SliderValue textHeight = new SliderValue("Text Height", 2, 0, 10, this, () -> elements.isEnabled("Module List"));
-    public final ModeValue tags = new ModeValue("Suffix", new String[]{"None", "Simple", "Bracket", "Dash"}, "None", this, () -> elements.isEnabled("Module List"));
+    public final ModeValue tags = new ModeValue("Suffix", new String[]{"None", "Simple", "Simple 2", "Bracket", "Dash"}, "None", this, () -> elements.isEnabled("Module List"));
     public final ModeValue outline = new ModeValue("Outline", new String[]{"Right","Left","None"}, "Right", this, () -> elements.isEnabled("Module List"));
     public final ModeValue armorMode = new ModeValue("Armor Mode", new String[]{"Default"}, "Default", this,() -> elements.isEnabled("Armor"));
-    public final ModeValue infoMode = new ModeValue("Info Mode", new String[]{"Exhi"}, "Exhi", this,() -> elements.isEnabled("Info"));
-    public final ModeValue potionHudMode = new ModeValue("Potion Mode", new String[]{"Default","Nursultan","Exhi","Sexy","Type 1","NeverLose","Mod"}, "Default", this,() -> elements.isEnabled("Potion HUD"));
-    public final ModeValue targetHudMode = new ModeValue("TargetHUD Mode", new String[]{"Astolfo", "Type 1", "Type 2","Exhi","Adjust","Moon","Novo 1","Novo 2","Novo 3","Novo 4"}, "Astolfo", this,() -> elements.isEnabled("Target HUD"));
-    public final BoolValue targetHudParticle = new BoolValue("TargetHUd Particle",true,this,() -> elements.isEnabled("Target HUD"));
-    public final ModeValue notificationMode = new ModeValue("Notification Mode", new String[]{"Default", "Test","Type 2","Type 3", "Test2","Exhi"}, "Default", this,() -> elements.isEnabled("Notification"));
+    public final ModeValue infoMode = new ModeValue("Info Mode", new String[]{"Default", "Moon", "Moon 2","Tenacity"}, "Default", this,() -> elements.isEnabled("Info"));
+    public final ModeValue versionMode = new ModeValue("Version Mode", new String[]{"Default"}, "Default",this,() -> elements.isEnabled("Version Info"));
+    public final ModeValue potionHudMode = new ModeValue("Potion Mode", new String[]{"Default","Nursultan","Exhi","Moon","Sexy","Type 1","NeverLose","Mod"}, "Default", this,() -> elements.isEnabled("Potion HUD"));
+    public final ModeValue targetHudMode = new ModeValue("TargetHUD Mode", new String[]{"Astolfo", "Type 1", "Type 2","Exhi","Adjust","Moon","Augustus","New","Novo 1","Novo 2","Novo 3","Novo 4"}, "Astolfo", this,() -> elements.isEnabled("Target HUD"));
+    public final BoolValue targetHudParticle = new BoolValue("TargetHUD Particle",true,this,() -> elements.isEnabled("Target HUD"));
+    public final ModeValue notificationMode = new ModeValue("Notification Mode", new String[]{"Default", "Type 1","Type 2","Type 3", "Test2","Exhi","NeverLose"}, "Default", this,() -> elements.isEnabled("Notification"));
     public final ModeValue keyBindMode = new ModeValue("Key Bind Mode", new String[]{"Type 1"}, "Type 1", this,() -> elements.isEnabled("Key Bind"));
-    public final ModeValue sessionInfoMode = new ModeValue("Session Info Mode", new String[]{"Default","Exhi","Rise","Moon"}, "Default", this,() -> elements.isEnabled("Session Info"));
+    public final ModeValue sessionInfoMode = new ModeValue("Session Info Mode", new String[]{"Default","Exhi","Rise","Moon","Opai"}, "Default", this,() -> elements.isEnabled("Session Info"));
     public final BoolValue centerNotif = new BoolValue("Center Notification",true,this,() -> notificationMode.is("Exhi"));
     public final ModeValue color = new ModeValue("Color Setting", new String[]{"Custom", "Rainbow", "Dynamic", "Fade","Astolfo","NeverLose"}, "NeverLose", this);
     private final ColorValue mainColor = new ColorValue("Main Color", new Color(128, 128, 255), this,() -> !color.is("NeverLose"));
     private final ColorValue secondColor = new ColorValue("Second Color", new Color(128, 255, 255), this, () -> color.is("Fade"));
-    public final SliderValue fadeSpeed = new SliderValue("Fade Speed", 1, 1, 10, 1, this, () -> color.is("Dynamic") || color.is("Fade"));
+    public final SliderValue fadeSpeed = new SliderValue("Fade Speed", 1, 1, 10, 1, this, () -> color.is("Dynamic") || color.is("Astolfo") || color.is("Fade"));
     public final BoolValue background = new BoolValue("Background",true,this, () -> elements.isEnabled("Module List"));
     public final ModeValue bgColor = new ModeValue("Background Color", new String[]{"Dark", "Synced","Custom","NeverLose"}, "Synced", this,background::get);
     private final ColorValue bgCustomColor = new ColorValue("Background Custom Color", new Color(32, 32, 64), this,() -> bgColor.canDisplay() && bgColor.is("Custom"));
