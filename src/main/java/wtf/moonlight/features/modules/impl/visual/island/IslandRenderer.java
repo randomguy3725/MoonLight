@@ -82,8 +82,8 @@ public class IslandRenderer implements InstanceAccess {
             RoundedUtils.drawRound(animatedX.getOutput() + 6, animatedY.getOutput() + ((y - animatedY.getOutput()) * 2), (width - 12) * size / 64, 5f, 2.5f, new Color(255, 255, 255, 255));
             
             if(!shader) {
-                largest.drawString(title, animatedX.getOutput() + 5, animatedY.getOutput() + 6, new Color(250, 250, 250, 250).getRGB());
-                medium.drawString(description, animatedX.getOutput() + 5, animatedY.getOutput() + 18, new Color(250, 250, 250, 250).getRGB());
+                largest.drawString(title, animatedX.getOutput() + 5, animatedY.getOutput() + 6, -1);
+                medium.drawString(description, animatedX.getOutput() + 5, animatedY.getOutput() + 18, -1);
             }
 
             GL11.glDisable(GL11.GL_SCISSOR_TEST);
@@ -122,14 +122,14 @@ public class IslandRenderer implements InstanceAccess {
                 RoundedUtils.drawRound(animatedX.getOutput() + 6, animatedY.getOutput() + ((y - animatedY.getOutput()) * 2), (width - 12) * Math.min((notification.getTimerUtils().getTime() / notification.getTime()), 1), 5f, 2.5f, new Color(255, 255, 255, 255));
 
                 if (!shader) {
-                    largest.drawString(title, animatedX.getOutput() + 5, animatedY.getOutput() + 6, new Color(250, 250, 250, 250).getRGB());
-                    medium.drawString(description, animatedX.getOutput() + 5, animatedY.getOutput() + 18, new Color(250, 250, 250, 250).getRGB());
+                    largest.drawString(title, animatedX.getOutput() + 5, animatedY.getOutput() + 6, -1);
+                    medium.drawString(description, animatedX.getOutput() + 5, animatedY.getOutput() + 18, -1);
                 }
 
                 GL11.glDisable(GL11.GL_SCISSOR_TEST);
             }
         } else {
-            title = "MoonLight | " + mc.thePlayer.getName() + " | " + Minecraft.getDebugFPS() + " FPS";
+            title = "MoonLight" + EnumChatFormatting.WHITE + " | " + mc.thePlayer.getName() + " | " + Minecraft.getDebugFPS() + " FPS";
             width = titleFont.getStringWidth(title) + 10;
             height = 15;
             x = sr.getScaledWidth() / 2f;
@@ -143,7 +143,7 @@ public class IslandRenderer implements InstanceAccess {
             drawBackgroundAuto(0);
 
             if(!shader) {
-                titleFont.drawString(title, animatedX.getOutput() + 5, animatedY.getOutput() + 5, new Color(250, 250, 250, 250).getRGB());
+                titleFont.drawString(title, animatedX.getOutput() + 5, animatedY.getOutput() + 5, Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).color());
             }
 
             GL11.glDisable(GL11.GL_SCISSOR_TEST);
