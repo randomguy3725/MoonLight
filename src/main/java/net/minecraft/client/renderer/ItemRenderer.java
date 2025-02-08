@@ -32,6 +32,7 @@ import wtf.moonlight.Moonlight;
 import wtf.moonlight.features.modules.impl.combat.KillAura;
 import wtf.moonlight.features.modules.impl.visual.Animations;
 import wtf.moonlight.features.modules.impl.visual.Camera;
+import wtf.moonlight.utils.math.MathUtils;
 import wtf.moonlight.utils.misc.SpoofSlotUtils;
 
 public class ItemRenderer
@@ -402,6 +403,36 @@ public class ItemRenderer
                                             GlStateManager.rotate(30.0F, 0.0F, 1.0F, 0.0F);
                                             GlStateManager.rotate(-70.0F, 1.0F, 0.0F, 0.0F);
                                             GlStateManager.rotate(40.0F, 0.0F, 1.0F, 0.0F);
+                                            break;
+                                        case "Moon":
+                                            final float var8 = MathHelper.sin(MathHelper.sqrt_float(this.mc.thePlayer.getSwingProgress(partialTicks)) * 3.1415927F);
+                                            GL11.glTranslated(0.0D, 0.0D, 0.0D);
+                                            this.transformFirstPersonItem(0.0F, 0.0F);
+                                            GlStateManager.translate(-0.08F, 0.12f, 0.0F);
+                                            GlStateManager.rotate(-var8 * 65.0F / 2.0F, var8 / 2.0F, 1.0F, 4.0F);
+                                            GlStateManager.rotate(-var8 * 60.0F, 1.0F, var8 / 3.0F, -0.0F);
+                                            doBlockTransformations();
+                                            break;
+                                        case "Leaked":
+                                            final float var = MathHelper.sin((float) (MathHelper.sqrt_float(f1) * Math.PI));
+                                            transformFirstPersonItem(0.0F, 0.0f);
+                                            GlStateManager.translate(0.08F, 0.02f, 0.0F);
+                                            doBlockTransformations();
+                                            GlStateManager.rotate(-var * 41F, 1.1F, 0.8F, -0.3F);
+                                            break;
+                                        case "Astolfo":
+                                            final float var7 = MathHelper.sin(MathHelper.sqrt_float(this.mc.thePlayer.getSwingProgress(partialTicks)) * 3.1415927F);
+                                            GL11.glTranslated(0.0D, 0.0D, 0.0D);
+                                            this.transformFirstPersonItem(0.0F, 0.0F);
+                                            GlStateManager.translate(-0.08F, 0.12f, 0.0F);
+                                            GlStateManager.rotate(-var7 * 58.0F / 2.0F, var7 / 2.0F, 1.0F, 0.5F);
+                                            GlStateManager.rotate(-var7 * 43.0F, 1.0F, var7 / 3.0F, -0.0F);
+                                            doBlockTransformations();
+                                            break;
+                                        case "Small":
+                                            GlStateManager.translate(-0.01F, 0.03f, -0.24F);
+                                                this.transformFirstPersonItem(0.0F, f1);
+                                            this.doBlockTransformations();
                                             break;
                                         case "1.7":
                                             this.transformFirstPersonItem(f, f1);

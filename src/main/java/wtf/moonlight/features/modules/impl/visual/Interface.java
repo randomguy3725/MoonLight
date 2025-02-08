@@ -35,6 +35,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+import org.lwjglx.Sys;
 import wtf.moonlight.Moonlight;
 import wtf.moonlight.events.annotations.EventTarget;
 import wtf.moonlight.events.impl.misc.TickEvent;
@@ -86,28 +87,30 @@ public class Interface extends Module {
             new BoolValue("Notification",true),
             new BoolValue("Pointer", true),
             new BoolValue("Session Info",true),
-            new BoolValue("Key Bind", true)
+            new BoolValue("Key Bind", true),
+            new BoolValue("Version Info", true)
     ), this);
 
     public final BoolValue cFont = new BoolValue("C Fonts",true,this, () -> elements.isEnabled("Module List"));
-    public final ModeValue fontMode = new ModeValue("C Fonts Mode", new String[]{"Bold","Semi Bold","Regular","Tahoma"}, "Semi Bold", this,() -> cFont.canDisplay() && cFont.get());
+    public final ModeValue fontMode = new ModeValue("C Fonts Mode", new String[]{"Bold","Semi Bold","Medium","Regular","Tahoma","Astolfo"}, "Semi Bold", this,() -> cFont.canDisplay() && cFont.get());
     public final SliderValue fontSize = new SliderValue("Font Size",15,10,25,this,cFont::get);
-    public final ModeValue watemarkMode = new ModeValue("Watermark Mode", new String[]{"Text", "Styles","Nursultan","Exhi","Type 1","NeverLose"}, "Text", this,() -> elements.isEnabled("Watermark"));
+    public final ModeValue watemarkMode = new ModeValue("Watermark Mode", new String[]{"Text","Styles","Nursultan","Exhi","Exhi 2","Type 1","NeverLose"}, "Text", this,() -> elements.isEnabled("Watermark"));
     public final ModeValue animation = new ModeValue("Animation", new String[]{"ScaleIn", "MoveIn","Slide In"}, "ScaleIn", this, () -> elements.isEnabled("Module List"));
     public final ModeValue arrayPosition = new ModeValue("Position", new String[]{"Right","Left"}, "Right", this, () -> elements.isEnabled("Module List"));
     public final SliderValue x = new SliderValue("Module List X", 0, -50, 50, this, () -> elements.isEnabled("Module List"));
     public final SliderValue y = new SliderValue("Module List Y", 0, -50, 50, this, () -> elements.isEnabled("Module List"));
     public final SliderValue textHeight = new SliderValue("Text Height", 2, 0, 10, this, () -> elements.isEnabled("Module List"));
-    public final ModeValue tags = new ModeValue("Suffix", new String[]{"None", "Simple", "Bracket", "Dash"}, "None", this, () -> elements.isEnabled("Module List"));
+    public final ModeValue tags = new ModeValue("Suffix", new String[]{"None", "Simple", "Simple 2", "Bracket", "Dash"}, "None", this, () -> elements.isEnabled("Module List"));
     public final ModeValue outline = new ModeValue("Outline", new String[]{"Right","Left","None"}, "Right", this, () -> elements.isEnabled("Module List"));
     public final ModeValue armorMode = new ModeValue("Armor Mode", new String[]{"Default"}, "Default", this,() -> elements.isEnabled("Armor"));
-    public final ModeValue infoMode = new ModeValue("Info Mode", new String[]{"Exhi"}, "Exhi", this,() -> elements.isEnabled("Info"));
-    public final ModeValue potionHudMode = new ModeValue("Potion Mode", new String[]{"Default","Nursultan","Exhi","Sexy","Type 1","NeverLose","Mod"}, "Default", this,() -> elements.isEnabled("Potion HUD"));
-    public final ModeValue targetHudMode = new ModeValue("TargetHUD Mode", new String[]{"Astolfo", "Type 1", "Type 2","Exhi","Adjust","Moon","Novo 1","Novo 2","Novo 3","Novo 4"}, "Astolfo", this,() -> elements.isEnabled("Target HUD"));
-    public final BoolValue targetHudParticle = new BoolValue("TargetHUd Particle",true,this,() -> elements.isEnabled("Target HUD"));
-    public final ModeValue notificationMode = new ModeValue("Notification Mode", new String[]{"Default", "Test","Type 2","Type 3", "Test2","Exhi"}, "Default", this,() -> elements.isEnabled("Notification"));
+    public final ModeValue infoMode = new ModeValue("Info Mode", new String[]{"Exhi", "Moon", "Moon 2","Tenacity"}, "Default", this,() -> elements.isEnabled("Info"));
+    public final ModeValue versionMode = new ModeValue("Version Mode", new String[]{"Default"}, "Default",this,() -> elements.isEnabled("Version Info"));
+    public final ModeValue potionHudMode = new ModeValue("Potion Mode", new String[]{"Default","Nursultan","Exhi","Moon","Sexy","Type 1","NeverLose","Mod"}, "Default", this,() -> elements.isEnabled("Potion HUD"));
+    public final ModeValue targetHudMode = new ModeValue("TargetHUD Mode", new String[]{"Astolfo", "Type 1", "Type 2","Exhi","Adjust","Moon","Augustus","New","Novo 1","Novo 2","Novo 3","Novo 4"}, "Astolfo", this,() -> elements.isEnabled("Target HUD"));
+    public final BoolValue targetHudParticle = new BoolValue("TargetHUD Particle",true,this,() -> elements.isEnabled("Target HUD"));
+    public final ModeValue notificationMode = new ModeValue("Notification Mode", new String[]{"Default", "Type 1","Type 2","Type 3", "Test2","Exhi","NeverLose"}, "Default", this,() -> elements.isEnabled("Notification"));
     public final ModeValue keyBindMode = new ModeValue("Key Bind Mode", new String[]{"Type 1"}, "Type 1", this,() -> elements.isEnabled("Key Bind"));
-    public final ModeValue sessionInfoMode = new ModeValue("Session Info Mode", new String[]{"Default","Exhi","Rise","Moon"}, "Default", this,() -> elements.isEnabled("Session Info"));
+    public final ModeValue sessionInfoMode = new ModeValue("Session Info Mode", new String[]{"Default","Exhi","Rise","Moon","Opai"}, "Default", this,() -> elements.isEnabled("Session Info"));
     public final BoolValue centerNotif = new BoolValue("Center Notification",true,this,() -> notificationMode.is("Exhi"));
     public final ModeValue color = new ModeValue("Color Setting", new String[]{"Custom", "Rainbow", "Dynamic", "Fade","Astolfo","NeverLose"}, "NeverLose", this);
     private final ColorValue mainColor = new ColorValue("Main Color", new Color(128, 128, 255), this,() -> !color.is("NeverLose"));
@@ -126,6 +129,7 @@ public class Interface extends Module {
     public final BoolValue enchanted = new BoolValue("Enchanted", true, this, () -> cape.get() && !wavey.get());
     private final DecimalFormat bpsFormat = new DecimalFormat("0.00");
     private final DecimalFormat xyzFormat = new DecimalFormat("0");
+    private final DecimalFormat fpsFormat = new DecimalFormat("0");
     private final DecimalFormat healthFormat = new DecimalFormat("0.#", new DecimalFormatSymbols(Locale.ENGLISH));
     private final DateFormat dateFormat = new SimpleDateFormat("hh:mm");
     public final Map<EntityPlayer, DecelerateAnimation> animationEntityPlayerMap = new HashMap<>();
@@ -174,6 +178,12 @@ public class Interface extends Module {
                     String text = shouldChange ? "§r" + clientName.get() : clientName.get().charAt(0) + "§r§f" + clientName.get().substring(1) +
                             "§7[§f" + Minecraft.getDebugFPS() + " FPS§7]§r ";
                     mc.fontRendererObj.drawStringWithShadow(text, 2.0f, 2.0f, color());
+                    break;
+                case "Exhi 2":
+                    shouldChange = RenderUtils.COLOR_PATTERN.matcher(clientName.get()).find();
+                    text = shouldChange ? "§r" + clientName.get() : clientName.get().charAt(0) + "§r§f" + clientName.get().substring(1) +
+                            " §7[§f" + Minecraft.getDebugFPS() + " FPS§7]§r ";
+                    Fonts.Tahoma.get(15).drawStringWithShadow(text, 1.0f, 2.0f, color());
                     break;
                 case "Type 1":
                     float posX = 4.0F;
@@ -278,15 +288,43 @@ public class Interface extends Module {
             }
         }
 
+
         if (infoMode.canDisplay()) {
             switch (infoMode.get()) {
                 case "Exhi":
                     float textY = (event.getScaledResolution().getScaledHeight() - 9) + (mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f);
-                    mc.fontRendererObj.drawStringWithShadow("XYZ: " + EnumChatFormatting.WHITE +
+                    mc.fontRendererObj.drawStringWithShadow("XYZ: " +  EnumChatFormatting.WHITE +
                                     xyzFormat.format(mc.thePlayer.posX) + " " +
                                     xyzFormat.format(mc.thePlayer.posY) + " " +
                                     xyzFormat.format(mc.thePlayer.posZ) + " " + EnumChatFormatting.RESET + "BPS: " + EnumChatFormatting.WHITE + this.bpsFormat.format(MovementUtils.getBPS())
                             , 2, textY, color(0));
+                    break;
+                case "Moon":
+                    textY = (event.getScaledResolution().getScaledHeight() - 9) + (mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f);
+                    mc.fontRendererObj.drawStringWithShadow("FPS: " + EnumChatFormatting.WHITE + Minecraft.getDebugFPS(), 2, textY, color(0));
+                    break;
+                case "Moon 2":
+                    textY = (event.getScaledResolution().getScaledHeight() - 6.5F) + (mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f);
+                    Fonts.interSemiBold.get(19).drawStringWithShadow("§fFPS: " + Minecraft.getDebugFPS(), 1.5F, textY, color(0));
+                    break;
+                case "Tenacity":
+                    float XYZText = (event.getScaledResolution().getScaledHeight() - 9);
+                    float SpeedText = (event.getScaledResolution().getScaledHeight() - 18);
+                    float FPSText = (event.getScaledResolution().getScaledHeight() - 27);
+
+                    Fonts.psBold.get(19).drawStringWithShadow("XYZ: ", 2, XYZText, color(0));
+                    Fonts.psRegular.get(19).drawStringWithShadow(EnumChatFormatting.WHITE + xyzFormat.format(mc.thePlayer.posX) + " " + xyzFormat.format(mc.thePlayer.posY) + " " + xyzFormat.format(mc.thePlayer.posZ), 26, XYZText, color(0));
+                    Fonts.psBold.get(19).drawStringWithShadow("Speed:", 2, SpeedText, color(0));
+                    Fonts.psRegular.get(19).drawStringWithShadow(EnumChatFormatting.WHITE + bpsFormat.format(MovementUtils.getBPS()), 35, SpeedText, color(0));
+                    Fonts.psBold.get(19).drawStringWithShadow("FPS:", 2, FPSText, color(0));
+                    Fonts.psRegular.get(19).drawStringWithShadow(EnumChatFormatting.WHITE + fpsFormat.format(Minecraft.getDebugFPS()), 24, FPSText, color(0));
+            }
+        }
+        if (versionMode.canDisplay()) {
+            switch (versionMode.get()) {
+                case "Default":
+                     float textY = (event.getScaledResolution().getScaledHeight() - 9) + (mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f);
+                    Fonts.interMedium.get(17).drawStringWithShadow(EnumChatFormatting.WHITE + "Alpha " + "§7- " + EnumChatFormatting.WHITE + Moonlight.INSTANCE.getDiscordRP().getName() + " §7- " + EnumChatFormatting.WHITE + Sys.getVersion(), 973F - (2 + Fonts.interMedium.get(19).getStringWidth(EnumChatFormatting.WHITE + "Development " + "§7- " + EnumChatFormatting.WHITE + Moonlight.INSTANCE.getDiscordRP().getName() + " §7- " + EnumChatFormatting.WHITE + Sys.getVersion())), textY + 3.5, color (0));
                     break;
             }
         }
@@ -457,24 +495,54 @@ public class Interface extends Module {
                 y -= 9.0f;
             }
         }
+        if (elements.isEnabled("Potion HUD") && potionHudMode.is("Moon")) {
+            ArrayList<PotionEffect> potions = new ArrayList<>(mc.thePlayer.getActivePotionEffects());
+            potions.sort(Comparator.comparingDouble(effect -> -Fonts.interMedium.get(19).getStringWidth(I18n.format(Potion.potionTypes[effect.getPotionID()].getName()))));
+            float y = mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f;
+            for (PotionEffect potionEffect : potions) {
+                Potion potionType = Potion.potionTypes[potionEffect.getPotionID()];
+                String potionName = I18n.format(potionType.getName());
+                String type = " §7-";
+                if (potionEffect.getAmplifier() == 1) {
+                    potionName = potionName + " 2";
+                } else if (potionEffect.getAmplifier() == 2) {
+                    potionName = potionName + " 3";
+                } else if (potionEffect.getAmplifier() == 3) {
+                    potionName = potionName + " 4";
+                }
+                if (potionEffect.getDuration() < 600 && potionEffect.getDuration() > 300) {
+                    type = type + " §f" + Potion.getDurationString(potionEffect);
+                } else if (potionEffect.getDuration() < 300) {
+                    type = type + " §f" + Potion.getDurationString(potionEffect);
+                } else if (potionEffect.getDuration() > 600) {
+                    type = type + " §f" + Potion.getDurationString(potionEffect);
+                }
+                GlStateManager.pushMatrix();
+                Fonts.interMedium.get(17).drawStringWithShadow(potionName, (float) event.getScaledResolution().getScaledWidth() - Fonts.interSemiBold.get(17).getStringWidth(type + potionName) - 2.0f, (event.getScaledResolution().getScaledHeight() - 15) + y, new Color(potionType.getLiquidColor()).getRGB());
+                Fonts.interMedium.get(17).drawStringWithShadow(type, (float) event.getScaledResolution().getScaledWidth() - Fonts.interMedium.get(17).getStringWidth(type) - 2.0f, (event.getScaledResolution().getScaledHeight() - 15) + y, new Color(255, 255, 255).getRGB());
+
+                GlStateManager.popMatrix();
+                y -= 9.5f;
+            }
+        }
 
         if (elements.isEnabled("Potion HUD") && potionHudMode.is("Mod")) {
             GL11.glPushMatrix();
             GL11.glTranslatef(25, event.getScaledResolution().getScaledHeight() / 2f, 0F);
-            float yPos = 0F;
+            float yPos = -75F;
             float width = 0F;
             for (final PotionEffect effect : mc.thePlayer.getActivePotionEffects()) {
                 final Potion potion = Potion.potionTypes[effect.getPotionID()];
                 final String number = intToRomanByGreedy(effect.getAmplifier());
                 final String name = I18n.format(potion.getName()) + " " + number;
                 final float stringWidth = mc.fontRendererObj.getStringWidth(name)
-                        + mc.fontRendererObj.getStringWidth("§7" + Potion.getDurationString(effect));
+                        + mc.fontRendererObj.getStringWidth("§f" + Potion.getDurationString(effect));
 
                 if (width < stringWidth)
                     width = stringWidth;
                 final float finalY = yPos;
-                mc.fontRendererObj.drawString(name, 2f, finalY - 7f, potion.getLiquidColor(), true);
-                mc.fontRendererObj.drawStringWithShadow("§7" + Potion.getDurationString(effect), 2f, finalY + 4, -1);
+                mc.fontRendererObj.drawString(name, 2f, finalY - 7f, Color.white.getRGB(), true);
+                mc.fontRendererObj.drawStringWithShadow("§f" + Potion.getDurationString(effect), 2f, finalY + 4, -1);
                 if (potion.hasStatusIcon()) {
                     GL11.glPushMatrix();
                     final boolean is2949 = GL11.glIsEnabled(2929);

@@ -19,7 +19,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import wtf.moonlight.events.annotations.EventTarget;
-import wtf.moonlight.events.impl.misc.WorldEvent;
 import wtf.moonlight.events.impl.render.Render2DEvent;
 import wtf.moonlight.events.impl.render.Render3DEvent;
 import wtf.moonlight.events.impl.render.RenderNameTagEvent;
@@ -30,6 +29,7 @@ import wtf.moonlight.features.modules.impl.misc.HackerDetector;
 import wtf.moonlight.features.values.impl.BoolValue;
 import wtf.moonlight.features.values.impl.ColorValue;
 import wtf.moonlight.features.values.impl.SliderValue;
+import wtf.moonlight.gui.font.Fonts;
 import wtf.moonlight.utils.math.MathUtils;
 import wtf.moonlight.utils.render.ColorUtils;
 import wtf.moonlight.utils.render.GLUtils;
@@ -46,6 +46,9 @@ import static org.lwjgl.opengl.GL11.*;
 @ModuleInfo(name = "ESP", category = ModuleCategory.Visual)
 public class ESP extends Module {
     public final BoolValue tags = new BoolValue("Tags", true, this);
+    public final BoolValue fontTags = new BoolValue("Font Tags", true, this);
+    public final BoolValue fonttagsBackground = new BoolValue("Font Tags Background", true, this, fontTags::get);
+    public final BoolValue fonttagsHealth = new BoolValue("Font Tags Health", true, this, fontTags::get);
     public final SliderValue tagsSize = new SliderValue("Tags Size", 0.5f, 0.1f, 2, 0.05f, this, tags::get);
     public final BoolValue tagsHealth = new BoolValue("Tags Health", true, this, tags::get);
     public final BoolValue tagsBackground = new BoolValue("Tags Background", true, this, tags::get);
@@ -53,9 +56,11 @@ public class ESP extends Module {
     public final BoolValue item = new BoolValue("Item", true, this, tags::get);
     public final BoolValue esp2d = new BoolValue("2D ESP", true, this);
     public final BoolValue box = new BoolValue("Box", true, this, esp2d::get);
-    public final ColorValue boxColor = new ColorValue("Box Color", Color.RED, this, () -> esp2d.get() && box.get());
+    public final BoolValue boxSyncColor = new BoolValue("Box Sync Color", false, this, () -> esp2d.get() && box.get());
+    public final ColorValue boxColor = new ColorValue("Box Color", Color.RED, this, () -> esp2d.get() && box.get() && !boxSyncColor.get());
     public final BoolValue healthBar = new BoolValue("Health Bar", true, this, esp2d::get);
-    public final ColorValue absorptionColor = new ColorValue("Absorption Color", new Color(255, 255, 50), this, () -> esp2d.get() && healthBar.get());
+    public final BoolValue healthBarSyncColor = new BoolValue("Health Bar Sync Color", false, this, () -> esp2d.get() && healthBar.get());
+    public final ColorValue absorptionColor = new ColorValue("Absorption Color", new Color(255, 255, 50), this, () -> esp2d.get() && healthBar.get() && !healthBarSyncColor.get());
     public final BoolValue armorBar = new BoolValue("Armor Bar", true, this, esp2d::get);
     public final ColorValue armorBarColor = new ColorValue("Armor Bar Color", new Color(50, 255, 255), this, () -> esp2d.get() && armorBar.get());
     public final BoolValue skeletons = new BoolValue("Skeletons", true, this, esp2d::get);
@@ -74,6 +79,8 @@ public class ESP extends Module {
     public void onRenderNameTag(RenderNameTagEvent event) {
         if (tags.get() && entityPosMap.containsKey(event.getEntity()))
             event.setCancelled(true);
+        if (fontTags.get() && entityPosMap.containsKey(event.getEntity()))
+            event.setCancelled(true);
     }
 
     @EventTarget
@@ -85,7 +92,7 @@ public class ESP extends Module {
     @EventTarget
     public void onRender2D(Render2DEvent event) {
 
-        if (!esp2d.get() && !tags.get()) {
+        if (!esp2d.get() && !fontTags.get()) {
             return;
         }
 
@@ -103,6 +110,32 @@ public class ESP extends Module {
             final float health = player.getHealth();
             final float maxHealth = player.getMaxHealth();
             final float healthPercentage = health / maxHealth;
+
+            if (fontTags.get()) {
+
+        final String hacker = getModule(HackerDetector.class).isHacker(player) ? EnumChatFormatting.RED + "[Hacker] " + EnumChatFormatting.RESET : "";
+        final String healthString = fonttagsHealth.get() ? EnumChatFormatting.WHITE + "" + EnumChatFormatting.BOLD + " " + (MathUtils.roundToHalf(player.getHealth())) + EnumChatFormatting.RESET + "" :"";
+        final String name = hacker + player.getDisplayName().getFormattedText() + healthString;
+        float halfWidth = (float) Fonts.interMedium.get(15).getStringWidth(name) * 0.5f;
+        final float xDif = x2 - x;
+        final float middle = x + (xDif / 2);
+        final float textHeight = Fonts.interMedium.get(15).getHeight() * 0.5f;
+        float renderY = y - textHeight - 2;
+
+        final float left = middle - halfWidth - 1;
+        final float right = middle + halfWidth + 1;
+
+        if (fonttagsBackground.get()) {
+            Gui.drawRect(left, renderY - 4, right, renderY + textHeight + 1, new Color(0, 0, 0,50).getRGB());
+        }
+
+        Fonts.interMedium.get(15).drawStringWithShadow(name, middle - halfWidth, renderY - 1.5f, 0.5, -1);
+        }
+
+        if (!esp2d.get() && !tags.get()) {
+            return;
+        }
+
 
             if (tags.get()) {
                 final FontRenderer fontRenderer = mc.fontRendererObj;
@@ -213,10 +246,15 @@ public class ESP extends Module {
 
                     final float topOfHealthBar = y2 + 0.5F + healthBarHeight;
 
+                    if (healthBarSyncColor.get()) {
+                    final int syncedcolor = getModule(Interface.class).color(0);
+
+                    RenderUtils.color(syncedcolor);
+                    } else {
                     final int color = ColorUtils.getColorFromPercentage(healthPercentage);
 
                     RenderUtils.color(color);
-
+                    }
                     // Bar
                     {
                         glVertex2f(healthBarLeft, topOfHealthBar);
@@ -239,7 +277,11 @@ public class ESP extends Module {
 
                     final float topOfAbsorptionBar = y2 + 0.5F + absorptionHeight;
 
+                    if (healthBarSyncColor.get()) {
+                    RenderUtils.color(getModule(Interface.class).color(0));
+                    } else {
                     RenderUtils.color(absorptionColor);
+                    }
 
                     // Absorption Bar
                     {
@@ -288,7 +330,11 @@ public class ESP extends Module {
                         glVertex2f(x2 - 1.5F, y2 - 1.5F);
                     }
 
+                    if (boxSyncColor.get()) {
+                    RenderUtils.color(getModule(Interface.class).color(0));
+                    } else {
                     RenderUtils.color(boxColor.get().getRGB());
+                    }
 
                     // Box
                     {
@@ -564,5 +610,9 @@ public class ESP extends Module {
                 {model.bipedRightLeg.rotateAngleX, model.bipedRightLeg.rotateAngleY, model.bipedRightLeg.rotateAngleZ},
                 {model.bipedLeftLeg.rotateAngleX, model.bipedLeftLeg.rotateAngleY, model.bipedLeftLeg.rotateAngleZ}
         });
+    }
+
+    public BoolValue getFontTags() {
+        return fontTags;
     }
 }

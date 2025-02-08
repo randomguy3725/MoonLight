@@ -10,6 +10,7 @@
  */
 package wtf.moonlight.gui.widget.impl;
 
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import wtf.moonlight.events.impl.render.Shader2DEvent;
@@ -42,6 +43,12 @@ public class SessionInfoWidget extends Widget {
             case "Moon":
                 if (event.getShaderType() == Shader2DEvent.ShaderType.GLOW) {
                     RoundedUtils.drawRound(renderX + 9, renderY, width, height, 8f, new Color(setting.color(0)));
+                } else RoundedUtils.drawRound(renderX + 9, renderY, width, height, 8f, new Color(0, 0, 0,255));
+
+                break;
+            case "Opai":
+                if (event.getShaderType() == Shader2DEvent.ShaderType.GLOW) {
+                    RoundedUtils.drawRound(renderX + 9, renderY,  width, height, 8f, new Color(setting.color(0)));
                 } else RoundedUtils.drawRound(renderX + 9, renderY, width, height, 8f, new Color(0, 0, 0,255));
 
                 break;
@@ -95,7 +102,7 @@ public class SessionInfoWidget extends Widget {
                 this.width = 140;
                 this.height = 55;
                 double padding = 8;
-                RoundedUtils.drawRoundOutline(renderX, renderY, this.width, this.height, 11, 0.5f, new Color(0, 0, 0, 100), new Color(setting.color(0)));
+                RoundedUtils.drawRoundOutline(renderX, renderY, this.width, this.height, 11, 0.1f, new Color(0, 0, 0, 100), new Color(setting.color(0)));
 
                 Fonts.interRegular.get(24).drawCenteredString("Session Stats", renderX + this.width / 2f, renderY + padding, setting.color(0));
                 Fonts.interRegular.get(18).drawCenteredString(RenderUtils.sessionTime(), renderX + this.width / 2f, renderY + padding + 19, new Color(255, 255, 255, 200).getRGB());
@@ -126,6 +133,21 @@ public class SessionInfoWidget extends Widget {
                     RoundedUtils.drawRoundTextured(renderX + 18, renderY + 25, 20, 20, 5f, 1f);
                 }
 
+                break;
+
+            case "Opai":
+
+                this.width = Fonts.interSemiBold.get(17).getStringWidth(RenderUtils.sessionTime2()) + 110;
+                this.height = 65;
+
+                RoundedUtils.drawRound(renderX + 9, renderY, width, height, 8f, new Color(setting.bgColor(),false));
+                RoundedUtils.drawRound(renderX + 9, renderY, width, 14, 7.5f, new Color(ColorUtils.darker(setting.color(), 0.75f)));
+                RoundedUtils.drawRound(renderX + 9, renderY + 7.5F, width, 8.5F, 0f, new Color(ColorUtils.darker(setting.color(), 0.75f)));
+                RenderUtils.renderPlayer2D(mc.thePlayer, renderX + 13f, renderY + 24f, 37.5F, 10, -1);
+                Fonts.interBold.get(16).drawCenteredString("Session", renderX + 30, renderY + 6, -1);
+                Fonts.interSemiBold.get(17).drawString("§7Played for " + RenderUtils.sessionTime2(), renderX + 58, renderY + 31, -1);
+                Fonts.interSemiBold.get(17).drawString(setting.won + " wins", renderX + 58, renderY + 55, -1);
+                Fonts.interSemiBold.get(17).drawString(setting.killed + " kills", renderX + 58, renderY + 43, -1);
                 break;
 
         }
