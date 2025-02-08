@@ -95,8 +95,8 @@ public class Scaffold extends Module {
     private final ModeValue wdKeepY = new ModeValue("WD Keep Y Mode", new String[]{"Normal", "Opal", "None"}, "Opal", this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint") && addons.isEnabled("Keep Y"));
     private final ModeValue wdLowhop = new ModeValue("WD Fast Fall Mode", new String[]{"8 Tick","7 Tick","Disabled"}, "Opal", this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint") && addons.isEnabled("Keep Y"));
     private final BoolValue unPatch = new BoolValue("Un Patch Test", true, this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint") && (addons.isEnabled("Keep Y") || addons.isEnabled("Speed Keep Y")));
-    private final SliderValue straightSpeed = new SliderValue("Keep Y Straight Speed", 1, 0.5f, 1f, 0.01f, this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint") && addons.isEnabled("Keep Y"));
-    private final SliderValue diagonalSpeed = new SliderValue("Keep Y Diagonal Speed", 0.95f, 0.5f, 1f, 0.01f, this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint") && addons.isEnabled("Keep Y"));
+    private final SliderValue straightSpeed = new SliderValue("Keep Y Straight Speed", 1, 0.5f, 1f, 0.01f, this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint") && (addons.isEnabled("Keep Y") || addons.isEnabled("Speed Keep Y")));
+    private final SliderValue diagonalSpeed = new SliderValue("Keep Y Diagonal Speed", 0.95f, 0.5f, 1f, 0.01f, this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint") && (addons.isEnabled("Keep Y") || addons.isEnabled("Speed Keep Y")));
     public final ModeValue counter = new ModeValue("Counter", new String[]{"None", "Simple", "Normal", "Exhibition","Adjust"}, "Normal", this);
     public PlaceData data;
     private int oloSlot = -1;
@@ -384,9 +384,9 @@ public class Scaffold extends Module {
                     }
                 } else {
                     if (Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(getVec3(data))[0] - MovementUtils.getRawDirection() - 145)) < Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(getVec3(data))[0] - MovementUtils.getRawDirection() + 145))) {
-                        rotation[0] = MovementUtils.getRawDirection() + 145;
+                        rotation[0] = MovementUtils.getRawDirection() + 121;
                     } else {
-                        rotation[0] = MovementUtils.getRawDirection() - 145;
+                        rotation[0] = MovementUtils.getRawDirection() - 121;
                     }
                 }
             }
@@ -394,10 +394,10 @@ public class Scaffold extends Module {
             case "Hypixel 2": {
                 rotation = RotationUtils.getRotations(getVec3(data));
 
-                if (Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(getVec3(data))[0] - MovementUtils.getRawDirection() - 140)) < Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(getVec3(data))[0] - MovementUtils.getRawDirection() + 145))) {
-                    rotation[0] = MovementUtils.getRawDirection() + 145;
+                if (Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(getVec3(data))[0] - MovementUtils.getRawDirection() - 139)) < Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(getVec3(data))[0] - MovementUtils.getRawDirection() + 139))) {
+                    rotation[0] = MovementUtils.getRawDirection() + 139;
                 } else {
-                    rotation[0] = MovementUtils.getRawDirection() - 145;
+                    rotation[0] = MovementUtils.getRawDirection() - 139;
                 }
             }
             break;
@@ -517,17 +517,17 @@ public class Scaffold extends Module {
             return;
         }
 
-        if(wdLowhop.canDisplay() && wdLowhop.is("7 Tick") && placed) {
-            if (mc.thePlayer.offGroundTicks == 1) {
-                mc.thePlayer.motionY += 0.057f;
-            }
-
-            if (mc.thePlayer.offGroundTicks == 3) {
-                mc.thePlayer.motionY -= 0.1309f;
-            }
-
-            if (mc.thePlayer.offGroundTicks == 4) {
-                mc.thePlayer.motionY -= 0.2;
+        if(wdLowhop.canDisplay() && wdLowhop.is("7 Tick") && placed && !towering() && !towerMoving()) {
+            switch (mc.thePlayer.offGroundTicks) {
+                case 1:
+                    mc.thePlayer.motionY += 0.057f;
+                    break;
+                case 3:
+                    mc.thePlayer.motionY -= 0.1309f;
+                    break;
+                case 4:
+                    mc.thePlayer.motionY -= 0.2;
+                    break;
             }
         }
 
@@ -535,17 +535,7 @@ public class Scaffold extends Module {
             if(towerMoving()) {
                 if (mc.thePlayer.offGroundTicks == 1) {
                     mc.thePlayer.motionY += 0.057f;
-
-
-                    if (mc.thePlayer.isPotionActive(Potion.moveSpeed) && !(getModule(Scaffold.class).isEnabled() && mc.gameSettings.keyBindJump.isKeyDown()) && mc.thePlayer.getActivePotionEffect(Potion.moveSpeed).getAmplifier() + 1 >= 2) {
-                        MovementUtils.strafe(0.48);
-                    } else if (mc.thePlayer.isPotionActive(Potion.moveSpeed) && mc.thePlayer.getActivePotionEffect(Potion.moveSpeed).getAmplifier() + 1 >= 2) {
-                        MovementUtils.strafe(0.4);
-                    } else if (mc.thePlayer.isPotionActive(Potion.moveSpeed) && mc.thePlayer.getActivePotionEffect(Potion.moveSpeed).getAmplifier() + 1 == 1) {
-                        MovementUtils.strafe(0.405);
-                    } else {
-                        MovementUtils.strafe(0.33);
-                    }
+                    MovementUtils.strafe(Math.max(MovementUtils.getSpeed(), 0.33f + MovementUtils.getSpeedEffect() * 0.075));
                 }
 
                 if (mc.thePlayer.offGroundTicks == 3) {
@@ -611,10 +601,6 @@ public class Scaffold extends Module {
             return;
         }
 
-        if (wdKeepY.canDisplay() && !towering() && !towerMoving() && addons.isEnabled("Sprint") && mc.thePlayer.onGround && MovementUtils.isMoving()) {
-            MovementUtils.strafe(MovementUtils.getSpeed() * (MovementUtils.isMovingStraight() ? straightSpeed.get() : diagonalSpeed.get()));
-        }
-
         if (mode.is("Watchdog") && mc.gameSettings.keyBindJump.isKeyDown() && towerMove.is("Jump") && placing) {
             MovementUtils.strafe(0.4);
         }
@@ -637,8 +623,8 @@ public class Scaffold extends Module {
             }
 
             if(flagged){
-                mc.thePlayer.motionX *= 0.4;
-                mc.thePlayer.motionX *= 0.4;
+                mc.thePlayer.motionX *= 0.2;
+                mc.thePlayer.motionX *= 0.2;
                 if(blocksPlaced > 2)
                     flagged = false;
             }
@@ -654,7 +640,11 @@ public class Scaffold extends Module {
             }
         }
 
-        if(wdLowhop.canDisplay() && wdLowhop.is("8 Tick") && placed) {
+        if (wdKeepY.canDisplay() && (addons.isEnabled("Speed Keep Y") && isEnabled(Speed.class) || !addons.isEnabled("Speed Keep Y")) && !towering() && !towerMoving() && addons.isEnabled("Sprint") && mc.thePlayer.onGround && MovementUtils.isMoving()) {
+            MovementUtils.strafe(MovementUtils.getSpeed() * (MovementUtils.isMovingStraight() ? straightSpeed.get() : diagonalSpeed.get()));
+        }
+
+        if(wdLowhop.canDisplay() && wdLowhop.is("8 Tick") && placed && !towering() && !towerMoving()) {
             boolean down = false;
             int simpleY = (int) Math.round((event.y % 1) * 10000);
 

@@ -65,7 +65,6 @@ public class Speed extends Module {
     private final BoolValue lagBackCheck = new BoolValue("Lag Back Check", true, this);
     private final BoolValue liquidCheck = new BoolValue("Liquid Check", true, this);
     private final BoolValue guiCheck = new BoolValue("Gui Check", true, this);
-    private final BoolValue debug = new BoolValue("Debug", true, this);
     private final BoolValue printOffGroundTicks = new BoolValue("Print Off Ground Ticks", true, this);
     private boolean disable;
     private boolean disable3;
@@ -209,7 +208,8 @@ public class Speed extends Module {
                 if(wdMode.is("Fast")) {
                     if (mc.thePlayer.onGround && MovementUtils.isMoving()) {
                         mc.thePlayer.jump();
-                        MovementUtils.strafe(0.47 + MovementUtils.getSpeedEffect() * 0.042);
+                        if(!isEnabled(Scaffold.class))
+                            MovementUtils.strafe(0.47 + MovementUtils.getSpeedEffect() * 0.042);
                         couldStrafe = true;
                     }
                 }
@@ -383,8 +383,9 @@ public class Speed extends Module {
                     }
 
                     if (mc.thePlayer.offGroundTicks == 1 && !disable) {
-                        if (isEnabled(Scaffold.class) && getModule(Scaffold.class).towerMoving()) {
-                            MovementUtils.strafe(0.3);
+                        if (isEnabled(Scaffold.class)) {
+                            if (getModule(Scaffold.class).towerMoving())
+                                MovementUtils.strafe(0.3);
                         } else {
                             MovementUtils.strafe(Math.max(MovementUtils.getSpeed(), 0.33f + MovementUtils.getSpeedEffect() * 0.075));
                             couldStrafe = true;

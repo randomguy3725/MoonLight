@@ -505,7 +505,7 @@ public class KillAura extends Module {
 
     public void unblock() {
         if (isBlocking) {
-            if (mode.is("HYT")) {
+            if (mode.is("HYT") || mode.is("Watchdog")) {
                 sendPacket(new C09PacketHeldItemChange((mc.thePlayer.inventory.currentItem + 1) % 8));
                 sendPacket(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
             } else {
