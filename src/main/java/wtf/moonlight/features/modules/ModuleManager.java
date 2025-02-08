@@ -137,7 +137,8 @@ public class ModuleManager {
                 Rotation.class,
                 Shaders.class,
                 Trajectories.class,
-                TargetESP.class
+                TargetESP.class,
+                Breadcrumbs.class
         );
 
         // Sort modules alphabetically by name for better organization
