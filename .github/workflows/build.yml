@@ -58,3 +58,14 @@ jobs:
           path: |
             ${{ env.JAR_NAME }}
             ${{ env.JSON_NAME }}
+
+      - name: Create Release
+        uses: "0xDylan/action-auto-releases-n20@v1.1"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Latest Build"
+          files: |
+            ${BUILD_DIR}/Moonlight-1.8.9-all.jar
+            ${JSON_DIR}/MoonLight.json
