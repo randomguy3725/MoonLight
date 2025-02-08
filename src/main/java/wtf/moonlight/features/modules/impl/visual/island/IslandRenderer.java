@@ -79,7 +79,7 @@ public class IslandRenderer implements InstanceAccess {
             drawBackgroundAuto(1);
 
             RoundedUtils.drawRound(animatedX.getOutput() + 6, animatedY.getOutput() + ((y - animatedY.getOutput()) * 2), width - 12, 5f, 2.5f, new Color(255, 255, 255, 80));
-            RoundedUtils.drawRound(animatedX.getOutput() + 6, animatedY.getOutput() + ((y - animatedY.getOutput()) * 2), (width - 12) * size / 64, 5f, 2.5f, new Color(255, 255, 255, 255));
+            RoundedUtils.drawRound(animatedX.getOutput() + 6, animatedY.getOutput() + ((y - animatedY.getOutput()) * 2), (width - 12) * Math.min(64,size) / 64, 5f, 2.5f, new Color(255, 255, 255, 255));
             
             if(!shader) {
                 largest.drawString(title, animatedX.getOutput() + 5, animatedY.getOutput() + 6, -1);
