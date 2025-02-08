@@ -49,6 +49,7 @@ import wtf.moonlight.features.modules.ModuleCategory;
 import wtf.moonlight.features.modules.ModuleInfo;
 import wtf.moonlight.features.modules.impl.combat.KillAura;
 import wtf.moonlight.features.modules.impl.player.Stealer;
+import wtf.moonlight.features.modules.impl.visual.island.IslandRenderer;
 import wtf.moonlight.features.values.impl.*;
 import wtf.moonlight.gui.click.neverlose.NeverLose;
 import wtf.moonlight.gui.font.FontRenderer;
@@ -77,6 +78,7 @@ public class Interface extends Module {
 
     public final MultiBoolValue elements = new MultiBoolValue("Elements", Arrays.asList(
             new BoolValue("Watermark",true),
+            new BoolValue("Island",true),
             new BoolValue("Module List",true),
             new BoolValue("Armor",true),
             new BoolValue("Info",true),
@@ -95,6 +97,7 @@ public class Interface extends Module {
     public final ModeValue fontMode = new ModeValue("C Fonts Mode", new String[]{"Bold","Semi Bold","Medium","Regular","Tahoma","Astolfo"}, "Semi Bold", this,() -> cFont.canDisplay() && cFont.get());
     public final SliderValue fontSize = new SliderValue("Font Size",15,10,25,this,cFont::get);
     public final ModeValue watemarkMode = new ModeValue("Watermark Mode", new String[]{"Text","Styles","Nursultan","Exhi","Exhi 2","Type 1","NeverLose"}, "Text", this,() -> elements.isEnabled("Watermark"));
+    public final BoolValue allowRepeat = new BoolValue("Allow Repeat",true,this,() -> elements.isEnabled("Island"));
     public final ModeValue animation = new ModeValue("Animation", new String[]{"ScaleIn", "MoveIn","Slide In"}, "ScaleIn", this, () -> elements.isEnabled("Module List"));
     public final ModeValue arrayPosition = new ModeValue("Position", new String[]{"Right","Left"}, "Right", this, () -> elements.isEnabled("Module List"));
     public final SliderValue x = new SliderValue("Module List X", 0, -50, 50, this, () -> elements.isEnabled("Module List"));
@@ -139,6 +142,10 @@ public class Interface extends Module {
 
     @EventTarget
     public void onRender2D(Render2DEvent event) {
+
+        if (elements.isEnabled("Island")) {
+            IslandRenderer.INSTANCE.render(event.getScaledResolution(),false);
+        }
 
         if (watemarkMode.canDisplay()) {
             switch (watemarkMode.get()) {
@@ -587,6 +594,10 @@ public class Interface extends Module {
     @EventTarget
     public void onShader2D(Shader2DEvent event) {
 
+        if (elements.isEnabled("Island")) {
+            IslandRenderer.INSTANCE.render(new ScaledResolution(mc), true);
+        }
+
         switch (watemarkMode.get()) {
             case "Text":
                 Fonts.interBold.get(30).drawStringWithShadow(clientName.get(), 10, 10, color(0));
@@ -1028,7 +1039,7 @@ public class Interface extends Module {
                 colors = ColorUtils.swapAlpha(iconRGB, alpha);
                 break;
         }
-        return colors;
+        return new Color(colors).getRGB();
     }
 
     public int color(int counter) {
