@@ -10,6 +10,7 @@
  */
 package wtf.moonlight.features.modules.impl.visual;
 
+import lombok.val;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -104,7 +105,8 @@ public class Interface extends Module {
     public final SliderValue y = new SliderValue("Module List Y", 0, -50, 50, this, () -> elements.isEnabled("Module List"));
     public final SliderValue textHeight = new SliderValue("Text Height", 2, 0, 10, this, () -> elements.isEnabled("Module List"));
     public final ModeValue tags = new ModeValue("Suffix", new String[]{"None", "Simple", "Bracket", "Dash"}, "None", this, () -> elements.isEnabled("Module List"));
-    public final ModeValue outline = new ModeValue("Outline", new String[]{"Right","Left","None"}, "Right", this, () -> elements.isEnabled("Module List"));
+    public final ModeValue line = new ModeValue("Line", new String[]{"Right","Left","None"}, "Right", this, () -> elements.isEnabled("Module List"));
+    public final BoolValue outLine = new BoolValue("Outline",true,this,() -> !line.is("None"));
     public final ModeValue armorMode = new ModeValue("Armor Mode", new String[]{"Default"}, "Default", this,() -> elements.isEnabled("Armor"));
     public final ModeValue infoMode = new ModeValue("Info Mode", new String[]{"Exhi", "Moon", "Moon 2","Tenacity"}, "Default", this,() -> elements.isEnabled("Info"));
     public final ModeValue versionMode = new ModeValue("Version Mode", new String[]{"Default"}, "Default",this,() -> elements.isEnabled("Version Info"));
@@ -361,6 +363,8 @@ public class Interface extends Module {
 
         if (elements.isEnabled("Module List")) {
             int count = 1;
+            float lastModuleLeftSide = 0.0f;
+            float lastModuleWidth = 0.0f;
             int screenWidth = event.getScaledResolution().getScaledWidth();
             float y = this.y.get();
             Comparator<Module> sort = (m1, m2) -> {
@@ -372,7 +376,9 @@ public class Interface extends Module {
 
             if (animation.is("Slide In")) {
                 enabledMods.sort(sort);
-                for (Module module : enabledMods) {
+
+                for (int i = 0, size = enabledMods.size(); i < size; i++) {
+                    final Module module = enabledMods.get(i);
                     if (module.isHidden())
                         continue;
                     Translate translate = module.getTranslate();
@@ -401,12 +407,34 @@ public class Interface extends Module {
                         RenderUtils.drawRect(leftSide, (float) translate.getY(), moduleWidth + 3, bottom, bgColor(count));
                     }
 
-                    if (outline.is("Left")) {
+                    if (line.is("Left")) {
                         RenderUtils.drawRect(leftSide - 1, (float) translate.getY(), 1, bottom, color(count));
                     }
 
-                    if(outline.is("Right")){
+                    if(line.is("Right")){
                         RenderUtils.drawRect((float) (translate.getX() + moduleWidth), (float) translate.getY(), 1, bottom,  color(count));
+                    }
+
+                    if (!line.is("None")) {
+                        if (outLine.get()) {
+                            if (arrayPosition.is("Right")) {
+                                if (lastModuleWidth - moduleWidth > 0) {
+                                    RenderUtils.drawRect(lastModuleLeftSide, y, lastModuleWidth - moduleWidth, 1, color(count));
+                                }
+
+                                if (i == size - 1) {
+                                    RenderUtils.drawRect(lastModuleLeftSide, y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth, 1, color(count));
+                                }
+                            } else {
+                                if (lastModuleWidth - moduleWidth > 0) {
+                                    RenderUtils.drawRect((float) (translate.getX() + lastModuleWidth), y, moduleWidth - lastModuleWidth, 1, color(count));
+                                }
+
+                                if (i == size - 1) {
+                                    RenderUtils.drawRect((float) (translate.getX() + lastModuleWidth), y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth - lastModuleWidth, 1, color(count));
+                                }
+                            }
+                        }
                     }
 
                     if (cFont.get()) {
@@ -416,12 +444,15 @@ public class Interface extends Module {
                     }
 
                     count -= 1;
+                    lastModuleLeftSide = leftSide;
+                    lastModuleWidth = moduleWidth;
                 }
             }
 
             if (!animation.is("Slide In")) {
                 enabledMods.sort(sort);
-                for (Module module : enabledMods) {
+                for (int i = 0, size = enabledMods.size(); i < size; i++) {
+                    final Module module = enabledMods.get(i);
                     if (module.isHidden())
                         continue;
                     Animation moduleAnimation = module.getAnimation();
@@ -449,12 +480,34 @@ public class Interface extends Module {
                         RenderUtils.drawRect(leftSide, y, moduleWidth + 3, bottom, bgColor(count));
                     }
 
-                    if (outline.is("Left")) {
+                    if (line.is("Left")) {
                         RenderUtils.drawRect(leftSide - 1, y, 1, bottom, color(count));
                     }
 
-                    if(outline.is("Right")){
+                    if(line.is("Right")){
                         RenderUtils.drawRect(x + moduleWidth, y, 1, bottom,  color(count));
+                    }
+
+                    if (!line.is("None")) {
+                        if (outLine.get()) {
+                            if (arrayPosition.is("Right")) {
+                                if (lastModuleWidth - moduleWidth > 0) {
+                                    RenderUtils.drawRect(lastModuleLeftSide, y, lastModuleWidth - moduleWidth, 1, color(count));
+                                }
+
+                                if (i == size - 1) {
+                                    RenderUtils.drawRect(lastModuleLeftSide, y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth, 1, color(count));
+                                }
+                            } else {
+                                if (lastModuleWidth - moduleWidth > 0) {
+                                    RenderUtils.drawRect(x + lastModuleWidth, y, moduleWidth - lastModuleWidth, 1, color(count));
+                                }
+
+                                if (i == size - 1) {
+                                    RenderUtils.drawRect(x + lastModuleWidth, y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth - lastModuleWidth, 1, color(count));
+                                }
+                            }
+                        }
                     }
 
                     if (cFont.get()) {
@@ -467,6 +520,8 @@ public class Interface extends Module {
                         RenderUtils.scaleEnd();
                     }
 
+                    lastModuleLeftSide = leftSide;
+                    lastModuleWidth = moduleWidth;
                     y += (float) (moduleAnimation.getOutput() * ((cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get()));
                     count -= 2;
                 }
@@ -647,6 +702,8 @@ public class Interface extends Module {
 
         if (elements.isEnabled("Module List")) {
             int count = 1;
+            float lastModuleLeftSide = 0.0f;
+            float lastModuleWidth = 0.0f;
             int screenWidth = new ScaledResolution(mc).getScaledWidth();
             float y = this.y.get();
             Comparator<Module> sort = (m1, m2) -> {
@@ -658,7 +715,8 @@ public class Interface extends Module {
 
             if (animation.is("Slide In")) {
                 enabledMods.sort(sort);
-                for (Module module : enabledMods) {
+                for (int i = 0, size = enabledMods.size(); i < size; i++) {
+                    final Module module = enabledMods.get(i);
                     if (module.isHidden())
                         continue;
                     Translate translate = module.getTranslate();
@@ -692,12 +750,34 @@ public class Interface extends Module {
 
                     if(event.getShaderType() == Shader2DEvent.ShaderType.GLOW) {
 
-                        if (outline.is("Left")) {
+                        if (line.is("Left")) {
                             RenderUtils.drawRect(leftSide - 1, (float) translate.getY(), 1, bottom, color(count));
                         }
 
-                        if(outline.is("Right")){
-                            RenderUtils.drawRect((float) (translate.getX() + moduleWidth), (float) translate.getY(), 1, bottom,  color(count));
+                        if(line.is("Right")) {
+                            RenderUtils.drawRect((float) (translate.getX() + moduleWidth), (float) translate.getY(), 1, bottom, color(count));
+                        }
+
+                        if (!line.is("None")) {
+                            if (outLine.get()) {
+                                if (arrayPosition.is("Right")) {
+                                    if (lastModuleWidth - moduleWidth > 0) {
+                                        RenderUtils.drawRect(lastModuleLeftSide, y, lastModuleWidth - moduleWidth, 1, color(count));
+                                    }
+
+                                    if (i == size - 1) {
+                                        RenderUtils.drawRect(lastModuleLeftSide, y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth, 1, color(count));
+                                    }
+                                } else {
+                                    if (lastModuleWidth - moduleWidth > 0) {
+                                        RenderUtils.drawRect((float) (translate.getX() + lastModuleWidth), y, moduleWidth - lastModuleWidth, 1, color(count));
+                                    }
+
+                                    if (i == size - 1) {
+                                        RenderUtils.drawRect((float) (translate.getX() + lastModuleWidth), y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth - lastModuleWidth, 1, color(count));
+                                    }
+                                }
+                            }
                         }
 
                         if (cFont.get()) {
@@ -708,12 +788,15 @@ public class Interface extends Module {
                     }
 
                     count -= 1;
+                    lastModuleLeftSide = leftSide;
+                    lastModuleWidth = moduleWidth;
                 }
             }
 
             if (!animation.is("Slide In")) {
                 enabledMods.sort(sort);
-                for (Module module : enabledMods) {
+                for (int i = 0, size = enabledMods.size(); i < size; i++) {
+                    final Module module = enabledMods.get(i);
                     if (module.isHidden())
                         continue;
                     Animation moduleAnimation = module.getAnimation();
@@ -741,19 +824,39 @@ public class Interface extends Module {
                         }
                         if (event.getShaderType() == Shader2DEvent.ShaderType.GLOW) {
                             RenderUtils.drawRect(leftSide, y, moduleWidth + 3, bottom, bgColor(count));
-
                         }
                     }
 
                     if(event.getShaderType() == Shader2DEvent.ShaderType.GLOW) {
-                        if (outline.is("Left")) {
+                        if (line.is("Left")) {
                             RenderUtils.drawRect(leftSide - 1, y, 1, bottom, color(count));
                         }
 
-                        if(outline.is("Right")){
-                            RenderUtils.drawRect(x + moduleWidth, y, 1, bottom,  color(count));
+                        if (line.is("Right")) {
+                            RenderUtils.drawRect(x + moduleWidth, y, 1, bottom, color(count));
                         }
 
+                        if (!line.is("None")) {
+                            if (outLine.get()) {
+                                if (arrayPosition.is("Right")) {
+                                    if (lastModuleWidth - moduleWidth > 0) {
+                                        RenderUtils.drawRect(lastModuleLeftSide, y, lastModuleWidth - moduleWidth, 1, color(count));
+                                    }
+
+                                    if (i == size - 1) {
+                                        RenderUtils.drawRect(lastModuleLeftSide, y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth, 1, color(count));
+                                    }
+                                } else {
+                                    if (lastModuleWidth - moduleWidth > 0) {
+                                        RenderUtils.drawRect(x + lastModuleWidth, y, moduleWidth - lastModuleWidth, 1, color(count));
+                                    }
+
+                                    if (i == size - 1) {
+                                        RenderUtils.drawRect(x + lastModuleWidth, y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth - lastModuleWidth, 1, color(count));
+                                    }
+                                }
+                            }
+                        }
                     }
 
                     if(event.getShaderType() == Shader2DEvent.ShaderType.GLOW) {
@@ -768,6 +871,8 @@ public class Interface extends Module {
                         RenderUtils.scaleEnd();
                     }
 
+                    lastModuleLeftSide = leftSide;
+                    lastModuleWidth = moduleWidth;
                     y += (float) (moduleAnimation.getOutput() * ((cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get()));
                     count -= 2;
                 }

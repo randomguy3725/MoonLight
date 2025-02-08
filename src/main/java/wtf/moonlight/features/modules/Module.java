@@ -176,8 +176,8 @@ public abstract class Module implements InstanceAccess {
     private void enable() {
         Moonlight.INSTANCE.getEventManager().register(this);
         try {
-            onEnable();
             Moonlight.INSTANCE.getNotificationManager().post(NotificationType.OKAY, "Module", getName() + EnumChatFormatting.GREEN + " enabled");
+            onEnable();
             playClickSound(1.0F);
         } catch (Exception e) {
             handleException(e);
@@ -190,8 +190,8 @@ public abstract class Module implements InstanceAccess {
     private void disable() {
         Moonlight.INSTANCE.getEventManager().unregister(this);
         try {
-            onDisable();
             Moonlight.INSTANCE.getNotificationManager().post(NotificationType.WARNING, "Module", getName() + EnumChatFormatting.RED + " disabled");
+            onDisable();
             playClickSound(0.8F);
         } catch (Exception e) {
             handleException(e);

@@ -20,11 +20,13 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.network.play.client.C0APacketAnimation;
+import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.*;
 import org.lwjglx.input.Keyboard;
 import wtf.moonlight.events.annotations.EventTarget;
 import wtf.moonlight.events.impl.misc.WorldEvent;
+import wtf.moonlight.events.impl.packet.PacketEvent;
 import wtf.moonlight.events.impl.player.*;
 import wtf.moonlight.events.impl.render.Render3DEvent;
 import wtf.moonlight.features.modules.Module;
@@ -110,6 +112,7 @@ public class Scaffold extends Module {
     private boolean start;
     private boolean placed;
     private boolean isOnRightSide;
+    private boolean flagged;
 
     private HoverState hoverState = HoverState.DONE;
     private final List<Block> blacklistedBlocks = Arrays.asList(Blocks.air, Blocks.water, Blocks.flowing_water, Blocks.lava, Blocks.wooden_slab, Blocks.chest, Blocks.flowing_lava,
@@ -151,6 +154,8 @@ public class Scaffold extends Module {
                 hoverState = HoverState.DONE;
             }
         }
+
+        flagged = false;
     }
 
 
@@ -373,9 +378,9 @@ public class Scaffold extends Module {
                 rotation = RotationUtils.getRotations(getVec3(data));
                 if (MovementUtils.isMovingStraight()) {
                     if (Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(getVec3(data))[0] - MovementUtils.getRawDirection() - 135)) < Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(getVec3(data))[0] - MovementUtils.getRawDirection() + 135))) {
-                        rotation[0] = MovementUtils.getRawDirection() + 135;
+                        rotation[0] = MovementUtils.getRawDirection() + 110;
                     } else {
-                        rotation[0] = MovementUtils.getRawDirection() - 135;
+                        rotation[0] = MovementUtils.getRawDirection() - 110;
                     }
                 } else {
                     if (Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(getVec3(data))[0] - MovementUtils.getRawDirection() - 145)) < Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(getVec3(data))[0] - MovementUtils.getRawDirection() + 145))) {
@@ -630,7 +635,15 @@ public class Scaffold extends Module {
                     event.setY(event.getY() + 1E-13);
                 }
             }
-            if (mc.thePlayer.onGround && sprintBoost.get()) {
+
+            if(flagged){
+                mc.thePlayer.motionX *= 0.4;
+                mc.thePlayer.motionX *= 0.4;
+                if(blocksPlaced > 2)
+                    flagged = false;
+            }
+
+            if (mc.thePlayer.onGround && sprintBoost.get() && !flagged) {
                 if (extra.get()) {
                     mc.thePlayer.motionX *= 1.13 - MovementUtils.getSpeedEffect() * .01 - Math.random() * 1E-4;
                     mc.thePlayer.motionZ *= 1.13 - MovementUtils.getSpeedEffect() * .01 - Math.random() * 1E-4;
@@ -704,6 +717,16 @@ public class Scaffold extends Module {
 
         if(addons.isEnabled("Target Block ESP")){
             RenderUtils.renderBlock(data.blockPos,getModule(Interface.class).color(0,100),false,true);
+        }
+    }
+
+    @EventTarget
+    public void onPacket(PacketEvent event) {
+        if (event.getPacket() instanceof S08PacketPlayerPosLook) {
+            if (wdSprint.canDisplay() && !(PlayerUtils.getBlock(mc.thePlayer.getPosition()) instanceof BlockLiquid) && wdSprint.is("Offset")) {
+                blocksPlaced = 0;
+                flagged = true;
+            }
         }
     }
 
