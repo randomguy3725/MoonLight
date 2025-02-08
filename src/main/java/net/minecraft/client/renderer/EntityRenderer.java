@@ -1395,8 +1395,6 @@ public class EntityRenderer implements IResourceManagerReloadListener
             }
         }
 
-        Moonlight.INSTANCE.getNotificationManager().publish(new ScaledResolution(mc),false);
-
         this.frameFinish();
         this.waitForServerThread();
         MemoryMonitor.update();

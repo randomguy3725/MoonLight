@@ -295,10 +295,6 @@ public class GuiIngame extends Gui
         Moonlight.INSTANCE.getModuleManager().getModule(Shaders.class).renderShaders();
         Moonlight.INSTANCE.getEventManager().call(new Render2DEvent(partialTicks, scaledresolution));
 
-        if (Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).isEnabled() && Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).elements.isEnabled("Notification")) {
-            Moonlight.INSTANCE.getNotificationManager().publish(scaledresolution, false);
-        }
-
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.disableLighting();
         GlStateManager.enableAlpha();

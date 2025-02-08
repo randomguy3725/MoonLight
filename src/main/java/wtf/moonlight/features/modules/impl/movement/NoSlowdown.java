@@ -36,6 +36,7 @@ import wtf.moonlight.features.modules.ModuleInfo;
 import wtf.moonlight.features.modules.impl.combat.AutoGap;
 import wtf.moonlight.features.values.impl.BoolValue;
 import wtf.moonlight.features.values.impl.ModeValue;
+import wtf.moonlight.utils.player.MovementUtils;
 
 import java.util.Objects;
 
@@ -46,6 +47,7 @@ public class NoSlowdown extends Module {
 
     public final ModeValue mode = new ModeValue("Mode", new String[]{"Vanilla", "GrimAC", "Intave", "Old Intave", "Watchdog", "NCP"}, "Vanilla", this);
     private final BoolValue sprint = new BoolValue("Sprint", true, this);
+    private final BoolValue speedUp = new BoolValue("Speed Up", true, this,() -> mode.is("Watchdog"));
     private boolean eat = true;
     private int lastFoodAmount;
     private float foodSpeed;
@@ -135,6 +137,10 @@ public class NoSlowdown extends Module {
 
                     } else if (mc.thePlayer.isUsingItem()) {
                         event.setY(event.getY() + 1E-14);
+                        if(speedUp.get() && mc.thePlayer.onGround && event.isPre()){
+                            mc.thePlayer.motionX *= 1.13 - MovementUtils.getSpeedEffect() * .01 - Math.random() * 1E-4;
+                            mc.thePlayer.motionZ *= 1.13 - MovementUtils.getSpeedEffect() * .01 - Math.random() * 1E-4;
+                        }
                     }
                 }
                 break;

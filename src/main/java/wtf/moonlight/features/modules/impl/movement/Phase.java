@@ -27,7 +27,7 @@ import wtf.moonlight.utils.packet.PingSpoofComponent;
 @ModuleInfo(name = "Phase", category = ModuleCategory.Movement)
 public class Phase extends Module {
 
-    public final ModeValue mode = new ModeValue("Mode", new String[]{"Watchdog Auto"}, "Watchdog Auto", this);
+    public final ModeValue mode = new ModeValue("Mode", new String[]{"Watchdog Auto","Watchdog"}, "Watchdog Auto", this);
     public boolean phase;
     private final TimerUtils timerUtils = new TimerUtils();
 

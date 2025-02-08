@@ -317,7 +317,7 @@ public class ShaderUtils implements InstanceAccess {
                 gl_FragColor = vec4(color.rgb, smoothedAlpha);// mix(quadColor, shadowColor, 0.0);
             
             }""";
-    private final String kawaseUpBloom = """
+    private String kawaseUpBloom = """
             #version 120
             
             uniform sampler2D inTexture, textureToCheck;
@@ -355,7 +355,7 @@ public class ShaderUtils implements InstanceAccess {
                 gl_FragColor = vec4(result.rgb / result.a, mix(result.a, result.a * (1.0 - texture2D(textureToCheck, gl_TexCoord[0].st).a),check));
             }""";
 
-    private final String kawaseDownBloom = """
+    private String kawaseDownBloom = """
             #version 120
             
             uniform sampler2D inTexture;
@@ -382,40 +382,44 @@ public class ShaderUtils implements InstanceAccess {
                 gl_FragColor = vec4(result.rgb / result.a, result.a);
             }""";
 
-    private final String kawaseUp = "#version 120\n" +
-            "\n" +
-            "uniform sampler2D inTexture, textureToCheck;\n" +
-            "uniform vec2 halfpixel, offset, iResolution;\n" +
-            "uniform int check;\n" +
-            "\n" +
-            "void main() {\n" +
-            "    vec2 uv = vec2(gl_FragCoord.xy / iResolution);\n" +
-            "    vec4 sum = texture2D(inTexture, uv + vec2(-halfpixel.x * 2.0, 0.0) * offset);\n" +
-            "    sum += texture2D(inTexture, uv + vec2(-halfpixel.x, halfpixel.y) * offset) * 2.0;\n" +
-            "    sum += texture2D(inTexture, uv + vec2(0.0, halfpixel.y * 2.0) * offset);\n" +
-            "    sum += texture2D(inTexture, uv + vec2(halfpixel.x, halfpixel.y) * offset) * 2.0;\n" +
-            "    sum += texture2D(inTexture, uv + vec2(halfpixel.x * 2.0, 0.0) * offset);\n" +
-            "    sum += texture2D(inTexture, uv + vec2(halfpixel.x, -halfpixel.y) * offset) * 2.0;\n" +
-            "    sum += texture2D(inTexture, uv + vec2(0.0, -halfpixel.y * 2.0) * offset);\n" +
-            "    sum += texture2D(inTexture, uv + vec2(-halfpixel.x, -halfpixel.y) * offset) * 2.0;\n" +
-            "\n" +
-            "    gl_FragColor = vec4(sum.rgb /12.0, mix(1.0, texture2D(textureToCheck, gl_TexCoord[0].st).a, check));\n" +
-            "}\n";
+    private final String kawaseUp = """
+            #version 120
+            
+            uniform sampler2D inTexture, textureToCheck;
+            uniform vec2 halfpixel, offset, iResolution;
+            uniform int check;
+            
+            void main() {
+                vec2 uv = vec2(gl_FragCoord.xy / iResolution);
+                vec4 sum = texture2D(inTexture, uv + vec2(-halfpixel.x * 2.0, 0.0) * offset);
+                sum += texture2D(inTexture, uv + vec2(-halfpixel.x, halfpixel.y) * offset) * 2.0;
+                sum += texture2D(inTexture, uv + vec2(0.0, halfpixel.y * 2.0) * offset);
+                sum += texture2D(inTexture, uv + vec2(halfpixel.x, halfpixel.y) * offset) * 2.0;
+                sum += texture2D(inTexture, uv + vec2(halfpixel.x * 2.0, 0.0) * offset);
+                sum += texture2D(inTexture, uv + vec2(halfpixel.x, -halfpixel.y) * offset) * 2.0;
+                sum += texture2D(inTexture, uv + vec2(0.0, -halfpixel.y * 2.0) * offset);
+                sum += texture2D(inTexture, uv + vec2(-halfpixel.x, -halfpixel.y) * offset) * 2.0;
+            
+                gl_FragColor = vec4(sum.rgb /12.0, mix(1.0, texture2D(textureToCheck, gl_TexCoord[0].st).a, check));
+            }
+            """;
 
-    private final String kawaseDown = "#version 120\n" +
-            "\n" +
-            "uniform sampler2D inTexture;\n" +
-            "uniform vec2 offset, halfpixel, iResolution;\n" +
-            "\n" +
-            "void main() {\n" +
-            "    vec2 uv = vec2(gl_FragCoord.xy / iResolution);\n" +
-            "    vec4 sum = texture2D(inTexture, gl_TexCoord[0].st) * 4.0;\n" +
-            "    sum += texture2D(inTexture, uv - halfpixel.xy * offset);\n" +
-            "    sum += texture2D(inTexture, uv + halfpixel.xy * offset);\n" +
-            "    sum += texture2D(inTexture, uv + vec2(halfpixel.x, -halfpixel.y) * offset);\n" +
-            "    sum += texture2D(inTexture, uv - vec2(halfpixel.x, -halfpixel.y) * offset);\n" +
-            "    gl_FragColor = vec4(sum.rgb * .125, 1.0);\n" +
-            "}\n";
+    private final String kawaseDown = """
+            #version 120
+            
+            uniform sampler2D inTexture;
+            uniform vec2 offset, halfpixel, iResolution;
+            
+            void main() {
+                vec2 uv = vec2(gl_FragCoord.xy / iResolution);
+                vec4 sum = texture2D(inTexture, gl_TexCoord[0].st) * 4.0;
+                sum += texture2D(inTexture, uv - halfpixel.xy * offset);
+                sum += texture2D(inTexture, uv + halfpixel.xy * offset);
+                sum += texture2D(inTexture, uv + vec2(halfpixel.x, -halfpixel.y) * offset);
+                sum += texture2D(inTexture, uv - vec2(halfpixel.x, -halfpixel.y) * offset);
+                gl_FragColor = vec4(sum.rgb * .125, 1.0);
+            }
+            """;
 
     private final String gradient = """
             #version 120

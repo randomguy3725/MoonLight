@@ -100,7 +100,7 @@ public class Interface extends Module {
     public final SliderValue x = new SliderValue("Module List X", 0, -50, 50, this, () -> elements.isEnabled("Module List"));
     public final SliderValue y = new SliderValue("Module List Y", 0, -50, 50, this, () -> elements.isEnabled("Module List"));
     public final SliderValue textHeight = new SliderValue("Text Height", 2, 0, 10, this, () -> elements.isEnabled("Module List"));
-    public final ModeValue tags = new ModeValue("Suffix", new String[]{"None", "Simple", "Simple 2", "Bracket", "Dash"}, "None", this, () -> elements.isEnabled("Module List"));
+    public final ModeValue tags = new ModeValue("Suffix", new String[]{"None", "Simple", "Bracket", "Dash"}, "None", this, () -> elements.isEnabled("Module List"));
     public final ModeValue outline = new ModeValue("Outline", new String[]{"Right","Left","None"}, "Right", this, () -> elements.isEnabled("Module List"));
     public final ModeValue armorMode = new ModeValue("Armor Mode", new String[]{"Default"}, "Default", this,() -> elements.isEnabled("Armor"));
     public final ModeValue infoMode = new ModeValue("Info Mode", new String[]{"Exhi", "Moon", "Moon 2","Tenacity"}, "Default", this,() -> elements.isEnabled("Info"));
@@ -324,7 +324,8 @@ public class Interface extends Module {
             switch (versionMode.get()) {
                 case "Default":
                      float textY = (event.getScaledResolution().getScaledHeight() - 9) + (mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f);
-                    Fonts.interMedium.get(17).drawStringWithShadow(EnumChatFormatting.WHITE + "Alpha " + "§7- " + EnumChatFormatting.WHITE + Moonlight.INSTANCE.getDiscordRP().getName() + " §7- " + EnumChatFormatting.WHITE + Sys.getVersion(), 973F - (2 + Fonts.interMedium.get(19).getStringWidth(EnumChatFormatting.WHITE + "Development " + "§7- " + EnumChatFormatting.WHITE + Moonlight.INSTANCE.getDiscordRP().getName() + " §7- " + EnumChatFormatting.WHITE + Sys.getVersion())), textY + 3.5, color (0));
+
+                    Fonts.interMedium.get(17).drawStringWithShadow(EnumChatFormatting.WHITE + Moonlight.INSTANCE.getVersion() + " §7- " + EnumChatFormatting.WHITE + Moonlight.INSTANCE.getDiscordRP().getName() + " §7- " + EnumChatFormatting.WHITE + Sys.getVersion(), (float) event.getScaledResolution().getScaledWidth() - Fonts.interMedium.get(17).getStringWidth(Moonlight.INSTANCE.getVersion() + " - "  + Moonlight.INSTANCE.getDiscordRP().getName() + " §7- " + EnumChatFormatting.WHITE + Sys.getVersion()) - 2.0f, textY + 3.5, color (0));
                     break;
             }
         }
@@ -488,8 +489,8 @@ public class Interface extends Module {
                     type = type + " §7" + Potion.getDurationString(potionEffect);
                 }
                 GlStateManager.pushMatrix();
-                mc.fontRendererObj.drawString(potionName, (float) event.getScaledResolution().getScaledWidth() - mc.fontRendererObj.getStringWidth(type + potionName) - 2.0f, (event.getScaledResolution().getScaledHeight() - 9) + y, new Color(potionType.getLiquidColor()).getRGB(), true);
-                mc.fontRendererObj.drawString(type, (float) event.getScaledResolution().getScaledWidth() - mc.fontRendererObj.getStringWidth(type) - 2.0f, (event.getScaledResolution().getScaledHeight() - 9) + y, new Color(255, 255, 255).getRGB(), true);
+                mc.fontRendererObj.drawString(potionName, (float) event.getScaledResolution().getScaledWidth() - mc.fontRendererObj.getStringWidth(type + potionName) - 2.0f, (event.getScaledResolution().getScaledHeight()  - (elements.isEnabled("Version Info") ? 15 : 9)) + y, new Color(potionType.getLiquidColor()).getRGB(), true);
+                mc.fontRendererObj.drawString(type, (float) event.getScaledResolution().getScaledWidth() - mc.fontRendererObj.getStringWidth(type) - 2.0f, (event.getScaledResolution().getScaledHeight() - (elements.isEnabled("Version Info") ? 15 : 9)) + y, new Color(255, 255, 255).getRGB(), true);
 
                 GlStateManager.popMatrix();
                 y -= 9.0f;
@@ -518,8 +519,8 @@ public class Interface extends Module {
                     type = type + " §f" + Potion.getDurationString(potionEffect);
                 }
                 GlStateManager.pushMatrix();
-                Fonts.interMedium.get(17).drawStringWithShadow(potionName, (float) event.getScaledResolution().getScaledWidth() - Fonts.interSemiBold.get(17).getStringWidth(type + potionName) - 2.0f, (event.getScaledResolution().getScaledHeight() - 15) + y, new Color(potionType.getLiquidColor()).getRGB());
-                Fonts.interMedium.get(17).drawStringWithShadow(type, (float) event.getScaledResolution().getScaledWidth() - Fonts.interMedium.get(17).getStringWidth(type) - 2.0f, (event.getScaledResolution().getScaledHeight() - 15) + y, new Color(255, 255, 255).getRGB());
+                Fonts.interMedium.get(17).drawStringWithShadow(potionName, (float) event.getScaledResolution().getScaledWidth() - Fonts.interSemiBold.get(17).getStringWidth(type + potionName) - 2.0f, (event.getScaledResolution().getScaledHeight() - (elements.isEnabled("Version Info") ? 15 : 9)) + y, new Color(potionType.getLiquidColor()).getRGB());
+                Fonts.interMedium.get(17).drawStringWithShadow(type, (float) event.getScaledResolution().getScaledWidth() - Fonts.interMedium.get(17).getStringWidth(type) - 2.0f, (event.getScaledResolution().getScaledHeight() - (elements.isEnabled("Version Info") ? 15 : 9)) + y, new Color(255, 255, 255).getRGB());
 
                 GlStateManager.popMatrix();
                 y -= 9.5f;
@@ -576,6 +577,10 @@ public class Interface extends Module {
 
         if (elements.isEnabled("Session Info") && sessionInfoMode.is("Exhi")) {
             mc.fontRendererObj.drawStringWithShadow(RenderUtils.sessionTime(), event.getScaledResolution().getScaledWidth() / 2.0f - mc.fontRendererObj.getStringWidth(RenderUtils.sessionTime()) / 2.0f,BossStatus.bossName != null && BossStatus.statusBarTime > 0 ? 47 : 30.0f, -1);
+        }
+
+        if (elements.isEnabled("Notification")) {
+            Moonlight.INSTANCE.getNotificationManager().publish(new ScaledResolution(mc),false);
         }
     }
 
@@ -756,6 +761,10 @@ public class Interface extends Module {
                     count -= 2;
                 }
             }
+        }
+
+        if (elements.isEnabled("Notification")) {
+            Moonlight.INSTANCE.getNotificationManager().publish(new ScaledResolution(mc),true);
         }
     }
 

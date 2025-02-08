@@ -35,6 +35,7 @@ public class ScaffoldCounter implements InstanceAccess {
     @EventTarget
     public void drawCounter(Render2DEvent event) {
         Scaffold scaffold = INSTANCE.getModuleManager().getModule(Scaffold.class);
+        ScaledResolution sr = event.getScaledResolution();
         switch (scaffold.counter.get().toLowerCase()) {
             case "normal": {
                 anim.setDirection(scaffold.isEnabled() ? Direction.FORWARDS : Direction.BACKWARDS);
@@ -43,7 +44,6 @@ public class ScaffoldCounter implements InstanceAccess {
                 ItemStack heldItem = slot == -1 ? null : mc.thePlayer.inventory.mainInventory[slot];
                 int count = slot == -1 ? 0 : scaffold.getBlockCount();
                 String countStr = String.valueOf(count);
-                ScaledResolution sr = new ScaledResolution(mc);
                 float x, y;
                 float output = (float) anim.getOutput();
                 float blockWH = heldItem != null ? 15 : -2;
@@ -89,8 +89,7 @@ public class ScaffoldCounter implements InstanceAccess {
             }
             case "raven":
                 if (!scaffold.isEnabled()) return;
-                ScaledResolution scaledResolution = new ScaledResolution(mc);
-                mc.fontRendererObj.drawString(String.valueOf(scaffold.getBlockCount()) + " blocks", scaledResolution.getScaledWidth() / 1.96f, scaledResolution.getScaledHeight() / 2f + 10, new Color(255,255,255).getRGB(), true);
+                mc.fontRendererObj.drawString(scaffold.getBlockCount() + " blocks", sr.getScaledWidth() / 1.96f, sr.getScaledHeight() / 2f + 10, new Color(255,255,255).getRGB(), true);
                 break;
             case "simple": {
                 if (!scaffold.isEnabled()) return;
@@ -100,8 +99,7 @@ public class ScaffoldCounter implements InstanceAccess {
                 } else if (scaffold.getBlockCount() >= 128) {
                     c = ColorUtils.getColor(0, 255, 0, 150);
                 }
-                scaledResolution = new ScaledResolution(mc);
-                Fonts.interMedium.get(18).drawCenteredStringWithShadow(String.valueOf(scaffold.getBlockCount()), scaledResolution.getScaledWidth() / 2f, scaledResolution.getScaledHeight() / 2f + 10, new Color(c).brighter().getRGB());
+                Fonts.interMedium.get(18).drawCenteredStringWithShadow(String.valueOf(scaffold.getBlockCount()), sr.getScaledWidth() / 2f, sr.getScaledHeight() / 2f + 10, new Color(c).brighter().getRGB());
                 break;
             }
         }

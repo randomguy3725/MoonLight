@@ -30,9 +30,7 @@ public class Bloom implements InstanceAccess {
     public static ShaderUtils kawaseDown = new ShaderUtils("kawaseDownBloom");
     public static ShaderUtils kawaseUp = new ShaderUtils("kawaseUpBloom");
 
-    public static Framebuffer framebuffer = new Framebuffer(1, 1, false);
-
-
+    public static Framebuffer framebuffer = new Framebuffer(1, 1, true);
     private static int currentIterations;
 
     private static final List<Framebuffer> framebufferList = new ArrayList<>();
@@ -43,10 +41,11 @@ public class Bloom implements InstanceAccess {
         }
         framebufferList.clear();
 
-        framebufferList.add(framebuffer = RenderUtils.createFrameBuffer(null, false));
+        framebufferList.add(framebuffer = RenderUtils.createFrameBuffer(null, true));
+
 
         for (int i = 1; i <= iterations; i++) {
-            Framebuffer currentBuffer = new Framebuffer((int) (mc.displayWidth / Math.pow(2, i)), (int) (mc.displayHeight / Math.pow(2, i)), false);
+            Framebuffer currentBuffer = new Framebuffer((int) (mc.displayWidth / Math.pow(2, i)), (int) (mc.displayHeight / Math.pow(2, i)), true);
             currentBuffer.setFramebufferFilter(GL_LINEAR);
 
             GlStateManager.bindTexture(currentBuffer.framebufferTexture);
@@ -64,25 +63,22 @@ public class Bloom implements InstanceAccess {
             initFramebuffers(iterations);
             currentIterations = iterations;
         }
-        RenderUtils.resetColor();
 
         RenderUtils.setAlphaLimit(0);
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GL_ONE, GL_ONE);
 
         GL11.glClearColor(0, 0, 0, 0);
+        renderFBO(framebufferList.get(1), framebufferTexture, kawaseDown, offset);
 
-        float currentOffset = offset;
-        renderFBO(framebufferList.get(1), framebufferTexture, kawaseDown, currentOffset);
-
+        //Downsample
         for (int i = 1; i < iterations; i++) {
-            currentOffset = offset / (float) Math.pow(1.5, i);
-            renderFBO(framebufferList.get(i + 1), framebufferList.get(i).framebufferTexture, kawaseDown, currentOffset);
+            renderFBO(framebufferList.get(i + 1), framebufferList.get(i).framebufferTexture, kawaseDown, offset);
         }
 
+        //Upsample
         for (int i = iterations; i > 1; i--) {
-            currentOffset = offset / (float) Math.pow(1.5, i - 1);
-            renderFBO(framebufferList.get(i - 1), framebufferList.get(i).framebufferTexture, kawaseUp, currentOffset);
+            renderFBO(framebufferList.get(i - 1), framebufferList.get(i).framebufferTexture, kawaseUp, offset);
         }
 
         Framebuffer lastBuffer = framebufferList.get(0);
@@ -101,6 +97,7 @@ public class Bloom implements InstanceAccess {
         RenderUtils.bindTexture(framebufferList.get(1).framebufferTexture);
         ShaderUtils.drawQuads();
         kawaseUp.unload();
+
 
         GlStateManager.clearColor(0, 0, 0, 0);
         mc.getFramebuffer().bindFramebuffer(false);

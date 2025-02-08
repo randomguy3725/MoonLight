@@ -11,6 +11,7 @@
 package wtf.moonlight.features.modules.impl.player;
 
 import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C0DPacketCloseWindow;
@@ -23,12 +24,14 @@ import wtf.moonlight.events.impl.player.UpdateEvent;
 import wtf.moonlight.features.modules.Module;
 import wtf.moonlight.features.modules.ModuleCategory;
 import wtf.moonlight.features.modules.ModuleInfo;
+import wtf.moonlight.features.modules.impl.movement.Scaffold;
 import wtf.moonlight.features.values.impl.BoolValue;
 import wtf.moonlight.features.values.impl.ModeValue;
 import wtf.moonlight.features.values.impl.SliderValue;
 import wtf.moonlight.utils.math.MathUtils;
 import wtf.moonlight.utils.math.TimerUtils;
 import wtf.moonlight.utils.player.InventoryUtils;
+import wtf.moonlight.utils.player.PlayerUtils;
 
 import java.util.*;
 
@@ -42,6 +45,7 @@ public class InvManager extends Module {
     private final BoolValue autoArmor = new BoolValue("Auto Armor", true, this);
     private final BoolValue startDelay = new BoolValue("Start Delay", true, this);
     public final BoolValue display = new BoolValue("Display", true, this);
+    private final BoolValue lobbyCheck = new BoolValue("Lobby Check", true, this);
     private final TimerUtils timer = new TimerUtils();
     private final int[] bestArmorPieces = new int[4];
     private final List<Integer> trash = new ArrayList<>();
@@ -50,8 +54,8 @@ public class InvManager extends Module {
     private final List<Integer> blockSlot = new ArrayList<>();
     private int bestSwordSlot;
     private int bestBowSlot;
-    private boolean serverOpen;
-    private boolean clientOpen;
+    public boolean serverOpen;
+    public boolean clientOpen;
     private boolean nextTickCloseInventory;
     public int slot;
 
@@ -96,7 +100,12 @@ public class InvManager extends Module {
     public void onUpdate(UpdateEvent event) {
         setTag(String.valueOf(MathUtils.nextInt((int) minDelay.get(), (int) maxDelay.get())));
         final long delay = (MathUtils.nextInt((int) minDelay.get(), (int) maxDelay.get()) * 50L);
-        if (this.clientOpen || (mc.currentScreen == null && !Objects.equals(this.mode.get(), "Open Inventory"))) {
+        if ((this.clientOpen || (mc.currentScreen == null && !Objects.equals(this.mode.get(), "Open Inventory"))) && !isEnabled(Scaffold.class) &&
+                (lobbyCheck.get() &&
+                        InventoryUtils.findItem(InventoryUtils.EXCLUDE_ARMOR_BEGIN,InventoryUtils.END, Items.compass) == -1
+                        && InventoryUtils.findItem(InventoryUtils.EXCLUDE_ARMOR_BEGIN,InventoryUtils.END, Items.bed) == -1
+                 || !lobbyCheck.get())
+        ) {
             if ((this.timer.hasTimeElapsed(delay) || MathUtils.nextInt((int) minDelay.get(), (int) maxDelay.get()) == 0)) {
                 this.clear();
 

@@ -52,6 +52,7 @@ import wtf.moonlight.utils.animations.impl.DecelerateAnimation;
 import wtf.moonlight.utils.math.MathUtils;
 import wtf.moonlight.utils.math.TimerUtils;
 import wtf.moonlight.utils.packet.BlinkComponent;
+import wtf.moonlight.utils.packet.PacketUtils;
 import wtf.moonlight.utils.player.*;
 import wtf.moonlight.utils.render.RenderUtils;
 import java.security.SecureRandom;
@@ -99,7 +100,7 @@ public class KillAura extends Module {
     private final SliderValue maxSpeed = new SliderValue("Max Speed", 0.2f, 0.01f, 1, 0.01f, this, () -> randomize.get() && randomizerot.is("Noise"));
 
     public final MultiBoolValue rdadvanceaddons = new MultiBoolValue("RandomAddons", Arrays.asList(new BoolValue("SinCosRandom", true),
-            new BoolValue("Randomize", false)),this);
+            new BoolValue("Randomize", false)),this,randomize::get);
 
     public final SliderValue frequency = new SliderValue("SpeedSinCos", 1.5f, 0f, 5.0f, 0.01f, this,() -> this.randomizerot.is("Advanced") && this.rdadvanceaddons.isEnabled("SinCosRandom"));
     public final SliderValue yStrengthAimPattern = new SliderValue("YStrengthAmplitudeSinCos", 3.5f, 0f, 15.0f, 0.01f, this, () -> this.randomizerot.is("Advanced") && this.rdadvanceaddons.isEnabled("SinCosRandom"));
@@ -154,7 +155,7 @@ public class KillAura extends Module {
     public boolean isBlocking;
     public boolean renderBlocking;
     public boolean blinked;
-    public boolean lag;
+    public int blinkTicks;
     public float[] prevRotation;
     public Vec3 prevVec;
     public Vec3 currentVec;
@@ -188,6 +189,7 @@ public class KillAura extends Module {
         switchTimer.reset();
         prevRotation = rotation = null;
         prevVec = currentVec = targetVec = null;
+        blinkTicks = 0;
         Iterator<Map.Entry<EntityPlayer, DecelerateAnimation>> iterator = getModule(Interface.class).animationEntityPlayerMap.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<EntityPlayer, DecelerateAnimation> entry = iterator.next();
@@ -260,12 +262,12 @@ public class KillAura extends Module {
             prevRotation = rotation = null;
             prevVec = currentVec = targetVec = null;
             unblock();
-            lag = false;
             if (blinked) {
                 BlinkComponent.dispatch();
                 blinked = false;
             }
             clicks = 0;
+            blinkTicks = 0;
             return;
         }
 
@@ -335,7 +337,7 @@ public class KillAura extends Module {
 
     @EventTarget
     public void onStrafe(StrafeEvent event) {
-        if (auto.get() && target != null && shouldAttack() && target.hurtTime < 6 && !mc.gameSettings.keyBindJump.isKeyDown() && !checks() && mc.thePlayer.onGround && (sprintCheck.get() && MovementUtils.canSprint(true) || !sprintCheck.get())) {
+        if (auto.canDisplay() && auto.get() && target != null && shouldAttack() && target.hurtTime < 6 && !mc.gameSettings.keyBindJump.isKeyDown() && !checks() && mc.thePlayer.onGround && (sprintCheck.get() && MovementUtils.canSprint(true) || !sprintCheck.get())) {
             mc.thePlayer.jump();
             if (mc.thePlayer.offGroundTicks >= 4)
                 autoHitSelect = true;
@@ -410,19 +412,21 @@ public class KillAura extends Module {
     private boolean preTickBlock() {
         switch (autoBlock.get()) {
             case "Watchdog":
-                switch (mc.thePlayer.ticksExisted % 3) {
-                    case 0:
+                if (blinkTicks >= 3) {
+                    blinkTicks = 0;
+                }
+                blinkTicks++;
+                switch (blinkTicks) {
+                    case 1:
                         unblock();
                         return true;
-                    case 1:
-                        return false;
                     case 2:
-                        block(false);
+                        block(true);
                         if (!BlinkComponent.blinking)
                             BlinkComponent.blinking = true;
                         BlinkComponent.release(true);
                         blinked = true;
-                        return true;
+                        return false;
                 }
                 break;
         }
@@ -430,7 +434,6 @@ public class KillAura extends Module {
     }
 
     private boolean preAttack() {
-
         switch (autoBlock.get()) {
             case "Release":
                 if (clicks + 1 == maxClicks) {
@@ -503,8 +506,8 @@ public class KillAura extends Module {
     public void unblock() {
         if (isBlocking) {
             if (mode.is("HYT")) {
-                sendPacketNoEvent(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem % 8 + 1));
-                sendPacketNoEvent(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+                sendPacket(new C09PacketHeldItemChange((mc.thePlayer.inventory.currentItem + 1) % 8));
+                sendPacket(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
             } else {
                 sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
             }

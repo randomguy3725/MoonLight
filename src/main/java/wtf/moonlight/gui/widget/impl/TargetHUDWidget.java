@@ -293,13 +293,13 @@ class TargetHUD implements InstanceAccess {
                 String healthDiff = mc.thePlayer.getHealth() < target.getHealth() ? "-" + sheesh : "+" + sheesh;
 
                 if (!shader) {
-                    RenderUtils.drawRect(x, y, width, height, new Color(0, 0, 0, 100).getRGB());
+                    RenderUtils.drawRect(x, y, width, height, new Color(0, 0, 0, 150).getRGB());
                     RenderUtils.drawRect(healthX, y + height - 5, width - padding * 2, 4, ColorUtils.darker(setting.color(0), 0.3f));
                     RenderUtils.drawRect(healthX, y + height - 5, target.healthAnimation.getOutput(), 4, setting.color(0));
                     RenderUtils.renderPlayer2D(target, x + padding, y + padding, 28 - padding, 0, -1);
 
-                    Fonts.interRegular.get(15).drawString(target.getName(), x + padding + 30, y + 3 + padding, -1);
-                    Fonts.interRegular.get(15).drawString(healthDiff, x + width - padding - Fonts.interRegular.get(15).getStringWidth(healthDiff), y + height - 5 * 2 - padding, -1);
+                    Fonts.interRegular.get(15).drawStringWithShadow(target.getName(), x + padding + 30, y + 3 + padding, -1);
+                    Fonts.interRegular.get(15).drawStringWithShadow(healthDiff, x + width - padding - Fonts.interRegular.get(15).getStringWidth(healthDiff), y + height - 5 * 2 - padding, -1);
 
                     List<ItemStack> items = new ArrayList<>();
                     if (target.getHeldItem() != null) {

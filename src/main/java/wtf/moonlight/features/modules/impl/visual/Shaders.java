@@ -54,7 +54,6 @@ public class Shaders extends Module {
             stencilFramebuffer.framebufferClear();
             stencilFramebuffer.bindFramebuffer(false);
             INSTANCE.getEventManager().call(new Shader2DEvent(Shader2DEvent.ShaderType.GLOW));
-            stuffToBlur();
             stencilFramebuffer.unbindFramebuffer();
 
             Bloom.renderBlur(stencilFramebuffer.framebufferTexture, (int) glowRadius.get(), (int) glowOffset.get());
@@ -65,7 +64,6 @@ public class Shaders extends Module {
             stencilFramebuffer.framebufferClear();
             stencilFramebuffer.bindFramebuffer(true);
             INSTANCE.getEventManager().call(new Shader2DEvent(Shader2DEvent.ShaderType.SHADOW));
-            stuffToBlur();
             stencilFramebuffer.unbindFramebuffer();
 
             Shadow.renderBloom(stencilFramebuffer.framebufferTexture, (int) shadowRadius.get(), (int) shadowOffset.get());
@@ -79,7 +77,6 @@ public class Shaders extends Module {
             stencilFramebuffer.framebufferClear();
             stencilFramebuffer.bindFramebuffer(false);
             INSTANCE.getEventManager().call(new Shader3DEvent(Shader3DEvent.ShaderType.GLOW));
-            stuffToBlur();
             stencilFramebuffer.unbindFramebuffer();
 
             Bloom.renderBlur(stencilFramebuffer.framebufferTexture, (int) glowRadius.get(), (int) glowOffset.get());
@@ -96,16 +93,9 @@ public class Shaders extends Module {
             stencilFramebuffer.framebufferClear();
             stencilFramebuffer.bindFramebuffer(true);
             INSTANCE.getEventManager().call(new Shader3DEvent(Shader3DEvent.ShaderType.SHADOW));
-            stuffToBlur();
             stencilFramebuffer.unbindFramebuffer();
 
             Shadow.renderBloom(stencilFramebuffer.framebufferTexture, (int) shadowRadius.get(), (int) shadowOffset.get());
-        }
-    }
-
-    public void stuffToBlur() {
-        if (Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).isEnabled() && Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).elements.isEnabled("Notification")) {
-            Moonlight.INSTANCE.getNotificationManager().publish(new ScaledResolution(mc),false);
         }
     }
 }

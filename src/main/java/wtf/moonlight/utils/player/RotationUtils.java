@@ -13,7 +13,6 @@ package wtf.moonlight.utils.player;
 import com.google.common.base.Predicates;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C03PacketPlayer;
@@ -40,7 +39,6 @@ public class RotationUtils implements InstanceAccess {
     public static MovementCorrection currentCorrection = MovementCorrection.OFF;
     private static boolean enabled;
     private static boolean smoothlyReset;
-    public static boolean fixSprint = false;
     public static float cachedHSpeed;
     public static float cachedVSpeed;
     public static float cachedMaxHAcceleration;
@@ -99,9 +97,6 @@ public class RotationUtils implements InstanceAccess {
     @EventTarget
     private void onMove(MoveInputEvent event) {
         if (currentCorrection == MovementCorrection.SILENT) {
-            /*
-             * Calculating movement fix
-             */
             final float yaw = currentRotation[0];
             MovementUtils.fixMovement(event, yaw);
         }
@@ -175,6 +170,7 @@ public class RotationUtils implements InstanceAccess {
         if(shouldRotate() && INSTANCE.getModuleManager().getModule(Rotation.class).fixAim.get())
             event.rotation = currentRotation;
     }
+
     private static void resetRotation() {
         enabled = false;
         RotationUtils.currentRotation = null;

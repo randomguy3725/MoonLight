@@ -41,7 +41,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class InventoryUtils implements InstanceAccess {
     public static final int INCLUDE_ARMOR_BEGIN = 5;
-    private static final int EXCLUDE_ARMOR_BEGIN = 9;
+    public static final int EXCLUDE_ARMOR_BEGIN = 9;
     public static final int ONLY_HOT_BAR_BEGIN = 36;
     public static final int END = 45;
 

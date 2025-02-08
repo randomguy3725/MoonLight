@@ -43,7 +43,6 @@ import wtf.moonlight.utils.render.RenderUtils;
 import wtf.moonlight.utils.render.RoundedUtils;
 
 import java.awt.*;
-import java.text.DecimalFormat;
 
 @ModuleInfo(name = "BedNuker", category = ModuleCategory.Player)
 public class BedNuker extends Module {
@@ -57,18 +56,17 @@ public class BedNuker extends Module {
     public final BoolValue whitelistOwnBed = new BoolValue("Whitelist Own Bed", true, this);
     public BlockPos bedPos;
     public boolean rotate = false;
-    private int breakTicks;
+    private float breakProgress;
     private int delayTicks;
     private Vec3 home;
     public ContinualAnimation barAnim = new ContinualAnimation();
-    public ContinualAnimation textAnim = new ContinualAnimation();
 
     @Override
     public void onEnable() {
         rotate = false;
         bedPos = null;
 
-        breakTicks = 0;
+        breakProgress = 0;
         super.onEnable();
     }
 
@@ -115,7 +113,7 @@ public class BedNuker extends Module {
         if (progressText.get() && bedPos != null) {
             RenderUtils.renderBlock(bedPos, getModule(Interface.class).color(), true, true);
 
-            if (breakTicks == 0.0f)
+            if (breakProgress == 0.0f)
                 return;
 
             final double n = bedPos.getX() + 0.5 - mc.getRenderManager().viewerPosX;
@@ -128,7 +126,7 @@ public class BedNuker extends Module {
             GlStateManager.scale(-0.02266667f, -0.02266667f, -0.02266667f);
             GlStateManager.depthMask(false);
             GlStateManager.disableDepth();
-            String progressStr = (int) (100.0 * (Math.min(1.0, (double) breakTicks / 10))) + "%";
+            String progressStr = (int) (100.0 * (this.breakProgress / 1.0)) + "%";
             mc.fontRendererObj.drawString(progressStr, (float) (-mc.fontRendererObj.getStringWidth(progressStr) / 2), -3.0f, -1, true);
             GlStateManager.enableDepth();
             GlStateManager.depthMask(true);
@@ -141,7 +139,7 @@ public class BedNuker extends Module {
     public void onRender2D(Render2DEvent event) {
         if (progressBar.get() && bedPos != null) {
 
-            if (breakTicks == 0.0f)
+            if (breakProgress == 0.0f)
                 return;
 
             final ScaledResolution resolution = event.getScaledResolution();
@@ -149,18 +147,17 @@ public class BedNuker extends Module {
             final int y = resolution.getScaledHeight() - 70;
             final float thickness = 6;
 
-            float percentage = Math.min(breakTicks, 10f) / 10f;
-
             final int width = resolution.getScaledWidth() / 4;
             final int half = width / 2;
-            barAnim.animate(width * percentage, 40);
-            textAnim.animate(percentage * 100f,10);
+            barAnim.animate(width * (breakProgress), 40);
 
             RoundedUtils.drawRound(x - half, y, width, thickness, thickness / 2, new Color(getModule(Interface.class).bgColor(),true));
 
             RoundedUtils.drawGradientHorizontal(x - half, y, barAnim.getOutput(), thickness, thickness / 2, new Color(getModule(Interface.class).color(0)), new Color(getModule(Interface.class).color(90)));
 
-            Fonts.interRegular.get(12).drawCenteredStringWithShadow(new DecimalFormat("0.0").format(textAnim.getOutput()) + "%", x, y + 1, -1);
+            String progressStr = (int) (100.0 * (this.breakProgress / 1.0)) + "%";
+
+            Fonts.interRegular.get(12).drawCenteredStringWithShadow(progressStr, x, y + 1, -1);
         }
     }
 
@@ -201,24 +198,20 @@ public class BedNuker extends Module {
             return;
         }
 
-        float totalBreakTicks = getBreakTicks(bedPos, autoTool.get() && autoToolOnPacket.get() && PlayerUtils.findTool(bedPos) != -1 ? PlayerUtils.findTool(bedPos) : mc.thePlayer.inventory.currentItem);
-        if (breakTicks == 0) {
+        if (breakProgress == 0) {
             rotate = true;
             if (autoTool.get() && autoToolOnPacket.get()) {
                 doAutoTool(blockPos);
             }
             mc.thePlayer.swingItem();
             sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, bedPos, EnumFacing.UP));
-        } else if (breakTicks >= totalBreakTicks) {
+        } else if (breakProgress >= 1) {
             rotate = true;
             if (autoTool.get() && autoToolOnPacket.get()) {
                 doAutoTool(blockPos);
             }
             mc.thePlayer.swingItem();
             sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, bedPos, EnumFacing.UP));
-
-            //test
-            mc.theWorld.sendBlockBreakProgress(mc.thePlayer.getEntityId(),blockPos, 1);
 
             reset(false);
             return;
@@ -238,10 +231,13 @@ public class BedNuker extends Module {
             mc.thePlayer.swingItem();
         }
 
-        breakTicks += 1;
+        if(doAutoTool(bedPos) != 1 && !(PlayerUtils.getBlock(bedPos) instanceof BlockBed) && (autoTool.get() || autoToolOnPacket.get())) {
+            breakProgress += mc.theWorld.getBlockState(bedPos).getBlock().getPlayerRelativeBlockHardness(mc.thePlayer.inventory.getStackInSlot(doAutoTool(bedPos)), mc.thePlayer, mc.theWorld, bedPos);
+        } else {
+            breakProgress += mc.theWorld.getBlockState(bedPos).getBlock().getPlayerRelativeBlockHardness(mc.thePlayer, mc.theWorld, bedPos);
+        }
 
-        int currentProgress = (int) (((double) breakTicks / totalBreakTicks) * 100);
-        mc.theWorld.sendBlockBreakProgress(mc.thePlayer.getEntityId(), bedPos, currentProgress / 10);
+        mc.theWorld.sendBlockBreakProgress(mc.thePlayer.getEntityId(), bedPos, (int) (breakProgress * 10));
     }
 
     private void reset(boolean resetRotate) {
@@ -251,19 +247,16 @@ public class BedNuker extends Module {
             sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK,bedPos,EnumFacing.DOWN));
         }
 
-        breakTicks = 0;
+        breakProgress = 0;
         delayTicks = 5;
         bedPos = null;
         rotate = !resetRotate;
     }
-    private void doAutoTool(BlockPos pos) {
-        if(PlayerUtils.findTool(pos) != -1)
+    private int doAutoTool(BlockPos pos) {
+        if(PlayerUtils.findTool(pos) != -1) {
             mc.thePlayer.inventory.currentItem = PlayerUtils.findTool(pos);
-    }
-
-    public static boolean isBed(BlockPos blockPos) {
-        Block block = mc.theWorld.getBlockState(blockPos).getBlock();
-        return block instanceof BlockBed;
+            return PlayerUtils.findTool(pos);
+        } else return -1;
     }
 
     private boolean isBedCovered(BlockPos headBlockBedPos) {
@@ -324,14 +317,4 @@ public class BedNuker extends Module {
         return EnumFacing.UP;
     }
 
-    private float getBreakTicks(BlockPos bp, int tool) {
-        int oldHeld = mc.thePlayer.inventory.currentItem;
-
-        mc.thePlayer.inventory.currentItem = tool;
-        IBlockState bs = mc.theWorld.getBlockState(bp);
-        float ticks = 1f / bs.getBlock().getPlayerRelativeBlockHardness(mc.thePlayer, mc.theWorld, bp);
-
-        mc.thePlayer.inventory.currentItem = oldHeld;
-        return ticks;
-    }
 }

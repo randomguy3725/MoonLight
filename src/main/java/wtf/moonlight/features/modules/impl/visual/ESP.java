@@ -19,6 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import wtf.moonlight.events.annotations.EventTarget;
+import wtf.moonlight.events.impl.misc.WorldEvent;
 import wtf.moonlight.events.impl.render.Render2DEvent;
 import wtf.moonlight.events.impl.render.Render3DEvent;
 import wtf.moonlight.events.impl.render.RenderNameTagEvent;
