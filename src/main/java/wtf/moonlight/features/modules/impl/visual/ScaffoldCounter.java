@@ -87,9 +87,10 @@ public class ScaffoldCounter implements InstanceAccess {
                 mc.fontRendererObj.drawString(String.valueOf(scaffold.getBlockCount()), scaledResolution.getScaledWidth() / 2 - (mc.fontRendererObj.getStringWidth(String.valueOf(scaffold.getBlockCount())) / 2), scaledResolution.getScaledHeight() / 2 - 36, c, false);
                 break;
             }
-            case "raven":
+            case "adjust":
                 if (!scaffold.isEnabled()) return;
-                mc.fontRendererObj.drawString(scaffold.getBlockCount() + " blocks", sr.getScaledWidth() / 1.96f, sr.getScaledHeight() / 2f + 10, new Color(255,255,255).getRGB(), true);
+                Fonts.interRegular.get(16).drawStringWithShadow(" blocks", sr.getScaledWidth() / 2.08f + Fonts.Tahoma.get(16).getStringWidth(scaffold.getBlockCount() + ""), sr.getScaledHeight() / 2f + 22, new Color(255,255,255).getRGB());
+                Fonts.Tahoma.get(16).drawStringWithShadow(scaffold.getBlockCount() + " ", sr.getScaledWidth() / 2.085f, sr.getScaledHeight() / 2f + 22, new Color(Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).color()).getRGB());
                 break;
             case "simple": {
                 if (!scaffold.isEnabled()) return;
