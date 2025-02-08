@@ -98,7 +98,7 @@ public class InvManager extends Module {
 
     @EventTarget
     public void onUpdate(UpdateEvent event) {
-        setTag(String.valueOf(MathUtils.nextInt((int) minDelay.get(), (int) maxDelay.get())));
+            setTag(String.valueOf(maxDelay.get()));
         final long delay = (MathUtils.nextInt((int) minDelay.get(), (int) maxDelay.get()) * 50L);
         if ((this.clientOpen || (mc.currentScreen == null && !Objects.equals(this.mode.get(), "Open Inventory"))) && !isEnabled(Scaffold.class) &&
                 (lobbyCheck.get() &&
