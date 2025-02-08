@@ -67,5 +67,5 @@ jobs:
           prerelease: true
           title: "Latest Build"
           files: |
-            ./build/libs/Moonlight-1.8.9-all.jar
-            ./json/MoonLight.json
+            ${{ env.JAR_NAME }}
+            ${{ env.JSON_NAME }}
