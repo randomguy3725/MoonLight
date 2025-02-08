@@ -10,7 +10,6 @@
  */
 package wtf.moonlight.features.modules.impl.visual;
 
-import lombok.val;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -98,7 +97,6 @@ public class Interface extends Module {
     public final ModeValue fontMode = new ModeValue("C Fonts Mode", new String[]{"Bold","Semi Bold","Medium","Regular","Tahoma","Astolfo"}, "Semi Bold", this,() -> cFont.canDisplay() && cFont.get());
     public final SliderValue fontSize = new SliderValue("Font Size",15,10,25,this,cFont::get);
     public final ModeValue watemarkMode = new ModeValue("Watermark Mode", new String[]{"Text","Styles","Nursultan","Exhi","Exhi 2","Type 1","NeverLose"}, "Text", this,() -> elements.isEnabled("Watermark"));
-    public final BoolValue allowRepeat = new BoolValue("Allow Repeat",true,this,() -> elements.isEnabled("Island"));
     public final ModeValue animation = new ModeValue("Animation", new String[]{"ScaleIn", "MoveIn","Slide In"}, "ScaleIn", this, () -> elements.isEnabled("Module List"));
     public final ModeValue arrayPosition = new ModeValue("Position", new String[]{"Right","Left"}, "Right", this, () -> elements.isEnabled("Module List"));
     public final SliderValue x = new SliderValue("Module List X", 0, -50, 50, this, () -> elements.isEnabled("Module List"));
@@ -415,27 +413,27 @@ public class Interface extends Module {
                         RenderUtils.drawRect((float) (translate.getX() + moduleWidth), (float) translate.getY(), 1, bottom,  color(count));
                     }
 
-                    if (!line.is("None")) {
+                    /*if (!line.is("None")) {
                         if (outLine.get()) {
                             if (arrayPosition.is("Right")) {
                                 if (lastModuleWidth - moduleWidth > 0) {
-                                    RenderUtils.drawRect(lastModuleLeftSide, y, lastModuleWidth - moduleWidth, 1, color(count));
+                                    RenderUtils.drawRect(lastModuleLeftSide, y, lastModuleWidth - moduleWidth, 1.5f, color(count));
                                 }
 
                                 if (i == size - 1) {
-                                    RenderUtils.drawRect(lastModuleLeftSide, y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth, 1, color(count));
+                                    RenderUtils.drawRect(lastModuleLeftSide, y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth, 1.5f, color(count));
                                 }
                             } else {
                                 if (lastModuleWidth - moduleWidth > 0) {
-                                    RenderUtils.drawRect((float) (translate.getX() + lastModuleWidth), y, moduleWidth - lastModuleWidth, 1, color(count));
+                                    RenderUtils.drawRect((float) (translate.getX() + lastModuleWidth), y, moduleWidth - lastModuleWidth, 1.5f, color(count));
                                 }
 
                                 if (i == size - 1) {
-                                    RenderUtils.drawRect((float) (translate.getX() + lastModuleWidth), y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth - lastModuleWidth, 1, color(count));
+                                    RenderUtils.drawRect((float) (translate.getX() + lastModuleWidth), y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth - lastModuleWidth, 1.5f, color(count));
                                 }
                             }
                         }
-                    }
+                    }*/
 
                     if (cFont.get()) {
                         getFr().drawStringWithShadow(module.getName() + module.getTag(), (float) translate.getX() - 1, (float) translate.getY() + 2f, color(count));
@@ -492,19 +490,19 @@ public class Interface extends Module {
                         if (outLine.get()) {
                             if (arrayPosition.is("Right")) {
                                 if (lastModuleWidth - moduleWidth > 0) {
-                                    RenderUtils.drawRect(lastModuleLeftSide, y, lastModuleWidth - moduleWidth, 1, color(count));
+                                    RenderUtils.drawRect(lastModuleLeftSide, y, lastModuleWidth - moduleWidth, 1.5f, color(count));
                                 }
 
                                 if (i == size - 1) {
-                                    RenderUtils.drawRect(lastModuleLeftSide, y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth, 1, color(count));
+                                    RenderUtils.drawRect(lastModuleLeftSide, y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth, 1.5f, color(count));
                                 }
                             } else {
                                 if (lastModuleWidth - moduleWidth > 0) {
-                                    RenderUtils.drawRect(x + lastModuleWidth, y, moduleWidth - lastModuleWidth, 1, color(count));
+                                    RenderUtils.drawRect(x + lastModuleWidth, y, moduleWidth - lastModuleWidth, 1.5f, color(count));
                                 }
 
                                 if (i == size - 1) {
-                                    RenderUtils.drawRect(x + lastModuleWidth, y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth - lastModuleWidth, 1, color(count));
+                                    RenderUtils.drawRect(x + lastModuleWidth, y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth - lastModuleWidth, 1.5f, color(count));
                                 }
                             }
                         }
@@ -758,27 +756,27 @@ public class Interface extends Module {
                             RenderUtils.drawRect((float) (translate.getX() + moduleWidth), (float) translate.getY(), 1, bottom, color(count));
                         }
 
-                        if (!line.is("None")) {
+                        /*if (!line.is("None")) {
                             if (outLine.get()) {
                                 if (arrayPosition.is("Right")) {
                                     if (lastModuleWidth - moduleWidth > 0) {
-                                        RenderUtils.drawRect(lastModuleLeftSide, y, lastModuleWidth - moduleWidth, 1, color(count));
+                                        RenderUtils.drawRect(lastModuleLeftSide, y, lastModuleWidth - moduleWidth, 1.5f, color(count));
                                     }
 
                                     if (i == size - 1) {
-                                        RenderUtils.drawRect(lastModuleLeftSide, y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth, 1, color(count));
+                                        RenderUtils.drawRect(lastModuleLeftSide, y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth, 1.5f, color(count));
                                     }
                                 } else {
                                     if (lastModuleWidth - moduleWidth > 0) {
-                                        RenderUtils.drawRect((float) (translate.getX() + lastModuleWidth), y, moduleWidth - lastModuleWidth, 1, color(count));
+                                        RenderUtils.drawRect((float) (translate.getX() + lastModuleWidth), y, moduleWidth - lastModuleWidth, 1.5f, color(count));
                                     }
 
                                     if (i == size - 1) {
-                                        RenderUtils.drawRect((float) (translate.getX() + lastModuleWidth), y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth - lastModuleWidth, 1, color(count));
+                                        RenderUtils.drawRect((float) (translate.getX() + lastModuleWidth), y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth - lastModuleWidth, 1.5f, color(count));
                                     }
                                 }
                             }
-                        }
+                        }*/
 
                         if (cFont.get()) {
                             getFr().drawStringWithShadow(module.getName() + module.getTag(), (float) translate.getX() - 1, (float) translate.getY() + 2f, color(count));
@@ -840,19 +838,19 @@ public class Interface extends Module {
                             if (outLine.get()) {
                                 if (arrayPosition.is("Right")) {
                                     if (lastModuleWidth - moduleWidth > 0) {
-                                        RenderUtils.drawRect(lastModuleLeftSide, y, lastModuleWidth - moduleWidth, 1, color(count));
+                                        RenderUtils.drawRect(lastModuleLeftSide, y, lastModuleWidth - moduleWidth, 1.5f, color(count));
                                     }
 
                                     if (i == size - 1) {
-                                        RenderUtils.drawRect(lastModuleLeftSide, y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth, 1, color(count));
+                                        RenderUtils.drawRect(lastModuleLeftSide, y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth, 1.5f, color(count));
                                     }
                                 } else {
                                     if (lastModuleWidth - moduleWidth > 0) {
-                                        RenderUtils.drawRect(x + lastModuleWidth, y, moduleWidth - lastModuleWidth, 1, color(count));
+                                        RenderUtils.drawRect(x + lastModuleWidth, y, moduleWidth - lastModuleWidth, 1.5f, color(count));
                                     }
 
                                     if (i == size - 1) {
-                                        RenderUtils.drawRect(x + lastModuleWidth, y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth - lastModuleWidth, 1, color(count));
+                                        RenderUtils.drawRect(x + lastModuleWidth, y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth - lastModuleWidth, 1.5f, color(count));
                                     }
                                 }
                             }
