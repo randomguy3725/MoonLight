@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.concurrent.Callable;
 
 public class NBTTagCompound extends NBTBase
 {

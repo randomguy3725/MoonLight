@@ -2,7 +2,7 @@ package net.minecraft.entity.monster;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
-import java.util.Collections;
+
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -59,7 +59,7 @@ public class EntityEnderman extends EntityMob
         this.tasks.addTask(11, new EntityEnderman.AITakeBlock(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
         this.targetTasks.addTask(2, new EntityEnderman.AIFindPlayer(this));
-        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget<>(this, EntityEndermite.class, 10, true, false, (Predicate<EntityEndermite>) p_apply_1_ -> p_apply_1_.isSpawnedByPlayer()));
+        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget<>(this, EntityEndermite.class, 10, true, false, (Predicate<EntityEndermite>) EntityEndermite::isSpawnedByPlayer));
     }
 
     protected void applyEntityAttributes()

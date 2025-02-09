@@ -1,6 +1,5 @@
 package net.minecraft.command.server;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import java.util.List;

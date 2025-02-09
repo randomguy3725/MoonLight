@@ -3,7 +3,7 @@ package net.minecraft.command.server;
 import io.netty.buffer.ByteBuf;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.Callable;
+
 import net.minecraft.command.CommandResultStats;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ICommandSender;
@@ -113,8 +113,8 @@ public abstract class CommandBlockLogic implements ICommandSender
             {
                 CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Executing command block");
                 CrashReportCategory crashreportcategory = crashreport.makeCategory("Command to be executed");
-                crashreportcategory.addCrashSectionCallable("Command", () -> CommandBlockLogic.this.getCommand());
-                crashreportcategory.addCrashSectionCallable("Name", () -> CommandBlockLogic.this.getName());
+                crashreportcategory.addCrashSectionCallable("Command", CommandBlockLogic.this::getCommand);
+                crashreportcategory.addCrashSectionCallable("Name", CommandBlockLogic.this::getName);
                 throw new ReportedException(crashreport);
             }
         }

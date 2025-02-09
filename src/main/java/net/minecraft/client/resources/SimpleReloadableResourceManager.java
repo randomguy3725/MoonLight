@@ -1,6 +1,5 @@
 package net.minecraft.client.resources;
 
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -89,7 +88,7 @@ public class SimpleReloadableResourceManager implements IReloadableResourceManag
     public void reloadResources(List<IResourcePack> resourcesPacksList)
     {
         this.clearResources();
-        logger.info("Reloading ResourceManager: " + joinerResourcePacks.join(Iterables.transform(resourcesPacksList, p_apply_1_ -> p_apply_1_.getPackName())));
+        logger.info("Reloading ResourceManager: " + joinerResourcePacks.join(Iterables.transform(resourcesPacksList, IResourcePack::getPackName)));
 
         for (IResourcePack iresourcepack : resourcesPacksList)
         {

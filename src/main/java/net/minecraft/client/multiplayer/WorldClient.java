@@ -35,7 +35,6 @@ import net.optifine.reflect.Reflector;
 
 import java.util.Random;
 import java.util.Set;
-import java.util.concurrent.Callable;
 
 public class WorldClient extends World
 {

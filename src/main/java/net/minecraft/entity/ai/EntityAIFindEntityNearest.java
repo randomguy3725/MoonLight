@@ -1,7 +1,7 @@
 package net.minecraft.entity.ai;
 
 import com.google.common.base.Predicate;
-import java.util.Collections;
+
 import java.util.List;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;

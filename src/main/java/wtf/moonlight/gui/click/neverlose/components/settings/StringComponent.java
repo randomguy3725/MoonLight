@@ -29,7 +29,7 @@ import java.util.List;
 import static wtf.moonlight.gui.click.neverlose.NeverLose.*;
 
 public class StringComponent extends Component {
-    private TextValue setting;
+    private final TextValue setting;
     private final Animation input = new DecelerateAnimation(250, 1);
     private boolean inputting;
     private String text = "";

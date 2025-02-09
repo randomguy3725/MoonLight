@@ -291,7 +291,7 @@ public class ShaderUtils implements InstanceAccess {
                 gl_FragColor = vec4(color.rgb, smoothedAlpha);// mix(quadColor, shadowColor, 0.0);
             
             }""";
-    private String kawaseUpBloom = """
+    private final String kawaseUpBloom = """
             #version 120
             
             uniform sampler2D inTexture, textureToCheck;
@@ -329,7 +329,7 @@ public class ShaderUtils implements InstanceAccess {
                 gl_FragColor = vec4(result.rgb / result.a, mix(result.a, result.a * (1.0 - texture2D(textureToCheck, gl_TexCoord[0].st).a),check));
             }""";
 
-    private String kawaseDownBloom = """
+    private final String kawaseDownBloom = """
             #version 120
             
             uniform sampler2D inTexture;

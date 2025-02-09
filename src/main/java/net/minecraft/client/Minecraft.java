@@ -138,7 +138,6 @@ import net.minecraft.profiler.Profiler;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.stats.AchievementList;
-import net.minecraft.stats.IStatStringFormat;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
@@ -2425,9 +2424,9 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     public CrashReport addGraphicsAndWorldToCrashReport(CrashReport theCrash)
     {
         theCrash.getCategory().addCrashSectionCallable("Launched Version", () -> Minecraft.this.launchedVersion);
-        theCrash.getCategory().addCrashSectionCallable("LWJGL", () -> Sys.getVersion());
+        theCrash.getCategory().addCrashSectionCallable("LWJGL", Sys::getVersion);
         theCrash.getCategory().addCrashSectionCallable("OpenGL", () -> GL11.glGetString(GL11.GL_RENDERER) + " GL version " + GL11.glGetString(GL11.GL_VERSION) + ", " + GL11.glGetString(GL11.GL_VENDOR));
-        theCrash.getCategory().addCrashSectionCallable("GL Caps", () -> OpenGlHelper.getLogText());
+        theCrash.getCategory().addCrashSectionCallable("GL Caps", OpenGlHelper::getLogText);
         theCrash.getCategory().addCrashSectionCallable("Using VBOs", () -> Minecraft.this.gameSettings.useVbo ? "Yes" : "No");
         theCrash.getCategory().addCrashSectionCallable("Is Modded", () -> {
             String s = ClientBrandRetriever.getClientModName();
@@ -2453,7 +2452,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         });
         theCrash.getCategory().addCrashSectionCallable("Current Language", () -> Minecraft.this.mcLanguageManager.getCurrentLanguage().toString());
         theCrash.getCategory().addCrashSectionCallable("Profiler Position", () -> Minecraft.this.mcProfiler.profilingEnabled ? Minecraft.this.mcProfiler.getNameOfLastSection() : "N/A (disabled)");
-        theCrash.getCategory().addCrashSectionCallable("CPU", () -> OpenGlHelper.getCpu());
+        theCrash.getCategory().addCrashSectionCallable("CPU", OpenGlHelper::getCpu);
 
         if (this.theWorld != null)
         {
@@ -2470,7 +2469,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
     public ListenableFuture<Object> scheduleResourcesRefresh()
     {
-        return this.addScheduledTask(() -> Minecraft.this.refreshResources());
+        return this.addScheduledTask(Minecraft.this::refreshResources);
     }
 
     public void addServerStatsToSnooper(PlayerUsageSnooper playerSnooper)

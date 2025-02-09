@@ -1,6 +1,5 @@
 package net.minecraft.entity.player;
 
-import java.util.concurrent.Callable;
 import net.minecraft.block.Block;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
@@ -395,7 +394,7 @@ public class InventoryPlayer implements IInventory
                 CrashReportCategory crashreportcategory = crashreport.makeCategory("Item being added");
                 crashreportcategory.addCrashSection("Item ID", Integer.valueOf(Item.getIdFromItem(itemStackIn.getItem())));
                 crashreportcategory.addCrashSection("Item data", Integer.valueOf(itemStackIn.getMetadata()));
-                crashreportcategory.addCrashSectionCallable("Item name", () -> itemStackIn.getDisplayName());
+                crashreportcategory.addCrashSectionCallable("Item name", itemStackIn::getDisplayName);
                 throw new ReportedException(crashreport);
             }
         }

@@ -5,13 +5,12 @@ import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Floats;
 import com.google.common.util.concurrent.Futures;
 import io.netty.buffer.Unpooled;
-import io.netty.util.concurrent.Future;
-import io.netty.util.concurrent.GenericFutureListener;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Callable;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.crash.CrashReport;
@@ -165,7 +164,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable
         final ChatComponentText chatcomponenttext = new ChatComponentText(reason);
         this.netManager.sendPacket(new S40PacketDisconnect(chatcomponenttext), p_operationComplete_1_ -> NetHandlerPlayServer.this.netManager.closeChannel(chatcomponenttext));
         this.netManager.disableAutoRead();
-        Futures.getUnchecked(this.serverController.addScheduledTask(() -> NetHandlerPlayServer.this.netManager.checkDisconnected()));
+        Futures.getUnchecked(this.serverController.addScheduledTask(NetHandlerPlayServer.this.netManager::checkDisconnected));
     }
 
     public void processInput(C0CPacketInput packetIn)
