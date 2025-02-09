@@ -21,8 +21,7 @@ import java.util.Map;
 public class NoWeb extends Module {
 
     private final ModeValue mode = new ModeValue("Mode", new String[]{"Vanilla", "GrimAC", "Intave"}, "Vanilla",this);
-    public final BoolValue upAndDown = new BoolValue("Up And Down",true,this,() -> mode.is("Intave"));
-    public final BoolValue jump = new BoolValue("Jump",true,this,() -> mode.is("Intave"));
+    public final BoolValue upAndDown = new BoolValue("Up And Down",true,this,() -> mode.is("Intave") && noDown.get());
     public final BoolValue noDown = new BoolValue("No Down",true,this,() -> mode.is("Intave"));
 
     @EventTarget
@@ -50,10 +49,7 @@ public class NoWeb extends Module {
                 searchBlock = PlayerUtils.searchBlocks(2);
                 for (Map.Entry<BlockPos, Block> block : searchBlock.entrySet()) {
                     if (mc.theWorld.getBlockState(block.getKey()).getBlock() instanceof BlockWeb) {
-                        if (jump.get())
-                            if (mc.thePlayer.onGround) {
-                                mc.thePlayer.jump();
-                        } else if (noDown.get()) {
+                        if (noDown.get()) {
                             if (upAndDown.get())
                                 if (mc.gameSettings.keyBindSneak.isKeyDown())
                                     mc.thePlayer.motionY = -0.2;
