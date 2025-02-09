@@ -31,6 +31,7 @@ import wtf.moonlight.features.values.impl.SliderValue;
 import wtf.moonlight.utils.packet.PacketUtils;
 import wtf.moonlight.utils.player.MovementUtils;
 import wtf.moonlight.utils.player.PlayerUtils;
+import wtf.moonlight.utils.player.RotationUtils;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -225,7 +226,7 @@ public class Velocity extends Module {
                     idk++;
                 }
                 if (idk == reverseTick.get()) {
-                    MovementUtils.strafe(MovementUtils.getSpeed() * reverseStrength.get());
+                    MovementUtils.strafe(MovementUtils.getSpeed() * reverseStrength.get(), RotationUtils.currentRotation != null ? RotationUtils.currentRotation[0] : MovementUtils.getDirection());
                     veloPacket = false;
                     idk = 0;
                 }
