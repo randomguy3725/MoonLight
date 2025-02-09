@@ -1,8 +1,11 @@
 package net.minecraft.command;
 
 import com.google.common.collect.Lists;
-import java.util.LinkedList;
+
+import java.util.Deque;
 import java.util.List;
+
+import com.google.common.collect.Queues;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -101,7 +104,7 @@ public class CommandClone extends CommandBase
                             List<CommandClone.StaticCloneData> list = Lists.newArrayList();
                             List<CommandClone.StaticCloneData> list1 = Lists.newArrayList();
                             List<CommandClone.StaticCloneData> list2 = Lists.newArrayList();
-                            LinkedList<BlockPos> linkedlist = Lists.newLinkedList();
+                            Deque<BlockPos> linkedlist = Queues.newArrayDeque();
                             BlockPos blockpos3 = new BlockPos(structureboundingbox1.minX - structureboundingbox.minX, structureboundingbox1.minY - structureboundingbox.minY, structureboundingbox1.minZ - structureboundingbox.minZ);
 
                             for (int k = structureboundingbox.minZ; k <= structureboundingbox.maxZ; ++k)

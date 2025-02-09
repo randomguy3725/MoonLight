@@ -283,7 +283,7 @@ public class NbtTagValue
 
     public String toString()
     {
-        StringBuffer stringbuffer = new StringBuffer();
+        StringBuilder stringbuffer = new StringBuilder();
 
         for (int i = 0; i < this.parents.length; ++i)
         {

@@ -343,7 +343,7 @@ public class CustomItems
             }
             else
             {
-                StringBuffer stringbuffer = new StringBuffer();
+                StringBuilder stringbuffer = new StringBuilder();
 
                 for (int i = 0; i < aint.length; ++i)
                 {
@@ -634,7 +634,7 @@ public class CustomItems
             else
             {
                 String s = itemarmor.getArmorMaterial().getName();
-                StringBuffer stringbuffer = new StringBuffer();
+                StringBuilder stringbuffer = new StringBuilder();
                 stringbuffer.append("texture.");
                 stringbuffer.append(s);
                 stringbuffer.append("_layer_");

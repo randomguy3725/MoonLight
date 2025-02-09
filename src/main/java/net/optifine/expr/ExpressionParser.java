@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import net.minecraft.src.Config;
 
@@ -77,8 +76,8 @@ public class ExpressionParser
         }
         else
         {
-            List<IExpression> list = new LinkedList();
-            List<Token> list1 = new LinkedList();
+            List<IExpression> list = new ArrayList<>();
+            List<Token> list1 = new ArrayList<>();
             IExpression iexpression = this.parseExpression(deque);
             checkNull(iexpression, "Missing expression");
             list.add(iexpression);
@@ -107,7 +106,7 @@ public class ExpressionParser
 
     private IExpression makeInfix(List<IExpression> listExpr, List<Token> listOper) throws ParseException
     {
-        List<FunctionType> list = new LinkedList();
+        List<FunctionType> list = new ArrayList<>();
 
         for (Token token : listOper)
         {

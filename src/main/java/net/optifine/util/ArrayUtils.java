@@ -105,7 +105,7 @@ public class ArrayUtils
         }
         else
         {
-            StringBuffer stringbuffer = new StringBuffer(arr.length * 5);
+            StringBuilder stringbuffer = new StringBuilder(arr.length * 5);
 
             for (int i = 0; i < arr.length; ++i)
             {
@@ -136,7 +136,7 @@ public class ArrayUtils
         }
         else
         {
-            StringBuffer stringbuffer = new StringBuffer(arr.length * 5);
+            StringBuilder stringbuffer = new StringBuilder(arr.length * 5);
 
             for (int i = 0; i < arr.length; ++i)
             {
@@ -162,7 +162,7 @@ public class ArrayUtils
         }
         else
         {
-            StringBuffer stringbuffer = new StringBuffer(arr.length * 5);
+            StringBuilder stringbuffer = new StringBuilder(arr.length * 5);
 
             for (int i = 0; i < arr.length; ++i)
             {
@@ -193,7 +193,7 @@ public class ArrayUtils
         }
         else
         {
-            StringBuffer stringbuffer = new StringBuffer(arr.length * 5);
+            StringBuilder stringbuffer = new StringBuilder(arr.length * 5);
 
             for (int i = 0; i < arr.length; ++i)
             {
@@ -219,7 +219,7 @@ public class ArrayUtils
         }
         else
         {
-            StringBuffer stringbuffer = new StringBuffer(arr.length * 5);
+            StringBuilder stringbuffer = new StringBuilder(arr.length * 5);
 
             for (int i = 0; i < arr.length; ++i)
             {
@@ -251,7 +251,7 @@ public class ArrayUtils
         }
         else
         {
-            StringBuffer stringbuffer = new StringBuffer(arr.length * 5);
+            StringBuilder stringbuffer = new StringBuilder(arr.length * 5);
 
             for (int i = 0; i < arr.length; ++i)
             {

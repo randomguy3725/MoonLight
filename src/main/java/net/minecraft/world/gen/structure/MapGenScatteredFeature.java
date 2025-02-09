@@ -100,7 +100,7 @@ public class MapGenScatteredFeature extends MapGenStructure
 
         if (structurestart != null && structurestart instanceof MapGenScatteredFeature.Start && !structurestart.components.isEmpty())
         {
-            StructureComponent structurecomponent = structurestart.components.getFirst();
+            StructureComponent structurecomponent = structurestart.components.get(0);
             return structurecomponent instanceof ComponentScatteredFeaturePieces.SwampHut;
         }
         else

@@ -120,22 +120,18 @@ public class ShaderOptionProfile extends ShaderOption
         }
         else
         {
-            StringBuffer stringbuffer = new StringBuffer();
+            StringBuilder stringbuffer = new StringBuilder();
 
-            for (int i = 0; i < this.profiles.length; ++i)
-            {
-                String s1 = this.profiles[i].getName();
+            for (ShaderProfile profile : this.profiles) {
+                String s1 = profile.getName();
 
-                if (s1 != null)
-                {
+                if (s1 != null) {
                     String s2 = Shaders.translate("profile." + s1 + ".comment", null);
 
-                    if (s2 != null)
-                    {
+                    if (s2 != null) {
                         stringbuffer.append(s2);
 
-                        if (!s2.endsWith(". "))
-                        {
+                        if (!s2.endsWith(". ")) {
                             stringbuffer.append(". ");
                         }
                     }

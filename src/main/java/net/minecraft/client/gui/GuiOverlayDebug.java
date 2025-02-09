@@ -131,7 +131,7 @@ public class GuiOverlayDebug extends Gui
 
         if (this.mc.debug != this.debugOF)
         {
-            StringBuffer stringbuffer = new StringBuffer(this.mc.debug);
+            StringBuilder stringbuffer = new StringBuilder(this.mc.debug);
             int i = Config.getFpsMin();
             int j = this.mc.debug.indexOf(" fps ");
 

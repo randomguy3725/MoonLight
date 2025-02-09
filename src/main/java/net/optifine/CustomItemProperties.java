@@ -971,7 +971,7 @@ public class CustomItemProperties
 
     private static ModelBlock makeModelBlock(String[] modelTextures)
     {
-        StringBuffer stringbuffer = new StringBuffer();
+        StringBuilder stringbuffer = new StringBuilder();
         stringbuffer.append("{\"parent\": \"builtin/generated\",\"textures\": {");
 
         for (int i = 0; i < modelTextures.length; ++i)
