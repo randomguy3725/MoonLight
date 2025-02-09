@@ -116,10 +116,8 @@ public class SoundEngine extends Library {
     public void cleanup() {
         super.cleanup();
         Set<String> keys = this.bufferMap.keySet();
-        Iterator iter = keys.iterator();
 
-        while (iter.hasNext()) {
-            String filename = (String) iter.next();
+        for (String filename : keys) {
             IntBuffer buffer = this.ALBufferMap.get(filename);
             if (buffer != null) {
                 AL10.alDeleteBuffers(buffer);
