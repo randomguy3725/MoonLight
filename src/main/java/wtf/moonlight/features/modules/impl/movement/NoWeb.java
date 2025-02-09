@@ -21,8 +21,8 @@ import java.util.Map;
 public class NoWeb extends Module {
 
     private final ModeValue mode = new ModeValue("Mode", new String[]{"Vanilla", "GrimAC", "Intave"}, "Vanilla",this);
-    public final BoolValue upAndDown = new BoolValue("Up And Down",true,this,() -> mode.is("Intave") && noDown.get());
     public final BoolValue noDown = new BoolValue("No Down",true,this,() -> mode.is("Intave"));
+    public final BoolValue upAndDown = new BoolValue("Up And Down",true,this,() -> mode.is("Intave") && noDown.get());
 
     @EventTarget
     public void onMotion(MotionEvent event) {
