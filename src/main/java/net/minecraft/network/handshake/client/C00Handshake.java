@@ -1,10 +1,11 @@
 package net.minecraft.network.handshake.client;
 
-import java.io.IOException;
 import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.handshake.INetHandlerHandshakeServer;
+
+import java.io.IOException;
 
 public class C00Handshake implements Packet<INetHandlerHandshakeServer>
 {

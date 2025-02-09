@@ -1,12 +1,13 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-import java.util.Collection;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.Vec4b;
 import net.minecraft.world.storage.MapData;
+
+import java.io.IOException;
+import java.util.Collection;
 
 public class S34PacketMaps implements Packet<INetHandlerPlayClient>
 {

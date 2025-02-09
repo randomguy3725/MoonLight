@@ -1,9 +1,10 @@
 package net.optifine.shaders.uniform;
 
-import java.util.HashMap;
-import java.util.Map;
 import net.optifine.util.CounterInt;
 import net.optifine.util.SmoothFloat;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Smoother
 {

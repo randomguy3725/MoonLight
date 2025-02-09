@@ -3,13 +3,14 @@ package net.minecraft.util;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import kotlin.io.TextStreamsKt;
+
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.IllegalFormatException;
 import java.util.Map;
 import java.util.regex.Pattern;
-import org.apache.commons.io.Charsets;
-import org.apache.commons.io.IOUtils;
 
 public class StringTranslate
 {
@@ -21,11 +22,8 @@ public class StringTranslate
 
     public StringTranslate()
     {
-        try
-        {
-            InputStream inputstream = StringTranslate.class.getResourceAsStream("/assets/minecraft/lang/en_US.lang");
-
-            for (String s : IOUtils.readLines(inputstream, Charsets.UTF_8))
+        try (var inputstream = StringTranslate.class.getResourceAsStream("/assets/minecraft/lang/en_US.lang")) {
+            for (String s : TextStreamsKt.readLines(new InputStreamReader(inputstream, StandardCharsets.UTF_8)))
             {
                 if (!s.isEmpty() && s.charAt(0) != 35)
                 {
@@ -42,7 +40,7 @@ public class StringTranslate
 
             this.lastUpdateTimeInMilliseconds = System.currentTimeMillis();
         }
-        catch (IOException var7)
+        catch (IOException | NullPointerException ignored)
         {
         }
     }

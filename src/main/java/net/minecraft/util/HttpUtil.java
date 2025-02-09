@@ -3,13 +3,13 @@ package net.minecraft.util;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
+import kotlin.io.FilesKt;
 import kotlin.io.TextStreamsKt;
 import net.minecraft.server.MinecraftServer;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import wtf.moonlight.utils.concurrent.Workers;
+import wtf.moonlight.utils.misc.IOUtils;
 
 import java.io.*;
 import java.net.*;
@@ -146,7 +146,7 @@ public class HttpUtil
                         }
 
                         HttpUtil.logger.warn("Deleting " + saveFile + " as it does not match what we currently have (" + i + " vs our " + j + ").");
-                        FileUtils.deleteQuietly(saveFile);
+                        FilesKt.deleteRecursively(saveFile);
                     }
                     else if (saveFile.getParentFile() != null)
                     {
@@ -214,14 +214,7 @@ public class HttpUtil
                     {
                         InputStream inputstream1 = httpurlconnection.getErrorStream();
 
-                        try
-                        {
-                            HttpUtil.logger.error(IOUtils.toString(inputstream1));
-                        }
-                        catch (IOException ioexception)
-                        {
-                            ioexception.printStackTrace();
-                        }
+                        HttpUtil.logger.error(TextStreamsKt.readText(new InputStreamReader(inputstream1)));
                     }
 
                     if (p_180192_4_ != null)

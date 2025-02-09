@@ -1,8 +1,9 @@
 package net.minecraft.scoreboard;
 
-import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
+
+import java.util.List;
 
 public class GoalColor implements IScoreObjectiveCriteria
 {

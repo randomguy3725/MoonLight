@@ -1,10 +1,11 @@
 package net.optifine;
 
-import java.util.IdentityHashMap;
-import java.util.Map;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.optifine.render.RenderEnv;
+
+import java.util.IdentityHashMap;
+import java.util.Map;
 
 public class ConnectedTexturesCompact
 {

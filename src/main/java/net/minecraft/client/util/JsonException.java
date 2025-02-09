@@ -1,10 +1,11 @@
 package net.minecraft.client.util;
 
 import com.google.common.collect.Lists;
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
-import org.apache.commons.lang3.StringUtils;
 
 public class JsonException extends IOException
 {

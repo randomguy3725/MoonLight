@@ -1,6 +1,5 @@
 package net.minecraft.client.renderer.entity.layers;
 
-import java.util.Random;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -10,6 +9,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.util.MathHelper;
+
+import java.util.Random;
 
 public class LayerArrow implements LayerRenderer<EntityLivingBase>
 {

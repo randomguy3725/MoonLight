@@ -10,11 +10,11 @@
  */
 package wtf.moonlight.gui.click.skeet.component;
 
-import org.lwjglx.input.Mouse;
 import org.lwjgl.opengl.GL11;
+import org.lwjglx.input.Mouse;
+import wtf.moonlight.gui.click.skeet.LockedResolution;
 import wtf.moonlight.gui.click.skeet.SkeetUI;
 import wtf.moonlight.gui.click.skeet.component.impl.GroupBoxComponent;
-import wtf.moonlight.gui.click.skeet.LockedResolution;
 import wtf.moonlight.utils.animations.Translate;
 import wtf.moonlight.utils.render.MouseUtils;
 import wtf.moonlight.utils.render.RenderUtils;

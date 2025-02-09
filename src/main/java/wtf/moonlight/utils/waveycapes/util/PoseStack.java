@@ -10,9 +10,9 @@
  */
 package wtf.moonlight.utils.waveycapes.util;
 
-import java.util.Deque;
-
 import com.google.common.collect.Queues;
+
+import java.util.Deque;
 
 public class PoseStack {
     private final Deque<Pose> poseStack;

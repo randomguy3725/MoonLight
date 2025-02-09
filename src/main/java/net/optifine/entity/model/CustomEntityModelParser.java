@@ -1,17 +1,6 @@
 package net.optifine.entity.model;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonParser;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
+import com.google.gson.*;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.src.Config;
@@ -21,6 +10,14 @@ import net.optifine.entity.model.anim.ModelUpdater;
 import net.optifine.entity.model.anim.ModelVariableUpdater;
 import net.optifine.player.PlayerItemParser;
 import net.optifine.util.Json;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class CustomEntityModelParser
 {

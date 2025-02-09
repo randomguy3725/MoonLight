@@ -10,6 +10,7 @@
  */
 package wtf.moonlight.utils.player;
 
+import com.google.common.base.Predicate;
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
 import net.minecraft.block.Block;
@@ -37,7 +38,6 @@ import wtf.moonlight.Moonlight;
 import wtf.moonlight.features.modules.impl.combat.AntiBot;
 import wtf.moonlight.features.modules.impl.combat.KillAura;
 import wtf.moonlight.utils.InstanceAccess;
-import com.google.common.base.Predicate;
 
 import java.util.ArrayList;
 import java.util.HashMap;

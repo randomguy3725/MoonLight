@@ -1,9 +1,10 @@
 package net.optifine.util;
 
+import net.optifine.render.VboRange;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import net.optifine.render.VboRange;
 
 public class LinkedListTest
 {

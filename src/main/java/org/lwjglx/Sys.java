@@ -1,17 +1,15 @@
 package org.lwjglx;
 
-import static org.lwjgl.glfw.GLFW.glfwInit;
-
-import java.awt.Desktop;
-import java.net.URI;
-
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.system.Platform;
 import org.lwjglx.opengl.Display;
+
+import javax.swing.*;
+import java.awt.*;
+import java.net.URI;
+
+import static org.lwjgl.glfw.GLFW.glfwInit;
 
 public class Sys {
 

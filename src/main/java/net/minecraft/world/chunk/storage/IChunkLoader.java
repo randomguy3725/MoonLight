@@ -1,9 +1,10 @@
 package net.minecraft.world.chunk.storage;
 
-import java.io.IOException;
 import net.minecraft.world.MinecraftException;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+
+import java.io.IOException;
 
 public interface IChunkLoader
 {

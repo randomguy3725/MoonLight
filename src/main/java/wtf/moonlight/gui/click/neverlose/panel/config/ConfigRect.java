@@ -23,7 +23,6 @@ import wtf.moonlight.utils.render.ColorUtils;
 import wtf.moonlight.utils.render.MouseUtils;
 import wtf.moonlight.utils.render.RoundedUtils;
 
-
 import java.awt.*;
 
 import static wtf.moonlight.gui.click.neverlose.NeverLose.*;

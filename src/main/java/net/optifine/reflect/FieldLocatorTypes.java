@@ -1,11 +1,12 @@
 package net.optifine.reflect;
 
+import net.optifine.Log;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import net.optifine.Log;
 
 public class FieldLocatorTypes implements IFieldLocator
 {

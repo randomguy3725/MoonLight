@@ -1,7 +1,6 @@
 package net.minecraft.item;
 
 import com.google.common.base.Predicates;
-import java.util.List;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
@@ -16,6 +15,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class ItemArmor extends Item
 {

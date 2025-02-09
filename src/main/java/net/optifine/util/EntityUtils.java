@@ -1,10 +1,11 @@
 package net.optifine.util;
 
-import java.util.HashMap;
-import java.util.Map;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.src.Config;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class EntityUtils
 {

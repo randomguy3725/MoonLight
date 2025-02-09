@@ -1,8 +1,6 @@
 package net.minecraft.command;
 
 import com.google.common.collect.Maps;
-import java.util.List;
-import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,6 +14,9 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.List;
+import java.util.Map;
 
 public class CommandReplaceItem extends CommandBase
 {

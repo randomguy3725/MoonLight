@@ -1,5 +1,7 @@
 package net.optifine.http;
 
+import net.minecraft.src.Config;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
@@ -8,7 +10,6 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import net.minecraft.src.Config;
 
 public class HttpPipeline
 {

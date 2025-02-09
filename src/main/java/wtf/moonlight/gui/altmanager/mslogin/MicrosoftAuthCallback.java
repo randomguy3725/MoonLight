@@ -10,10 +10,10 @@
  */
 package wtf.moonlight.gui.altmanager.mslogin;
 
-import wtf.moonlight.gui.altmanager.repository.credential.MicrosoftAltCredential;
 import com.sun.net.httpserver.HttpServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import wtf.moonlight.gui.altmanager.repository.credential.MicrosoftAltCredential;
 import wtf.moonlight.utils.concurrent.Workers;
 
 import java.io.Closeable;

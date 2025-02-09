@@ -1,11 +1,12 @@
 package net.minecraft.crash;
 
 import com.google.common.collect.Lists;
-import java.util.List;
-import java.util.concurrent.Callable;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
+
+import java.util.List;
+import java.util.concurrent.Callable;
 
 public class CrashReportCategory
 {

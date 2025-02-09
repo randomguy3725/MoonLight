@@ -4,9 +4,10 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import java.lang.reflect.Type;
 import net.minecraft.util.JsonUtils;
 import org.apache.commons.lang3.Validate;
+
+import java.lang.reflect.Type;
 
 public class FontMetadataSectionSerializer extends BaseMetadataSectionSerializer<FontMetadataSection>
 {

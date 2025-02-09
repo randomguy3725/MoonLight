@@ -1,9 +1,10 @@
 package net.optifine.shaders;
 
-import java.util.Iterator;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 import net.optifine.BlockPosM;
+
+import java.util.Iterator;
 
 public class Iterator3d implements Iterator<BlockPos>
 {

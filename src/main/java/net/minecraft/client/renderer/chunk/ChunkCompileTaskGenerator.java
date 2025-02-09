@@ -1,9 +1,10 @@
 package net.minecraft.client.renderer.chunk;
 
 import com.google.common.collect.Lists;
+import net.minecraft.client.renderer.RegionRenderCacheBuilder;
+
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
-import net.minecraft.client.renderer.RegionRenderCacheBuilder;
 
 public class ChunkCompileTaskGenerator
 {

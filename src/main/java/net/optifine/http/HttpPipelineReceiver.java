@@ -1,5 +1,7 @@
 package net.optifine.http;
 
+import net.minecraft.src.Config;
+
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
@@ -8,7 +10,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import net.minecraft.src.Config;
 
 public class HttpPipelineReceiver extends Thread
 {

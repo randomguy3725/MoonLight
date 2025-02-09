@@ -10,7 +10,9 @@
  */
 package wtf.moonlight.utils.math;
 
-import net.minecraft.util.*;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Vec3;
 
 import java.security.SecureRandom;
 

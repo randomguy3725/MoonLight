@@ -1,11 +1,12 @@
 package net.minecraft.world.biome;
 
 import com.google.common.collect.Lists;
-import java.util.Random;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
+
+import java.util.Random;
 
 public class BiomeGenMutated extends BiomeGenBase
 {

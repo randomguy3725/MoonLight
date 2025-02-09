@@ -1,9 +1,10 @@
 package net.minecraft.world.biome;
 
+import net.minecraft.util.BlockPos;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import net.minecraft.util.BlockPos;
 
 public class WorldChunkManagerHell extends WorldChunkManager
 {

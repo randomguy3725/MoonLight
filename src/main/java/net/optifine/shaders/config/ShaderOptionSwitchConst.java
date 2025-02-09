@@ -1,8 +1,9 @@
 package net.optifine.shaders.config;
 
+import net.optifine.util.StrUtils;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.optifine.util.StrUtils;
 
 public class ShaderOptionSwitchConst extends ShaderOptionSwitch
 {

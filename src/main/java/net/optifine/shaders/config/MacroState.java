@@ -1,22 +1,11 @@
 package net.optifine.shaders.config;
 
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
+import net.minecraft.src.Config;
+import net.optifine.expr.*;
+
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.minecraft.src.Config;
-import net.optifine.expr.ExpressionParser;
-import net.optifine.expr.ExpressionType;
-import net.optifine.expr.IExpression;
-import net.optifine.expr.IExpressionBool;
-import net.optifine.expr.IExpressionFloat;
-import net.optifine.expr.IExpressionResolver;
-import net.optifine.expr.ParseException;
 
 public class MacroState
 {

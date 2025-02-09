@@ -1,8 +1,9 @@
 package net.optifine.shaders.uniform;
 
-import java.util.Arrays;
 import net.optifine.shaders.Shaders;
 import org.lwjgl.opengl.ARBShaderObjects;
+
+import java.util.Arrays;
 
 public abstract class ShaderUniformBase
 {

@@ -1,12 +1,13 @@
 package net.optifine.shaders;
 
-import java.nio.ByteBuffer;
 import net.optifine.texture.InternalFormat;
 import net.optifine.texture.PixelFormat;
 import net.optifine.texture.PixelType;
 import net.optifine.texture.TextureType;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+
+import java.nio.ByteBuffer;
 
 public class CustomTextureRaw implements ICustomTexture
 {

@@ -18,7 +18,6 @@ import net.minecraft.util.ResourceLocation;
 import net.optifine.CustomColors;
 import net.optifine.render.GlBlendState;
 import net.optifine.util.FontUtils;
-import org.apache.commons.io.IOUtils;
 import org.lwjgl.opengl.GL11;
 import wtf.moonlight.gui.font.GradientApplier;
 import wtf.moonlight.utils.render.RenderUtils;
@@ -210,20 +209,13 @@ public class FontRenderer implements IResourceManagerReloadListener
 
     private void readGlyphSizes()
     {
-        InputStream inputstream = null;
-
-        try
+        try (var inputstream = this.getResourceInputStream(new ResourceLocation("font/glyph_sizes.bin")))
         {
-            inputstream = this.getResourceInputStream(new ResourceLocation("font/glyph_sizes.bin"));
             inputstream.read(this.glyphWidth);
         }
         catch (IOException ioexception)
         {
             throw new RuntimeException(ioexception);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(inputstream);
         }
     }
 

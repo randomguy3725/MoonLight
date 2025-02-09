@@ -1,51 +1,22 @@
 package net.optifine.shaders.config;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.CharArrayReader;
-import java.io.CharArrayWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.src.Config;
-import net.optifine.expr.ExpressionFloatArrayCached;
-import net.optifine.expr.ExpressionFloatCached;
-import net.optifine.expr.ExpressionParser;
-import net.optifine.expr.ExpressionType;
-import net.optifine.expr.IExpression;
-import net.optifine.expr.IExpressionBool;
-import net.optifine.expr.IExpressionFloat;
-import net.optifine.expr.IExpressionFloatArray;
-import net.optifine.expr.ParseException;
+import net.optifine.expr.*;
 import net.optifine.render.GlAlphaState;
 import net.optifine.render.GlBlendState;
-import net.optifine.shaders.IShaderPack;
-import net.optifine.shaders.Program;
-import net.optifine.shaders.SMCLog;
-import net.optifine.shaders.ShaderUtils;
-import net.optifine.shaders.Shaders;
+import net.optifine.shaders.*;
 import net.optifine.shaders.uniform.CustomUniform;
 import net.optifine.shaders.uniform.CustomUniforms;
 import net.optifine.shaders.uniform.ShaderExpressionResolver;
 import net.optifine.shaders.uniform.UniformType;
 import net.optifine.util.StrUtils;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ShaderPackParser
 {

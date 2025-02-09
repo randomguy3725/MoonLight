@@ -1,15 +1,6 @@
 package net.minecraft.init;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemArmorStand;
-import net.minecraft.item.ItemBow;
-import net.minecraft.item.ItemEmptyMap;
-import net.minecraft.item.ItemEnchantedBook;
-import net.minecraft.item.ItemFishingRod;
-import net.minecraft.item.ItemMap;
-import net.minecraft.item.ItemPotion;
-import net.minecraft.item.ItemShears;
+import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
 
 public class Items

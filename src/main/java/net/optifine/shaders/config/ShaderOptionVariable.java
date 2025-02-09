@@ -1,11 +1,12 @@
 package net.optifine.shaders.config;
 
-import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import net.minecraft.src.Config;
 import net.optifine.shaders.Shaders;
 import net.optifine.util.StrUtils;
+
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ShaderOptionVariable extends ShaderOption
 {

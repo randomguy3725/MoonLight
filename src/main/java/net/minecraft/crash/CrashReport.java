@@ -1,24 +1,20 @@
 package net.minecraft.crash;
 
 import com.google.common.collect.Lists;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import net.minecraft.util.ReportedException;
+import net.minecraft.world.gen.layer.IntCache;
+import net.optifine.CrashReporter;
+import net.optifine.reflect.Reflector;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.*;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
-import net.minecraft.util.ReportedException;
-import net.minecraft.world.gen.layer.IntCache;
-import net.optifine.CrashReporter;
-import net.optifine.reflect.Reflector;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class CrashReport
 {
@@ -124,8 +120,6 @@ public class CrashReport
 
     public String getCauseStackTraceOrString()
     {
-        StringWriter stringwriter = null;
-        PrintWriter printwriter = null;
         Throwable throwable = this.cause;
 
         if (throwable.getMessage() == null)
@@ -148,18 +142,11 @@ public class CrashReport
 
         String s = throwable.toString();
 
-        try
+        try (var stringwriter = new StringWriter(); var printwriter = new PrintWriter(stringwriter))
         {
-            stringwriter = new StringWriter();
-            printwriter = new PrintWriter(stringwriter);
             throwable.printStackTrace(printwriter);
             s = stringwriter.toString();
-        }
-        finally
-        {
-            IOUtils.closeQuietly(stringwriter);
-            IOUtils.closeQuietly(printwriter);
-        }
+        } catch (IOException ignored) {}
 
         return s;
     }

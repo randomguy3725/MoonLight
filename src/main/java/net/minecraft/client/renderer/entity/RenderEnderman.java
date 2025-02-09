@@ -1,12 +1,13 @@
 package net.minecraft.client.renderer.entity;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.model.ModelEnderman;
 import net.minecraft.client.renderer.entity.layers.LayerEndermanEyes;
 import net.minecraft.client.renderer.entity.layers.LayerHeldBlock;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.Random;
 
 public class RenderEnderman extends RenderLiving<EntityEnderman>
 {

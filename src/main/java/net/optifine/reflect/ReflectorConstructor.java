@@ -1,8 +1,9 @@
 package net.optifine.reflect;
 
-import java.lang.reflect.Constructor;
 import net.optifine.Log;
 import net.optifine.util.ArrayUtils;
+
+import java.lang.reflect.Constructor;
 
 public class ReflectorConstructor implements IResolvable
 {

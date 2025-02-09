@@ -2,6 +2,7 @@ package net.minecraft.network;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
+
 import javax.crypto.Cipher;
 import javax.crypto.ShortBufferException;
 

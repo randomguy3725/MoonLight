@@ -1,12 +1,11 @@
 package net.optifine.expr;
 
-import net.optifine.shaders.uniform.Smoother;
-import net.optifine.util.MathUtils;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Config;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.optifine.shaders.uniform.Smoother;
+import net.optifine.util.MathUtils;
 
 public enum FunctionType
 {

@@ -10,9 +10,9 @@
  */
 package wtf.moonlight.gui.click.skeet.component.impl.sub.text;
 
+import wtf.moonlight.gui.click.skeet.LockedResolution;
 import wtf.moonlight.gui.click.skeet.SkeetUI;
 import wtf.moonlight.gui.click.skeet.component.Component;
-import wtf.moonlight.gui.click.skeet.LockedResolution;
 import wtf.moonlight.gui.font.FontRenderer;
 
 public class TextMickgaComponent extends Component

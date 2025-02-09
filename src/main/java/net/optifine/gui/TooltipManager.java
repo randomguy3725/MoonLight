@@ -1,13 +1,14 @@
 package net.optifine.gui;
 
-import java.awt.Rectangle;
-import java.util.Arrays;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+
+import java.awt.*;
+import java.util.Arrays;
+import java.util.List;
 
 public class TooltipManager
 {

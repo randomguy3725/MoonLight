@@ -1,9 +1,6 @@
 package net.minecraft.client.gui.inventory;
 
 import com.google.common.collect.Sets;
-
-import java.io.IOException;
-import java.util.Set;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -25,6 +22,9 @@ import wtf.moonlight.features.modules.impl.combat.KillAura;
 import wtf.moonlight.features.modules.impl.player.InvManager;
 import wtf.moonlight.features.modules.impl.player.Stealer;
 import wtf.moonlight.gui.font.Fonts;
+
+import java.io.IOException;
+import java.util.Set;
 
 public abstract class GuiContainer extends GuiScreen
 {

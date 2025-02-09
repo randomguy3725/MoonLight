@@ -1,10 +1,11 @@
 package net.minecraft.item;
 
 import com.google.common.collect.Sets;
-import java.util.Set;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
+
+import java.util.Set;
 
 public class ItemPickaxe extends ItemTool
 {

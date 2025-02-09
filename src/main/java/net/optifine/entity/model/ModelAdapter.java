@@ -1,9 +1,10 @@
 package net.optifine.entity.model;
 
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class ModelAdapter
 {

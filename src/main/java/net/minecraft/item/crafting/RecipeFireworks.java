@@ -1,8 +1,5 @@
 package net.minecraft.item.crafting;
 
-import com.google.common.collect.Lists;
-import java.util.List;
-
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.init.Items;

@@ -1,9 +1,10 @@
 package net.minecraft.world.biome;
 
 import com.google.common.collect.Lists;
-import java.util.List;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.LongHashMap;
+
+import java.util.List;
 
 public class BiomeCache
 {

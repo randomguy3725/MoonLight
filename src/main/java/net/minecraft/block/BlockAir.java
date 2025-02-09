@@ -1,12 +1,13 @@
 package net.minecraft.block;
 
-import java.util.IdentityHashMap;
-import java.util.Map;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.IdentityHashMap;
+import java.util.Map;
 
 public class BlockAir extends Block
 {

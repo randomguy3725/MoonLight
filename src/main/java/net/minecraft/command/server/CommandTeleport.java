@@ -1,8 +1,5 @@
 package net.minecraft.command.server;
 
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Set;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -13,6 +10,10 @@ import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
+
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Set;
 
 public class CommandTeleport extends CommandBase
 {

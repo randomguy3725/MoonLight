@@ -26,7 +26,10 @@ import wtf.moonlight.features.modules.impl.misc.hackerdetector.impl.*;
 import wtf.moonlight.features.values.impl.BoolValue;
 import wtf.moonlight.features.values.impl.MultiBoolValue;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 @ModuleInfo(name = "HackerDetector", category = ModuleCategory.Misc)
 public class HackerDetector extends Module {

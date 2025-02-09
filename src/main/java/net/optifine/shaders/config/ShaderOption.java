@@ -1,10 +1,11 @@
 package net.optifine.shaders.config;
 
-import java.util.Arrays;
-import java.util.List;
 import net.minecraft.src.Config;
 import net.optifine.shaders.Shaders;
 import net.optifine.util.StrUtils;
+
+import java.util.Arrays;
+import java.util.List;
 
 public abstract class ShaderOption
 {

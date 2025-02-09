@@ -1,9 +1,10 @@
 package net.optifine.util;
 
-import java.lang.reflect.Array;
-import java.util.ArrayDeque;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.src.Config;
+
+import java.lang.reflect.Array;
+import java.util.ArrayDeque;
 
 public class CacheObjectArray
 {

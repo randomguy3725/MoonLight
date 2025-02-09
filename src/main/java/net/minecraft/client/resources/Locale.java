@@ -3,15 +3,20 @@ package net.minecraft.client.resources;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import kotlin.io.TextStreamsKt;
+import net.minecraft.util.ResourceLocation;
+import org.apache.commons.io.IOUtils;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.IllegalFormatException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
-import net.minecraft.util.ResourceLocation;
-import org.apache.commons.io.Charsets;
-import org.apache.commons.io.IOUtils;
 
 public class Locale
 {
@@ -91,8 +96,8 @@ public class Locale
 
     private void loadLocaleData(InputStream inputStreamIn) throws IOException
     {
-        for (String s : IOUtils.readLines(inputStreamIn, Charsets.UTF_8))
-        {
+        for (Iterator<String> it = TextStreamsKt.lineSequence(new BufferedReader(new InputStreamReader(inputStreamIn, StandardCharsets.UTF_8))).iterator(); it.hasNext(); ) {
+            String s = it.next();
             if (!s.isEmpty() && s.charAt(0) != 35)
             {
                 String[] astring = Iterables.toArray(splitter.split(s), String.class);

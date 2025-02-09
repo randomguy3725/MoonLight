@@ -1,10 +1,11 @@
 package net.minecraft.client.shader;
 
-import java.io.IOException;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.util.JsonException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
 
 public class ShaderLinkHelper
 {

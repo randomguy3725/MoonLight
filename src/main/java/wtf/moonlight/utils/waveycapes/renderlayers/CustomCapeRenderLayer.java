@@ -10,6 +10,15 @@
  */
 package wtf.moonlight.utils.waveycapes.renderlayers;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.entity.player.EnumPlayerModelParts;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import wtf.moonlight.Moonlight;
 import wtf.moonlight.features.modules.impl.visual.Interface;
@@ -20,15 +29,6 @@ import wtf.moonlight.utils.waveycapes.WindMode;
 import wtf.moonlight.utils.waveycapes.config.Config;
 import wtf.moonlight.utils.waveycapes.sim.StickSimulation;
 import wtf.moonlight.utils.waveycapes.util.Mth;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderPlayer;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.entity.player.EnumPlayerModelParts;
-import net.minecraft.util.MathHelper;
 
 public class CustomCapeRenderLayer implements LayerRenderer<AbstractClientPlayer> {
     static final int partCount = 16;

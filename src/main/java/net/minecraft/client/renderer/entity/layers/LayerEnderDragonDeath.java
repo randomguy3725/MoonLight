@@ -1,12 +1,13 @@
 package net.minecraft.client.renderer.entity.layers;
 
-import java.util.Random;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.boss.EntityDragon;
+
+import java.util.Random;
 
 public class LayerEnderDragonDeath implements LayerRenderer<EntityDragon>
 {

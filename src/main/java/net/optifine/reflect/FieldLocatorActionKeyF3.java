@@ -1,11 +1,12 @@
 package net.optifine.reflect;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.src.Config;
+
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import net.minecraft.client.Minecraft;
-import net.minecraft.src.Config;
 
 public class FieldLocatorActionKeyF3 implements IFieldLocator
 {

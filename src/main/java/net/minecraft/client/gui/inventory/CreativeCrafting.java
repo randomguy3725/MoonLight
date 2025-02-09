@@ -1,11 +1,12 @@
 package net.minecraft.client.gui.inventory;
 
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+
+import java.util.List;
 
 public class CreativeCrafting implements ICrafting
 {

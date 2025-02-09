@@ -1,7 +1,5 @@
 package net.minecraft.item;
 
-import java.util.List;
-import java.util.Random;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -10,6 +8,9 @@ import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.WeightedRandomChestContent;
+
+import java.util.List;
+import java.util.Random;
 
 public class ItemEnchantedBook extends Item
 {

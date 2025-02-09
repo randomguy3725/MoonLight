@@ -1,9 +1,10 @@
 package net.minecraft.entity.ai.attributes;
 
 import io.netty.util.internal.ThreadLocalRandom;
-import java.util.UUID;
 import net.minecraft.util.MathHelper;
 import org.apache.commons.lang3.Validate;
+
+import java.util.UUID;
 
 public class AttributeModifier
 {

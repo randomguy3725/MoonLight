@@ -1,16 +1,12 @@
 package net.optifine;
 
 import com.google.common.collect.Iterators;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.LongHashMap;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.NextTickListEntry;
+
+import java.util.*;
 
 public class NextTickHashSet extends TreeSet
 {

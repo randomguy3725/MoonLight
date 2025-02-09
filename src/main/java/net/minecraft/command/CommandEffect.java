@@ -1,12 +1,13 @@
 package net.minecraft.command;
 
-import java.util.List;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentTranslation;
+
+import java.util.List;
 
 public class CommandEffect extends CommandBase
 {

@@ -34,7 +34,9 @@ import wtf.moonlight.utils.math.MathUtils;
 import wtf.moonlight.utils.math.TimerUtils;
 import wtf.moonlight.utils.player.InventoryUtils;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Objects;
 
 @ModuleInfo(name = "InvManager", category = ModuleCategory.Player, key = Keyboard.KEY_L)
 public class InvManager extends Module {

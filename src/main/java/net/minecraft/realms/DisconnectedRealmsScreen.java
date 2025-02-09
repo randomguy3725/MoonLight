@@ -1,7 +1,8 @@
 package net.minecraft.realms;
 
-import java.util.List;
 import net.minecraft.util.IChatComponent;
+
+import java.util.List;
 
 public class DisconnectedRealmsScreen extends RealmsScreen
 {

@@ -1,10 +1,11 @@
 package net.minecraft.entity.ai;
 
-import java.util.Random;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class EntityAIFleeSun extends EntityAIBase
 {

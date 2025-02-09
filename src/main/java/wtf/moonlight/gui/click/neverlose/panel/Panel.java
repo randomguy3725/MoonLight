@@ -10,16 +10,16 @@
  */
 package wtf.moonlight.gui.click.neverlose.panel;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import lombok.Getter;
+import lombok.Setter;
+import org.lwjgl.opengl.GL11;
 import org.lwjglx.input.Mouse;
 import wtf.moonlight.features.modules.Module;
 import wtf.moonlight.features.modules.ModuleCategory;
 import wtf.moonlight.gui.click.Component;
 import wtf.moonlight.gui.click.IComponent;
 import wtf.moonlight.gui.click.neverlose.components.ModuleComponent;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import lombok.Getter;
-import lombok.Setter;
-import org.lwjgl.opengl.GL11;
 import wtf.moonlight.utils.InstanceAccess;
 import wtf.moonlight.utils.animations.Animation;
 import wtf.moonlight.utils.animations.Direction;

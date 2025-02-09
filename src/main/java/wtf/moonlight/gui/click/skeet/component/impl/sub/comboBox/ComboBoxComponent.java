@@ -10,14 +10,14 @@
  */
 package wtf.moonlight.gui.click.skeet.component.impl.sub.comboBox;
 
+import net.minecraft.client.gui.Gui;
+import org.lwjgl.opengl.GL11;
+import wtf.moonlight.gui.click.skeet.LockedResolution;
 import wtf.moonlight.gui.click.skeet.SkeetUI;
 import wtf.moonlight.gui.click.skeet.component.ButtonComponent;
 import wtf.moonlight.gui.click.skeet.component.Component;
 import wtf.moonlight.gui.click.skeet.component.ExpandableComponent;
 import wtf.moonlight.gui.click.skeet.component.PredicateComponent;
-import wtf.moonlight.gui.click.skeet.LockedResolution;
-import net.minecraft.client.gui.Gui;
-import org.lwjgl.opengl.GL11;
 import wtf.moonlight.gui.font.FontRenderer;
 import wtf.moonlight.utils.misc.StringUtils;
 import wtf.moonlight.utils.render.ColorUtils;

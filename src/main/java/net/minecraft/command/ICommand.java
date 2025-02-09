@@ -1,7 +1,8 @@
 package net.minecraft.command;
 
-import java.util.List;
 import net.minecraft.util.BlockPos;
+
+import java.util.List;
 
 public interface ICommand extends Comparable<ICommand>
 {

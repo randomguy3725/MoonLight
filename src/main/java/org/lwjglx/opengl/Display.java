@@ -2,11 +2,11 @@ package org.lwjglx.opengl;
 
 import lombok.Getter;
 import org.lwjgl.BufferUtils;
+import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjglx.LWJGLException;
 import org.lwjglx.Sys;
-import org.lwjgl.glfw.*;
 import org.lwjglx.input.KeyCodes;
 import org.lwjglx.input.Keyboard;
 import org.lwjglx.input.Mouse;

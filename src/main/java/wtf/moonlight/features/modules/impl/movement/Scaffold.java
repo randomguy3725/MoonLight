@@ -43,7 +43,8 @@ import wtf.moonlight.utils.misc.SpoofSlotUtils;
 import wtf.moonlight.utils.player.*;
 import wtf.moonlight.utils.render.RenderUtils;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 @ModuleInfo(name = "Scaffold", category = ModuleCategory.Movement)
 public class Scaffold extends Module {

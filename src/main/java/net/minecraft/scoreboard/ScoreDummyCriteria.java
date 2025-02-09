@@ -1,7 +1,8 @@
 package net.minecraft.scoreboard;
 
-import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
+
+import java.util.List;
 
 public class ScoreDummyCriteria implements IScoreObjectiveCriteria
 {

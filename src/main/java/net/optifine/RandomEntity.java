@@ -1,10 +1,11 @@
 package net.optifine;
 
-import java.util.UUID;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.biome.BiomeGenBase;
+
+import java.util.UUID;
 
 public class RandomEntity implements IRandomEntity
 {

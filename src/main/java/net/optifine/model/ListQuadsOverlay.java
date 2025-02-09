@@ -1,11 +1,12 @@
 package net.optifine.model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.init.Blocks;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ListQuadsOverlay
 {

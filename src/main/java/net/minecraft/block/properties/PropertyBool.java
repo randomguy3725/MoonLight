@@ -1,6 +1,7 @@
 package net.minecraft.block.properties;
 
 import com.google.common.collect.ImmutableSet;
+
 import java.util.Collection;
 
 public class PropertyBool extends PropertyHelper<Boolean>

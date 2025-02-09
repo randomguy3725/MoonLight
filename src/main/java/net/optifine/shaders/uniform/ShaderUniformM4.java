@@ -1,7 +1,8 @@
 package net.optifine.shaders.uniform;
 
-import java.nio.FloatBuffer;
 import org.lwjgl.opengl.ARBShaderObjects;
+
+import java.nio.FloatBuffer;
 
 public class ShaderUniformM4 extends ShaderUniformBase
 {

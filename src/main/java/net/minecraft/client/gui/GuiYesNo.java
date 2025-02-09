@@ -1,9 +1,10 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
+import net.minecraft.client.resources.I18n;
+
 import java.io.IOException;
 import java.util.List;
-import net.minecraft.client.resources.I18n;
 
 public class GuiYesNo extends GuiScreen
 {
