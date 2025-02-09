@@ -795,26 +795,12 @@ public abstract class EntityPlayer extends EntityLivingBase {
 
         if (this.isPotionActive(Potion.digSlowdown))
         {
-            float f1 = 1.0F;
-
-            switch (this.getActivePotionEffect(Potion.digSlowdown).getAmplifier())
-            {
-                case 0:
-                    f1 = 0.3F;
-                    break;
-
-                case 1:
-                    f1 = 0.09F;
-                    break;
-
-                case 2:
-                    f1 = 0.0027F;
-                    break;
-
-                case 3:
-                default:
-                    f1 = 8.1E-4F;
-            }
+            float f1 = switch (this.getActivePotionEffect(Potion.digSlowdown).getAmplifier()) {
+                case 0 -> 0.3F;
+                case 1 -> 0.09F;
+                case 2 -> 0.0027F;
+                default -> 8.1E-4F;
+            };
 
             f *= f1;
         }
@@ -854,26 +840,12 @@ public abstract class EntityPlayer extends EntityLivingBase {
 
         if (this.isPotionActive(Potion.digSlowdown))
         {
-            float f1 = 1.0F;
-
-            switch (this.getActivePotionEffect(Potion.digSlowdown).getAmplifier())
-            {
-                case 0:
-                    f1 = 0.3F;
-                    break;
-
-                case 1:
-                    f1 = 0.09F;
-                    break;
-
-                case 2:
-                    f1 = 0.0027F;
-                    break;
-
-                case 3:
-                default:
-                    f1 = 8.1E-4F;
-            }
+            float f1 = switch (this.getActivePotionEffect(Potion.digSlowdown).getAmplifier()) {
+                case 0 -> 0.3F;
+                case 1 -> 0.09F;
+                case 2 -> 0.0027F;
+                default -> 8.1E-4F;
+            };
 
             f *= f1;
         }

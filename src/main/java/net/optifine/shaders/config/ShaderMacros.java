@@ -40,20 +40,12 @@ public class ShaderMacros
     {
         Util.EnumOS util$enumos = Util.getOSType();
 
-        switch (util$enumos)
-        {
-            case WINDOWS:
-                return "MC_OS_WINDOWS";
-
-            case OSX:
-                return "MC_OS_MAC";
-
-            case LINUX:
-                return "MC_OS_LINUX";
-
-            default:
-                return "MC_OS_OTHER";
-        }
+        return switch (util$enumos) {
+            case WINDOWS -> "MC_OS_WINDOWS";
+            case OSX -> "MC_OS_MAC";
+            case LINUX -> "MC_OS_LINUX";
+            default -> "MC_OS_OTHER";
+        };
     }
 
     public static String getVendor()

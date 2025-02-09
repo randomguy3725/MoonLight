@@ -417,17 +417,11 @@ public class StructureVillagePieces
 
         private Block func_151559_a(Random rand)
         {
-            switch (rand.nextInt(5))
-            {
-                case 0:
-                    return Blocks.carrots;
-
-                case 1:
-                    return Blocks.potatoes;
-
-                default:
-                    return Blocks.wheat;
-            }
+            return switch (rand.nextInt(5)) {
+                case 0 -> Blocks.carrots;
+                case 1 -> Blocks.potatoes;
+                default -> Blocks.wheat;
+            };
         }
 
         public static StructureVillagePieces.Field1 func_175851_a(StructureVillagePieces.Start start, List<StructureComponent> p_175851_1_, Random rand, int p_175851_3_, int p_175851_4_, int p_175851_5_, EnumFacing facing, int p_175851_7_)
@@ -522,17 +516,11 @@ public class StructureVillagePieces
 
         private Block func_151560_a(Random rand)
         {
-            switch (rand.nextInt(5))
-            {
-                case 0:
-                    return Blocks.carrots;
-
-                case 1:
-                    return Blocks.potatoes;
-
-                default:
-                    return Blocks.wheat;
-            }
+            return switch (rand.nextInt(5)) {
+                case 0 -> Blocks.carrots;
+                case 1 -> Blocks.potatoes;
+                default -> Blocks.wheat;
+            };
         }
 
         public static StructureVillagePieces.Field2 func_175852_a(StructureVillagePieces.Start start, List<StructureComponent> p_175852_1_, Random rand, int p_175852_3_, int p_175852_4_, int p_175852_5_, EnumFacing facing, int p_175852_7_)

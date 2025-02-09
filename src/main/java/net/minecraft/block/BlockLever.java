@@ -97,29 +97,15 @@ public class BlockLever extends Block
 
     public static int getMetadataForFacing(EnumFacing facing)
     {
-        switch (facing)
-        {
-            case DOWN:
-                return 0;
-
-            case UP:
-                return 5;
-
-            case NORTH:
-                return 4;
-
-            case SOUTH:
-                return 3;
-
-            case WEST:
-                return 2;
-
-            case EAST:
-                return 1;
-
-            default:
-                return -1;
-        }
+        return switch (facing) {
+            case DOWN -> 0;
+            case UP -> 5;
+            case NORTH -> 4;
+            case SOUTH -> 3;
+            case WEST -> 2;
+            case EAST -> 1;
+            default -> -1;
+        };
     }
 
     public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
@@ -301,30 +287,20 @@ public class BlockLever extends Block
             switch (clickedSide)
             {
                 case DOWN:
-                    switch (entityFacing.getAxis())
-                    {
-                        case X:
-                            return DOWN_X;
-
-                        case Z:
-                            return DOWN_Z;
-
-                        default:
-                            throw new IllegalArgumentException("Invalid entityFacing " + entityFacing + " for facing " + clickedSide);
-                    }
+                    return switch (entityFacing.getAxis()) {
+                        case X -> DOWN_X;
+                        case Z -> DOWN_Z;
+                        default ->
+                                throw new IllegalArgumentException("Invalid entityFacing " + entityFacing + " for facing " + clickedSide);
+                    };
 
                 case UP:
-                    switch (entityFacing.getAxis())
-                    {
-                        case X:
-                            return UP_X;
-
-                        case Z:
-                            return UP_Z;
-
-                        default:
-                            throw new IllegalArgumentException("Invalid entityFacing " + entityFacing + " for facing " + clickedSide);
-                    }
+                    return switch (entityFacing.getAxis()) {
+                        case X -> UP_X;
+                        case Z -> UP_Z;
+                        default ->
+                                throw new IllegalArgumentException("Invalid entityFacing " + entityFacing + " for facing " + clickedSide);
+                    };
 
                 case NORTH:
                     return NORTH;

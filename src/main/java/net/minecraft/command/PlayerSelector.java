@@ -664,25 +664,13 @@ public class PlayerSelector
 
             for (Matcher matcher = intListPattern.matcher(argumentString); matcher.find(); j = matcher.end())
             {
-                String s = null;
-
-                switch (i++)
-                {
-                    case 0:
-                        s = "x";
-                        break;
-
-                    case 1:
-                        s = "y";
-                        break;
-
-                    case 2:
-                        s = "z";
-                        break;
-
-                    case 3:
-                        s = "r";
-                }
+                String s = switch (i++) {
+                    case 0 -> "x";
+                    case 1 -> "y";
+                    case 2 -> "z";
+                    case 3 -> "r";
+                    default -> null;
+                };
 
                 if (s != null && matcher.group(1).length() > 0)
                 {

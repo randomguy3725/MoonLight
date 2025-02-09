@@ -396,18 +396,15 @@ public enum FunctionType
 
     public float[] evalFloatArray(IExpression[] args)
     {
-        switch (this)
-        {
-            case VEC2:
-                return new float[] {evalFloat(args, 0), evalFloat(args, 1)};
-            case VEC3:
-                return new float[] {evalFloat(args, 0), evalFloat(args, 1), evalFloat(args, 2)};
-            case VEC4:
-                return new float[] {evalFloat(args, 0), evalFloat(args, 1), evalFloat(args, 2), evalFloat(args, 3)};
-            default:
+        return switch (this) {
+            case VEC2 -> new float[]{evalFloat(args, 0), evalFloat(args, 1)};
+            case VEC3 -> new float[]{evalFloat(args, 0), evalFloat(args, 1), evalFloat(args, 2)};
+            case VEC4 -> new float[]{evalFloat(args, 0), evalFloat(args, 1), evalFloat(args, 2), evalFloat(args, 3)};
+            default -> {
                 Config.warn("Unknown function type: " + this);
-                return null;
-        }
+                yield null;
+            }
+        };
     }
 
     public static FunctionType parse(String str)

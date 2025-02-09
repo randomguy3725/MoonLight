@@ -36,21 +36,12 @@ public class BlockOldLog extends BlockLog
             case Z:
             case NONE:
             default:
-                switch (blockplanks$enumtype)
-                {
-                    case OAK:
-                    default:
-                        return BlockPlanks.EnumType.SPRUCE.getMapColor();
-
-                    case SPRUCE:
-                        return BlockPlanks.EnumType.DARK_OAK.getMapColor();
-
-                    case BIRCH:
-                        return MapColor.quartzColor;
-
-                    case JUNGLE:
-                        return BlockPlanks.EnumType.SPRUCE.getMapColor();
-                }
+                return switch (blockplanks$enumtype) {
+                    default -> BlockPlanks.EnumType.SPRUCE.getMapColor();
+                    case SPRUCE -> BlockPlanks.EnumType.DARK_OAK.getMapColor();
+                    case BIRCH -> MapColor.quartzColor;
+                    case JUNGLE -> BlockPlanks.EnumType.SPRUCE.getMapColor();
+                };
 
             case Y:
                 return blockplanks$enumtype.getMapColor();
@@ -69,23 +60,12 @@ public class BlockOldLog extends BlockLog
     {
         IBlockState iblockstate = this.getDefaultState().withProperty(VARIANT, BlockPlanks.EnumType.byMetadata((meta & 3) % 4));
 
-        switch (meta & 12)
-        {
-            case 0:
-                iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.Y);
-                break;
-
-            case 4:
-                iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.X);
-                break;
-
-            case 8:
-                iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.Z);
-                break;
-
-            default:
-                iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.NONE);
-        }
+        iblockstate = switch (meta & 12) {
+            case 0 -> iblockstate.withProperty(LOG_AXIS, EnumAxis.Y);
+            case 4 -> iblockstate.withProperty(LOG_AXIS, EnumAxis.X);
+            case 8 -> iblockstate.withProperty(LOG_AXIS, EnumAxis.Z);
+            default -> iblockstate.withProperty(LOG_AXIS, EnumAxis.NONE);
+        };
 
         return iblockstate;
     }

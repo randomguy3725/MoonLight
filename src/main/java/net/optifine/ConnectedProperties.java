@@ -614,57 +614,27 @@ public class ConnectedProperties
                     }
                     else
                     {
-                        switch (this.method)
-                        {
-                            case 1:
-                                return this.isValidCtm(path);
-
-                            case 2:
-                                return this.isValidHorizontal(path);
-
-                            case 3:
-                                return this.isValidTop(path);
-
-                            case 4:
-                                return this.isValidRandom(path);
-
-                            case 5:
-                                return this.isValidRepeat(path);
-
-                            case 6:
-                                return this.isValidVertical(path);
-
-                            case 7:
-                                return this.isValidFixed(path);
-
-                            case 8:
-                                return this.isValidHorizontalVertical(path);
-
-                            case 9:
-                                return this.isValidVerticalHorizontal(path);
-
-                            case 10:
-                                return this.isValidCtmCompact(path);
-
-                            case 11:
-                                return this.isValidOverlay(path);
-
-                            case 12:
-                                return this.isValidOverlayFixed(path);
-
-                            case 13:
-                                return this.isValidOverlayRandom(path);
-
-                            case 14:
-                                return this.isValidOverlayRepeat(path);
-
-                            case 15:
-                                return this.isValidOverlayCtm(path);
-
-                            default:
+                        return switch (this.method) {
+                            case 1 -> this.isValidCtm(path);
+                            case 2 -> this.isValidHorizontal(path);
+                            case 3 -> this.isValidTop(path);
+                            case 4 -> this.isValidRandom(path);
+                            case 5 -> this.isValidRepeat(path);
+                            case 6 -> this.isValidVertical(path);
+                            case 7 -> this.isValidFixed(path);
+                            case 8 -> this.isValidHorizontalVertical(path);
+                            case 9 -> this.isValidVerticalHorizontal(path);
+                            case 10 -> this.isValidCtmCompact(path);
+                            case 11 -> this.isValidOverlay(path);
+                            case 12 -> this.isValidOverlayFixed(path);
+                            case 13 -> this.isValidOverlayRandom(path);
+                            case 14 -> this.isValidOverlayRepeat(path);
+                            case 15 -> this.isValidOverlayCtm(path);
+                            default -> {
                                 Config.warn("Unknown method: " + path);
-                                return false;
-                        }
+                                yield false;
+                            }
+                        };
                     }
                 }
                 else
@@ -1110,18 +1080,10 @@ public class ConnectedProperties
 
     private static boolean isMethodOverlay(int method)
     {
-        switch (method)
-        {
-            case 11:
-            case 12:
-            case 13:
-            case 14:
-            case 15:
-                return true;
-
-            default:
-                return false;
-        }
+        return switch (method) {
+            case 11, 12, 13, 14, 15 -> true;
+            default -> false;
+        };
     }
 
     private static TextureAtlasSprite[] registerIcons(String[] tileNames, TextureMap textureMap, boolean skipTiles, boolean defaultTiles)

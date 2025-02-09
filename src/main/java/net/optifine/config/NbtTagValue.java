@@ -205,26 +205,14 @@ public class NbtTagValue
         }
         else
         {
-            switch (this.type)
-            {
-                case 0:
-                    return nbtValue.equals(this.value);
-
-                case 1:
-                    return this.matchesPattern(nbtValue, this.value);
-
-                case 2:
-                    return this.matchesPattern(nbtValue.toLowerCase(), this.value);
-
-                case 3:
-                    return this.matchesRegex(nbtValue, this.value);
-
-                case 4:
-                    return this.matchesRegex(nbtValue.toLowerCase(), this.value);
-
-                default:
-                    throw new IllegalArgumentException("Unknown NbtTagValue type: " + this.type);
-            }
+            return switch (this.type) {
+                case 0 -> nbtValue.equals(this.value);
+                case 1 -> this.matchesPattern(nbtValue, this.value);
+                case 2 -> this.matchesPattern(nbtValue.toLowerCase(), this.value);
+                case 3 -> this.matchesRegex(nbtValue, this.value);
+                case 4 -> this.matchesRegex(nbtValue.toLowerCase(), this.value);
+                default -> throw new IllegalArgumentException("Unknown NbtTagValue type: " + this.type);
+            };
         }
     }
 

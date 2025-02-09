@@ -188,40 +188,22 @@ public class BlockTrapDoor extends Block
 
     protected static EnumFacing getFacing(int meta)
     {
-        switch (meta & 3)
-        {
-            case 0:
-                return EnumFacing.NORTH;
-
-            case 1:
-                return EnumFacing.SOUTH;
-
-            case 2:
-                return EnumFacing.WEST;
-
-            case 3:
-            default:
-                return EnumFacing.EAST;
-        }
+        return switch (meta & 3) {
+            case 0 -> EnumFacing.NORTH;
+            case 1 -> EnumFacing.SOUTH;
+            case 2 -> EnumFacing.WEST;
+            default -> EnumFacing.EAST;
+        };
     }
 
     protected static int getMetaForFacing(EnumFacing facing)
     {
-        switch (facing)
-        {
-            case NORTH:
-                return 0;
-
-            case SOUTH:
-                return 1;
-
-            case WEST:
-                return 2;
-
-            case EAST:
-            default:
-                return 3;
-        }
+        return switch (facing) {
+            case NORTH -> 0;
+            case SOUTH -> 1;
+            case WEST -> 2;
+            default -> 3;
+        };
     }
 
     private static boolean isValidSupportBlock(Block blockIn)

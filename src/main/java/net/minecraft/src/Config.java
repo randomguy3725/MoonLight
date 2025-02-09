@@ -482,33 +482,25 @@ public class Config
 
     public static int getMipmapType()
     {
-        switch (gameSettings.ofMipmapType)
-        {
-            case 0:
-                return 9986;
-
-            case 1:
-                return 9986;
-
-            case 2:
-                if (isMultiTexture())
-                {
-                    return 9985;
+        return switch (gameSettings.ofMipmapType) {
+            case 0 -> 9986;
+            case 1 -> 9986;
+            case 2 -> {
+                if (isMultiTexture()) {
+                    yield 9985;
                 }
 
-                return 9986;
-
-            case 3:
-                if (isMultiTexture())
-                {
-                    return 9987;
+                yield 9986;
+            }
+            case 3 -> {
+                if (isMultiTexture()) {
+                    yield 9987;
                 }
 
-                return 9986;
-
-            default:
-                return 9986;
-        }
+                yield 9986;
+            }
+            default -> 9986;
+        };
     }
 
     public static boolean isUseAlphaFunc()
@@ -2399,35 +2391,17 @@ public class Config
 
     public static String getGlErrorString(int p_getGlErrorString_0_)
     {
-        switch (p_getGlErrorString_0_)
-        {
-            case 0:
-                return "No error";
-
-            case 1280:
-                return "Invalid enum";
-
-            case 1281:
-                return "Invalid value";
-
-            case 1282:
-                return "Invalid operation";
-
-            case 1283:
-                return "Stack overflow";
-
-            case 1284:
-                return "Stack underflow";
-
-            case 1285:
-                return "Out of memory";
-
-            case 1286:
-                return "Invalid framebuffer operation";
-
-            default:
-                return "Unknown";
-        }
+        return switch (p_getGlErrorString_0_) {
+            case 0 -> "No error";
+            case 1280 -> "Invalid enum";
+            case 1281 -> "Invalid value";
+            case 1282 -> "Invalid operation";
+            case 1283 -> "Stack overflow";
+            case 1284 -> "Stack underflow";
+            case 1285 -> "Out of memory";
+            case 1286 -> "Invalid framebuffer operation";
+            default -> "Unknown";
+        };
     }
 
     public static boolean isTrue(Boolean p_isTrue_0_)

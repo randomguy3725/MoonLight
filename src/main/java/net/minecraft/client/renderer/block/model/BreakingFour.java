@@ -31,39 +31,32 @@ public class BreakingFour extends BakedQuad
         float f1 = Float.intBitsToFloat(this.vertexData[j + 1]);
         float f2 = Float.intBitsToFloat(this.vertexData[j + 2]);
         float f3 = 0.0F;
-        float f4 = 0.0F;
-
-        switch (this.face)
-        {
-            case DOWN:
+        float f4 = switch (this.face) {
+            case DOWN -> {
                 f3 = f * 16.0F;
-                f4 = (1.0F - f2) * 16.0F;
-                break;
-
-            case UP:
+                yield (1.0F - f2) * 16.0F;
+            }
+            case UP -> {
                 f3 = f * 16.0F;
-                f4 = f2 * 16.0F;
-                break;
-
-            case NORTH:
+                yield f2 * 16.0F;
+            }
+            case NORTH -> {
                 f3 = (1.0F - f) * 16.0F;
-                f4 = (1.0F - f1) * 16.0F;
-                break;
-
-            case SOUTH:
+                yield (1.0F - f1) * 16.0F;
+            }
+            case SOUTH -> {
                 f3 = f * 16.0F;
-                f4 = (1.0F - f1) * 16.0F;
-                break;
-
-            case WEST:
+                yield (1.0F - f1) * 16.0F;
+            }
+            case WEST -> {
                 f3 = f2 * 16.0F;
-                f4 = (1.0F - f1) * 16.0F;
-                break;
-
-            case EAST:
+                yield (1.0F - f1) * 16.0F;
+            }
+            case EAST -> {
                 f3 = (1.0F - f2) * 16.0F;
-                f4 = (1.0F - f1) * 16.0F;
-        }
+                yield (1.0F - f1) * 16.0F;
+            }
+        };
 
         this.vertexData[j + 4] = Float.floatToRawIntBits(this.texture.getInterpolatedU(f3));
         this.vertexData[j + 4 + 1] = Float.floatToRawIntBits(this.texture.getInterpolatedV(f4));

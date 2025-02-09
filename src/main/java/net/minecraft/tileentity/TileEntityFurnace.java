@@ -400,23 +400,13 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
 
     public int getField(int id)
     {
-        switch (id)
-        {
-            case 0:
-                return this.furnaceBurnTime;
-
-            case 1:
-                return this.currentItemBurnTime;
-
-            case 2:
-                return this.cookTime;
-
-            case 3:
-                return this.totalCookTime;
-
-            default:
-                return 0;
-        }
+        return switch (id) {
+            case 0 -> this.furnaceBurnTime;
+            case 1 -> this.currentItemBurnTime;
+            case 2 -> this.cookTime;
+            case 3 -> this.totalCookTime;
+            default -> 0;
+        };
     }
 
     public void setField(int id, int value)

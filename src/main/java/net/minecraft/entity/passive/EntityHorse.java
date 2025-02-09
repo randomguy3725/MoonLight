@@ -139,24 +139,13 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
         {
             int i = this.getHorseType();
 
-            switch (i)
-            {
-                case 0:
-                default:
-                    return StatCollector.translateToLocal("entity.horse.name");
-
-                case 1:
-                    return StatCollector.translateToLocal("entity.donkey.name");
-
-                case 2:
-                    return StatCollector.translateToLocal("entity.mule.name");
-
-                case 3:
-                    return StatCollector.translateToLocal("entity.zombiehorse.name");
-
-                case 4:
-                    return StatCollector.translateToLocal("entity.skeletonhorse.name");
-            }
+            return switch (i) {
+                default -> StatCollector.translateToLocal("entity.horse.name");
+                case 1 -> StatCollector.translateToLocal("entity.donkey.name");
+                case 2 -> StatCollector.translateToLocal("entity.mule.name");
+                case 3 -> StatCollector.translateToLocal("entity.zombiehorse.name");
+                case 4 -> StatCollector.translateToLocal("entity.skeletonhorse.name");
+            };
         }
     }
 

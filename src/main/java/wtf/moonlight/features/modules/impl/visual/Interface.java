@@ -1065,24 +1065,13 @@ public class Interface extends Module {
 
     public FontRenderer getFr() {
 
-        FontRenderer fr = null;
-        switch (fontMode.get()) {
-            case "Bold":
-                fr = Fonts.interBold.get(fontSize.get());
-                break;
-
-            case "Semi Bold":
-                fr = Fonts.interSemiBold.get(fontSize.get());
-                break;
-
-            case "Regular":
-                fr = Fonts.interRegular.get(fontSize.get());
-                break;
-            case "Tahoma":
-                fr = Fonts.Tahoma.get(fontSize.get());
-                break;
-
-        }
+        FontRenderer fr = switch (fontMode.get()) {
+            case "Bold" -> Fonts.interBold.get(fontSize.get());
+            case "Semi Bold" -> Fonts.interSemiBold.get(fontSize.get());
+            case "Regular" -> Fonts.interRegular.get(fontSize.get());
+            case "Tahoma" -> Fonts.Tahoma.get(fontSize.get());
+            default -> null;
+        };
 
         return fr;
     }
@@ -1123,23 +1112,17 @@ public class Interface extends Module {
 
     public int color(int counter, int alpha) {
         int colors = getMainColor().getRGB();
-        switch (color.get()) {
-            case "Rainbow":
-                colors = ColorUtils.swapAlpha(getRainbow(counter), alpha);
-                break;
-            case "Dynamic":
-                colors = ColorUtils.swapAlpha(ColorUtils.colorSwitch(getMainColor(), new Color(ColorUtils.darker(getMainColor().getRGB(), 0.25F)), 2000.0F, counter, 75L, fadeSpeed.get()).getRGB(), alpha);
-                break;
-            case "Fade":
-                colors = ColorUtils.swapAlpha((ColorUtils.colorSwitch(getMainColor(), getSecondColor(), 2000.0F, counter, 75L, fadeSpeed.get()).getRGB()), alpha);
-                break;
-            case "Astolfo":
-                colors = ColorUtils.swapAlpha(astolfoRainbow(counter,mainColor.getSaturation(),mainColor.getBrightness()),alpha);
-                break;
-            case "NeverLose":
-                colors = ColorUtils.swapAlpha(iconRGB, alpha);
-                break;
-        }
+        colors = switch (color.get()) {
+            case "Rainbow" -> ColorUtils.swapAlpha(getRainbow(counter), alpha);
+            case "Dynamic" ->
+                    ColorUtils.swapAlpha(ColorUtils.colorSwitch(getMainColor(), new Color(ColorUtils.darker(getMainColor().getRGB(), 0.25F)), 2000.0F, counter, 75L, fadeSpeed.get()).getRGB(), alpha);
+            case "Fade" ->
+                    ColorUtils.swapAlpha((ColorUtils.colorSwitch(getMainColor(), getSecondColor(), 2000.0F, counter, 75L, fadeSpeed.get()).getRGB()), alpha);
+            case "Astolfo" ->
+                    ColorUtils.swapAlpha(astolfoRainbow(counter, mainColor.getSaturation(), mainColor.getBrightness()), alpha);
+            case "NeverLose" -> ColorUtils.swapAlpha(iconRGB, alpha);
+            default -> colors;
+        };
         return new Color(colors).getRGB();
     }
 
@@ -1149,23 +1132,15 @@ public class Interface extends Module {
 
     public int bgColor(int counter, int alpha) {
         int colors = getMainColor().getRGB();
-        switch (bgColor.get()) {
-            case "Dark":
-                colors = (new Color(21, 21, 21, alpha)).getRGB();
-                break;
-            case "Synced":
-                colors = new Color(ColorUtils.applyOpacity(color(counter,alpha),alpha / 255f),true).darker().darker().getRGB();
-                break;
-            case "None":
-                colors = new Color(0, 0, 0, 0).getRGB();
-                break;
-            case "Custom":
-                colors = ColorUtils.swapAlpha(bgCustomColor.get().getRGB(),alpha);
-                break;
-            case "NeverLose":
-                colors = ColorUtils.swapAlpha(NeverLose.bgColor.getRGB(),alpha);
-                break;
-        }
+        colors = switch (bgColor.get()) {
+            case "Dark" -> (new Color(21, 21, 21, alpha)).getRGB();
+            case "Synced" ->
+                    new Color(ColorUtils.applyOpacity(color(counter, alpha), alpha / 255f), true).darker().darker().getRGB();
+            case "None" -> new Color(0, 0, 0, 0).getRGB();
+            case "Custom" -> ColorUtils.swapAlpha(bgCustomColor.get().getRGB(), alpha);
+            case "NeverLose" -> ColorUtils.swapAlpha(NeverLose.bgColor.getRGB(), alpha);
+            default -> colors;
+        };
         return colors;
     }
     public int bgColor(int counter) {

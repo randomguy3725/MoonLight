@@ -33,20 +33,12 @@ public class BlockHugeMushroom extends Block
 
     public MapColor getMapColor(IBlockState state)
     {
-        switch (state.getValue(VARIANT))
-        {
-            case ALL_STEM:
-                return MapColor.clothColor;
-
-            case ALL_INSIDE:
-                return MapColor.sandColor;
-
-            case STEM:
-                return MapColor.sandColor;
-
-            default:
-                return super.getMapColor(state);
-        }
+        return switch (state.getValue(VARIANT)) {
+            case ALL_STEM -> MapColor.clothColor;
+            case ALL_INSIDE -> MapColor.sandColor;
+            case STEM -> MapColor.sandColor;
+            default -> super.getMapColor(state);
+        };
     }
 
     public Item getItemDropped(IBlockState state, Random rand, int fortune)

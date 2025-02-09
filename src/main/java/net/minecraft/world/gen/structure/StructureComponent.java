@@ -164,21 +164,12 @@ public abstract class StructureComponent
         }
         else
         {
-            switch (this.coordBaseMode)
-            {
-                case NORTH:
-                case SOUTH:
-                    return this.boundingBox.minX + x;
-
-                case WEST:
-                    return this.boundingBox.maxX - z;
-
-                case EAST:
-                    return this.boundingBox.minX + z;
-
-                default:
-                    return x;
-            }
+            return switch (this.coordBaseMode) {
+                case NORTH, SOUTH -> this.boundingBox.minX + x;
+                case WEST -> this.boundingBox.maxX - z;
+                case EAST -> this.boundingBox.minX + z;
+                default -> x;
+            };
         }
     }
 
@@ -195,21 +186,12 @@ public abstract class StructureComponent
         }
         else
         {
-            switch (this.coordBaseMode)
-            {
-                case NORTH:
-                    return this.boundingBox.maxZ - z;
-
-                case SOUTH:
-                    return this.boundingBox.minZ + z;
-
-                case WEST:
-                case EAST:
-                    return this.boundingBox.minZ + x;
-
-                default:
-                    return z;
-            }
+            return switch (this.coordBaseMode) {
+                case NORTH -> this.boundingBox.maxZ - z;
+                case SOUTH -> this.boundingBox.minZ + z;
+                case WEST, EAST -> this.boundingBox.minZ + x;
+                default -> z;
+            };
         }
     }
 

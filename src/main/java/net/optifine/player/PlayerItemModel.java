@@ -73,29 +73,15 @@ public class PlayerItemModel
 
     public static ModelRenderer getAttachModel(ModelBiped modelBiped, int attachTo)
     {
-        switch (attachTo)
-        {
-            case 0:
-                return modelBiped.bipedBody;
-
-            case 1:
-                return modelBiped.bipedHead;
-
-            case 2:
-                return modelBiped.bipedLeftArm;
-
-            case 3:
-                return modelBiped.bipedRightArm;
-
-            case 4:
-                return modelBiped.bipedLeftLeg;
-
-            case 5:
-                return modelBiped.bipedRightLeg;
-
-            default:
-                return null;
-        }
+        return switch (attachTo) {
+            case 0 -> modelBiped.bipedBody;
+            case 1 -> modelBiped.bipedHead;
+            case 2 -> modelBiped.bipedLeftArm;
+            case 3 -> modelBiped.bipedRightArm;
+            case 4 -> modelBiped.bipedLeftLeg;
+            case 5 -> modelBiped.bipedRightLeg;
+            default -> null;
+        };
     }
 
     public BufferedImage getTextureImage()

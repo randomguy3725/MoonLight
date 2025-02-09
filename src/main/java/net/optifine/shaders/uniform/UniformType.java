@@ -17,29 +17,15 @@ public enum UniformType
 
     public ShaderUniformBase makeShaderUniform(String name)
     {
-        switch (this)
-        {
-            case BOOL:
-                return new ShaderUniform1i(name);
-
-            case INT:
-                return new ShaderUniform1i(name);
-
-            case FLOAT:
-                return new ShaderUniform1f(name);
-
-            case VEC2:
-                return new ShaderUniform2f(name);
-
-            case VEC3:
-                return new ShaderUniform3f(name);
-
-            case VEC4:
-                return new ShaderUniform4f(name);
-
-            default:
-                throw new RuntimeException("Unknown uniform type: " + this);
-        }
+        return switch (this) {
+            case BOOL -> new ShaderUniform1i(name);
+            case INT -> new ShaderUniform1i(name);
+            case FLOAT -> new ShaderUniform1f(name);
+            case VEC2 -> new ShaderUniform2f(name);
+            case VEC3 -> new ShaderUniform3f(name);
+            case VEC4 -> new ShaderUniform4f(name);
+            default -> throw new RuntimeException("Unknown uniform type: " + this);
+        };
     }
 
     public void updateUniform(IExpression expression, ShaderUniformBase uniform)
@@ -138,25 +124,13 @@ public enum UniformType
 
     public boolean matchesExpressionType(ExpressionType expressionType)
     {
-        switch (this)
-        {
-            case BOOL:
-                return expressionType == ExpressionType.BOOL;
-
-            case INT:
-                return expressionType == ExpressionType.FLOAT;
-
-            case FLOAT:
-                return expressionType == ExpressionType.FLOAT;
-
-            case VEC2:
-            case VEC3:
-            case VEC4:
-                return expressionType == ExpressionType.FLOAT_ARRAY;
-
-            default:
-                throw new RuntimeException("Unknown uniform type: " + this);
-        }
+        return switch (this) {
+            case BOOL -> expressionType == ExpressionType.BOOL;
+            case INT -> expressionType == ExpressionType.FLOAT;
+            case FLOAT -> expressionType == ExpressionType.FLOAT;
+            case VEC2, VEC3, VEC4 -> expressionType == ExpressionType.FLOAT_ARRAY;
+            default -> throw new RuntimeException("Unknown uniform type: " + this);
+        };
     }
 
     public static UniformType parse(String type)

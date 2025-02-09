@@ -822,23 +822,12 @@ public class CustomColors
                 }
                 else if (block == Blocks.leaves)
                 {
-                    switch (i & 3)
-                    {
-                        case 0:
-                            customcolors$icolorizer = COLORIZER_FOLIAGE;
-                            break;
-
-                        case 1:
-                            customcolors$icolorizer = COLORIZER_FOLIAGE_PINE;
-                            break;
-
-                        case 2:
-                            customcolors$icolorizer = COLORIZER_FOLIAGE_BIRCH;
-                            break;
-
-                        default:
-                            customcolors$icolorizer = COLORIZER_FOLIAGE;
-                    }
+                    customcolors$icolorizer = switch (i & 3) {
+                        case 0 -> COLORIZER_FOLIAGE;
+                        case 1 -> COLORIZER_FOLIAGE_PINE;
+                        case 2 -> COLORIZER_FOLIAGE_BIRCH;
+                        default -> COLORIZER_FOLIAGE;
+                    };
                 }
                 else if (block == Blocks.leaves2)
                 {
