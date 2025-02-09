@@ -96,7 +96,7 @@ public class Interface extends Module {
     public final BoolValue cFont = new BoolValue("C Fonts",true,this, () -> elements.isEnabled("Module List"));
     public final ModeValue fontMode = new ModeValue("C Fonts Mode", new String[]{"Bold","Semi Bold","Medium","Regular","Tahoma","Astolfo"}, "Semi Bold", this,() -> cFont.canDisplay() && cFont.get());
     public final SliderValue fontSize = new SliderValue("Font Size",15,10,25,this,cFont::get);
-    public final ModeValue watemarkMode = new ModeValue("Watermark Mode", new String[]{"Text","Styles","Nursultan","Exhi","Exhi 2","Type 1","NeverLose"}, "Text", this,() -> elements.isEnabled("Watermark"));
+    public final ModeValue watemarkMode = new ModeValue("Watermark Mode", new String[]{"Text","Styles","Nursultan","Exhi","Exhi 2","Nursultan 2","NeverLose"}, "Text", this,() -> elements.isEnabled("Watermark"));
     public final ModeValue animation = new ModeValue("Animation", new String[]{"ScaleIn", "MoveIn","Slide In"}, "ScaleIn", this, () -> elements.isEnabled("Module List"));
     public final ModeValue arrayPosition = new ModeValue("Position", new String[]{"Right","Left"}, "Right", this, () -> elements.isEnabled("Module List"));
     public final SliderValue x = new SliderValue("Module List X", 0, -50, 50, this, () -> elements.isEnabled("Module List"));
@@ -192,61 +192,61 @@ public class Interface extends Module {
                             " §7[§f" + Minecraft.getDebugFPS() + " FPS§7]§r ";
                     Fonts.Tahoma.get(15).drawStringWithShadow(text, 1.0f, 2.0f, color());
                     break;
-                case "Type 1":
-                    float posX = 4.0F;
-                    float posY = 4.0F;
+                case "Nursultan 2":
+                    float posX = 7f;
+                    float posY = 7.5f;
                     float fontSize = 15f;
                     float iconSize = 5.0F;
                     float rectWidth = 10.0F;
-                    String title = "Moonlight";
+                    String title = " | MoonLight";
                     float titleWidth = Fonts.interMedium.get(fontSize).getStringWidth(title);
 
-                    RoundedUtils.drawRound(posX, posY, rectWidth + iconSize * 2.5F + titleWidth, rectWidth + iconSize * 2.0F, 4.0F, new Color(getModule(Interface.class).bgColor(), true));
+                    RoundedUtils.drawRound(posX, posY, rectWidth + iconSize * 2.5F + titleWidth, 15, 4.0F, new Color(getModule(Interface.class).bgColor(), true));
 
-                    Fonts.nursultan.get(18).drawString("S", posX + iconSize, posY + 2 + iconSize - 1.0F + 2F, color());
+                    Fonts.nursultan.get(18).drawString("S", posX + iconSize, posY + 2 + iconSize - 1.0F, color());
 
-                    Fonts.interMedium.get(fontSize).drawString(title, posX + rectWidth + iconSize * 1.5F, posY + rectWidth / 2.0F + 1.5F + 2F, color());
+                    Fonts.interMedium.get(fontSize).drawString(title, posX + rectWidth + iconSize * 1.5F, posY + rectWidth / 2.0F + 1.5F, color());
 
                     String playerName = mc.thePlayer.getName();
                     float playerNameWidth = Fonts.interMedium.get(fontSize).getStringWidth(playerName);
                     float playerNameX = posX + rectWidth + iconSize * 2.5F + titleWidth + iconSize;
 
-                    RoundedUtils.drawRound(playerNameX, posY, rectWidth + iconSize * 2.5F + playerNameWidth, rectWidth + iconSize * 2.0F, 4.0F, new Color(getModule(Interface.class).bgColor(), true));
+                    RoundedUtils.drawRound(playerNameX, posY, rectWidth + iconSize * 2.5F + playerNameWidth, 15, 4.0F, new Color(getModule(Interface.class).bgColor(), true));
 
-                    Fonts.nursultan.get(fontSize).drawString("W", playerNameX + iconSize, posY + 1 + iconSize + 2F, color());
+                    Fonts.nursultan.get(fontSize).drawString("W", playerNameX + iconSize, posY + 1 + iconSize, color());
 
-                    Fonts.interMedium.get(fontSize).drawString(playerName, playerNameX + iconSize * 1.5F + rectWidth, posY + rectWidth / 2.0F + 1.5F + 2F, -1);
+                    Fonts.interMedium.get(fontSize).drawString(playerName, playerNameX + iconSize * 1.5F + rectWidth, posY + rectWidth / 2.0F + 1.5F, -1);
 
                     int fps = Minecraft.getDebugFPS();
                     String fpsText = fps + " Fps";
                     float fpsTextWidth = Fonts.interMedium.get(fontSize).getStringWidth(fpsText);
                     float fpsX = playerNameX + rectWidth + iconSize * 2.5F + playerNameWidth + iconSize;
 
-                    RoundedUtils.drawRound(fpsX, posY, rectWidth + iconSize * 2.5F + fpsTextWidth, rectWidth + iconSize * 2.0F, 4.0F, new Color(getModule(Interface.class).bgColor(), true));
+                    RoundedUtils.drawRound(fpsX, posY, rectWidth + iconSize * 2.5F + fpsTextWidth, 15, 4.0F, new Color(getModule(Interface.class).bgColor(), true));
 
-                    Fonts.nursultan.get(18).drawString("X", fpsX + iconSize, posY + 1 + iconSize + 2F, color());
+                    Fonts.nursultan.get(18).drawString("X", fpsX + iconSize, posY + 1 + iconSize, color());
 
-                    Fonts.interMedium.get(fontSize).drawString(fpsText, fpsX + rectWidth + iconSize * 1.5F, posY + rectWidth / 2.0F + 1.5F + 2F, -1);
+                    Fonts.interMedium.get(fontSize).drawString(fpsText, fpsX + rectWidth + iconSize * 1.5F, posY + rectWidth / 2.0F + 1.5F, -1);
 
                     String playerPosition = (int) mc.thePlayer.posX + " " + (int) mc.thePlayer.posY + " " + (int) mc.thePlayer.posZ;
                     float positionTextWidth = Fonts.interMedium.get(fontSize).getStringWidth(playerPosition);
-                    float positionY = posY + rectWidth + iconSize * 2.0F + iconSize;
+                    float positionY = posY + 15 + iconSize;
 
-                    RoundedUtils.drawRound(posX, positionY, rectWidth + iconSize * 2.5F + positionTextWidth, rectWidth + iconSize * 2.0F, 4.0F, new Color(getModule(Interface.class).bgColor(), true));
+                    RoundedUtils.drawRound(posX, positionY, rectWidth + iconSize * 2.5F + positionTextWidth, 15, 4.0F, new Color(getModule(Interface.class).bgColor(), true));
 
-                    Fonts.nursultan.get(18).drawString("F", posX + iconSize, positionY + 1.5F + iconSize + 2F, color());
+                    Fonts.nursultan.get(18).drawString("F", posX + iconSize, positionY + 1.5F + iconSize, color());
 
-                    Fonts.interMedium.get(fontSize).drawString(playerPosition, posX + iconSize * 1.5F + rectWidth, positionY + rectWidth / 2.0F + 1.5F + 2F, -1);
+                    Fonts.interMedium.get(fontSize).drawString(playerPosition, posX + iconSize * 1.5F + rectWidth, positionY + rectWidth / 2.0F + 1.5F, -1);
 
                     String pingText = mc.getNetHandler().getPlayerInfo(mc.thePlayer.getUniqueID()).getResponseTime() + " Ping";
                     float pingTextWidth = Fonts.interMedium.get(fontSize).getStringWidth(pingText);
                     float pingX = posX + rectWidth + iconSize * 2.5F + positionTextWidth + iconSize;
 
-                    RoundedUtils.drawRound(pingX, positionY, rectWidth + iconSize * 2.5F + pingTextWidth, rectWidth + iconSize * 2.0F, 4.0F, new Color(getModule(Interface.class).bgColor(), true));
+                    RoundedUtils.drawRound(pingX, positionY, rectWidth + iconSize * 2.5F + pingTextWidth, 15, 4.0F, new Color(getModule(Interface.class).bgColor(), true));
 
-                    Fonts.nursultan.get(18).drawString("Q", pingX + iconSize, positionY + 1 + iconSize + 2F, color());
+                    Fonts.nursultan.get(18).drawString("Q", pingX + iconSize, positionY + 1 + iconSize, color());
 
-                    Fonts.interMedium.get(fontSize).drawString(pingText, pingX + iconSize * 1.5F + rectWidth, positionY + rectWidth / 2.0F + 1.5F + 2F, -1);
+                    Fonts.interMedium.get(fontSize).drawString(pingText, pingX + iconSize * 1.5F + rectWidth, positionY + rectWidth / 2.0F + 1.5F, -1);
                     break;
                 case "NeverLose":
                     //title
