@@ -618,7 +618,7 @@ public class Scaffold extends Module {
         if (wdSprint.canDisplay() && !(PlayerUtils.getBlock(mc.thePlayer.getPosition()) instanceof BlockLiquid) && !towering() && !towerMoving()) {
             if (wdSprint.is("Offset")) {
                 if (mc.thePlayer.onGround) {
-                    event.setY(event.getY() + 1E-13);
+                    event.setY(event.getY() + 1E-12F);
                 }
             }
 
