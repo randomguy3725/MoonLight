@@ -62,21 +62,15 @@ public class BlockRendererDispatcher implements IResourceManagerReloadListener
             }
             else
             {
-                switch (i)
-                {
-                    case 1:
-                        return this.fluidRenderer.renderFluid(blockAccess, state, pos, worldRendererIn);
-
-                    case 2:
-                        return false;
-
-                    case 3:
+                return switch (i) {
+                    case 1 -> this.fluidRenderer.renderFluid(blockAccess, state, pos, worldRendererIn);
+                    case 2 -> false;
+                    case 3 -> {
                         IBakedModel ibakedmodel = this.getModelFromBlockState(state, blockAccess, pos);
-                        return this.blockModelRenderer.renderModel(blockAccess, ibakedmodel, state, pos, worldRendererIn);
-
-                    default:
-                        return false;
-                }
+                        yield this.blockModelRenderer.renderModel(blockAccess, ibakedmodel, state, pos, worldRendererIn);
+                    }
+                    default -> false;
+                };
             }
         }
         catch (Throwable throwable)

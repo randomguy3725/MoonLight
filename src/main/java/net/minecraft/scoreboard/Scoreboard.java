@@ -380,30 +380,22 @@ public class Scoreboard
 
     public static String getObjectiveDisplaySlot(int p_96517_0_)
     {
-        switch (p_96517_0_)
-        {
-            case 0:
-                return "list";
-
-            case 1:
-                return "sidebar";
-
-            case 2:
-                return "belowName";
-
-            default:
-                if (p_96517_0_ >= 3 && p_96517_0_ <= 18)
-                {
+        return switch (p_96517_0_) {
+            case 0 -> "list";
+            case 1 -> "sidebar";
+            case 2 -> "belowName";
+            default -> {
+                if (p_96517_0_ >= 3 && p_96517_0_ <= 18) {
                     EnumChatFormatting enumchatformatting = EnumChatFormatting.func_175744_a(p_96517_0_ - 3);
 
-                    if (enumchatformatting != null && enumchatformatting != EnumChatFormatting.RESET)
-                    {
-                        return "sidebar.team." + enumchatformatting.getFriendlyName();
+                    if (enumchatformatting != null && enumchatformatting != EnumChatFormatting.RESET) {
+                        yield "sidebar.team." + enumchatformatting.getFriendlyName();
                     }
                 }
 
-                return null;
-        }
+                yield null;
+            }
+        };
     }
 
     public static int getObjectiveDisplaySlotNumber(String p_96537_0_)

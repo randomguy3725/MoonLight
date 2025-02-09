@@ -31,18 +31,11 @@ public class BlockQuartz extends Block
     {
         if (meta == BlockQuartz.EnumType.LINES_Y.getMetadata())
         {
-            switch (facing.getAxis())
-            {
-                case Z:
-                    return this.getDefaultState().withProperty(VARIANT, BlockQuartz.EnumType.LINES_Z);
-
-                case X:
-                    return this.getDefaultState().withProperty(VARIANT, BlockQuartz.EnumType.LINES_X);
-
-                case Y:
-                default:
-                    return this.getDefaultState().withProperty(VARIANT, BlockQuartz.EnumType.LINES_Y);
-            }
+            return switch (facing.getAxis()) {
+                case Z -> this.getDefaultState().withProperty(VARIANT, EnumType.LINES_Z);
+                case X -> this.getDefaultState().withProperty(VARIANT, EnumType.LINES_X);
+                default -> this.getDefaultState().withProperty(VARIANT, EnumType.LINES_Y);
+            };
         }
         else
         {

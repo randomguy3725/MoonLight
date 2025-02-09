@@ -44,25 +44,15 @@ public class BlockPart
 
     private float[] getFaceUvs(EnumFacing p_178236_1_)
     {
-        float[] afloat;
-
-        switch (p_178236_1_)
-        {
-            case DOWN:
-            case UP:
-                afloat = new float[] {this.positionFrom.x, this.positionFrom.z, this.positionTo.x, this.positionTo.z};
-                break;
-            case NORTH:
-            case SOUTH:
-                afloat = new float[] {this.positionFrom.x, 16.0F - this.positionTo.y, this.positionTo.x, 16.0F - this.positionFrom.y};
-                break;
-            case WEST:
-            case EAST:
-                afloat = new float[] {this.positionFrom.z, 16.0F - this.positionTo.y, this.positionTo.z, 16.0F - this.positionFrom.y};
-                break;
-            default:
-                throw new NullPointerException();
-        }
+        float[] afloat = switch (p_178236_1_) {
+            case DOWN, UP ->
+                    new float[]{this.positionFrom.x, this.positionFrom.z, this.positionTo.x, this.positionTo.z};
+            case NORTH, SOUTH ->
+                    new float[]{this.positionFrom.x, 16.0F - this.positionTo.y, this.positionTo.x, 16.0F - this.positionFrom.y};
+            case WEST, EAST ->
+                    new float[]{this.positionFrom.z, 16.0F - this.positionTo.y, this.positionTo.z, 16.0F - this.positionFrom.y};
+            default -> throw new NullPointerException();
+        };
 
         return afloat;
     }

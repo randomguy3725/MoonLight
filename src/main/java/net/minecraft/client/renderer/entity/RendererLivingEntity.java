@@ -711,23 +711,13 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
             {
                 Team.EnumVisible team$enumvisible = team.getNameTagVisibility();
 
-                switch (team$enumvisible)
-                {
-                    case ALWAYS:
-                        return true;
-
-                    case NEVER:
-                        return false;
-
-                    case HIDE_FOR_OTHER_TEAMS:
-                        return team1 == null || team.isSameTeam(team1);
-
-                    case HIDE_FOR_OWN_TEAM:
-                        return team1 == null || !team.isSameTeam(team1);
-
-                    default:
-                        return true;
-                }
+                return switch (team$enumvisible) {
+                    case ALWAYS -> true;
+                    case NEVER -> false;
+                    case HIDE_FOR_OTHER_TEAMS -> team1 == null || team.isSameTeam(team1);
+                    case HIDE_FOR_OWN_TEAM -> team1 == null || !team.isSameTeam(team1);
+                    default -> true;
+                };
             }
         }
 

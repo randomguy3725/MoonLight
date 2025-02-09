@@ -716,65 +716,27 @@ public class Shaders
 
     public static String getEnumShaderOption(EnumShaderOption eso)
     {
-        switch (eso)
-        {
-            case ANTIALIASING:
-                return Integer.toString(configAntialiasingLevel);
-
-            case NORMAL_MAP:
-                return Boolean.toString(configNormalMap);
-
-            case SPECULAR_MAP:
-                return Boolean.toString(configSpecularMap);
-
-            case RENDER_RES_MUL:
-                return Float.toString(configRenderResMul);
-
-            case SHADOW_RES_MUL:
-                return Float.toString(configShadowResMul);
-
-            case HAND_DEPTH_MUL:
-                return Float.toString(configHandDepthMul);
-
-            case CLOUD_SHADOW:
-                return Boolean.toString(configCloudShadow);
-
-            case OLD_HAND_LIGHT:
-                return configOldHandLight.getPropertyValue();
-
-            case OLD_LIGHTING:
-                return configOldLighting.getPropertyValue();
-
-            case SHADER_PACK:
-                return currentShaderName;
-
-            case TWEAK_BLOCK_DAMAGE:
-                return Boolean.toString(configTweakBlockDamage);
-
-            case SHADOW_CLIP_FRUSTRUM:
-                return Boolean.toString(configShadowClipFrustrum);
-
-            case TEX_MIN_FIL_B:
-                return Integer.toString(configTexMinFilB);
-
-            case TEX_MIN_FIL_N:
-                return Integer.toString(configTexMinFilN);
-
-            case TEX_MIN_FIL_S:
-                return Integer.toString(configTexMinFilS);
-
-            case TEX_MAG_FIL_B:
-                return Integer.toString(configTexMagFilB);
-
-            case TEX_MAG_FIL_N:
-                return Integer.toString(configTexMagFilB);
-
-            case TEX_MAG_FIL_S:
-                return Integer.toString(configTexMagFilB);
-
-            default:
-                throw new IllegalArgumentException("Unknown option: " + eso);
-        }
+        return switch (eso) {
+            case ANTIALIASING -> Integer.toString(configAntialiasingLevel);
+            case NORMAL_MAP -> Boolean.toString(configNormalMap);
+            case SPECULAR_MAP -> Boolean.toString(configSpecularMap);
+            case RENDER_RES_MUL -> Float.toString(configRenderResMul);
+            case SHADOW_RES_MUL -> Float.toString(configShadowResMul);
+            case HAND_DEPTH_MUL -> Float.toString(configHandDepthMul);
+            case CLOUD_SHADOW -> Boolean.toString(configCloudShadow);
+            case OLD_HAND_LIGHT -> configOldHandLight.getPropertyValue();
+            case OLD_LIGHTING -> configOldLighting.getPropertyValue();
+            case SHADER_PACK -> currentShaderName;
+            case TWEAK_BLOCK_DAMAGE -> Boolean.toString(configTweakBlockDamage);
+            case SHADOW_CLIP_FRUSTRUM -> Boolean.toString(configShadowClipFrustrum);
+            case TEX_MIN_FIL_B -> Integer.toString(configTexMinFilB);
+            case TEX_MIN_FIL_N -> Integer.toString(configTexMinFilN);
+            case TEX_MIN_FIL_S -> Integer.toString(configTexMinFilS);
+            case TEX_MAG_FIL_B -> Integer.toString(configTexMagFilB);
+            case TEX_MAG_FIL_N -> Integer.toString(configTexMagFilB);
+            case TEX_MAG_FIL_S -> Integer.toString(configTexMagFilB);
+            default -> throw new IllegalArgumentException("Unknown option: " + eso);
+        };
     }
 
     public static void setShaderPack(String par1name)
@@ -1831,38 +1793,18 @@ public class Shaders
 
     private static String getFramebufferStatusText(int fbStatusCode)
     {
-        switch (fbStatusCode)
-        {
-            case 33305:
-                return "Undefined";
-
-            case 36053:
-                return "Complete";
-
-            case 36054:
-                return "Incomplete attachment";
-
-            case 36055:
-                return "Incomplete missing attachment";
-
-            case 36059:
-                return "Incomplete draw buffer";
-
-            case 36060:
-                return "Incomplete read buffer";
-
-            case 36061:
-                return "Unsupported";
-
-            case 36182:
-                return "Incomplete multisample";
-
-            case 36264:
-                return "Incomplete layer targets";
-
-            default:
-                return "Unknown";
-        }
+        return switch (fbStatusCode) {
+            case 33305 -> "Undefined";
+            case 36053 -> "Complete";
+            case 36054 -> "Incomplete attachment";
+            case 36055 -> "Incomplete missing attachment";
+            case 36059 -> "Incomplete draw buffer";
+            case 36060 -> "Incomplete read buffer";
+            case 36061 -> "Unsupported";
+            case 36182 -> "Incomplete multisample";
+            case 36264 -> "Incomplete layer targets";
+            default -> "Unknown";
+        };
     }
 
     private static void printChat(String str)
@@ -1968,23 +1910,13 @@ public class Shaders
 
     public static boolean isRenderBackFace(EnumWorldBlockLayer blockLayerIn)
     {
-        switch (blockLayerIn)
-        {
-            case SOLID:
-                return shaderPackBackFaceSolid.isTrue();
-
-            case CUTOUT:
-                return shaderPackBackFaceCutout.isTrue();
-
-            case CUTOUT_MIPPED:
-                return shaderPackBackFaceCutoutMipped.isTrue();
-
-            case TRANSLUCENT:
-                return shaderPackBackFaceTranslucent.isTrue();
-
-            default:
-                return false;
-        }
+        return switch (blockLayerIn) {
+            case SOLID -> shaderPackBackFaceSolid.isTrue();
+            case CUTOUT -> shaderPackBackFaceCutout.isTrue();
+            case CUTOUT_MIPPED -> shaderPackBackFaceCutoutMipped.isTrue();
+            case TRANSLUCENT -> shaderPackBackFaceTranslucent.isTrue();
+            default -> false;
+        };
     }
 
     public static boolean isRainDepth()
@@ -3718,21 +3650,10 @@ public class Shaders
 
     private static int getPixelFormat(int internalFormat)
     {
-        switch (internalFormat)
-        {
-            case 33333:
-            case 33334:
-            case 33339:
-            case 33340:
-            case 36208:
-            case 36209:
-            case 36226:
-            case 36227:
-                return 36251;
-
-            default:
-                return 32993;
-        }
+        return switch (internalFormat) {
+            case 33333, 33334, 33339, 33340, 36208, 36209, 36226, 36227 -> 36251;
+            default -> 32993;
+        };
     }
 
     private static void setupShadowFrameBuffer()

@@ -1532,22 +1532,12 @@ public class StructureStrongholdPieces
         {
             int i = p_74988_1_.nextInt(5);
 
-            switch (i)
-            {
-                case 0:
-                case 1:
-                default:
-                    return StructureStrongholdPieces.Stronghold.Door.OPENING;
-
-                case 2:
-                    return StructureStrongholdPieces.Stronghold.Door.WOOD_DOOR;
-
-                case 3:
-                    return StructureStrongholdPieces.Stronghold.Door.GRATES;
-
-                case 4:
-                    return StructureStrongholdPieces.Stronghold.Door.IRON_DOOR;
-            }
+            return switch (i) {
+                default -> Door.OPENING;
+                case 2 -> Door.WOOD_DOOR;
+                case 3 -> Door.GRATES;
+                case 4 -> Door.IRON_DOOR;
+            };
         }
 
         protected StructureComponent getNextComponentNormal(StructureStrongholdPieces.Stairs2 p_74986_1_, List<StructureComponent> p_74986_2_, Random p_74986_3_, int p_74986_4_, int p_74986_5_)

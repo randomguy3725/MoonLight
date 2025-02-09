@@ -55,58 +55,36 @@ public class Notification implements InstanceAccess {
     }
     
     public double getWidth(){
-        double width = 0;
-        switch (INSTANCE.getModuleManager().getModule(Interface.class).notificationMode.get()){
-            case "Default":
-                width = Fonts.interMedium.get(15).getStringWidth(getDescription()) + 5;
-                break;
-            case "Test":
-                width = Math.max(Fonts.interSemiBold.get(15).getStringWidth(getTitle()), Fonts.interSemiBold.get(15).getStringWidth(getDescription())) + 5;
-                break;
-            case "Test2":
-                width = Math.max(Fonts.interSemiBold.get(17).getStringWidth(getTitle()), Fonts.interRegular.get(17).getStringWidth(getDescription())) + 10;
-                break;
-            case "Exhi":
-                width = Math.max(100.0f, Math.max(Fonts.interRegular.get(18).getStringWidth(getTitle()) + 2, Fonts.interRegular.get(14).getStringWidth(getDescription())) + 24.0f);
-                break;
-            case "Type 2":
-                width = Math.max(100.0f, Math.max(Fonts.interRegular.get(18).getStringWidth(getTitle()), Fonts.interRegular.get(14).getStringWidth(getDescription())) + 70);
-                break;
-            case "Type 3":
-                width = Math.max(Fonts.interRegular.get(22).getStringWidth(getTitle()), Fonts.interRegular.get(20).getStringWidth(getDescription())) + 50;
-                break;
-            case "Type 4":
-                width = Math.max(140, Math.max(Fonts.interRegular.get(18).getStringWidth(getTitle()), Fonts.interRegular.get(14).getStringWidth(getDescription())) + 40);
-                break;
-        }
+        double width = switch (INSTANCE.getModuleManager().getModule(Interface.class).notificationMode.get()) {
+            case "Default" -> Fonts.interMedium.get(15).getStringWidth(getDescription()) + 5;
+            case "Test" ->
+                    Math.max(Fonts.interSemiBold.get(15).getStringWidth(getTitle()), Fonts.interSemiBold.get(15).getStringWidth(getDescription())) + 5;
+            case "Test2" ->
+                    Math.max(Fonts.interSemiBold.get(17).getStringWidth(getTitle()), Fonts.interRegular.get(17).getStringWidth(getDescription())) + 10;
+            case "Exhi" ->
+                    Math.max(100.0f, Math.max(Fonts.interRegular.get(18).getStringWidth(getTitle()) + 2, Fonts.interRegular.get(14).getStringWidth(getDescription())) + 24.0f);
+            case "Type 2" ->
+                    Math.max(100.0f, Math.max(Fonts.interRegular.get(18).getStringWidth(getTitle()), Fonts.interRegular.get(14).getStringWidth(getDescription())) + 70);
+            case "Type 3" ->
+                    Math.max(Fonts.interRegular.get(22).getStringWidth(getTitle()), Fonts.interRegular.get(20).getStringWidth(getDescription())) + 50;
+            case "Type 4" ->
+                    Math.max(140, Math.max(Fonts.interRegular.get(18).getStringWidth(getTitle()), Fonts.interRegular.get(14).getStringWidth(getDescription())) + 40);
+            default -> 0;
+        };
         return width;
     }
 
     public double getHeight(){
-        double height = 0;
-        switch (INSTANCE.getModuleManager().getModule(Interface.class).notificationMode.get()){
-            case "Default":
-                height = 16;
-                break;
-            case "Test":
-                height = Fonts.interRegular.get(15).getHeight() * 2 + 2;
-                break;
-            case "Test2":
-                height = 33;
-                break;
-            case "Exhi":
-                height = 26;
-                break;
-            case "Type 2":
-                height = 30;
-                break;
-            case "Type 3":
-                height = 35;
-                break;
-            case "Type 4":
-                height = 35f;
-                break;
-        }
+        double height = switch (INSTANCE.getModuleManager().getModule(Interface.class).notificationMode.get()) {
+            case "Default" -> 16;
+            case "Test" -> Fonts.interRegular.get(15).getHeight() * 2 + 2;
+            case "Test2" -> 33;
+            case "Exhi" -> 26;
+            case "Type 2" -> 30;
+            case "Type 3" -> 35;
+            case "Type 4" -> 35f;
+            default -> 0;
+        };
         return height;
     }
 }

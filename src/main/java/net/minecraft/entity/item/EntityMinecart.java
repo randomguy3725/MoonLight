@@ -54,29 +54,15 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable
 
     public static EntityMinecart getMinecart(World worldIn, double x, double y, double z, EntityMinecart.EnumMinecartType type)
     {
-        switch (type)
-        {
-            case CHEST:
-                return new EntityMinecartChest(worldIn, x, y, z);
-
-            case FURNACE:
-                return new EntityMinecartFurnace(worldIn, x, y, z);
-
-            case TNT:
-                return new EntityMinecartTNT(worldIn, x, y, z);
-
-            case SPAWNER:
-                return new EntityMinecartMobSpawner(worldIn, x, y, z);
-
-            case HOPPER:
-                return new EntityMinecartHopper(worldIn, x, y, z);
-
-            case COMMAND_BLOCK:
-                return new EntityMinecartCommandBlock(worldIn, x, y, z);
-
-            default:
-                return new EntityMinecartEmpty(worldIn, x, y, z);
-        }
+        return switch (type) {
+            case CHEST -> new EntityMinecartChest(worldIn, x, y, z);
+            case FURNACE -> new EntityMinecartFurnace(worldIn, x, y, z);
+            case TNT -> new EntityMinecartTNT(worldIn, x, y, z);
+            case SPAWNER -> new EntityMinecartMobSpawner(worldIn, x, y, z);
+            case HOPPER -> new EntityMinecartHopper(worldIn, x, y, z);
+            case COMMAND_BLOCK -> new EntityMinecartCommandBlock(worldIn, x, y, z);
+            default -> new EntityMinecartEmpty(worldIn, x, y, z);
+        };
     }
 
     protected boolean canTriggerWalking()

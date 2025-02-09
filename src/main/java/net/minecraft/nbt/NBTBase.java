@@ -18,47 +18,21 @@ public abstract class NBTBase
 
     protected static NBTBase createNewByType(byte id)
     {
-        switch (id)
-        {
-            case 0:
-                return new NBTTagEnd();
-
-            case 1:
-                return new NBTTagByte();
-
-            case 2:
-                return new NBTTagShort();
-
-            case 3:
-                return new NBTTagInt();
-
-            case 4:
-                return new NBTTagLong();
-
-            case 5:
-                return new NBTTagFloat();
-
-            case 6:
-                return new NBTTagDouble();
-
-            case 7:
-                return new NBTTagByteArray();
-
-            case 8:
-                return new NBTTagString();
-
-            case 9:
-                return new NBTTagList();
-
-            case 10:
-                return new NBTTagCompound();
-
-            case 11:
-                return new NBTTagIntArray();
-
-            default:
-                return null;
-        }
+        return switch (id) {
+            case 0 -> new NBTTagEnd();
+            case 1 -> new NBTTagByte();
+            case 2 -> new NBTTagShort();
+            case 3 -> new NBTTagInt();
+            case 4 -> new NBTTagLong();
+            case 5 -> new NBTTagFloat();
+            case 6 -> new NBTTagDouble();
+            case 7 -> new NBTTagByteArray();
+            case 8 -> new NBTTagString();
+            case 9 -> new NBTTagList();
+            case 10 -> new NBTTagCompound();
+            case 11 -> new NBTTagIntArray();
+            default -> null;
+        };
     }
 
     public abstract NBTBase copy();
