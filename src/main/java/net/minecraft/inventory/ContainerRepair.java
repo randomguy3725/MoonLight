@@ -224,62 +224,48 @@ public class ContainerRepair extends Container
                     }
 
                     Map<Integer, Integer> map1 = EnchantmentHelper.getEnchantments(itemstack2);
-                    Iterator iterator1 = map1.keySet().iterator();
 
-                    while (iterator1.hasNext())
-                    {
-                        int i5 = ((Integer)iterator1.next()).intValue();
+                    for (Integer value : map1.keySet()) {
+                        int i5 = value.intValue();
                         Enchantment enchantment = Enchantment.getEnchantmentById(i5);
 
-                        if (enchantment != null)
-                        {
+                        if (enchantment != null) {
                             int k5 = map.containsKey(Integer.valueOf(i5)) ? map.get(Integer.valueOf(i5)).intValue() : 0;
                             int l3 = map1.get(Integer.valueOf(i5)).intValue();
                             int i6;
 
-                            if (k5 == l3)
-                            {
+                            if (k5 == l3) {
                                 ++l3;
                                 i6 = l3;
-                            }
-                            else
-                            {
+                            } else {
                                 i6 = Math.max(l3, k5);
                             }
 
                             l3 = i6;
                             boolean flag1 = enchantment.canApply(itemstack);
 
-                            if (this.thePlayer.capabilities.isCreativeMode || itemstack.getItem() == Items.enchanted_book)
-                            {
+                            if (this.thePlayer.capabilities.isCreativeMode || itemstack.getItem() == Items.enchanted_book) {
                                 flag1 = true;
                             }
 
-                            Iterator iterator = map.keySet().iterator();
+                            for (Integer integer : map.keySet()) {
+                                int i4 = integer.intValue();
 
-                            while (iterator.hasNext())
-                            {
-                                int i4 = ((Integer)iterator.next()).intValue();
-
-                                if (i4 != i5 && !enchantment.canApplyTogether(Enchantment.getEnchantmentById(i4)))
-                                {
+                                if (i4 != i5 && !enchantment.canApplyTogether(Enchantment.getEnchantmentById(i4))) {
                                     flag1 = false;
                                     ++l1;
                                 }
                             }
 
-                            if (flag1)
-                            {
-                                if (l3 > enchantment.getMaxLevel())
-                                {
+                            if (flag1) {
+                                if (l3 > enchantment.getMaxLevel()) {
                                     l3 = enchantment.getMaxLevel();
                                 }
 
                                 map.put(Integer.valueOf(i5), Integer.valueOf(l3));
                                 int l5 = 0;
 
-                                switch (enchantment.getWeight())
-                                {
+                                switch (enchantment.getWeight()) {
                                     case 1:
                                         l5 = 8;
                                         break;
@@ -304,8 +290,7 @@ public class ContainerRepair extends Container
                                         l5 = 1;
                                 }
 
-                                if (flag)
-                                {
+                                if (flag) {
                                     l5 = Math.max(1, l5 / 2);
                                 }
 

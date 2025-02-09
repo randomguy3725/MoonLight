@@ -245,22 +245,15 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
                                 }
                             }
 
-                            Iterator iterator1 = list1.iterator();
+                            for (Integer integer : list1) {
+                                int j4 = integer.intValue();
 
-                            while (iterator1.hasNext())
-                            {
-                                int j4 = ((Integer)iterator1.next()).intValue();
-
-                                if (j4 > 0 && j4 < abufferedimage.length - 1 && abufferedimage[j4] == null)
-                                {
+                                if (j4 > 0 && j4 < abufferedimage.length - 1 && abufferedimage[j4] == null) {
                                     ResourceLocation resourcelocation = this.completeResourceLocation(resourcelocation1, j4);
 
-                                    try
-                                    {
+                                    try {
                                         abufferedimage[j4] = TextureUtil.readBufferedImage(resourceManager.getResource(resourcelocation).getInputStream());
-                                    }
-                                    catch (IOException ioexception)
-                                    {
+                                    } catch (IOException ioexception) {
                                         logger.error("Unable to load miplevel {} from: {}", Integer.valueOf(j4), resourcelocation, ioexception);
                                     }
                                 }
@@ -836,21 +829,17 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
         int i1 = 16;
         int k1 = 0;
         l1 = l * p_detectMinimumSpriteSize_3_ / 100;
-        Iterator iterator1 = set1.iterator();
 
-        while (iterator1.hasNext())
-        {
-            int i2 = ((Integer)iterator1.next()).intValue();
-            int j2 = ((Integer)map.get(Integer.valueOf(i2))).intValue();
+        for (Object o : set1) {
+            int i2 = ((Integer) o).intValue();
+            int j2 = ((Integer) map.get(Integer.valueOf(i2))).intValue();
             k1 += j2;
 
-            if (i2 > i1)
-            {
+            if (i2 > i1) {
                 i1 = i2;
             }
 
-            if (k1 > l1)
-            {
+            if (k1 > l1) {
                 return i1;
             }
         }

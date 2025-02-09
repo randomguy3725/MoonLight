@@ -362,11 +362,8 @@ public class ItemPotion extends Item
             }
         }
 
-        Iterator iterator = SUB_ITEMS_CACHE.values().iterator();
-
-        while (iterator.hasNext())
-        {
-            int j1 = ((Integer)iterator.next()).intValue();
+        for (Integer integer : SUB_ITEMS_CACHE.values()) {
+            int j1 = integer.intValue();
             subItems.add(new ItemStack(itemIn, 1, j1));
         }
     }

@@ -55,7 +55,7 @@ public class ModelResolver implements IModelResolver
         {
             return null;
         }
-        else if (name.indexOf(":") >= 0)
+        else if (name.contains(":"))
         {
             String[] astring = Config.tokenize(name, ":");
             ModelRenderer modelrenderer3 = this.getModelRenderer(astring[0]);
