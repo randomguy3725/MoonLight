@@ -50,7 +50,7 @@ public class EntityBoat extends Entity
     {
         this.dataWatcher.addObject(17, Integer.valueOf(0));
         this.dataWatcher.addObject(18, Integer.valueOf(1));
-        this.dataWatcher.addObject(19, new Float(0.0F));
+        this.dataWatcher.addObject(19, 0.0F);
     }
 
     public AxisAlignedBB getCollisionBox(Entity entityIn)
