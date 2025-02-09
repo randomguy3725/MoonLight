@@ -10,7 +10,9 @@ import wtf.moonlight.events.impl.player.MotionEvent;
 import wtf.moonlight.features.modules.Module;
 import wtf.moonlight.features.modules.ModuleCategory;
 import wtf.moonlight.features.modules.ModuleInfo;
+import wtf.moonlight.features.values.impl.BoolValue;
 import wtf.moonlight.features.values.impl.ModeValue;
+import wtf.moonlight.utils.player.MovementUtils;
 import wtf.moonlight.utils.player.PlayerUtils;
 
 import java.util.Map;
@@ -19,6 +21,10 @@ import java.util.Map;
 public class NoWeb extends Module {
 
     private final ModeValue mode = new ModeValue("Mode", new String[]{"Vanilla", "GrimAC", "Intave"}, "Vanilla",this);
+    public final BoolValue upAndDown = new BoolValue("Up And Down",true,this,() -> mode.is("Intave"));
+    public final BoolValue groundBoost = new BoolValue("Ground Boost",true,this,() -> mode.is("Intave"));
+    public final BoolValue noDown = new BoolValue("No Down",true,this,() -> mode.is("Intave"));
+
     @EventTarget
     public void onMotion(MotionEvent event) {
         setTag(mode.get());
@@ -41,13 +47,27 @@ public class NoWeb extends Module {
                 mc.thePlayer.isInWeb = false;
                 break;
             case "Intave":
-                Map<BlockPos, Block> searchBlock = PlayerUtils.searchBlocks(2);
+                searchBlock = PlayerUtils.searchBlocks(2);
                 for (Map.Entry<BlockPos, Block> block : searchBlock.entrySet()) {
                     if (mc.theWorld.getBlockState(block.getKey()).getBlock() instanceof BlockWeb) {
-                        mc.thePlayer.motionY = -0.01;
+                        if (mc.thePlayer.onGround) {
+                            mc.thePlayer.motionY = MovementUtils.JUMP_HEIGHT;
+                            MovementUtils.moveFlying(groundBoost.get() ? 0.4 : 0.3);
+                        } else if (noDown.get()) {
+                            if (upAndDown.get())
+                                if (mc.gameSettings.keyBindSneak.isKeyDown())
+                                    mc.thePlayer.motionY = -0.2;
+                                else if (mc.gameSettings.keyBindJump.isKeyDown())
+                                    mc.thePlayer.motionY = mc.thePlayer.ticksExisted % 2 == 0 ? 0.2 : -0.01;
+                                else
+                                    mc.thePlayer.motionY = -0.01;
+                            else
+                                mc.thePlayer.motionY = -0.01;
                         }
+
                     }
-            break;
+                }
+                break;
         }
     }
 }
