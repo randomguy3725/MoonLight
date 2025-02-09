@@ -437,7 +437,7 @@ public abstract class World implements IBlockAccess
                 CrashReportCategory crashreportcategory = crashreport.makeCategory("Block being updated");
                 crashreportcategory.addCrashSectionCallable("Source block type", () -> {
                     try {
-                        return String.format("ID #%d (%s // %s)", Integer.valueOf(Block.getIdFromBlock(blockIn)), blockIn.getUnlocalizedName(), blockIn.getClass().getCanonicalName());
+                        return String.format("ID #%d (%s // %s)", Block.getIdFromBlock(blockIn), blockIn.getUnlocalizedName(), blockIn.getClass().getCanonicalName());
                     } catch (Throwable var2) {
                         return "ID #" + Block.getIdFromBlock(blockIn);
                     }
@@ -1887,7 +1887,7 @@ public abstract class World implements IBlockAccess
 
                         if (block.getMaterial() == materialIn)
                         {
-                            double d0 = (float)(l1 + 1) - BlockLiquid.getLiquidHeightPercent(iblockstate.getValue(BlockLiquid.LEVEL).intValue());
+                            double d0 = (float)(l1 + 1) - BlockLiquid.getLiquidHeightPercent(iblockstate.getValue(BlockLiquid.LEVEL));
 
                             if ((double)l >= d0)
                             {
@@ -1960,7 +1960,7 @@ public abstract class World implements IBlockAccess
 
                     if (block.getMaterial() == materialIn)
                     {
-                        int j2 = iblockstate.getValue(BlockLiquid.LEVEL).intValue();
+                        int j2 = iblockstate.getValue(BlockLiquid.LEVEL);
                         double d0 = l1 + 1;
 
                         if (j2 < 8)
@@ -2167,7 +2167,7 @@ public abstract class World implements IBlockAccess
     {
         IBlockState iblockstate = blockAccess.getBlockState(pos);
         Block block = iblockstate.getBlock();
-        return block.getMaterial().isOpaque() && block.isFullCube() || (block instanceof BlockStairs ? iblockstate.getValue(BlockStairs.HALF) == BlockStairs.EnumHalf.TOP : (block instanceof BlockSlab ? iblockstate.getValue(BlockSlab.HALF) == BlockSlab.EnumBlockHalf.TOP : (block instanceof BlockHopper || (block instanceof BlockSnow && iblockstate.getValue(BlockSnow.LAYERS).intValue() == 7))));
+        return block.getMaterial().isOpaque() && block.isFullCube() || (block instanceof BlockStairs ? iblockstate.getValue(BlockStairs.HALF) == BlockStairs.EnumHalf.TOP : (block instanceof BlockSlab ? iblockstate.getValue(BlockSlab.HALF) == BlockSlab.EnumBlockHalf.TOP : (block instanceof BlockHopper || (block instanceof BlockSnow && iblockstate.getValue(BlockSnow.LAYERS) == 7))));
     }
 
     public boolean isBlockNormalCube(BlockPos pos, boolean _default)
@@ -2429,7 +2429,7 @@ public abstract class World implements IBlockAccess
                 IBlockState iblockstate = this.getBlockState(pos);
                 Block block = iblockstate.getBlock();
 
-                if ((block == Blocks.water || block == Blocks.flowing_water) && iblockstate.getValue(BlockLiquid.LEVEL).intValue() == 0)
+                if ((block == Blocks.water || block == Blocks.flowing_water) && iblockstate.getValue(BlockLiquid.LEVEL) == 0)
                 {
                     if (!noWaterAdj)
                     {
@@ -3240,8 +3240,8 @@ public abstract class World implements IBlockAccess
             CrashReportCategory crashreportcategory = crashreport.makeCategory("Level event being played");
             crashreportcategory.addCrashSection("Block coordinates", CrashReportCategory.getCoordinateInfo(pos));
             crashreportcategory.addCrashSection("Event source", player);
-            crashreportcategory.addCrashSection("Event type", Integer.valueOf(sfxType));
-            crashreportcategory.addCrashSection("Event data", Integer.valueOf(p_180498_4_));
+            crashreportcategory.addCrashSection("Event type", sfxType);
+            crashreportcategory.addCrashSection("Event data", p_180498_4_);
             throw new ReportedException(crashreport);
         }
     }

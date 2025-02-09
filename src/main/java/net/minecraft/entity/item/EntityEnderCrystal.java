@@ -36,7 +36,7 @@ public class EntityEnderCrystal extends Entity
 
     protected void entityInit()
     {
-        this.dataWatcher.addObject(8, Integer.valueOf(this.health));
+        this.dataWatcher.addObject(8, this.health);
     }
 
     public void onUpdate()
@@ -45,7 +45,7 @@ public class EntityEnderCrystal extends Entity
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
         ++this.innerRotation;
-        this.dataWatcher.updateObject(8, Integer.valueOf(this.health));
+        this.dataWatcher.updateObject(8, this.health);
         int i = MathHelper.floor_double(this.posX);
         int j = MathHelper.floor_double(this.posY);
         int k = MathHelper.floor_double(this.posZ);

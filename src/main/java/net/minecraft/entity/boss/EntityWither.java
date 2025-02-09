@@ -68,10 +68,10 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(17, Integer.valueOf(0));
-        this.dataWatcher.addObject(18, Integer.valueOf(0));
-        this.dataWatcher.addObject(19, Integer.valueOf(0));
-        this.dataWatcher.addObject(20, Integer.valueOf(0));
+        this.dataWatcher.addObject(17, 0);
+        this.dataWatcher.addObject(18, 0);
+        this.dataWatcher.addObject(19, 0);
+        this.dataWatcher.addObject(20, 0);
     }
 
     public void writeEntityToNBT(NBTTagCompound tagCompound)
@@ -572,7 +572,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 
     public void setInvulTime(int p_82215_1_)
     {
-        this.dataWatcher.updateObject(20, Integer.valueOf(p_82215_1_));
+        this.dataWatcher.updateObject(20, p_82215_1_);
     }
 
     public int getWatchedTargetId(int p_82203_1_)
@@ -582,7 +582,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 
     public void updateWatchedTargetId(int targetOffset, int newId)
     {
-        this.dataWatcher.updateObject(17 + targetOffset, Integer.valueOf(newId));
+        this.dataWatcher.updateObject(17 + targetOffset, newId);
     }
 
     public boolean isArmored()

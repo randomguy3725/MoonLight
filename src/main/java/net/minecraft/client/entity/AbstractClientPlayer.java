@@ -165,7 +165,7 @@ public abstract class AbstractClientPlayer extends EntityPlayer
             f *= 1.0F - f1 * 0.15F;
         }
 
-        return Reflector.ForgeHooksClient_getOffsetFOV.exists() ? Reflector.callFloat(Reflector.ForgeHooksClient_getOffsetFOV, this, Float.valueOf(f)): f;
+        return Reflector.ForgeHooksClient_getOffsetFOV.exists() ? Reflector.callFloat(Reflector.ForgeHooksClient_getOffsetFOV, this, f): f;
     }
 
     public String getNameClear()

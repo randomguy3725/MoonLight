@@ -58,7 +58,7 @@ public class EntitySpider extends EntityMob
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(16, Byte.valueOf((byte) 0));
+        this.dataWatcher.addObject(16, (byte) 0);
     }
 
     public void onUpdate()
@@ -150,7 +150,7 @@ public class EntitySpider extends EntityMob
             b0 = (byte)(b0 & -2);
         }
 
-        this.dataWatcher.updateObject(16, Byte.valueOf(b0));
+        this.dataWatcher.updateObject(16, b0);
     }
 
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata)

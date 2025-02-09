@@ -32,7 +32,7 @@ public class BlockBrewingStand extends BlockContainer
     public BlockBrewingStand()
     {
         super(Material.iron);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(HAS_BOTTLE[0], Boolean.valueOf(false)).withProperty(HAS_BOTTLE[1], Boolean.valueOf(false)).withProperty(HAS_BOTTLE[2], Boolean.valueOf(false)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(HAS_BOTTLE[0], Boolean.FALSE).withProperty(HAS_BOTTLE[1], Boolean.FALSE).withProperty(HAS_BOTTLE[2], Boolean.FALSE));
     }
 
     public String getLocalizedName()
@@ -157,7 +157,7 @@ public class BlockBrewingStand extends BlockContainer
 
         for (int i = 0; i < 3; ++i)
         {
-            iblockstate = iblockstate.withProperty(HAS_BOTTLE[i], Boolean.valueOf((meta & 1 << i) > 0));
+            iblockstate = iblockstate.withProperty(HAS_BOTTLE[i], (meta & 1 << i) > 0);
         }
 
         return iblockstate;
@@ -169,7 +169,7 @@ public class BlockBrewingStand extends BlockContainer
 
         for (int j = 0; j < 3; ++j)
         {
-            if (state.getValue(HAS_BOTTLE[j]).booleanValue())
+            if (state.getValue(HAS_BOTTLE[j]))
             {
                 i |= 1 << j;
             }

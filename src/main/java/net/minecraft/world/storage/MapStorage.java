@@ -150,7 +150,7 @@ public class MapStorage
                     if (nbtbase instanceof NBTTagShort nbttagshort)
                     {
                         short short1 = nbttagshort.getShort();
-                        this.idCounts.put(s, Short.valueOf(short1));
+                        this.idCounts.put(s, short1);
                     }
                 }
             }
@@ -167,18 +167,18 @@ public class MapStorage
 
         if (oshort == null)
         {
-            oshort = Short.valueOf((short)0);
+            oshort = (short) 0;
         }
         else
         {
-            oshort = Short.valueOf((short)(oshort.shortValue() + 1));
+            oshort = (short) (oshort + 1);
         }
 
         this.idCounts.put(key, oshort);
 
         if (this.saveHandler == null)
         {
-            return oshort.shortValue();
+            return oshort;
         }
         else
         {
@@ -192,7 +192,7 @@ public class MapStorage
 
                     for (String s : this.idCounts.keySet())
                     {
-                        short short1 = this.idCounts.get(s).shortValue();
+                        short short1 = this.idCounts.get(s);
                         nbttagcompound.setShort(s, short1);
                     }
 
@@ -206,7 +206,7 @@ public class MapStorage
                 exception.printStackTrace();
             }
 
-            return oshort.shortValue();
+            return oshort;
         }
     }
 }

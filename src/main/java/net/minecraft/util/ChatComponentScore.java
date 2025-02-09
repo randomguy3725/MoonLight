@@ -44,7 +44,7 @@ public class ChatComponentScore extends ChatComponentStyle
             if (scoreboard.entityHasObjective(this.name, scoreobjective))
             {
                 Score score = scoreboard.getValueFromObjective(this.name, scoreobjective);
-                this.setValue(String.format("%d", Integer.valueOf(score.getScorePoints())));
+                this.setValue(String.format("%d", score.getScorePoints()));
             }
             else
             {

@@ -55,14 +55,14 @@ public class ItemBucket extends Item
                     IBlockState iblockstate = worldIn.getBlockState(blockpos);
                     Material material = iblockstate.getBlock().getMaterial();
 
-                    if (material == Material.water && iblockstate.getValue(BlockLiquid.LEVEL).intValue() == 0)
+                    if (material == Material.water && iblockstate.getValue(BlockLiquid.LEVEL) == 0)
                     {
                         worldIn.setBlockToAir(blockpos);
                         playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
                         return this.fillBucket(itemStackIn, playerIn, Items.water_bucket);
                     }
 
-                    if (material == Material.lava && iblockstate.getValue(BlockLiquid.LEVEL).intValue() == 0)
+                    if (material == Material.lava && iblockstate.getValue(BlockLiquid.LEVEL) == 0)
                     {
                         worldIn.setBlockToAir(blockpos);
                         playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);

@@ -50,7 +50,7 @@ public class BlockAir extends Block
     {
         if (!mapOriginalOpacity.containsKey(p_setLightOpacity_0_))
         {
-            mapOriginalOpacity.put(p_setLightOpacity_0_, Integer.valueOf(p_setLightOpacity_0_.lightOpacity));
+            mapOriginalOpacity.put(p_setLightOpacity_0_, p_setLightOpacity_0_.lightOpacity);
         }
 
         p_setLightOpacity_0_.lightOpacity = p_setLightOpacity_1_;
@@ -60,7 +60,7 @@ public class BlockAir extends Block
     {
         if (mapOriginalOpacity.containsKey(p_restoreLightOpacity_0_))
         {
-            int i = ((Integer)mapOriginalOpacity.get(p_restoreLightOpacity_0_)).intValue();
+            int i = (Integer) mapOriginalOpacity.get(p_restoreLightOpacity_0_);
             setLightOpacity(p_restoreLightOpacity_0_, i);
         }
     }

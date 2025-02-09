@@ -270,7 +270,7 @@ public enum EnumConnectionState
         }
         else
         {
-            bimap.put(Integer.valueOf(bimap.size()), packetClass);
+            bimap.put(bimap.size(), packetClass);
             return this;
         }
     }
@@ -281,7 +281,7 @@ public enum EnumConnectionState
     }
 
     public Packet getPacket(EnumPacketDirection direction, int packetId) throws InstantiationException, IllegalAccessException {
-        Class <? extends Packet > oclass = (Class)((BiMap<?, ?>)this.directionMaps.get(direction)).get(Integer.valueOf(packetId));
+        Class <? extends Packet > oclass = (Class)((BiMap<?, ?>)this.directionMaps.get(direction)).get(packetId);
         return oclass == null ? null : oclass.newInstance();
     }
 

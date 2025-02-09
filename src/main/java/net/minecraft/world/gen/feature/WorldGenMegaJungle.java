@@ -117,7 +117,7 @@ public class WorldGenMegaJungle extends WorldGenHugeTrees
     {
         if (p_181632_2_.nextInt(3) > 0 && p_181632_1_.isAirBlock(p_181632_3_))
         {
-            this.setBlockAndNotifyAdequately(p_181632_1_, p_181632_3_, Blocks.vine.getDefaultState().withProperty(p_181632_4_, Boolean.valueOf(true)));
+            this.setBlockAndNotifyAdequately(p_181632_1_, p_181632_3_, Blocks.vine.getDefaultState().withProperty(p_181632_4_, Boolean.TRUE));
         }
     }
 

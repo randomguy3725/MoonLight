@@ -51,9 +51,9 @@ public class FactoryBlockPattern
 
                     for (char c0 : s.toCharArray())
                     {
-                        if (!this.symbolMap.containsKey(Character.valueOf(c0)))
+                        if (!this.symbolMap.containsKey(c0))
                         {
-                            this.symbolMap.put(Character.valueOf(c0), null);
+                            this.symbolMap.put(c0, null);
                         }
                     }
                 }
@@ -75,7 +75,7 @@ public class FactoryBlockPattern
 
     public FactoryBlockPattern where(char symbol, Predicate<BlockWorldState> blockMatcher)
     {
-        this.symbolMap.put(Character.valueOf(symbol), blockMatcher);
+        this.symbolMap.put(symbol, blockMatcher);
         return this;
     }
 
@@ -95,7 +95,7 @@ public class FactoryBlockPattern
             {
                 for (int k = 0; k < this.rowWidth; ++k)
                 {
-                    predicate[i][j][k] = this.symbolMap.get(Character.valueOf(((String[])this.depth.get(i))[j].charAt(k)));
+                    predicate[i][j][k] = this.symbolMap.get(((String[]) this.depth.get(i))[j].charAt(k));
                 }
             }
         }

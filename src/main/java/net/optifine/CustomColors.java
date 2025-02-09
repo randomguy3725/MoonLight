@@ -1024,7 +1024,7 @@ public class CustomColors
             }
             else
             {
-                return integer.intValue();
+                return integer;
             }
         }
     }
@@ -1324,10 +1324,10 @@ public class CustomColors
                     {
                         while (list.size() <= j)
                         {
-                            list.add(Integer.valueOf(-1));
+                            list.add(-1);
                         }
 
-                        list.set(j, Integer.valueOf(k));
+                        list.set(j, k);
                         ++i;
                     }
                 }
@@ -1345,7 +1345,7 @@ public class CustomColors
 
             for (int l = 0; l < aint.length; ++l)
             {
-                aint[l] = list.get(l).intValue();
+                aint[l] = list.get(l);
             }
 
             return aint;

@@ -816,7 +816,7 @@ public class CustomItems
                                     set = new HashSet();
                                 }
 
-                                if (set.add(Integer.valueOf(j)) && matchesProperties(customitemproperties, itemStack, aint) && customitemproperties.textureLocation != null) {
+                                if (set.add(j) && matchesProperties(customitemproperties, itemStack, aint) && customitemproperties.textureLocation != null) {
                                     texturemanager.bindTexture(customitemproperties.textureLocation);
                                     float f = customitemproperties.getTextureWidth(texturemanager);
 
@@ -900,7 +900,7 @@ public class CustomItems
                                     set = new HashSet();
                                 }
 
-                                if (set.add(Integer.valueOf(j)) && matchesProperties(customitemproperties, itemStack, aint) && customitemproperties.textureLocation != null) {
+                                if (set.add(j) && matchesProperties(customitemproperties, itemStack, aint) && customitemproperties.textureLocation != null) {
                                     texturemanager.bindTexture(customitemproperties.textureLocation);
                                     float f = customitemproperties.getTextureWidth(texturemanager);
 

@@ -377,13 +377,15 @@ public class StrUtils
 
     public static String addIfNotContains(String target, String source)
     {
+        StringBuilder targetBuilder = new StringBuilder(target);
         for (int i = 0; i < source.length(); ++i)
         {
-            if (target.indexOf(source.charAt(i)) < 0)
+            if (targetBuilder.toString().indexOf(source.charAt(i)) < 0)
             {
-                target = target + source.charAt(i);
+                targetBuilder.append(source.charAt(i));
             }
         }
+        target = targetBuilder.toString();
 
         return target;
     }

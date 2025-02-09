@@ -436,7 +436,7 @@ public class NBTTagCompound extends NBTBase
             CrashReport crashreport = CrashReport.makeCrashReport(ioexception, "Loading NBT data");
             CrashReportCategory crashreportcategory = crashreport.makeCategory("NBT Tag");
             crashreportcategory.addCrashSection("Tag name", key);
-            crashreportcategory.addCrashSection("Tag type", Byte.valueOf(id));
+            crashreportcategory.addCrashSection("Tag type", id);
             throw new ReportedException(crashreport);
         }
     }

@@ -48,7 +48,7 @@ public class CommandWhitelist extends CommandBase
                     notifyOperators(sender, this, "commands.whitelist.disabled");
                 }
                 case "list" -> {
-                    sender.addChatMessage(new ChatComponentTranslation("commands.whitelist.list", Integer.valueOf(minecraftserver.getConfigurationManager().getWhitelistedPlayerNames().length), Integer.valueOf(minecraftserver.getConfigurationManager().getAvailablePlayerDat().length)));
+                    sender.addChatMessage(new ChatComponentTranslation("commands.whitelist.list", minecraftserver.getConfigurationManager().getWhitelistedPlayerNames().length, minecraftserver.getConfigurationManager().getAvailablePlayerDat().length));
                     String[] astring = minecraftserver.getConfigurationManager().getWhitelistedPlayerNames();
                     sender.addChatMessage(new ChatComponentText(joinNiceString(astring)));
                 }

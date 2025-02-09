@@ -47,11 +47,11 @@ public class NBTTagIntArray extends NBTBase
 
     public String toString()
     {
-        String s = "[";
+        StringBuilder s = new StringBuilder("[");
 
         for (int i : this.intArray)
         {
-            s = s + i + ",";
+            s.append(i).append(",");
         }
 
         return s + "]";

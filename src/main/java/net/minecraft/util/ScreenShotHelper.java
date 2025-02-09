@@ -130,7 +130,7 @@ public class ScreenShotHelper
             ImageIO.write(bufferedimage, "png", file2);
             IChatComponent ichatcomponent = new ChatComponentText(file2.getName());
             ichatcomponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file2.getAbsolutePath()));
-            ichatcomponent.getChatStyle().setUnderlined(Boolean.valueOf(true));
+            ichatcomponent.getChatStyle().setUnderlined(Boolean.TRUE);
             return new ChatComponentTranslation("screenshot.success", ichatcomponent);
         }
         catch (Exception exception)

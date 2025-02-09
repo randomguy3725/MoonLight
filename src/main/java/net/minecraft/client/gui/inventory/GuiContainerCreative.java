@@ -586,7 +586,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
 
                 if (map.size() == 1)
                 {
-                    Enchantment enchantment = Enchantment.getEnchantmentById(map.keySet().iterator().next().intValue());
+                    Enchantment enchantment = Enchantment.getEnchantmentById(map.keySet().iterator().next());
 
                     for (CreativeTabs creativetabs1 : CreativeTabs.creativeTabArray)
                     {

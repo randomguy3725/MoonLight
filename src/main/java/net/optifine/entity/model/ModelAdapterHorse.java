@@ -42,7 +42,7 @@ public class ModelAdapterHorse extends ModelAdapter
 
             if (map.containsKey(modelPart))
             {
-                int i = map.get(modelPart).intValue();
+                int i = map.get(modelPart);
                 return (ModelRenderer)Reflector.getFieldValue(modelhorse, Reflector.ModelHorse_ModelRenderers, i);
             }
             else
@@ -66,45 +66,45 @@ public class ModelAdapterHorse extends ModelAdapter
         else
         {
             mapPartFields = new HashMap<>();
-            mapPartFields.put("head", Integer.valueOf(0));
-            mapPartFields.put("upper_mouth", Integer.valueOf(1));
-            mapPartFields.put("lower_mouth", Integer.valueOf(2));
-            mapPartFields.put("horse_left_ear", Integer.valueOf(3));
-            mapPartFields.put("horse_right_ear", Integer.valueOf(4));
-            mapPartFields.put("mule_left_ear", Integer.valueOf(5));
-            mapPartFields.put("mule_right_ear", Integer.valueOf(6));
-            mapPartFields.put("neck", Integer.valueOf(7));
-            mapPartFields.put("horse_face_ropes", Integer.valueOf(8));
-            mapPartFields.put("mane", Integer.valueOf(9));
-            mapPartFields.put("body", Integer.valueOf(10));
-            mapPartFields.put("tail_base", Integer.valueOf(11));
-            mapPartFields.put("tail_middle", Integer.valueOf(12));
-            mapPartFields.put("tail_tip", Integer.valueOf(13));
-            mapPartFields.put("back_left_leg", Integer.valueOf(14));
-            mapPartFields.put("back_left_shin", Integer.valueOf(15));
-            mapPartFields.put("back_left_hoof", Integer.valueOf(16));
-            mapPartFields.put("back_right_leg", Integer.valueOf(17));
-            mapPartFields.put("back_right_shin", Integer.valueOf(18));
-            mapPartFields.put("back_right_hoof", Integer.valueOf(19));
-            mapPartFields.put("front_left_leg", Integer.valueOf(20));
-            mapPartFields.put("front_left_shin", Integer.valueOf(21));
-            mapPartFields.put("front_left_hoof", Integer.valueOf(22));
-            mapPartFields.put("front_right_leg", Integer.valueOf(23));
-            mapPartFields.put("front_right_shin", Integer.valueOf(24));
-            mapPartFields.put("front_right_hoof", Integer.valueOf(25));
-            mapPartFields.put("mule_left_chest", Integer.valueOf(26));
-            mapPartFields.put("mule_right_chest", Integer.valueOf(27));
-            mapPartFields.put("horse_saddle_bottom", Integer.valueOf(28));
-            mapPartFields.put("horse_saddle_front", Integer.valueOf(29));
-            mapPartFields.put("horse_saddle_back", Integer.valueOf(30));
-            mapPartFields.put("horse_left_saddle_rope", Integer.valueOf(31));
-            mapPartFields.put("horse_left_saddle_metal", Integer.valueOf(32));
-            mapPartFields.put("horse_right_saddle_rope", Integer.valueOf(33));
-            mapPartFields.put("horse_right_saddle_metal", Integer.valueOf(34));
-            mapPartFields.put("horse_left_face_metal", Integer.valueOf(35));
-            mapPartFields.put("horse_right_face_metal", Integer.valueOf(36));
-            mapPartFields.put("horse_left_rein", Integer.valueOf(37));
-            mapPartFields.put("horse_right_rein", Integer.valueOf(38));
+            mapPartFields.put("head", 0);
+            mapPartFields.put("upper_mouth", 1);
+            mapPartFields.put("lower_mouth", 2);
+            mapPartFields.put("horse_left_ear", 3);
+            mapPartFields.put("horse_right_ear", 4);
+            mapPartFields.put("mule_left_ear", 5);
+            mapPartFields.put("mule_right_ear", 6);
+            mapPartFields.put("neck", 7);
+            mapPartFields.put("horse_face_ropes", 8);
+            mapPartFields.put("mane", 9);
+            mapPartFields.put("body", 10);
+            mapPartFields.put("tail_base", 11);
+            mapPartFields.put("tail_middle", 12);
+            mapPartFields.put("tail_tip", 13);
+            mapPartFields.put("back_left_leg", 14);
+            mapPartFields.put("back_left_shin", 15);
+            mapPartFields.put("back_left_hoof", 16);
+            mapPartFields.put("back_right_leg", 17);
+            mapPartFields.put("back_right_shin", 18);
+            mapPartFields.put("back_right_hoof", 19);
+            mapPartFields.put("front_left_leg", 20);
+            mapPartFields.put("front_left_shin", 21);
+            mapPartFields.put("front_left_hoof", 22);
+            mapPartFields.put("front_right_leg", 23);
+            mapPartFields.put("front_right_shin", 24);
+            mapPartFields.put("front_right_hoof", 25);
+            mapPartFields.put("mule_left_chest", 26);
+            mapPartFields.put("mule_right_chest", 27);
+            mapPartFields.put("horse_saddle_bottom", 28);
+            mapPartFields.put("horse_saddle_front", 29);
+            mapPartFields.put("horse_saddle_back", 30);
+            mapPartFields.put("horse_left_saddle_rope", 31);
+            mapPartFields.put("horse_left_saddle_metal", 32);
+            mapPartFields.put("horse_right_saddle_rope", 33);
+            mapPartFields.put("horse_right_saddle_metal", 34);
+            mapPartFields.put("horse_left_face_metal", 35);
+            mapPartFields.put("horse_right_face_metal", 36);
+            mapPartFields.put("horse_left_rein", 37);
+            mapPartFields.put("horse_right_rein", 38);
             return mapPartFields;
         }
     }

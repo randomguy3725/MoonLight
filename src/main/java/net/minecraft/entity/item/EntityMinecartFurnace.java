@@ -38,7 +38,7 @@ public class EntityMinecartFurnace extends EntityMinecart
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(16, Byte.valueOf((byte) 0));
+        this.dataWatcher.addObject(16, (byte) 0);
     }
 
     public void onUpdate()
@@ -173,11 +173,11 @@ public class EntityMinecartFurnace extends EntityMinecart
     {
         if (p_94107_1_)
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(this.dataWatcher.getWatchableObjectByte(16) | 1)));
+            this.dataWatcher.updateObject(16, (byte) (this.dataWatcher.getWatchableObjectByte(16) | 1));
         }
         else
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(this.dataWatcher.getWatchableObjectByte(16) & -2)));
+            this.dataWatcher.updateObject(16, (byte) (this.dataWatcher.getWatchableObjectByte(16) & -2));
         }
     }
 

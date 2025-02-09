@@ -90,7 +90,7 @@ public class EntityList
         {
             throw new IllegalArgumentException("ID is already registered: " + entityName);
         }
-        else if (idToClassMapping.containsKey(Integer.valueOf(id)))
+        else if (idToClassMapping.containsKey(id))
         {
             throw new IllegalArgumentException("ID is already registered: " + id);
         }
@@ -106,16 +106,16 @@ public class EntityList
         {
             stringToClassMapping.put(entityName, entityClass);
             classToStringMapping.put(entityClass, entityName);
-            idToClassMapping.put(Integer.valueOf(id), entityClass);
-            classToIDMapping.put(entityClass, Integer.valueOf(id));
-            stringToIDMapping.put(entityName, Integer.valueOf(id));
+            idToClassMapping.put(id, entityClass);
+            classToIDMapping.put(entityClass, id);
+            stringToIDMapping.put(entityName, id);
         }
     }
 
     private static void addMapping(Class <? extends Entity > entityClass, String entityName, int entityID, int baseColor, int spotColor)
     {
         addMapping(entityClass, entityName, entityID);
-        entityEggs.put(Integer.valueOf(entityID), new EntityList.EntityEggInfo(entityID, baseColor, spotColor));
+        entityEggs.put(entityID, new EntityList.EntityEggInfo(entityID, baseColor, spotColor));
     }
 
     public static Entity createEntityByName(String entityName, World worldIn)
@@ -204,12 +204,12 @@ public class EntityList
     public static int getEntityID(Entity entityIn)
     {
         Integer integer = classToIDMapping.get(entityIn.getClass());
-        return integer == null ? 0 : integer.intValue();
+        return integer == null ? 0 : integer;
     }
 
     public static Class <? extends Entity > getClassFromID(int entityID)
     {
-        return idToClassMapping.get(Integer.valueOf(entityID));
+        return idToClassMapping.get(entityID);
     }
 
     public static String getEntityString(Entity entityIn)
@@ -220,7 +220,7 @@ public class EntityList
     public static int getIDFromString(String entityName)
     {
         Integer integer = stringToIDMapping.get(entityName);
-        return integer == null ? 90 : integer.intValue();
+        return integer == null ? 90 : integer;
     }
 
     public static String getStringFromID(int entityID)

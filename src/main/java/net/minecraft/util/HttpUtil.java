@@ -128,7 +128,7 @@ public class HttpUtil
 
                     if (p_180192_4_ != null)
                     {
-                        p_180192_4_.displayLoadingString(String.format("Downloading file (%.2f MB)...", Float.valueOf(f1 / 1000.0F / 1000.0F)));
+                        p_180192_4_.displayLoadingString(String.format("Downloading file (%.2f MB)...", f1 / 1000.0F / 1000.0F));
                     }
 
                     if (saveFile.exists())

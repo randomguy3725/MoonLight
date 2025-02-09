@@ -25,7 +25,7 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(16, Byte.valueOf((byte)0));
+        this.dataWatcher.addObject(16, (byte) 0);
         this.dataWatcher.addObject(17, "");
     }
 
@@ -115,11 +115,11 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
 
         if (tamed)
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 | 4)));
+            this.dataWatcher.updateObject(16, (byte) (b0 | 4));
         }
         else
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 & -5)));
+            this.dataWatcher.updateObject(16, (byte) (b0 & -5));
         }
 
         this.setupTamedAI();
@@ -140,11 +140,11 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
 
         if (sitting)
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 | 1)));
+            this.dataWatcher.updateObject(16, (byte) (b0 | 1));
         }
         else
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 & -2)));
+            this.dataWatcher.updateObject(16, (byte) (b0 & -2));
         }
     }
 

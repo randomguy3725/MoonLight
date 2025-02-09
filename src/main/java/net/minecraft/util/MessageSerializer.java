@@ -41,7 +41,7 @@ public class MessageSerializer extends MessageToByteEncoder<Packet>
         else
         {
             PacketBuffer packetbuffer = new PacketBuffer(p_encode_3_);
-            packetbuffer.writeVarIntToBuffer(integer.intValue());
+            packetbuffer.writeVarIntToBuffer(integer);
 
             try
             {

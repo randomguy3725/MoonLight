@@ -205,7 +205,7 @@ public class ShaderGroup
                                 GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
                             }
 
-                            shader.addAuxFramebuffer(s4, Integer.valueOf(itextureobject.getGlTextureId()), j, k);
+                            shader.addAuxFramebuffer(s4, itextureobject.getGlTextureId(), j, k);
                         }
                         else
                         {

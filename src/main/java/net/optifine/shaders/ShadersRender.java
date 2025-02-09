@@ -276,7 +276,7 @@ public class ShadersRender
 
             if (Reflector.ForgeHooksClient_setRenderPass.exists())
             {
-                Reflector.callVoid(Reflector.ForgeHooksClient_setRenderPass, Integer.valueOf(0));
+                Reflector.callVoid(Reflector.ForgeHooksClient_setRenderPass, 0);
             }
 
             renderglobal.renderEntities(entity, frustum, partialTicks);
@@ -317,9 +317,9 @@ public class ShadersRender
             if (Reflector.ForgeHooksClient_setRenderPass.exists())
             {
                 RenderHelper.enableStandardItemLighting();
-                Reflector.call(Reflector.ForgeHooksClient_setRenderPass, Integer.valueOf(1));
+                Reflector.call(Reflector.ForgeHooksClient_setRenderPass, 1);
                 renderglobal.renderEntities(entity, frustum, partialTicks);
-                Reflector.call(Reflector.ForgeHooksClient_setRenderPass, Integer.valueOf(-1));
+                Reflector.call(Reflector.ForgeHooksClient_setRenderPass, -1);
                 RenderHelper.disableStandardItemLighting();
                 Shaders.checkGLError("shadow entities 1");
             }

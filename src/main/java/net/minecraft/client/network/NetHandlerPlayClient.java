@@ -1186,7 +1186,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         for (Entry<StatBase, Integer> entry : packetIn.func_148974_c().entrySet())
         {
             StatBase statbase = entry.getKey();
-            int i = entry.getValue().intValue();
+            int i = entry.getValue();
 
             if (statbase.isAchievement() && i > 0)
             {

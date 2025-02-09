@@ -193,7 +193,7 @@ public class CustomItemProperties
                 int j = Config.parseInt(s, -1);
 
                 if (j >= 0) {
-                    set.add(Integer.valueOf(j));
+                    set.add(j);
                 } else {
                     if (s.contains("-")) {
                         String[] astring1 = Config.tokenize(s, "-");
@@ -212,7 +212,7 @@ public class CustomItemProperties
                                         continue label45;
                                     }
 
-                                    set.add(Integer.valueOf(k1));
+                                    set.add(k1);
                                     ++k1;
                                 }
                             }
@@ -229,7 +229,7 @@ public class CustomItemProperties
                         if (i2 <= 0) {
                             Config.warn("Item not found: " + s);
                         } else {
-                            set.add(Integer.valueOf(i2));
+                            set.add(i2);
                         }
                     }
                 }
@@ -240,7 +240,7 @@ public class CustomItemProperties
 
             for (int l1 = 0; l1 < aint.length; ++l1)
             {
-                aint[l1] = ainteger[l1].intValue();
+                aint[l1] = ainteger[l1];
             }
 
             return aint;
@@ -959,7 +959,7 @@ public class CustomItemProperties
                 stringbuffer.append(", ");
             }
 
-            stringbuffer.append("\"layer" + i + "\": \"" + s + "\"");
+            stringbuffer.append("\"layer").append(i).append("\": \"").append(s).append("\"");
         }
 
         stringbuffer.append("}}");

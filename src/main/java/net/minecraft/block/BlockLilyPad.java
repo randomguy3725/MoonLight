@@ -65,7 +65,7 @@ public class BlockLilyPad extends BlockBush
         if (pos.getY() >= 0 && pos.getY() < 256)
         {
             IBlockState iblockstate = worldIn.getBlockState(pos.down());
-            return iblockstate.getBlock().getMaterial() == Material.water && iblockstate.getValue(BlockLiquid.LEVEL).intValue() == 0;
+            return iblockstate.getBlock().getMaterial() == Material.water && iblockstate.getValue(BlockLiquid.LEVEL) == 0;
         }
         else
         {

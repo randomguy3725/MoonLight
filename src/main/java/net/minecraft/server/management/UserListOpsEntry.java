@@ -40,8 +40,8 @@ public class UserListOpsEntry extends UserListEntry<GameProfile>
             data.addProperty("uuid", this.getValue().getId() == null ? "" : this.getValue().getId().toString());
             data.addProperty("name", this.getValue().getName());
             super.onSerialization(data);
-            data.addProperty("level", Integer.valueOf(this.permissionLevel));
-            data.addProperty("bypassesPlayerLimit", Boolean.valueOf(this.bypassesPlayerLimit));
+            data.addProperty("level", this.permissionLevel);
+            data.addProperty("bypassesPlayerLimit", this.bypassesPlayerLimit);
         }
     }
 

@@ -16,19 +16,19 @@ public class EnchantmentNameParts
     public String generateNewRandomName()
     {
         int i = this.rand.nextInt(2) + 3;
-        String s = "";
+        StringBuilder s = new StringBuilder();
 
         for (int j = 0; j < i; ++j)
         {
             if (j > 0)
             {
-                s = s + " ";
+                s.append(" ");
             }
 
-            s = s + this.namePartsArray[this.rand.nextInt(this.namePartsArray.length)];
+            s.append(this.namePartsArray[this.rand.nextInt(this.namePartsArray.length)]);
         }
 
-        return s;
+        return s.toString();
     }
 
     public void reseedRandomGenerator(long seed)

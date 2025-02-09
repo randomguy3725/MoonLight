@@ -141,15 +141,16 @@ public class GuiCreateWorld extends GuiScreen
 
     public static String getUncollidingSaveDirName(ISaveFormat saveLoader, String name)
     {
-        name = name.replaceAll("[\\./\"]", "_");
 
+        StringBuilder nameBuilder = new StringBuilder(name.replaceAll("[\\./\"]", "_"));
         for (String s : disallowedFilenames)
         {
-            if (name.equalsIgnoreCase(s))
+            if (nameBuilder.toString().equalsIgnoreCase(s))
             {
-                name = "_" + name + "_";
+                nameBuilder = new StringBuilder("_" + nameBuilder + "_");
             }
         }
+        name = nameBuilder.toString();
 
         while (saveLoader.getWorldInfo(name) != null)
         {

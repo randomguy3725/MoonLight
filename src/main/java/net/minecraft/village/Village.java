@@ -386,14 +386,14 @@ public class Village
     public int getReputationForPlayer(String p_82684_1_)
     {
         Integer integer = this.playerReputation.get(p_82684_1_);
-        return integer != null ? integer.intValue() : 0;
+        return integer != null ? integer : 0;
     }
 
     public int setReputationForPlayer(String p_82688_1_, int p_82688_2_)
     {
         int i = this.getReputationForPlayer(p_82688_1_);
         int j = MathHelper.clamp_int(i + p_82688_2_, -30, 10);
-        this.playerReputation.put(p_82688_1_, Integer.valueOf(j));
+        this.playerReputation.put(p_82688_1_, j);
         return j;
     }
 
@@ -434,12 +434,12 @@ public class Village
 
                 if (gameprofile != null)
                 {
-                    this.playerReputation.put(gameprofile.getName(), Integer.valueOf(nbttagcompound1.getInteger("S")));
+                    this.playerReputation.put(gameprofile.getName(), nbttagcompound1.getInteger("S"));
                 }
             }
             else
             {
-                this.playerReputation.put(nbttagcompound1.getString("Name"), Integer.valueOf(nbttagcompound1.getInteger("S")));
+                this.playerReputation.put(nbttagcompound1.getString("Name"), nbttagcompound1.getInteger("S"));
             }
         }
     }
@@ -484,7 +484,7 @@ public class Village
             if (gameprofile != null)
             {
                 nbttagcompound1.setString("UUID", gameprofile.getId().toString());
-                nbttagcompound1.setInteger("S", this.playerReputation.get(s).intValue());
+                nbttagcompound1.setInteger("S", this.playerReputation.get(s));
                 nbttaglist1.appendTag(nbttagcompound1);
             }
         }

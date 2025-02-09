@@ -64,7 +64,7 @@ public class PlayerUsageSnooper
                                 map.putAll(PlayerUsageSnooper.this.snooperStats);
                             }
 
-                            map.put("snooper_count", Integer.valueOf(PlayerUsageSnooper.this.selfCounter++));
+                            map.put("snooper_count", PlayerUsageSnooper.this.selfCounter++);
                             map.put("snooper_token", PlayerUsageSnooper.this.uniqueID);
                         }
 
@@ -102,15 +102,15 @@ public class PlayerUsageSnooper
             }
         }
 
-        this.addClientStat("jvm_args", Integer.valueOf(i));
+        this.addClientStat("jvm_args", i);
     }
 
     public void addMemoryStatsToSnooper()
     {
-        this.addStatToSnooper("memory_total", Long.valueOf(Runtime.getRuntime().totalMemory()));
-        this.addStatToSnooper("memory_max", Long.valueOf(Runtime.getRuntime().maxMemory()));
-        this.addStatToSnooper("memory_free", Long.valueOf(Runtime.getRuntime().freeMemory()));
-        this.addStatToSnooper("cpu_cores", Integer.valueOf(Runtime.getRuntime().availableProcessors()));
+        this.addStatToSnooper("memory_total", Runtime.getRuntime().totalMemory());
+        this.addStatToSnooper("memory_max", Runtime.getRuntime().maxMemory());
+        this.addStatToSnooper("memory_free", Runtime.getRuntime().freeMemory());
+        this.addStatToSnooper("cpu_cores", Runtime.getRuntime().availableProcessors());
         this.playerStatsCollector.addServerStatsToSnooper(this);
     }
 

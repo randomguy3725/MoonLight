@@ -65,7 +65,7 @@ public class ShaderPackParser
             collectShaderOptions(shaderPack, "/shaders", programNames, map);
 
             for (Integer listDimension : listDimensions) {
-                int i = listDimension.intValue();
+                int i = listDimension;
                 String s = "/shaders/world" + i;
                 collectShaderOptions(shaderPack, s, programNames, map);
             }
@@ -81,7 +81,7 @@ public class ShaderPackParser
     private static void collectShaderOptions(IShaderPack shaderPack, String dir, String[] programNames, Map<String, ShaderOption> mapOptions)
     {
         for (String s : programNames) {
-            if (!s.equals("")) {
+            if (!s.isEmpty()) {
                 String s1 = dir + "/" + s + ".vsh";
                 String s2 = dir + "/" + s + ".fsh";
                 collectShaderOptions(shaderPack, s1, mapOptions);
@@ -813,7 +813,7 @@ public class ShaderPackParser
 
             if (integer != null && f >= 0.0F)
             {
-                return new GlAlphaState(true, integer.intValue(), f);
+                return new GlAlphaState(true, integer, f);
             }
         }
 
@@ -889,7 +889,7 @@ public class ShaderPackParser
 
             if (integer != null && integer1 != null && integer2 != null && integer3 != null)
             {
-                return new GlBlendState(true, integer.intValue(), integer1.intValue(), integer2.intValue(), integer3.intValue());
+                return new GlBlendState(true, integer, integer1, integer2, integer3);
             }
         }
 
@@ -1014,36 +1014,11 @@ public class ShaderPackParser
 
     private static Map<String, Integer> makeMapAlphaFuncs()
     {
-        Map<String, Integer> map = new HashMap<>();
-        map.put("NEVER", Integer.valueOf(512));
-        map.put("LESS", Integer.valueOf(513));
-        map.put("EQUAL", Integer.valueOf(514));
-        map.put("LEQUAL", Integer.valueOf(515));
-        map.put("GREATER", Integer.valueOf(516));
-        map.put("NOTEQUAL", Integer.valueOf(517));
-        map.put("GEQUAL", Integer.valueOf(518));
-        map.put("ALWAYS", Integer.valueOf(519));
-        return Collections.unmodifiableMap(map);
+        return Map.of("NEVER", 512, "LESS", 513, "EQUAL", 514, "LEQUAL", 515, "GREATER", 516, "NOTEQUAL", 517, "GEQUAL", 518, "ALWAYS", 519);
     }
 
     private static Map<String, Integer> makeMapBlendFactors()
     {
-        Map<String, Integer> map = new HashMap<>();
-        map.put("ZERO", Integer.valueOf(0));
-        map.put("ONE", Integer.valueOf(1));
-        map.put("SRC_COLOR", Integer.valueOf(768));
-        map.put("ONE_MINUS_SRC_COLOR", Integer.valueOf(769));
-        map.put("DST_COLOR", Integer.valueOf(774));
-        map.put("ONE_MINUS_DST_COLOR", Integer.valueOf(775));
-        map.put("SRC_ALPHA", Integer.valueOf(770));
-        map.put("ONE_MINUS_SRC_ALPHA", Integer.valueOf(771));
-        map.put("DST_ALPHA", Integer.valueOf(772));
-        map.put("ONE_MINUS_DST_ALPHA", Integer.valueOf(773));
-        map.put("CONSTANT_COLOR", Integer.valueOf(32769));
-        map.put("ONE_MINUS_CONSTANT_COLOR", Integer.valueOf(32770));
-        map.put("CONSTANT_ALPHA", Integer.valueOf(32771));
-        map.put("ONE_MINUS_CONSTANT_ALPHA", Integer.valueOf(32772));
-        map.put("SRC_ALPHA_SATURATE", Integer.valueOf(776));
-        return Collections.unmodifiableMap(map);
+        return Map.ofEntries(Map.entry("ZERO", 0), Map.entry("ONE", 1), Map.entry("SRC_COLOR", 768), Map.entry("ONE_MINUS_SRC_COLOR", 769), Map.entry("DST_COLOR", 774), Map.entry("ONE_MINUS_DST_COLOR", 775), Map.entry("SRC_ALPHA", 770), Map.entry("ONE_MINUS_SRC_ALPHA", 771), Map.entry("DST_ALPHA", 772), Map.entry("ONE_MINUS_DST_ALPHA", 773), Map.entry("CONSTANT_COLOR", 32769), Map.entry("ONE_MINUS_CONSTANT_COLOR", 32770), Map.entry("CONSTANT_ALPHA", 32771), Map.entry("ONE_MINUS_CONSTANT_ALPHA", 32772), Map.entry("SRC_ALPHA_SATURATE", 776));
     }
 }

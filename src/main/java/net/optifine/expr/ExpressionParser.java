@@ -231,7 +231,7 @@ public class ExpressionParser
     {
         float f = Config.parseFloat(token.getText(), Float.NaN);
 
-        if (f == Float.NaN)
+        if (Float.isNaN(f))
         {
             throw new ParseException("Invalid float value: " + token);
         }

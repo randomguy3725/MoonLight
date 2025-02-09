@@ -223,15 +223,15 @@ public class GuiCreateFlatWorld extends GuiScreen
 
             if (entryID == 0)
             {
-                s1 = I18n.format("createWorld.customize.flat.layer.top", Integer.valueOf(flatlayerinfo.getLayerCount()));
+                s1 = I18n.format("createWorld.customize.flat.layer.top", flatlayerinfo.getLayerCount());
             }
             else if (entryID == GuiCreateFlatWorld.this.theFlatGeneratorInfo.getFlatLayers().size() - 1)
             {
-                s1 = I18n.format("createWorld.customize.flat.layer.bottom", Integer.valueOf(flatlayerinfo.getLayerCount()));
+                s1 = I18n.format("createWorld.customize.flat.layer.bottom", flatlayerinfo.getLayerCount());
             }
             else
             {
-                s1 = I18n.format("createWorld.customize.flat.layer", Integer.valueOf(flatlayerinfo.getLayerCount()));
+                s1 = I18n.format("createWorld.customize.flat.layer", flatlayerinfo.getLayerCount());
             }
 
             GuiCreateFlatWorld.this.fontRendererObj.drawString(s1, p_180791_2_ + 2 + 213 - GuiCreateFlatWorld.this.fontRendererObj.getStringWidth(s1), p_180791_3_ + 3, 16777215);

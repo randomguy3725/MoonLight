@@ -44,7 +44,7 @@ public class CommandCompare extends CommandBase
 
             if (i > 524288)
             {
-                throw new CommandException("commands.compare.tooManyBlocks", Integer.valueOf(i), Integer.valueOf(524288));
+                throw new CommandException("commands.compare.tooManyBlocks", i, 524288);
             }
             else if (structureboundingbox.minY >= 0 && structureboundingbox.maxY < 256 && structureboundingbox1.minY >= 0 && structureboundingbox1.maxY < 256)
             {
@@ -117,7 +117,7 @@ public class CommandCompare extends CommandBase
                     }
 
                     sender.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, i);
-                    notifyOperators(sender, this, "commands.compare.success", Integer.valueOf(i));
+                    notifyOperators(sender, this, "commands.compare.success", i);
                 }
                 else
                 {

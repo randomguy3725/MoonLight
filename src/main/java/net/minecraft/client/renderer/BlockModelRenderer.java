@@ -38,7 +38,7 @@ public class BlockModelRenderer
     {
         if (Reflector.ForgeModContainer_forgeLightPipelineEnabled.exists())
         {
-            Reflector.setFieldValue(Reflector.ForgeModContainer_forgeLightPipelineEnabled, Boolean.valueOf(false));
+            Reflector.setFieldValue(Reflector.ForgeModContainer_forgeLightPipelineEnabled, Boolean.FALSE);
         }
     }
 
@@ -81,7 +81,7 @@ public class BlockModelRenderer
             CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Tesselating block model");
             CrashReportCategory crashreportcategory = crashreport.makeCategory("Block model being tesselated");
             CrashReportCategory.addBlockInfo(crashreportcategory, blockPosIn, blockStateIn);
-            crashreportcategory.addCrashSection("Using AO", Boolean.valueOf(flag));
+            crashreportcategory.addCrashSection("Using AO", flag);
             throw new ReportedException(crashreport);
         }
     }

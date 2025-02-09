@@ -135,10 +135,10 @@ public class CustomCapeRenderLayer implements LayerRenderer<AbstractClientPlayer
         //offsetting so the rotation is on the cape part
         //float offset = (float) (part * (16 / partCount))/16; // to fold the entire cape into one position for debugging
         GlStateManager.translate(0, /*-offset*/ + (0.48/16) , - (0.48/16)); // (0.48/16)
-        GlStateManager.translate(0, part * 1f/partCount, 0 /partCount);
+        GlStateManager.translate(0, part * 1f/partCount, (float) 0 /partCount);
         //GlStateManager.rotate(-partRotation, 1.0F, 0.0F, 0.0F);
         // undoing the rotation
-        GlStateManager.translate(0, -part * 1f/partCount, 0 /partCount);
+        GlStateManager.translate(0, -part * 1f/partCount, (float) 0 /partCount);
         GlStateManager.translate(0, -(0.48/16), (0.48/16));
         
     }

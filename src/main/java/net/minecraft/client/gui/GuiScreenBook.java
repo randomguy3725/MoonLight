@@ -394,7 +394,7 @@ public class GuiScreenBook extends GuiScreen
         }
         else
         {
-            String s4 = I18n.format("book.pageIndicator", Integer.valueOf(this.currPage + 1), Integer.valueOf(this.bookTotalPages));
+            String s4 = I18n.format("book.pageIndicator", this.currPage + 1, this.bookTotalPages);
             String s5 = "";
 
             if (this.bookPages != null && this.currPage >= 0 && this.currPage < this.bookPages.tagCount())

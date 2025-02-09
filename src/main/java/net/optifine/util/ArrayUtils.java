@@ -169,7 +169,7 @@ public class ArrayUtils
                     stringbuffer.append(separator);
                 }
 
-                stringbuffer.append(String.format(format, Float.valueOf(f)));
+                stringbuffer.append(String.format(format, f));
             }
 
             return stringbuffer.toString();
@@ -362,7 +362,7 @@ public class ArrayUtils
 
             for (int i = 0; i < aint.length; ++i)
             {
-                aint[i] = arr[i].intValue();
+                aint[i] = arr[i];
             }
 
             return aint;

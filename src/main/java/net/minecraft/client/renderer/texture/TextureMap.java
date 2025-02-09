@@ -246,7 +246,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
                             }
 
                             for (Integer integer : list1) {
-                                int j4 = integer.intValue();
+                                int j4 = integer;
 
                                 if (j4 > 0 && j4 < abufferedimage.length - 1 && abufferedimage[j4] == null) {
                                     ResourceLocation resourcelocation = this.completeResourceLocation(resourcelocation1, j4);
@@ -254,7 +254,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
                                     try {
                                         abufferedimage[j4] = TextureUtil.readBufferedImage(resourceManager.getResource(resourcelocation).getInputStream());
                                     } catch (IOException ioexception) {
-                                        logger.error("Unable to load miplevel {} from: {}", Integer.valueOf(j4), resourcelocation, ioexception);
+                                        logger.error("Unable to load miplevel {} from: {}", j4, resourcelocation, ioexception);
                                     }
                                 }
                             }
@@ -281,7 +281,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
                     if (j3 < k)
                     {
-                        logger.warn("Texture {} with size {}x{} limits mip level from {} to {}", resourcelocation2, Integer.valueOf(textureatlassprite3.getIconWidth()), Integer.valueOf(textureatlassprite3.getIconHeight()), Integer.valueOf(MathHelper.calculateLogBaseTwo(k)), Integer.valueOf(MathHelper.calculateLogBaseTwo(j3)));
+                        logger.warn("Texture {} with size {}x{} limits mip level from {} to {}", resourcelocation2, textureatlassprite3.getIconWidth(), textureatlassprite3.getIconHeight(), MathHelper.calculateLogBaseTwo(k), MathHelper.calculateLogBaseTwo(j3));
                         k = j3;
                     }
 
@@ -310,7 +310,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
             if (k2 < this.mipmapLevels)
             {
-                logger.warn("{}: dropping miplevel from {} to {}, because of minimum power of two: {}", this.basePath, Integer.valueOf(this.mipmapLevels), Integer.valueOf(k2), Integer.valueOf(j2));
+                logger.warn("{}: dropping miplevel from {} to {}, because of minimum power of two: {}", this.basePath, this.mipmapLevels, k2, j2);
                 this.mipmapLevels = k2;
             }
 
@@ -332,7 +332,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
                     crashreportcategory.addCrashSectionCallable("Sprite name", () -> textureatlassprite1.getIconName());
                     crashreportcategory.addCrashSectionCallable("Sprite size", () -> textureatlassprite1.getIconWidth() + " x " + textureatlassprite1.getIconHeight());
                     crashreportcategory.addCrashSectionCallable("Sprite frames", () -> textureatlassprite1.getFrameCount() + " frames");
-                    crashreportcategory.addCrashSection("Mipmap levels", Integer.valueOf(this.mipmapLevels));
+                    crashreportcategory.addCrashSection("Mipmap levels", this.mipmapLevels);
                     throw new ReportedException(crashreport);
                 }
             }
@@ -350,7 +350,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
                 throw stitcherexception;
             }
 
-            logger.info("Created: {}x{} {}-atlas", Integer.valueOf(stitcher.getCurrentWidth()), Integer.valueOf(stitcher.getCurrentHeight()), this.basePath);
+            logger.info("Created: {}x{} {}-atlas", stitcher.getCurrentWidth(), stitcher.getCurrentHeight(), this.basePath);
 
             if (Config.isShaders())
             {
@@ -471,7 +471,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
     public ResourceLocation completeResourceLocation(ResourceLocation location, int p_147634_2_)
     {
-        return this.isAbsoluteLocation(location) ? new ResourceLocation(location.getResourceDomain(), location.getResourcePath() + ".png") : (p_147634_2_ == 0 ? new ResourceLocation(location.getResourceDomain(), String.format("%s/%s%s", this.basePath, location.getResourcePath(), ".png")): new ResourceLocation(location.getResourceDomain(), String.format("%s/mipmaps/%s.%d%s", this.basePath, location.getResourcePath(), Integer.valueOf(p_147634_2_), ".png")));
+        return this.isAbsoluteLocation(location) ? new ResourceLocation(location.getResourceDomain(), location.getResourcePath() + ".png") : (p_147634_2_ == 0 ? new ResourceLocation(location.getResourceDomain(), String.format("%s/%s%s", this.basePath, location.getResourcePath(), ".png")): new ResourceLocation(location.getResourceDomain(), String.format("%s/mipmaps/%s.%d%s", this.basePath, location.getResourcePath(), p_147634_2_, ".png")));
     }
 
     public TextureAtlasSprite getAtlasSprite(String iconName)
@@ -778,14 +778,14 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
                                 int i = dimension.width;
                                 int j = MathHelper.roundUpToPowerOfTwo(i);
 
-                                if (!map.containsKey(Integer.valueOf(j)))
+                                if (!map.containsKey(j))
                                 {
-                                    map.put(Integer.valueOf(j), Integer.valueOf(1));
+                                    map.put(j, 1);
                                 }
                                 else
                                 {
-                                    int k = ((Integer)map.get(Integer.valueOf(j))).intValue();
-                                    map.put(Integer.valueOf(j), Integer.valueOf(k + 1));
+                                    int k = (Integer) map.get(j);
+                                    map.put(j, k + 1);
                                 }
                             }
                         }
@@ -804,8 +804,8 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
         for (Iterator iterator = set1.iterator(); iterator.hasNext(); l += l1)
         {
-            int j1 = ((Integer)iterator.next()).intValue();
-            l1 = ((Integer)map.get(Integer.valueOf(j1))).intValue();
+            int j1 = (Integer) iterator.next();
+            l1 = (Integer) map.get(j1);
         }
 
         int i1 = 16;
@@ -813,8 +813,8 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
         l1 = l * p_detectMinimumSpriteSize_3_ / 100;
 
         for (Object o : set1) {
-            int i2 = ((Integer) o).intValue();
-            int j2 = ((Integer) map.get(Integer.valueOf(i2))).intValue();
+            int i2 = (Integer) o;
+            int j2 = (Integer) map.get(i2);
             k1 += j2;
 
             if (i2 > i1) {

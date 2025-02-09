@@ -178,11 +178,11 @@ public abstract class Entity implements ICommandSender
         }
 
         this.dataWatcher = new DataWatcher(this);
-        this.dataWatcher.addObject(0, Byte.valueOf((byte)0));
-        this.dataWatcher.addObject(1, Short.valueOf((short)300));
-        this.dataWatcher.addObject(3, Byte.valueOf((byte)0));
+        this.dataWatcher.addObject(0, (byte) 0);
+        this.dataWatcher.addObject(1, (short) 300);
+        this.dataWatcher.addObject(3, (byte) 0);
         this.dataWatcher.addObject(2, "");
-        this.dataWatcher.addObject(4, Byte.valueOf((byte)0));
+        this.dataWatcher.addObject(4, (byte) 0);
         this.entityInit();
     }
 
@@ -891,7 +891,7 @@ public abstract class Entity implements ICommandSender
 
     public void setSilent(boolean isSilent)
     {
-        this.dataWatcher.updateObject(4, Byte.valueOf((byte)(isSilent ? 1 : 0)));
+        this.dataWatcher.updateObject(4, (byte) (isSilent ? 1 : 0));
     }
 
     protected boolean canTriggerWalking()
@@ -1929,11 +1929,11 @@ public abstract class Entity implements ICommandSender
 
         if (set)
         {
-            this.dataWatcher.updateObject(0, Byte.valueOf((byte)(b0 | 1 << flag)));
+            this.dataWatcher.updateObject(0, (byte) (b0 | 1 << flag));
         }
         else
         {
-            this.dataWatcher.updateObject(0, Byte.valueOf((byte)(b0 & ~(1 << flag))));
+            this.dataWatcher.updateObject(0, (byte) (b0 & ~(1 << flag)));
         }
     }
 
@@ -1944,7 +1944,7 @@ public abstract class Entity implements ICommandSender
 
     public void setAir(int air)
     {
-        this.dataWatcher.updateObject(1, Short.valueOf((short)air));
+        this.dataWatcher.updateObject(1, (short) air);
     }
 
     public void onStruckByLightning(EntityLightningBolt lightningBolt)
@@ -2100,7 +2100,7 @@ public abstract class Entity implements ICommandSender
 
     public String toString()
     {
-        return String.format("%s['%s'/%d, l='%s', x=%.2f, y=%.2f, z=%.2f]", this.getClass().getSimpleName(), this.getName(), Integer.valueOf(this.entityId), this.worldObj == null ? "~NULL~" : this.worldObj.getWorldInfo().getWorldName(), Double.valueOf(this.posX), Double.valueOf(this.posY), Double.valueOf(this.posZ));
+        return String.format("%s['%s'/%d, l='%s', x=%.2f, y=%.2f, z=%.2f]", this.getClass().getSimpleName(), this.getName(), this.entityId, this.worldObj == null ? "~NULL~" : this.worldObj.getWorldInfo().getWorldName(), this.posX, this.posY, this.posZ);
     }
 
     public boolean isEntityInvulnerable(DamageSource source)
@@ -2203,11 +2203,11 @@ public abstract class Entity implements ICommandSender
     public void addEntityCrashInfo(CrashReportCategory category)
     {
         category.addCrashSectionCallable("Entity Type", () -> EntityList.getEntityString(Entity.this) + " (" + Entity.this.getClass().getCanonicalName() + ")");
-        category.addCrashSection("Entity ID", Integer.valueOf(this.entityId));
+        category.addCrashSection("Entity ID", this.entityId);
         category.addCrashSectionCallable("Entity Name", Entity.this::getName);
-        category.addCrashSection("Entity's Exact location", String.format("%.2f, %.2f, %.2f", Double.valueOf(this.posX), Double.valueOf(this.posY), Double.valueOf(this.posZ)));
+        category.addCrashSection("Entity's Exact location", String.format("%.2f, %.2f, %.2f", this.posX, this.posY, this.posZ));
         category.addCrashSection("Entity's Block location", CrashReportCategory.getCoordinateInfo(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)));
-        category.addCrashSection("Entity's Momentum", String.format("%.2f, %.2f, %.2f", Double.valueOf(this.motionX), Double.valueOf(this.motionY), Double.valueOf(this.motionZ)));
+        category.addCrashSection("Entity's Momentum", String.format("%.2f, %.2f, %.2f", this.motionX, this.motionY, this.motionZ));
         category.addCrashSectionCallable("Entity's Rider", () -> Entity.this.riddenByEntity.toString());
         category.addCrashSectionCallable("Entity's Vehicle", () -> Entity.this.ridingEntity.toString());
     }
@@ -2252,7 +2252,7 @@ public abstract class Entity implements ICommandSender
 
     public void setAlwaysRenderNameTag(boolean alwaysRenderNameTag)
     {
-        this.dataWatcher.updateObject(3, Byte.valueOf((byte)(alwaysRenderNameTag ? 1 : 0)));
+        this.dataWatcher.updateObject(3, (byte) (alwaysRenderNameTag ? 1 : 0));
     }
 
     public boolean getAlwaysRenderNameTag()

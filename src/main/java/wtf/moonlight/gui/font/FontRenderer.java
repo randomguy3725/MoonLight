@@ -50,11 +50,11 @@ public class FontRenderer {
     }
 
     public final float drawCenteredString(String text, float x, float y, int color) {
-        return drawString(text, x - getStringWidth(text) / 2, y, color);
+        return drawString(text, x - (float) getStringWidth(text) / 2, y, color);
     }
 
     public final float drawCenteredString(String text, double x, double y, int color) {
-        return drawString(text, (float) (x - getStringWidth(text) / 2), (float) y, color);
+        return drawString(text, (float) (x - (double) getStringWidth(text) / 2), (float) y, color);
     }
 
     public final float drawCenteredStringNoFormat(String text, float x, float y, int color) {

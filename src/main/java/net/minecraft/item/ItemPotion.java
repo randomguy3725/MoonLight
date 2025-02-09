@@ -59,12 +59,12 @@ public class ItemPotion extends Item
         }
         else
         {
-            List<PotionEffect> list = this.effectCache.get(Integer.valueOf(stack.getMetadata()));
+            List<PotionEffect> list = this.effectCache.get(stack.getMetadata());
 
             if (list == null)
             {
                 list = PotionHelper.getPotionEffects(stack.getMetadata(), false);
-                this.effectCache.put(Integer.valueOf(stack.getMetadata()), list);
+                this.effectCache.put(stack.getMetadata(), list);
             }
 
             return list;
@@ -73,12 +73,12 @@ public class ItemPotion extends Item
 
     public List<PotionEffect> getEffects(int meta)
     {
-        List<PotionEffect> list = this.effectCache.get(Integer.valueOf(meta));
+        List<PotionEffect> list = this.effectCache.get(meta);
 
         if (list == null)
         {
             list = PotionHelper.getPotionEffects(meta, false);
-            this.effectCache.put(Integer.valueOf(meta), list);
+            this.effectCache.put(meta, list);
         }
 
         return list;
@@ -355,7 +355,7 @@ public class ItemPotion extends Item
 
                         if (list != null && !list.isEmpty())
                         {
-                            SUB_ITEMS_CACHE.put(list, Integer.valueOf(i1));
+                            SUB_ITEMS_CACHE.put(list, i1);
                         }
                     }
                 }
@@ -363,7 +363,7 @@ public class ItemPotion extends Item
         }
 
         for (Integer integer : SUB_ITEMS_CACHE.values()) {
-            int j1 = integer.intValue();
+            int j1 = integer;
             subItems.add(new ItemStack(itemIn, 1, j1));
         }
     }

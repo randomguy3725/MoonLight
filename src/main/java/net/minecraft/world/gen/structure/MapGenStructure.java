@@ -28,7 +28,7 @@ public abstract class MapGenStructure extends MapGenBase
     {
         this.initializeStructureData(worldIn);
 
-        if (!this.structureMap.containsKey(Long.valueOf(ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ))))
+        if (!this.structureMap.containsKey(ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ)))
         {
             this.rand.nextInt();
 
@@ -37,7 +37,7 @@ public abstract class MapGenStructure extends MapGenBase
                 if (this.canSpawnStructureAtCoords(chunkX, chunkZ))
                 {
                     StructureStart structurestart = this.getStructureStart(chunkX, chunkZ);
-                    this.structureMap.put(Long.valueOf(ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ)), structurestart);
+                    this.structureMap.put(ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ), structurestart);
                     this.setStructureStart(chunkX, chunkZ, structurestart);
                 }
             }
@@ -46,7 +46,7 @@ public abstract class MapGenStructure extends MapGenBase
                 CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Exception preparing structure feature");
                 CrashReportCategory crashreportcategory = crashreport.makeCategory("Feature being prepared");
                 crashreportcategory.addCrashSectionCallable("Is feature chunk", () -> MapGenStructure.this.canSpawnStructureAtCoords(chunkX, chunkZ) ? "True" : "False");
-                crashreportcategory.addCrashSection("Chunk location", String.format("%d,%d", Integer.valueOf(chunkX), Integer.valueOf(chunkZ)));
+                crashreportcategory.addCrashSection("Chunk location", String.format("%d,%d", chunkX, chunkZ));
                 crashreportcategory.addCrashSectionCallable("Chunk pos hash", () -> String.valueOf(ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ)));
                 crashreportcategory.addCrashSectionCallable("Structure type", () -> MapGenStructure.this.getClass().getCanonicalName());
                 throw new ReportedException(crashreport);
@@ -226,7 +226,7 @@ public abstract class MapGenStructure extends MapGenBase
 
                             if (structurestart != null)
                             {
-                                this.structureMap.put(Long.valueOf(ChunkCoordIntPair.chunkXZ2Int(i, j)), structurestart);
+                                this.structureMap.put(ChunkCoordIntPair.chunkXZ2Int(i, j), structurestart);
                             }
                         }
                     }

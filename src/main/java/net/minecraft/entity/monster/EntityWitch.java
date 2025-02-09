@@ -50,7 +50,7 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
     protected void entityInit()
     {
         super.entityInit();
-        this.getDataWatcher().addObject(21, Byte.valueOf((byte)0));
+        this.getDataWatcher().addObject(21, (byte) 0);
     }
 
     protected String getLivingSound()
@@ -70,7 +70,7 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
 
     public void setAggressive(boolean aggressive)
     {
-        this.getDataWatcher().updateObject(21, Byte.valueOf((byte)(aggressive ? 1 : 0)));
+        this.getDataWatcher().updateObject(21, (byte) (aggressive ? 1 : 0));
     }
 
     public boolean getAggressive()

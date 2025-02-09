@@ -21,7 +21,7 @@ public class BlockMycelium extends Block
     protected BlockMycelium()
     {
         super(Material.grass, MapColor.purpleColor);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(SNOWY, Boolean.valueOf(false)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(SNOWY, Boolean.FALSE));
         this.setTickRandomly(true);
         this.setCreativeTab(CreativeTabs.tabBlock);
     }
@@ -29,7 +29,7 @@ public class BlockMycelium extends Block
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
     {
         Block block = worldIn.getBlockState(pos.up()).getBlock();
-        return state.withProperty(SNOWY, Boolean.valueOf(block == Blocks.snow || block == Blocks.snow_layer));
+        return state.withProperty(SNOWY, block == Blocks.snow || block == Blocks.snow_layer);
     }
 
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)

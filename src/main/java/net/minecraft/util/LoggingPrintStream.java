@@ -30,6 +30,6 @@ public class LoggingPrintStream extends PrintStream
     {
         StackTraceElement[] astacktraceelement = Thread.currentThread().getStackTrace();
         StackTraceElement stacktraceelement = astacktraceelement[Math.min(3, astacktraceelement.length)];
-        LOGGER.info("[{}]@.({}:{}): {}", this.domain, stacktraceelement.getFileName(), Integer.valueOf(stacktraceelement.getLineNumber()), string);
+        LOGGER.info("[{}]@.({}:{}): {}", this.domain, stacktraceelement.getFileName(), stacktraceelement.getLineNumber(), string);
     }
 }

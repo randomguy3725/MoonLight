@@ -14,7 +14,7 @@ public class Smoother
     {
         synchronized (mapSmoothValues)
         {
-            Integer integer = Integer.valueOf(id);
+            Integer integer = id;
             SmoothFloat smoothfloat = mapSmoothValues.get(integer);
 
             if (smoothfloat == null)

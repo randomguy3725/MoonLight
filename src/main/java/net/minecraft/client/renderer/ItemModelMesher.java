@@ -76,7 +76,7 @@ public class ItemModelMesher
 
     protected IBakedModel getItemModel(Item item, int meta)
     {
-        return this.simpleShapesCache.get(Integer.valueOf(this.getIndex(item, meta)));
+        return this.simpleShapesCache.get(this.getIndex(item, meta));
     }
 
     private int getIndex(Item item, int meta)
@@ -86,8 +86,8 @@ public class ItemModelMesher
 
     public void register(Item item, int meta, ModelResourceLocation location)
     {
-        this.simpleShapes.put(Integer.valueOf(this.getIndex(item, meta)), location);
-        this.simpleShapesCache.put(Integer.valueOf(this.getIndex(item, meta)), this.modelManager.getModel(location));
+        this.simpleShapes.put(this.getIndex(item, meta), location);
+        this.simpleShapesCache.put(this.getIndex(item, meta), this.modelManager.getModel(location));
     }
 
     public void register(Item item, ItemMeshDefinition definition)

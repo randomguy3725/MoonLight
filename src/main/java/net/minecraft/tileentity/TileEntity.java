@@ -202,7 +202,7 @@ public abstract class TileEntity
                 int i = Block.getIdFromBlock(TileEntity.this.worldObj.getBlockState(TileEntity.this.pos).getBlock());
 
                 try {
-                    return String.format("ID #%d (%s // %s)", Integer.valueOf(i), Block.getBlockById(i).getUnlocalizedName(), Block.getBlockById(i).getClass().getCanonicalName());
+                    return String.format("ID #%d (%s // %s)", i, Block.getBlockById(i).getUnlocalizedName(), Block.getBlockById(i).getClass().getCanonicalName());
                 } catch (Throwable var3) {
                     return "ID #" + i;
                 }
@@ -215,7 +215,7 @@ public abstract class TileEntity
                     return "Unknown? (Got " + i + ")";
                 } else {
                     String s = String.format("%4s", new Object[]{Integer.toBinaryString(i)}).replace(" ", "0");
-                    return String.format("%1$d / 0x%1$X / 0b%2$s", Integer.valueOf(i), s);
+                    return String.format("%1$d / 0x%1$X / 0b%2$s", i, s);
                 }
             });
         }

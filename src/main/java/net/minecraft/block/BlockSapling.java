@@ -31,7 +31,7 @@ public class BlockSapling extends BlockBush implements IGrowable
 
     protected BlockSapling()
     {
-        this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, BlockPlanks.EnumType.OAK).withProperty(STAGE, Integer.valueOf(0)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, BlockPlanks.EnumType.OAK).withProperty(STAGE, 0));
         float f = 0.4F;
         this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
         this.setCreativeTab(CreativeTabs.tabDecorations);
@@ -57,7 +57,7 @@ public class BlockSapling extends BlockBush implements IGrowable
 
     public void grow(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
-        if (state.getValue(STAGE).intValue() == 0)
+        if (state.getValue(STAGE) == 0)
         {
             worldIn.setBlockState(pos, state.cycleProperty(STAGE), 4);
         }
@@ -106,7 +106,7 @@ public class BlockSapling extends BlockBush implements IGrowable
 
             case JUNGLE:
                 IBlockState iblockstate = Blocks.log.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.JUNGLE);
-                IBlockState iblockstate1 = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.JUNGLE).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
+                IBlockState iblockstate1 = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.JUNGLE).withProperty(BlockLeaves.CHECK_DECAY, Boolean.FALSE);
                 label269:
 
                 for (i = 0; i >= -1; --i)
@@ -229,14 +229,14 @@ public class BlockSapling extends BlockBush implements IGrowable
 
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(TYPE, BlockPlanks.EnumType.byMetadata(meta & 7)).withProperty(STAGE, Integer.valueOf((meta & 8) >> 3));
+        return this.getDefaultState().withProperty(TYPE, BlockPlanks.EnumType.byMetadata(meta & 7)).withProperty(STAGE, (meta & 8) >> 3);
     }
 
     public int getMetaFromState(IBlockState state)
     {
         int i = 0;
         i = i | state.getValue(TYPE).getMetadata();
-        i = i | state.getValue(STAGE).intValue() << 3;
+        i = i | state.getValue(STAGE) << 3;
         return i;
     }
 

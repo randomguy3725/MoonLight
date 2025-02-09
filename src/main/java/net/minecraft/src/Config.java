@@ -103,7 +103,7 @@ public class Config
     private static boolean fullscreenModeChecked = false;
     private static boolean desktopModeChecked = false;
     private static DefaultResourcePack defaultResourcePackLazy = null;
-    public static final Float DEF_ALPHA_FUNC_LEVEL = Float.valueOf(0.1F);
+    public static final Float DEF_ALPHA_FUNC_LEVEL = 0.1F;
     private static final Logger LOGGER = LogManager.getLogger();
     public static final boolean logDetail = System.getProperty("log.detail", "false").equals("true");
     private static String mcDebugLast = null;
@@ -506,12 +506,12 @@ public class Config
     public static boolean isUseAlphaFunc()
     {
         float f = getAlphaFuncLevel();
-        return f > DEF_ALPHA_FUNC_LEVEL.floatValue() + 1.0E-5F;
+        return f > DEF_ALPHA_FUNC_LEVEL + 1.0E-5F;
     }
 
     public static float getAlphaFuncLevel()
     {
-        return DEF_ALPHA_FUNC_LEVEL.floatValue();
+        return DEF_ALPHA_FUNC_LEVEL;
     }
 
     public static boolean isFogFancy()
@@ -1481,12 +1481,12 @@ public class Config
         if (i != 0 && GlErrors.isEnabled(i))
         {
             String s = getGlErrorString(i);
-            String s1 = String.format("OpenGL error: %s (%s), at: %s", Integer.valueOf(i), s, p_checkGlError_0_);
+            String s1 = String.format("OpenGL error: %s (%s), at: %s", i, s, p_checkGlError_0_);
             error(s1);
 
             if (isShowGlErrors() && TimedEvent.isActive("ShowGlError", 10000L))
             {
-                String s2 = I18n.format("of.message.openglError", Integer.valueOf(i), s);
+                String s2 = I18n.format("of.message.openglError", i, s);
                 minecraft.ingameGUI.getChatGUI().printChatMessage(new ChatComponentText(s2));
             }
         }
@@ -2311,7 +2311,7 @@ public class Config
 
             for (int i = 0; i < aint.length; ++i)
             {
-                aint[i] = p_toPrimitive_0_[i].intValue();
+                aint[i] = p_toPrimitive_0_[i];
             }
 
             return aint;
@@ -2406,7 +2406,7 @@ public class Config
 
     public static boolean isTrue(Boolean p_isTrue_0_)
     {
-        return p_isTrue_0_ != null && p_isTrue_0_.booleanValue();
+        return p_isTrue_0_ != null && p_isTrue_0_;
     }
 
     public static boolean isQuadsToTriangles()

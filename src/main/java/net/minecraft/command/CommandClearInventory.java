@@ -71,11 +71,11 @@ public class CommandClearInventory extends CommandBase
             {
                 if (j == 0)
                 {
-                    sender.addChatMessage(new ChatComponentTranslation("commands.clear.testing", entityplayermp.getName(), Integer.valueOf(k)));
+                    sender.addChatMessage(new ChatComponentTranslation("commands.clear.testing", entityplayermp.getName(), k));
                 }
                 else
                 {
-                    notifyOperators(sender, this, "commands.clear.success", entityplayermp.getName(), Integer.valueOf(k));
+                    notifyOperators(sender, this, "commands.clear.success", entityplayermp.getName(), k);
                 }
             }
         }

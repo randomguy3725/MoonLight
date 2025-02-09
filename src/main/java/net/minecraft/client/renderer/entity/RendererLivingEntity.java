@@ -102,7 +102,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 
     public void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
-        if (!Reflector.RenderLivingEvent_Pre_Constructor.exists() || !Reflector.postForgeBusEvent(Reflector.RenderLivingEvent_Pre_Constructor, entity, this, Double.valueOf(x), Double.valueOf(y), Double.valueOf(z)))
+        if (!Reflector.RenderLivingEvent_Pre_Constructor.exists() || !Reflector.postForgeBusEvent(Reflector.RenderLivingEvent_Pre_Constructor, entity, this, x, y, z))
         {
             if (animateModelLiving)
             {
@@ -280,7 +280,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 
             if (Reflector.RenderLivingEvent_Post_Constructor.exists())
             {
-                Reflector.postForgeBusEvent(Reflector.RenderLivingEvent_Post_Constructor, entity, this, Double.valueOf(x), Double.valueOf(y), Double.valueOf(z));
+                Reflector.postForgeBusEvent(Reflector.RenderLivingEvent_Post_Constructor, entity, this, x, y, z);
             }
         }
     }
@@ -640,7 +640,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 
     public void renderName(T entity, double x, double y, double z)
     {
-        if (!Reflector.RenderLivingEvent_Specials_Pre_Constructor.exists() || !Reflector.postForgeBusEvent(Reflector.RenderLivingEvent_Specials_Pre_Constructor, entity, this, Double.valueOf(x), Double.valueOf(y), Double.valueOf(z)))
+        if (!Reflector.RenderLivingEvent_Specials_Pre_Constructor.exists() || !Reflector.postForgeBusEvent(Reflector.RenderLivingEvent_Specials_Pre_Constructor, entity, this, x, y, z))
         {
             if (this.canRenderName(entity)) {
                 RenderNameTagEvent event = new RenderNameTagEvent(entity);
@@ -693,7 +693,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 
             if (Reflector.RenderLivingEvent_Specials_Post_Constructor.exists())
             {
-                Reflector.postForgeBusEvent(Reflector.RenderLivingEvent_Specials_Post_Constructor, entity, this, Double.valueOf(x), Double.valueOf(y), Double.valueOf(z));
+                Reflector.postForgeBusEvent(Reflector.RenderLivingEvent_Specials_Post_Constructor, entity, this, x, y, z);
             }
         }
     }
