@@ -36,24 +36,22 @@ import wtf.moonlight.utils.player.RotationUtils;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
 
 @ModuleInfo(name = "Velocity", category = ModuleCategory.Combat)
 public class Velocity extends Module {
-    private final ModeValue mode = new ModeValue("Mode", new String[]{"Cancel", "Air","Horizontal","Watchdog", "Boost", "Jump Reset", "GrimAC","Intave Reduce","Legit"}, "Air", this);
+    private final ModeValue mode = new ModeValue("Mode", new String[]{"Cancel", "Air","Horizontal","Watchdog", "Boost", "Jump Reset", "GrimAC","Reduce","Legit"}, "Air", this);
     private final ModeValue grimMode = new ModeValue("Grim Mode", new String[]{"Reduce", "1.17"}, "Reduce", this, () -> mode.is("GrimAC"));
     private final SliderValue reverseTick = new SliderValue("Boost Tick", 1, 1, 5, 1, this, () -> mode.is("Boost"));
     private final SliderValue reverseStrength = new SliderValue("Boost Strength", 1, 0.1f, 1, 0.01f, this, () -> mode.is("Boost"));
     private final ModeValue jumpResetMode = new ModeValue("Jump Reset Mode", new String[]{"Hurt Time", "Packet"}, "Packet", this, () -> mode.is("Jump Reset"));
     private final SliderValue jumpResetHurtTime = new SliderValue("Jump Reset Hurt Time", 9, 1, 10, 1, this, () -> mode.is("Jump Reset") && jumpResetMode.is("Hurt Time"));
-    private final SliderValue intaveHurtTime = new SliderValue("Intave Hurt Time", 9, 1, 10, 1, this, () -> mode.is("Intave Reduce"));
-    private final SliderValue intaveFactor = new SliderValue("Intave Factor", 0.6f, 0, 1, 0.05f, this, () -> mode.is("Intave Reduce"));
+    private final SliderValue reduceHurtTime = new SliderValue("Reduce Hurt Time", 9, 1, 10, 1, this, () -> mode.is("Reduce"));
+    private final SliderValue reduceFactor = new SliderValue("Reduce Factor", 0.6f, 0, 1, 0.05f, this, () -> mode.is("Reduce"));
     private int lastSprint = -1;
     private boolean veloPacket = false;
     private boolean canSpoof, canCancel;
     private int idk = 0;
-    private int intaveTick,intaveDamageTick;
+    private int reduceTick,reduceDamageTick;
     private long lastAttackTime;
     private boolean absorbedVelocity;
 
@@ -72,15 +70,15 @@ public class Velocity extends Module {
                 }
                 break;
 
-            case "Intave Reduce":
+            case "Reduce":
                 if (!veloPacket) return;
-                intaveTick++;
+               reduceTick++;
 
                 if (mc.thePlayer.hurtTime == 2) {
-                    intaveDamageTick++;
-                    if (mc.thePlayer.onGround && intaveTick % 2 == 0 && intaveDamageTick <= 10) {
+                   reduceDamageTick++;
+                    if (mc.thePlayer.onGround && reduceTick % 2 == 0 && reduceDamageTick <= 10) {
                         mc.thePlayer.jump();
-                        intaveTick = 0;
+                        reduceTick = 0;
                     }
                     veloPacket = false;
                 }
@@ -246,10 +244,10 @@ public class Velocity extends Module {
 
     @EventTarget
     public void onAttack(AttackEvent event){
-        if(mode.is("Intave Reduce")){
-            if (mc.thePlayer.hurtTime == intaveHurtTime.get() && System.currentTimeMillis() - lastAttackTime <= 8000) {
-                mc.thePlayer.motionX *= intaveFactor.get();
-                mc.thePlayer.motionZ *= intaveFactor.get();
+       if(mode.is("Reduce")){
+            if (mc.thePlayer.hurtTime == reduceHurtTime.get() && System.currentTimeMillis() - lastAttackTime <= 8000) {
+                mc.thePlayer.motionX *= reduceFactor.get();
+                mc.thePlayer.motionZ *= reduceFactor.get();
             }
 
             lastAttackTime = System.currentTimeMillis();
@@ -281,8 +279,6 @@ public class Velocity extends Module {
     }
 
     private boolean checks() {
-        return Stream.<Supplier<Boolean>>of(mc.thePlayer::isInLava, mc.thePlayer::isBurning, mc.thePlayer::isInWater,
-                () -> mc.thePlayer.isInWeb).map(Supplier::get).anyMatch(Boolean.TRUE::equals);
+        return mc.thePlayer.isInWeb || mc.thePlayer.isInLava() || mc.thePlayer.isBurning() || mc.thePlayer.isInWater();
     }
 }
-
