@@ -167,6 +167,6 @@ public class IslandRenderer implements InstanceAccess {
         float renderHeight = ((y - animatedY.getOutput()) * 2) + (identifier == 1 ? 10 : 0);
 
         RenderUtils.scissor(animatedX.getOutput() - 1, animatedY.getOutput() - 1, ((x - animatedX.getOutput()) * 2) + 2, renderHeight + 2);
-        RoundedUtils.drawRound(animatedX.getOutput(), animatedY.getOutput(), (x - animatedX.getOutput()) * 2, renderHeight, 7, new Color(Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).bgColor()));
+        RoundedUtils.drawRound(animatedX.getOutput(), animatedY.getOutput(), (x - animatedX.getOutput()) * 2, renderHeight, 7, new Color(Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).bgColor(),true));
     }
 }

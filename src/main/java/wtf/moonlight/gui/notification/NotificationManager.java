@@ -206,6 +206,25 @@ public class NotificationManager implements InstanceAccess {
 
                         yOffset += (float) ((height + actualOffset) * animation.getOutput());
                         break;
+                        
+                    case "Type 4":
+                        animation.setDuration(250);
+
+                        actualOffset = 5;
+
+                        x = sr.getScaledWidth() - (width + 5) * (float) animation.getOutput();
+                        y = sr.getScaledHeight() - (yOffset + 18 + height) * (float) animation.getOutput();
+
+                        RenderUtils.drawBorderedRect(x, y, width, height,1,INSTANCE.getModuleManager().getModule(Interface.class).bgColor(0),ColorUtils.darker(INSTANCE.getModuleManager().getModule(Interface.class).bgColor(0),0.8f));
+
+                        float percentage = Math.min((notification.getTimerUtils().getTime() / notification.getTime()), 1);
+                        RenderUtils.drawRect(x, y + height - 2, width * percentage, 1,INSTANCE.getModuleManager().getModule(Interface.class).color(0));
+
+                        Fonts.interSemiBold.get(28).drawString(notification.getTitle(), x + 6, y + 4, -1);
+                        Fonts.interSemiBold.get(20).drawString(notification.getDescription(), x + 6, y + height - Fonts.interSemiBold.get(20).getHeight() - 2, -1);
+
+                        yOffset += (float) ((height + actualOffset) * animation.getOutput());
+                        break;
                 }
             }
         }
