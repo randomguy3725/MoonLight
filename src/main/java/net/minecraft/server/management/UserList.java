@@ -135,7 +135,7 @@ public class UserList<K, V extends UserListEntry<K>>
 
     protected UserListEntry<K> createEntry(JsonObject entryData)
     {
-        return new UserListEntry(null, entryData);
+        return new UserListEntry<>(null, entryData);
     }
 
     protected Map<String, V> getValues()

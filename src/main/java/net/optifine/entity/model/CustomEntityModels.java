@@ -92,7 +92,7 @@ public class CustomEntityModels
         {
             if (originalEntityRenderMap == null)
             {
-                originalEntityRenderMap = new HashMap(map);
+                originalEntityRenderMap = new HashMap<>(map);
             }
 
             return map;
@@ -115,7 +115,7 @@ public class CustomEntityModels
     {
         String s = "optifine/cem/";
         String s1 = ".jem";
-        List<ResourceLocation> list = new ArrayList();
+        List<ResourceLocation> list = new ArrayList<>();
         String[] astring = CustomModelRegistry.getModelNames();
 
         for (String s2 : astring) {
@@ -139,14 +139,9 @@ public class CustomEntityModels
             IEntityRenderer ientityrenderer = parseEntityRender(jsonobject, location.getResourcePath());
             return ientityrenderer;
         }
-        catch (IOException ioexception)
+        catch (IOException | JsonParseException ioexception)
         {
             Config.error(ioexception.getClass().getName() + ": " + ioexception.getMessage());
-            return null;
-        }
-        catch (JsonParseException jsonparseexception)
-        {
-            Config.error(jsonparseexception.getClass().getName() + ": " + jsonparseexception.getMessage());
             return null;
         }
         catch (Exception exception)
@@ -261,7 +256,7 @@ public class CustomEntityModels
                 if (modelrenderer.childModels != null)
                 {
                     ModelRenderer[] amodelrenderer = modelAdapter.getModelRenderers(model);
-                    Set<ModelRenderer> set = Collections.<ModelRenderer>newSetFromMap(new IdentityHashMap());
+                    Set<ModelRenderer> set = Collections.<ModelRenderer>newSetFromMap(new IdentityHashMap<>());
                     set.addAll(Arrays.asList(amodelrenderer));
                     List<ModelRenderer> list = modelrenderer.childModels;
                     Iterator iterator = list.iterator();

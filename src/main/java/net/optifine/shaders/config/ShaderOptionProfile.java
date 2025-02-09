@@ -144,7 +144,7 @@ public class ShaderOptionProfile extends ShaderOption
 
     private static String[] getProfileNames(ShaderProfile[] profs)
     {
-        List<String> list = new ArrayList();
+        List<String> list = new ArrayList<>();
 
         for (ShaderProfile shaderprofile : profs) {
             list.add(shaderprofile.getName());

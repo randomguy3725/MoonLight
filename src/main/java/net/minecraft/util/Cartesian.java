@@ -15,7 +15,7 @@ public class Cartesian
 {
     public static <T> Iterable<T[]> cartesianProduct(Class<T> clazz, Iterable <? extends Iterable <? extends T >> sets)
     {
-        return new Cartesian.Product(clazz, toArray(Iterable.class, sets));
+        return new Cartesian.Product<>(clazz, toArray(Iterable.class, sets));
     }
 
     public static <T> Iterable<List<T>> cartesianProduct(Iterable <? extends Iterable <? extends T >> sets)
@@ -25,7 +25,7 @@ public class Cartesian
 
     private static <T> Iterable<List<T>> arraysAsLists(Iterable<Object[]> arrays)
     {
-        return Iterables.transform(arrays, new Cartesian.GetList());
+        return Iterables.transform(arrays, new Cartesian.GetList<>());
     }
 
     private static <T> T[] toArray(Class <? super T > clazz, Iterable <? extends T > it)

@@ -183,10 +183,7 @@ public final class GuiAddAlt extends GuiScreen {
             case 4:
                 final MicrosoftAuthCallback callback = new MicrosoftAuthCallback();
 
-                CompletableFuture<MicrosoftAltCredential> future = callback.start((s, o) -> {
-
-                    groupAltInfo.updateStatus(String.format(s, o[0]));
-                });
+                CompletableFuture<MicrosoftAltCredential> future = callback.start((s, o) -> groupAltInfo.updateStatus(String.format(s, o[0])));
 
                 Sys.openURL(MicrosoftAuthCallback.url);
 

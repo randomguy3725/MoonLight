@@ -1,6 +1,8 @@
 package net.minecraft.entity.projectile;
 
 import java.util.List;
+import java.util.Objects;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -275,14 +277,7 @@ public class EntityArrow extends Entity implements IProjectile
 
                     DamageSource damagesource;
 
-                    if (this.shootingEntity == null)
-                    {
-                        damagesource = DamageSource.causeArrowDamage(this, this);
-                    }
-                    else
-                    {
-                        damagesource = DamageSource.causeArrowDamage(this, this.shootingEntity);
-                    }
+                    damagesource = DamageSource.causeArrowDamage(this, Objects.requireNonNullElse(this.shootingEntity, this));
 
                     if (this.isBurning() && !(movingobjectposition.entityHit instanceof EntityEnderman))
                     {

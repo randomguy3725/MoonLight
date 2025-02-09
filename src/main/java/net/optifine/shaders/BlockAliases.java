@@ -75,7 +75,7 @@ public class BlockAliases
             }
             else
             {
-                List<List<BlockAlias>> list = new ArrayList();
+                List<List<BlockAlias>> list = new ArrayList<>();
                 String s = "/shaders/block.properties";
                 InputStream inputstream = shaderPack.getResourceAsStream(s);
 
@@ -86,7 +86,7 @@ public class BlockAliases
 
                 loadModBlockAliases(list);
 
-                if (list.size() > 0)
+                if (!list.isEmpty())
                 {
                     blockAliases = toArrays(list);
                 }
@@ -189,7 +189,7 @@ public class BlockAliases
             List<BlockAlias> list = blocksAliases.get(j);
 
             if (list == null) {
-                list = new ArrayList();
+                list = new ArrayList<>();
                 blocksAliases.set(j, list);
             }
 

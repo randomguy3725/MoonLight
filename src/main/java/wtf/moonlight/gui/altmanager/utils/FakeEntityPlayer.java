@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static net.minecraft.client.resources.DefaultPlayerSkin.TEXTURE_ALEX;
@@ -51,22 +52,14 @@ public final class FakeEntityPlayer extends EntityOtherPlayerMP {
         super(new FakeWorld(), profile);
 
         try {
-            gameProfile.getProperties().asMap().get("textures").stream().findFirst().map(property -> {
-                return jsonParser.parse(new String(Base64.getDecoder().decode(property.getValue()))).getAsJsonObject()
-                        .getAsJsonObject("textures").getAsJsonObject("SKIN");
-            }).ifPresent(jsonObject -> {
-                this.skinType = jsonObject.has("metadata") ? jsonObject.getAsJsonObject("metadata").get("model").getAsString() : "default";
-            });
+            gameProfile.getProperties().asMap().get("textures").stream().findFirst().map(property -> jsonParser.parse(new String(Base64.getDecoder().decode(property.getValue()))).getAsJsonObject()
+                    .getAsJsonObject("textures").getAsJsonObject("SKIN")).ifPresent(jsonObject -> this.skinType = jsonObject.has("metadata") ? jsonObject.getAsJsonObject("metadata").get("model").getAsString() : "default");
         } catch(Throwable ignored) {
         } finally {
             if(skinType == null) this.skinType = "slim";
         }
 
-        if(locationSkin != null) {
-            this.locationSkin = locationSkin;
-        } else {
-            this.locationSkin = skinType.equals("default") ? TEXTURE_STEVE : TEXTURE_ALEX;
-        }
+        this.locationSkin = Objects.requireNonNullElseGet(locationSkin, () -> skinType.equals("default") ? TEXTURE_STEVE : TEXTURE_ALEX);
 
         setCurrentItemOrArmor(0, ITEM_STACKS.get(ThreadLocalRandom.current().nextInt(ITEM_STACKS.size())));
     }

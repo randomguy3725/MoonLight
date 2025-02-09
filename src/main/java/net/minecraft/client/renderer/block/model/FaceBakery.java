@@ -16,6 +16,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3i;
 
+import java.util.Objects;
+
 public class FaceBakery
 {
     private static final float SCALE_ROTATION_22_5 = 1.0F / (float)Math.cos(0.39269909262657166D) - 1.0F;
@@ -263,14 +265,7 @@ public class FaceBakery
             }
         }
 
-        if (enumfacing == null)
-        {
-            return EnumFacing.UP;
-        }
-        else
-        {
-            return enumfacing;
-        }
+        return Objects.requireNonNullElse(enumfacing, EnumFacing.UP);
     }
 
     public void lockUv(int[] p_178409_1_, EnumFacing facing, BlockFaceUV p_178409_3_, TextureAtlasSprite p_178409_4_)

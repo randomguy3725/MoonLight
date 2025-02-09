@@ -58,7 +58,7 @@ public abstract class ModelAdapter
     public ModelRenderer[] getModelRenderers(ModelBase model)
     {
         String[] astring = this.getModelRendererNames();
-        List<ModelRenderer> list = new ArrayList();
+        List<ModelRenderer> list = new ArrayList<>();
 
         for (String s : astring) {
             ModelRenderer modelrenderer = this.getModelRenderer(model, s);

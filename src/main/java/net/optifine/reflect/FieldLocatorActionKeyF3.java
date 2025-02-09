@@ -45,9 +45,9 @@ public class FieldLocatorActionKeyF3 implements IFieldLocator
         minecraft.renderChunksMany = false;
         Field[] afield2 = ReflectorRaw.getFields(minecraft, afield, Boolean.TYPE, Boolean.FALSE);
         minecraft.renderChunksMany = flag;
-        Set<Field> set = new HashSet(Arrays.asList(afield1));
-        Set<Field> set1 = new HashSet(Arrays.asList(afield2));
-        Set<Field> set2 = new HashSet(set);
+        Set<Field> set = new HashSet<>(Arrays.asList(afield1));
+        Set<Field> set1 = new HashSet<>(Arrays.asList(afield2));
+        Set<Field> set2 = new HashSet<>(set);
         set2.retainAll(set1);
         Field[] afield3 = set2.toArray(new Field[0]);
         return afield3.length != 1 ? null : afield3[0];

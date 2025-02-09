@@ -22,7 +22,7 @@ public class ResUtils
 
     public static String[] collectFiles(String[] prefixes, String[] suffixes)
     {
-        Set<String> set = new LinkedHashSet();
+        Set<String> set = new LinkedHashSet<>();
         IResourcePack[] airesourcepack = Config.getResourcePacks();
 
         for (IResourcePack iresourcepack : airesourcepack) {
@@ -226,10 +226,6 @@ public class ResUtils
                 properties.load(in);
                 in.close();
                 return properties;
-            }
-            catch (FileNotFoundException var3)
-            {
-                return null;
             }
             catch (IOException var4)
             {

@@ -13,7 +13,7 @@ public class TokenParser
     {
         Reader reader = new StringReader(str);
         PushbackReader pushbackreader = new PushbackReader(reader);
-        List<Token> list = new ArrayList();
+        List<Token> list = new ArrayList<>();
 
         while (true)
         {

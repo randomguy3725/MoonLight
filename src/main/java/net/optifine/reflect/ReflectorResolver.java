@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ReflectorResolver
 {
-    private static final List<IResolvable> RESOLVABLES = Collections.<IResolvable>synchronizedList(new ArrayList());
+    private static final List<IResolvable> RESOLVABLES = Collections.<IResolvable>synchronizedList(new ArrayList<>());
     private static boolean resolved = false;
 
     protected static void register(IResolvable resolvable)

@@ -196,60 +196,28 @@ public class CrashReportCategory
     public static void addBlockInfo(CrashReportCategory category, final BlockPos pos, final Block blockIn, final int blockData)
     {
         final int i = Block.getIdFromBlock(blockIn);
-        category.addCrashSectionCallable("Block type", new Callable<String>()
-        {
-            public String call() throws Exception
-            {
-                try
-                {
-                    return String.format("ID #%d (%s // %s)", Integer.valueOf(i), blockIn.getUnlocalizedName(), blockIn.getClass().getCanonicalName());
-                }
-                catch (Throwable var2)
-                {
-                    return "ID #" + i;
-                }
+        category.addCrashSectionCallable("Block type", () -> {
+            try {
+                return String.format("ID #%d (%s // %s)", Integer.valueOf(i), blockIn.getUnlocalizedName(), blockIn.getClass().getCanonicalName());
+            } catch (Throwable var2) {
+                return "ID #" + i;
             }
         });
-        category.addCrashSectionCallable("Block data value", new Callable<String>()
-        {
-            public String call() throws Exception
-            {
-                if (blockData < 0)
-                {
-                    return "Unknown? (Got " + blockData + ")";
-                }
-                else
-                {
-                    String s = String.format("%4s", new Object[] {Integer.toBinaryString(blockData)}).replace(" ", "0");
-                    return String.format("%1$d / 0x%1$X / 0b%2$s", Integer.valueOf(blockData), s);
-                }
+        category.addCrashSectionCallable("Block data value", () -> {
+            if (blockData < 0) {
+                return "Unknown? (Got " + blockData + ")";
+            } else {
+                String s = String.format("%4s", new Object[]{Integer.toBinaryString(blockData)}).replace(" ", "0");
+                return String.format("%1$d / 0x%1$X / 0b%2$s", Integer.valueOf(blockData), s);
             }
         });
-        category.addCrashSectionCallable("Block location", new Callable<String>()
-        {
-            public String call() throws Exception
-            {
-                return CrashReportCategory.getCoordinateInfo(pos);
-            }
-        });
+        category.addCrashSectionCallable("Block location", () -> CrashReportCategory.getCoordinateInfo(pos));
     }
 
     public static void addBlockInfo(CrashReportCategory category, final BlockPos pos, final IBlockState state)
     {
-        category.addCrashSectionCallable("Block", new Callable<String>()
-        {
-            public String call() throws Exception
-            {
-                return state.toString();
-            }
-        });
-        category.addCrashSectionCallable("Block location", new Callable<String>()
-        {
-            public String call() throws Exception
-            {
-                return CrashReportCategory.getCoordinateInfo(pos);
-            }
-        });
+        category.addCrashSectionCallable("Block", () -> state.toString());
+        category.addCrashSectionCallable("Block location", () -> CrashReportCategory.getCoordinateInfo(pos));
     }
 
     static class Entry

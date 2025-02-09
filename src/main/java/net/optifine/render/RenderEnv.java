@@ -35,8 +35,8 @@ public class RenderEnv
     private boolean[] borderFlags2 = null;
     private boolean[] borderFlags3 = null;
     private EnumFacing[] borderDirections = null;
-    private final List<BakedQuad> listQuadsCustomizer = new ArrayList();
-    private final List<BakedQuad> listQuadsCtmMultipass = new ArrayList();
+    private final List<BakedQuad> listQuadsCustomizer = new ArrayList<>();
+    private final List<BakedQuad> listQuadsCtmMultipass = new ArrayList<>();
     private final BakedQuad[] arrayQuadsCtm1 = new BakedQuad[1];
     private final BakedQuad[] arrayQuadsCtm2 = new BakedQuad[2];
     private final BakedQuad[] arrayQuadsCtm3 = new BakedQuad[3];
@@ -119,7 +119,7 @@ public class RenderEnv
 
     public boolean isBreakingAnimation(List listQuads)
     {
-        if (this.breakingAnimation == -1 && listQuads.size() > 0)
+        if (this.breakingAnimation == -1 && !listQuads.isEmpty())
         {
             if (listQuads.get(0) instanceof BreakingFour)
             {

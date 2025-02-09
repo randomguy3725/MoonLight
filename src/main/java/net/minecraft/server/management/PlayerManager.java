@@ -34,13 +34,13 @@ public class PlayerManager
     private static final Logger pmLogger = LogManager.getLogger();
     private final WorldServer theWorldServer;
     private final List<EntityPlayerMP> players = Lists.newArrayList();
-    private final LongHashMap<PlayerManager.PlayerInstance> playerInstances = new LongHashMap();
+    private final LongHashMap<PlayerManager.PlayerInstance> playerInstances = new LongHashMap<>();
     private final List<PlayerManager.PlayerInstance> playerInstancesToUpdate = Lists.newArrayList();
     private final List<PlayerManager.PlayerInstance> playerInstanceList = Lists.newArrayList();
     private int playerViewRadius;
     private long previousTotalWorldTime;
     private final int[][] xzDirectionsConst = new int[][] {{1, 0}, {0, 1}, { -1, 0}, {0, -1}};
-    private final Map<EntityPlayerMP, Set<ChunkCoordIntPair>> mapPlayerPendingEntries = new HashMap();
+    private final Map<EntityPlayerMP, Set<ChunkCoordIntPair>> mapPlayerPendingEntries = new HashMap<>();
 
     public PlayerManager(WorldServer serverWorld)
     {
@@ -413,7 +413,7 @@ public class PlayerManager
         double d2 = d1 * 0.017453292519943295D;
         ChunkPosComparator chunkposcomparator = new ChunkPosComparator(p_getNearest_2_.chunkCoordX, p_getNearest_2_.chunkCoordZ, d0, d2);
         Comparator<ChunkCoordIntPair> comparator = Collections.reverseOrder(chunkposcomparator);
-        PriorityQueue<ChunkCoordIntPair> priorityqueue = new PriorityQueue(p_getNearest_3_, comparator);
+        PriorityQueue<ChunkCoordIntPair> priorityqueue = new PriorityQueue<>(p_getNearest_3_, comparator);
 
         for (ChunkCoordIntPair chunkcoordintpair : p_getNearest_1_)
         {

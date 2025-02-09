@@ -31,7 +31,7 @@ public class SoundEngine extends Library {
     long device;
 
     public SoundEngine() throws SoundSystemException {
-        this.ALBufferMap = new HashMap();
+        this.ALBufferMap = new HashMap<>();
         this.reverseByteOrder = true;
     }
 
@@ -136,12 +136,12 @@ public class SoundEngine extends Library {
 
     public boolean loadSound(FilenameURL filenameURL) {
         if (this.bufferMap == null) {
-            this.bufferMap = new HashMap();
+            this.bufferMap = new HashMap<>();
             this.importantMessage("Buffer Map was null in method 'loadSound'");
         }
 
         if (this.ALBufferMap == null) {
-            this.ALBufferMap = new HashMap();
+            this.ALBufferMap = new HashMap<>();
             this.importantMessage("Open AL Buffer Map was null in method'loadSound'");
         }
 
@@ -219,12 +219,12 @@ public class SoundEngine extends Library {
 
     public boolean loadSound(SoundBuffer buffer, String identifier) {
         if (this.bufferMap == null) {
-            this.bufferMap = new HashMap();
+            this.bufferMap = new HashMap<>();
             this.importantMessage("Buffer Map was null in method 'loadSound'");
         }
 
         if (this.ALBufferMap == null) {
-            this.ALBufferMap = new HashMap();
+            this.ALBufferMap = new HashMap<>();
             this.importantMessage("Open AL Buffer Map was null in method'loadSound'");
         }
 
@@ -376,12 +376,12 @@ public class SoundEngine extends Library {
             Set<String> keys = srcMap.keySet();
             Iterator<String> iter = keys.iterator();
             if (this.bufferMap == null) {
-                this.bufferMap = new HashMap();
+                this.bufferMap = new HashMap<>();
                 this.importantMessage("Buffer Map was null in method 'copySources'");
             }
 
             if (this.ALBufferMap == null) {
-                this.ALBufferMap = new HashMap();
+                this.ALBufferMap = new HashMap<>();
                 this.importantMessage("Open AL Buffer Map was null in method'copySources'");
             }
 

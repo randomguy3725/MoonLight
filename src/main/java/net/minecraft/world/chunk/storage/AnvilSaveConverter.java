@@ -253,13 +253,7 @@ public class AnvilSaveConverter extends SaveFormatOld
     private void addRegionFilesToCollection(File worldDir, Collection<File> collection)
     {
         File file1 = new File(worldDir, "region");
-        File[] afile = file1.listFiles(new FilenameFilter()
-        {
-            public boolean accept(File p_accept_1_, String p_accept_2_)
-            {
-                return p_accept_2_.endsWith(".mcr");
-            }
-        });
+        File[] afile = file1.listFiles((p_accept_1_, p_accept_2_) -> p_accept_2_.endsWith(".mcr"));
 
         if (afile != null)
         {

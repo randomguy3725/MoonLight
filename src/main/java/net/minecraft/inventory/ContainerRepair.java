@@ -1,6 +1,5 @@
 package net.minecraft.inventory;
 
-import java.util.Iterator;
 import java.util.Map;
 import net.minecraft.block.BlockAnvil;
 import net.minecraft.block.state.IBlockState;

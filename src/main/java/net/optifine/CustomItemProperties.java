@@ -675,7 +675,7 @@ public class CustomItemProperties
 
     public boolean isValid(String path)
     {
-        if (this.name != null && this.name.length() > 0)
+        if (this.name != null && !this.name.isEmpty())
         {
             if (this.basePath == null)
             {
@@ -836,7 +836,7 @@ public class CustomItemProperties
 
                         if (this.mapBakedModelsTexture == null)
                         {
-                            this.mapBakedModelsTexture = new HashMap();
+                            this.mapBakedModelsTexture = new HashMap<>();
                         }
 
                         this.mapBakedModelsTexture.put(s2, ibakedmodel);
@@ -1153,7 +1153,7 @@ public class CustomItemProperties
                     {
                         if (this.mapBakedModelsFull == null)
                         {
-                            this.mapBakedModelsFull = new HashMap();
+                            this.mapBakedModelsFull = new HashMap<>();
                         }
 
                         this.mapBakedModelsFull.put(s2, ibakedmodel1);

@@ -77,7 +77,7 @@ public class WorldServer extends World implements IThreadListener
     private final EntityTracker theEntityTracker;
     private final PlayerManager thePlayerManager;
     private final Set<NextTickListEntry> pendingTickListEntriesHashSet = Sets.newHashSet();
-    private final TreeSet<NextTickListEntry> pendingTickListEntriesTreeSet = new TreeSet();
+    private final TreeSet<NextTickListEntry> pendingTickListEntriesTreeSet = new TreeSet<>();
     private final Map<UUID, Entity> entitiesByUuid = Maps.newHashMap();
     public ChunkProviderServer theChunkProviderServer;
     public boolean disableLevelSaving;
@@ -421,13 +421,7 @@ public class WorldServer extends World implements IThreadListener
     {
         BlockPos blockpos = this.getPrecipitationHeight(pos);
         AxisAlignedBB axisalignedbb = (new AxisAlignedBB(blockpos, new BlockPos(blockpos.getX(), this.getHeight(), blockpos.getZ()))).expand(3.0D, 3.0D, 3.0D);
-        List<EntityLivingBase> list = this.getEntitiesWithinAABB(EntityLivingBase.class, axisalignedbb, new Predicate<EntityLivingBase>()
-        {
-            public boolean apply(EntityLivingBase p_apply_1_)
-            {
-                return p_apply_1_ != null && p_apply_1_.isEntityAlive() && WorldServer.this.canSeeSky(p_apply_1_.getPosition());
-            }
-        });
+        List<EntityLivingBase> list = this.getEntitiesWithinAABB(EntityLivingBase.class, axisalignedbb, p_apply_1_ -> p_apply_1_ != null && p_apply_1_.isEntityAlive() && WorldServer.this.canSeeSky(p_apply_1_.getPosition()));
         return !list.isEmpty() ? list.get(this.rand.nextInt(list.size())).getPosition() : blockpos;
     }
 

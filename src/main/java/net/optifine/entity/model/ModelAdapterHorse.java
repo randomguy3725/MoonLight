@@ -65,7 +65,7 @@ public class ModelAdapterHorse extends ModelAdapter
         }
         else
         {
-            mapPartFields = new HashMap();
+            mapPartFields = new HashMap<>();
             mapPartFields.put("head", Integer.valueOf(0));
             mapPartFields.put("upper_mouth", Integer.valueOf(1));
             mapPartFields.put("lower_mouth", Integer.valueOf(2));

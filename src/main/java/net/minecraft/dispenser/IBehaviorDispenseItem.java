@@ -4,13 +4,7 @@ import net.minecraft.item.ItemStack;
 
 public interface IBehaviorDispenseItem
 {
-    IBehaviorDispenseItem itemDispenseBehaviorProvider = new IBehaviorDispenseItem()
-    {
-        public ItemStack dispense(IBlockSource source, ItemStack stack)
-        {
-            return stack;
-        }
-    };
+    IBehaviorDispenseItem itemDispenseBehaviorProvider = (source, stack) -> stack;
 
     ItemStack dispense(IBlockSource source, ItemStack stack);
 }

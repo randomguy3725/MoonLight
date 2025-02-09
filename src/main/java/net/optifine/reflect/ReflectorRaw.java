@@ -93,7 +93,7 @@ public class ReflectorRaw
     {
         try
         {
-            List<Field> list = new ArrayList();
+            List<Field> list = new ArrayList<>();
 
             for (Field field : fields) {
                 if (field.getType() == fieldType) {

@@ -12,13 +12,7 @@ import net.minecraft.item.ItemStack;
 
 public class BlockNewLog extends BlockLog
 {
-    public static final PropertyEnum<BlockPlanks.EnumType> VARIANT = PropertyEnum.create("variant", BlockPlanks.EnumType.class, new Predicate<BlockPlanks.EnumType>()
-    {
-        public boolean apply(BlockPlanks.EnumType p_apply_1_)
-        {
-            return p_apply_1_.getMetadata() >= 4;
-        }
-    });
+    public static final PropertyEnum<BlockPlanks.EnumType> VARIANT = PropertyEnum.create("variant", BlockPlanks.EnumType.class, p_apply_1_ -> p_apply_1_.getMetadata() >= 4);
 
     public BlockNewLog()
     {
@@ -29,20 +23,13 @@ public class BlockNewLog extends BlockLog
     {
         BlockPlanks.EnumType blockplanks$enumtype = state.getValue(VARIANT);
 
-        switch (state.getValue(LOG_AXIS))
-        {
-            case X:
-            case Z:
-            case NONE:
-            default:
-                return switch (blockplanks$enumtype) {
-                    default -> MapColor.stoneColor;
-                    case DARK_OAK -> BlockPlanks.EnumType.DARK_OAK.getMapColor();
-                };
-
-            case Y:
-                return blockplanks$enumtype.getMapColor();
-        }
+        return switch (state.getValue(LOG_AXIS)) {
+            default -> switch (blockplanks$enumtype) {
+                default -> MapColor.stoneColor;
+                case DARK_OAK -> BlockPlanks.EnumType.DARK_OAK.getMapColor();
+            };
+            case Y -> blockplanks$enumtype.getMapColor();
+        };
     }
 
     public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list)

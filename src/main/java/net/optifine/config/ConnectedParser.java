@@ -35,20 +35,8 @@ public class ConnectedParser
     private String context = null;
     public static final VillagerProfession[] PROFESSIONS_INVALID = new VillagerProfession[0];
     public static final EnumDyeColor[] DYE_COLORS_INVALID = new EnumDyeColor[0];
-    private static final INameGetter<Enum> NAME_GETTER_ENUM = new INameGetter<Enum>()
-    {
-        public String getName(Enum en)
-        {
-            return en.name();
-        }
-    };
-    private static final INameGetter<EnumDyeColor> NAME_GETTER_DYE_COLOR = new INameGetter<EnumDyeColor>()
-    {
-        public String getName(EnumDyeColor col)
-        {
-            return col.getName();
-        }
-    };
+    private static final INameGetter<Enum> NAME_GETTER_ENUM = en -> en.name();
+    private static final INameGetter<EnumDyeColor> NAME_GETTER_DYE_COLOR = col -> col.getName();
 
     public ConnectedParser(String context)
     {
@@ -204,7 +192,7 @@ public class ConnectedParser
         else
         {
             String s = parts[1];
-            return s.length() >= 1 && (!this.startsWithDigit(s) && !s.contains("="));
+            return !s.isEmpty() && (!this.startsWithDigit(s) && !s.contains("="));
         }
     }
 
@@ -214,7 +202,7 @@ public class ConnectedParser
         {
             return false;
         }
-        else if (str.length() < 1)
+        else if (str.isEmpty())
         {
             return false;
         }
@@ -510,7 +498,7 @@ public class ConnectedParser
 
             if (flag)
             {
-                List<BiomeGenBase> list1 = new ArrayList(Arrays.asList(BiomeGenBase.getBiomeGenArray()));
+                List<BiomeGenBase> list1 = new ArrayList<>(Arrays.asList(BiomeGenBase.getBiomeGenArray()));
                 list1.removeAll(list);
                 list = list1;
             }
@@ -577,7 +565,7 @@ public class ConnectedParser
         }
         else
         {
-            List<Integer> list = new ArrayList();
+            List<Integer> list = new ArrayList<>();
             String[] astring = Config.tokenize(str, " ,");
 
             for (String s : astring) {
@@ -981,7 +969,7 @@ public class ConnectedParser
         }
         else
         {
-            List<VillagerProfession> list = new ArrayList();
+            List<VillagerProfession> list = new ArrayList<>();
             String[] astring = Config.tokenize(profStr, " ");
 
             for (String s : astring) {
@@ -1059,7 +1047,7 @@ public class ConnectedParser
 
     private static int[] parseCareerIds(int prof, String str)
     {
-        Set<Integer> set = new HashSet();
+        Set<Integer> set = new HashSet<>();
         String[] astring = Config.tokenize(str, ",");
 
         for (String s : astring) {
@@ -1168,7 +1156,7 @@ public class ConnectedParser
     public int[] parseItems(String str)
     {
         str = str.trim();
-        Set<Integer> set = new TreeSet();
+        Set<Integer> set = new TreeSet<>();
         String[] astring = Config.tokenize(str, " ");
 
         for (String s : astring) {
@@ -1196,7 +1184,7 @@ public class ConnectedParser
     public int[] parseEntities(String str)
     {
         str = str.trim();
-        Set<Integer> set = new TreeSet();
+        Set<Integer> set = new TreeSet<>();
         String[] astring = Config.tokenize(str, " ");
 
         for (String s : astring) {

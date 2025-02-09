@@ -65,7 +65,7 @@ public class BlockSponge extends Block
     {
         Queue<Tuple<BlockPos, Integer>> queue = Lists.newLinkedList();
         ArrayList<BlockPos> arraylist = Lists.newArrayList();
-        queue.add(new Tuple(pos, Integer.valueOf(0)));
+        queue.add(new Tuple<>(pos, Integer.valueOf(0)));
         int i = 0;
 
         while (!queue.isEmpty())
@@ -86,7 +86,7 @@ public class BlockSponge extends Block
 
                     if (j < 6)
                     {
-                        queue.add(new Tuple(blockpos1, Integer.valueOf(j + 1)));
+                        queue.add(new Tuple<>(blockpos1, Integer.valueOf(j + 1)));
                     }
                 }
             }

@@ -116,10 +116,10 @@ public class Auth {
         conn.setReadTimeout(15000);
         conn.setDoOutput(true);
         try (OutputStream out = conn.getOutputStream()) {
-            out.write(("client_id=" + URLEncoder.encode("54fd49e4-2103-4044-9603-2b028c814ec3", "UTF-8") + "&" +
-                    "code=" + URLEncoder.encode(code, "UTF-8") + "&" +
+            out.write(("client_id=" + URLEncoder.encode("54fd49e4-2103-4044-9603-2b028c814ec3", StandardCharsets.UTF_8) + "&" +
+                    "code=" + URLEncoder.encode(code, StandardCharsets.UTF_8) + "&" +
                     "grant_type=authorization_code&" +
-                    "redirect_uri=" + URLEncoder.encode("http://localhost:59125", "UTF-8") + "&" +
+                    "redirect_uri=" + URLEncoder.encode("http://localhost:59125", StandardCharsets.UTF_8) + "&" +
                     "scope=XboxLive.signin%20XboxLive.offline_access").getBytes(StandardCharsets.UTF_8));
             if (conn.getResponseCode() < 200 || conn.getResponseCode() > 299) {
                 try (BufferedReader err = new BufferedReader(new InputStreamReader(conn.getErrorStream(), StandardCharsets.UTF_8))) {
@@ -152,10 +152,10 @@ public class Auth {
         conn.setReadTimeout(15000);
         conn.setDoOutput(true);
         try (OutputStream out = conn.getOutputStream()) {
-            out.write(("client_id=" + URLEncoder.encode("54fd49e4-2103-4044-9603-2b028c814ec3", "UTF-8") + "&" +
-                    "refresh_token=" + URLEncoder.encode(refreshToken, "UTF-8") + "&" +
+            out.write(("client_id=" + URLEncoder.encode("54fd49e4-2103-4044-9603-2b028c814ec3", StandardCharsets.UTF_8) + "&" +
+                    "refresh_token=" + URLEncoder.encode(refreshToken, StandardCharsets.UTF_8) + "&" +
                     "grant_type=refresh_token&" +
-                    "redirect_uri=" + URLEncoder.encode("http://localhost:59125", "UTF-8") + "&" +
+                    "redirect_uri=" + URLEncoder.encode("http://localhost:59125", StandardCharsets.UTF_8) + "&" +
                     "scope=XboxLive.signin%20XboxLive.offline_access").getBytes(StandardCharsets.UTF_8));
             if (conn.getResponseCode() < 200 || conn.getResponseCode() > 299) {
                 try (BufferedReader err = new BufferedReader(new InputStreamReader(conn.getErrorStream(), StandardCharsets.UTF_8))) {

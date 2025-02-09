@@ -32,7 +32,7 @@ import wtf.moonlight.events.impl.misc.WorldEvent;
 
 public class RandomEntities
 {
-    private static final Map<String, RandomEntityProperties> mapProperties = new HashMap();
+    private static final Map<String, RandomEntityProperties> mapProperties = new HashMap<>();
     private static boolean active = false;
     private static RenderGlobal renderGlobal;
     private static final RandomEntity randomEntity = new RandomEntity();

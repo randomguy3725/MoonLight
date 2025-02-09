@@ -56,7 +56,7 @@ public class HttpPipeline
 
             String s2 = "GET";
             String s3 = "HTTP/1.1";
-            Map<String, String> map = new LinkedHashMap();
+            Map<String, String> map = new LinkedHashMap<>();
             map.put("User-Agent", "Java/" + System.getProperty("java.version"));
             map.put("Host", s1);
             map.put("Accept", "text/html, image/gif, image/png");
@@ -140,7 +140,7 @@ public class HttpPipeline
 
     public static HttpResponse executeRequest(HttpRequest req) throws IOException
     {
-        final Map<String, Object> map = new HashMap();
+        final Map<String, Object> map = new HashMap<>();
         String s = "Response";
         String s1 = "Exception";
         HttpListener httplistener = new HttpListener()

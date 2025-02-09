@@ -49,7 +49,7 @@ public class GuiUtilRenderComponents
                 String s2 = p_178908_2_.trimStringToWidth(s4, p_178908_1_ - i, false);
                 String s3 = s2.length() < s4.length() ? s4.substring(s2.length()) : null;
 
-                if (s3 != null && s3.length() > 0)
+                if (s3 != null && !s3.isEmpty())
                 {
                     int l = s2.lastIndexOf(" ");
 

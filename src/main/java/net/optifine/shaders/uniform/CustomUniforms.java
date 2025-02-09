@@ -14,7 +14,7 @@ public class CustomUniforms
     public CustomUniforms(CustomUniform[] uniforms, Map<String, IExpression> mapExpressions)
     {
         this.uniforms = uniforms;
-        List<IExpressionCached> list = new ArrayList();
+        List<IExpressionCached> list = new ArrayList<>();
 
         for (String s : mapExpressions.keySet())
         {

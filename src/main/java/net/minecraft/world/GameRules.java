@@ -6,7 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class GameRules
 {
-    private final TreeMap<String, GameRules.Value> theGameRules = new TreeMap();
+    private final TreeMap<String, GameRules.Value> theGameRules = new TreeMap<>();
 
     public GameRules()
     {

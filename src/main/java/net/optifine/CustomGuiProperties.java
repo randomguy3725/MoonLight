@@ -175,7 +175,7 @@ public class CustomGuiProperties
 
     private static Map<ResourceLocation, ResourceLocation> parseTextureLocations(Properties props, String property, CustomGuiProperties.EnumContainer container, String pathPrefix, String basePath)
     {
-        Map<ResourceLocation, ResourceLocation> map = new HashMap();
+        Map<ResourceLocation, ResourceLocation> map = new HashMap<>();
         String s = props.getProperty(property);
 
         if (s != null)
@@ -240,7 +240,7 @@ public class CustomGuiProperties
 
     public boolean isValid(String path)
     {
-        if (this.fileName != null && this.fileName.length() > 0)
+        if (this.fileName != null && !this.fileName.isEmpty())
         {
             if (this.basePath == null)
             {

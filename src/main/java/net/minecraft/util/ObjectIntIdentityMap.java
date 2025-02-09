@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ObjectIntIdentityMap<T> implements IObjectIntIterable<T>
 {
-    private final IdentityHashMap<T, Integer> identityMap = new IdentityHashMap(512);
+    private final IdentityHashMap<T, Integer> identityMap = new IdentityHashMap<>(512);
     private final List<T> objectList = Lists.newArrayList();
 
     public void put(T key, int value)

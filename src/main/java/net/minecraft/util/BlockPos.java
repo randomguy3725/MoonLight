@@ -153,41 +153,28 @@ public class BlockPos extends Vec3i
     {
         final BlockPos blockpos = new BlockPos(Math.min(from.getX(), to.getX()), Math.min(from.getY(), to.getY()), Math.min(from.getZ(), to.getZ()));
         final BlockPos blockpos1 = new BlockPos(Math.max(from.getX(), to.getX()), Math.max(from.getY(), to.getY()), Math.max(from.getZ(), to.getZ()));
-        return new Iterable<BlockPos>()
-        {
-            public Iterator<BlockPos> iterator()
-            {
-                return new AbstractIterator<BlockPos>()
-                {
+        return new Iterable<>() {
+            public Iterator<BlockPos> iterator() {
+                return new AbstractIterator<>() {
                     private BlockPos lastReturned = null;
-                    protected BlockPos computeNext()
-                    {
-                        if (this.lastReturned == null)
-                        {
+
+                    protected BlockPos computeNext() {
+                        if (this.lastReturned == null) {
                             this.lastReturned = blockpos;
                             return this.lastReturned;
-                        }
-                        else if (this.lastReturned.equals(blockpos1))
-                        {
+                        } else if (this.lastReturned.equals(blockpos1)) {
                             return this.endOfData();
-                        }
-                        else
-                        {
+                        } else {
                             int i = this.lastReturned.getX();
                             int j = this.lastReturned.getY();
                             int k = this.lastReturned.getZ();
 
-                            if (i < blockpos1.getX())
-                            {
+                            if (i < blockpos1.getX()) {
                                 ++i;
-                            }
-                            else if (j < blockpos1.getY())
-                            {
+                            } else if (j < blockpos1.getY()) {
                                 i = blockpos.getX();
                                 ++j;
-                            }
-                            else if (k < blockpos1.getZ())
-                            {
+                            } else if (k < blockpos1.getZ()) {
                                 i = blockpos.getX();
                                 j = blockpos.getY();
                                 ++k;
@@ -206,41 +193,28 @@ public class BlockPos extends Vec3i
     {
         final BlockPos blockpos = new BlockPos(Math.min(from.getX(), to.getX()), Math.min(from.getY(), to.getY()), Math.min(from.getZ(), to.getZ()));
         final BlockPos blockpos1 = new BlockPos(Math.max(from.getX(), to.getX()), Math.max(from.getY(), to.getY()), Math.max(from.getZ(), to.getZ()));
-        return new Iterable<BlockPos.MutableBlockPos>()
-        {
-            public Iterator<BlockPos.MutableBlockPos> iterator()
-            {
-                return new AbstractIterator<BlockPos.MutableBlockPos>()
-                {
+        return new Iterable<>() {
+            public Iterator<BlockPos.MutableBlockPos> iterator() {
+                return new AbstractIterator<>() {
                     private BlockPos.MutableBlockPos theBlockPos = null;
-                    protected BlockPos.MutableBlockPos computeNext()
-                    {
-                        if (this.theBlockPos == null)
-                        {
+
+                    protected BlockPos.MutableBlockPos computeNext() {
+                        if (this.theBlockPos == null) {
                             this.theBlockPos = new BlockPos.MutableBlockPos(blockpos.getX(), blockpos.getY(), blockpos.getZ());
                             return this.theBlockPos;
-                        }
-                        else if (this.theBlockPos.equals(blockpos1))
-                        {
+                        } else if (this.theBlockPos.equals(blockpos1)) {
                             return this.endOfData();
-                        }
-                        else
-                        {
+                        } else {
                             int i = this.theBlockPos.getX();
                             int j = this.theBlockPos.getY();
                             int k = this.theBlockPos.getZ();
 
-                            if (i < blockpos1.getX())
-                            {
+                            if (i < blockpos1.getX()) {
                                 ++i;
-                            }
-                            else if (j < blockpos1.getY())
-                            {
+                            } else if (j < blockpos1.getY()) {
                                 i = blockpos.getX();
                                 ++j;
-                            }
-                            else if (k < blockpos1.getZ())
-                            {
+                            } else if (k < blockpos1.getZ()) {
                                 i = blockpos.getX();
                                 j = blockpos.getY();
                                 ++k;

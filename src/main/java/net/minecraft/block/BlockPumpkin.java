@@ -25,13 +25,7 @@ public class BlockPumpkin extends BlockDirectional
     private BlockPattern snowmanPattern;
     private BlockPattern golemBasePattern;
     private BlockPattern golemPattern;
-    private static final Predicate<IBlockState> field_181085_Q = new Predicate<IBlockState>()
-    {
-        public boolean apply(IBlockState p_apply_1_)
-        {
-            return p_apply_1_ != null && (p_apply_1_.getBlock() == Blocks.pumpkin || p_apply_1_.getBlock() == Blocks.lit_pumpkin);
-        }
-    };
+    private static final Predicate<IBlockState> field_181085_Q = p_apply_1_ -> p_apply_1_ != null && (p_apply_1_.getBlock() == Blocks.pumpkin || p_apply_1_.getBlock() == Blocks.lit_pumpkin);
 
     protected BlockPumpkin()
     {

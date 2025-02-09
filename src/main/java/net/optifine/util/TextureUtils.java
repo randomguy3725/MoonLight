@@ -286,13 +286,7 @@ public class TextureUtils
 
         if (iresourcemanager instanceof IReloadableResourceManager ireloadableresourcemanager)
         {
-            IResourceManagerReloadListener iresourcemanagerreloadlistener = new IResourceManagerReloadListener()
-            {
-                public void onResourceManagerReload(IResourceManager var1)
-                {
-                    TextureUtils.resourcesReloaded(var1);
-                }
-            };
+            IResourceManagerReloadListener iresourcemanagerreloadlistener = var1 -> TextureUtils.resourcesReloaded(var1);
             ireloadableresourcemanager.registerReloadListener(iresourcemanagerreloadlistener);
         }
 
@@ -581,7 +575,7 @@ public class TextureUtils
 
         if (tas.getFrameCount() < 1)
         {
-            List<int[][]> list = new ArrayList();
+            List<int[][]> list = new ArrayList<>();
             int[][] aint = new int[mipmaps + 1][];
             int[] aint1 = new int[i * j];
             aint[0] = aint1;
@@ -589,7 +583,7 @@ public class TextureUtils
             tas.setFramesTextureData(list);
         }
 
-        List<int[][]> list1 = new ArrayList();
+        List<int[][]> list1 = new ArrayList<>();
         int l = tas.getFrameCount();
 
         for (int i1 = 0; i1 < l; ++i1)

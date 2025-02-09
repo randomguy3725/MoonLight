@@ -95,7 +95,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc
         ((PathNavigateGround)this.getNavigator()).setBreakDoors(true);
         ((PathNavigateGround)this.getNavigator()).setAvoidsWater(true);
         this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIAvoidEntity(this, EntityZombie.class, 8.0F, 0.6D, 0.6D));
+        this.tasks.addTask(1, new EntityAIAvoidEntity<>(this, EntityZombie.class, 8.0F, 0.6D, 0.6D));
         this.tasks.addTask(1, new EntityAITradePlayer(this));
         this.tasks.addTask(1, new EntityAILookAtTradePlayer(this));
         this.tasks.addTask(2, new EntityAIMoveIndoors(this));
@@ -210,7 +210,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc
 
         if (!flag && this.isEntityAlive() && !this.isTrading() && !this.isChild())
         {
-            if (!this.worldObj.isRemote && (this.buyingList == null || this.buyingList.size() > 0))
+            if (!this.worldObj.isRemote && (this.buyingList == null || !this.buyingList.isEmpty()))
             {
                 this.setCustomer(player);
                 player.displayVillagerTradeGui(this);
@@ -560,7 +560,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc
     {
         String s = this.getCustomNameTag();
 
-        if (s != null && s.length() > 0)
+        if (s != null && !s.isEmpty())
         {
             ChatComponentText chatcomponenttext = new ChatComponentText(s);
             chatcomponenttext.getChatStyle().setChatHoverEvent(this.getHoverEvent());

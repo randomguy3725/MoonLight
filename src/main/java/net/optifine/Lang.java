@@ -24,7 +24,7 @@ public class Lang
     public static void resourcesReloaded()
     {
         Map map = I18n.getLocaleProperties();
-        List<String> list = new ArrayList();
+        List<String> list = new ArrayList<>();
         String s = "optifine/lang/";
         String s1 = "en_US";
         String s2 = ".lang";

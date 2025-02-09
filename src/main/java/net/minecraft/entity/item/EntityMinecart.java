@@ -779,7 +779,7 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable
             this.setDisplayTileOffset(tagCompund.getInteger("DisplayOffset"));
         }
 
-        if (tagCompund.hasKey("CustomName", 8) && tagCompund.getString("CustomName").length() > 0)
+        if (tagCompund.hasKey("CustomName", 8) && !tagCompund.getString("CustomName").isEmpty())
         {
             this.entityName = tagCompund.getString("CustomName");
         }
@@ -797,7 +797,7 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable
             tagCompound.setInteger("DisplayOffset", this.getDisplayTileOffset());
         }
 
-        if (this.entityName != null && this.entityName.length() > 0)
+        if (this.entityName != null && !this.entityName.isEmpty())
         {
             tagCompound.setString("CustomName", this.entityName);
         }

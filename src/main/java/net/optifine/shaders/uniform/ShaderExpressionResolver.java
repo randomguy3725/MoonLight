@@ -10,7 +10,7 @@ import net.optifine.shaders.SMCLog;
 
 public class ShaderExpressionResolver implements IExpressionResolver
 {
-    private final Map<String, IExpression> mapExpressions = new HashMap();
+    private final Map<String, IExpression> mapExpressions = new HashMap<>();
 
     public ShaderExpressionResolver(Map<String, IExpression> map)
     {

@@ -46,7 +46,7 @@ public class ShaderOptionSwitch extends ShaderOption
             String s1 = matcher.group(2);
             String s2 = matcher.group(3);
 
-            if (s1 != null && s1.length() > 0)
+            if (s1 != null && !s1.isEmpty())
             {
                 boolean flag = Config.equals(s, "//");
                 boolean flag1 = !flag;

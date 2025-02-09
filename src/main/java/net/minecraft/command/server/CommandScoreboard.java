@@ -319,7 +319,7 @@ public class CommandScoreboard extends CommandBase
             p_175780_2_[i] = s;
             p_175780_1_.setCommandStat(CommandResultStats.Type.AFFECTED_ENTITIES, list.size());
 
-            if (list.size() == 0)
+            if (list.isEmpty())
             {
                 throw new WrongUsageException("commands.scoreboard.allMatchesFailed");
             }
@@ -388,7 +388,7 @@ public class CommandScoreboard extends CommandBase
         {
             throw new SyntaxErrorException("commands.scoreboard.objectives.add.tooLong", s, Integer.valueOf(16));
         }
-        else if (s.length() == 0)
+        else if (s.isEmpty())
         {
             throw new WrongUsageException("commands.scoreboard.objectives.add.usage");
         }
@@ -403,7 +403,7 @@ public class CommandScoreboard extends CommandBase
                     throw new SyntaxErrorException("commands.scoreboard.objectives.add.displayTooLong", s2, Integer.valueOf(32));
                 }
 
-                if (s2.length() > 0)
+                if (!s2.isEmpty())
                 {
                     scoreboard.addScoreObjective(s, iscoreobjectivecriteria).setDisplayName(s2);
                 }
@@ -434,7 +434,7 @@ public class CommandScoreboard extends CommandBase
         {
             throw new SyntaxErrorException("commands.scoreboard.teams.add.tooLong", s, Integer.valueOf(16));
         }
-        else if (s.length() == 0)
+        else if (s.isEmpty())
         {
             throw new WrongUsageException("commands.scoreboard.teams.add.usage");
         }
@@ -449,7 +449,7 @@ public class CommandScoreboard extends CommandBase
                     throw new SyntaxErrorException("commands.scoreboard.teams.add.displayTooLong", s1, Integer.valueOf(32));
                 }
 
-                if (s1.length() > 0)
+                if (!s1.isEmpty())
                 {
                     scoreboard.createTeam(s).setTeamName(s1);
                 }

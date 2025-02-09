@@ -220,7 +220,7 @@ public abstract class MobSpawnerBaseLogic
             this.spawnDelay = this.minSpawnDelay + this.getSpawnerWorld().rand.nextInt(i);
         }
 
-        if (this.minecartToSpawn.size() > 0)
+        if (!this.minecartToSpawn.isEmpty())
         {
             this.setRandomEntity(WeightedRandom.getRandomItem(this.getSpawnerWorld().rand, this.minecartToSpawn));
         }
@@ -297,11 +297,11 @@ public abstract class MobSpawnerBaseLogic
                 nbt.setTag("SpawnData", this.getRandomEntity().nbtData.copy());
             }
 
-            if (this.getRandomEntity() != null || this.minecartToSpawn.size() > 0)
+            if (this.getRandomEntity() != null || !this.minecartToSpawn.isEmpty())
             {
                 NBTTagList nbttaglist = new NBTTagList();
 
-                if (this.minecartToSpawn.size() > 0)
+                if (!this.minecartToSpawn.isEmpty())
                 {
                     for (MobSpawnerBaseLogic.WeightedRandomMinecart mobspawnerbaselogic$weightedrandomminecart : this.minecartToSpawn)
                     {

@@ -586,32 +586,24 @@ public class ConnectedTextures
 
     private static int fixSideByAxis(int side, int vertAxis)
     {
-        switch (vertAxis)
-        {
-            case 0:
-                return side;
-
-            case 1:
-                return switch (side) {
-                    case 0 -> 2;
-                    case 1 -> 3;
-                    case 2 -> 1;
-                    case 3 -> 0;
-                    default -> side;
-                };
-
-            case 2:
-                return switch (side) {
-                    case 0 -> 4;
-                    case 1 -> 5;
-                    default -> side;
-                    case 4 -> 1;
-                    case 5 -> 0;
-                };
-
-            default:
-                return side;
-        }
+        return switch (vertAxis) {
+            case 0 -> side;
+            case 1 -> switch (side) {
+                case 0 -> 2;
+                case 1 -> 3;
+                case 2 -> 1;
+                case 3 -> 0;
+                default -> side;
+            };
+            case 2 -> switch (side) {
+                case 0 -> 4;
+                case 1 -> 5;
+                default -> side;
+                case 4 -> 1;
+                case 5 -> 0;
+            };
+            default -> side;
+        };
     }
 
     private static int getWoodAxis(int side, int metadata)
@@ -1736,7 +1728,7 @@ public class ConnectedTextures
                     list = BetterGrass.getFaceQuads(iblockaccess, neighbourState, blockPos, enumfacing, list);
                 }
 
-                if (list.size() > 0)
+                if (!list.isEmpty())
                 {
                     BakedQuad bakedquad1 = (BakedQuad)list.get(0);
                     return bakedquad1.getSprite();

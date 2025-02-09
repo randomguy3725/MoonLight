@@ -32,7 +32,7 @@ public class ShaderOptionSwitchConst extends ShaderOptionSwitch
             String s1 = matcher.group(2);
             String s2 = matcher.group(3);
 
-            if (s != null && s.length() > 0)
+            if (s != null && !s.isEmpty())
             {
                 path = StrUtils.removePrefix(path, "/shaders/");
                 ShaderOption shaderoption = new ShaderOptionSwitchConst(s, s2, s1, path);

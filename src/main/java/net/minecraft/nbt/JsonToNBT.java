@@ -35,7 +35,7 @@ public class JsonToNBT
     {
         int i = 0;
         boolean flag = false;
-        Stack<Character> stack = new Stack();
+        Stack<Character> stack = new Stack<>();
 
         for (int j = 0; j < p_150310_0_.length(); ++j)
         {
@@ -115,11 +115,11 @@ public class JsonToNBT
             JsonToNBT.Compound jsontonbt$compound;
             String s1;
 
-            for (jsontonbt$compound = new JsonToNBT.Compound(p_150316_0_); p_150316_1_.length() > 0; p_150316_1_ = p_150316_1_.substring(s1.length() + 1))
+            for (jsontonbt$compound = new JsonToNBT.Compound(p_150316_0_); !p_150316_1_.isEmpty(); p_150316_1_ = p_150316_1_.substring(s1.length() + 1))
             {
                 s1 = func_150314_a(p_150316_1_, true);
 
-                if (s1.length() > 0)
+                if (!s1.isEmpty())
                 {
                     boolean flag1 = false;
                     jsontonbt$compound.field_150491_b.add(func_179270_a(s1, flag1));
@@ -146,11 +146,11 @@ public class JsonToNBT
             JsonToNBT.List jsontonbt$list;
             String s;
 
-            for (jsontonbt$list = new JsonToNBT.List(p_150316_0_); p_150316_1_.length() > 0; p_150316_1_ = p_150316_1_.substring(s.length() + 1))
+            for (jsontonbt$list = new JsonToNBT.List(p_150316_0_); !p_150316_1_.isEmpty(); p_150316_1_ = p_150316_1_.substring(s.length() + 1))
             {
                 s = func_150314_a(p_150316_1_, false);
 
-                if (s.length() > 0)
+                if (!s.isEmpty())
                 {
                     boolean flag = true;
                     jsontonbt$list.field_150492_b.add(func_179270_a(s, flag));
@@ -211,7 +211,7 @@ public class JsonToNBT
 
     private static String func_179269_a(String p_179269_0_, int p_179269_1_) throws NBTException
     {
-        Stack<Character> stack = new Stack();
+        Stack<Character> stack = new Stack<>();
         int i = p_179269_1_ + 1;
         boolean flag = false;
         boolean flag1 = false;

@@ -32,7 +32,7 @@ public class ItemArmor extends Item
             AxisAlignedBB axisalignedbb = new AxisAlignedBB(i, j, k, i + 1, j + 1, k + 1);
             List<EntityLivingBase> list = source.getWorld().getEntitiesWithinAABB(EntityLivingBase.class, axisalignedbb, Predicates.and (EntitySelectors.NOT_SPECTATING, new EntitySelectors.ArmoredMob(stack)));
 
-            if (list.size() > 0)
+            if (!list.isEmpty())
             {
                 EntityLivingBase entitylivingbase = list.get(0);
                 int l = entitylivingbase instanceof EntityPlayer ? 1 : 0;

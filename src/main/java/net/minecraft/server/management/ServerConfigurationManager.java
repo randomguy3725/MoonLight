@@ -147,7 +147,7 @@ public abstract class ServerConfigurationManager
         nethandlerplayserver.setPlayerLocation(playerIn.posX, playerIn.posY, playerIn.posZ, playerIn.rotationYaw, playerIn.rotationPitch);
         this.updateTimeAndWeatherForPlayer(playerIn, worldserver);
 
-        if (this.mcServer.getResourcePackUrl().length() > 0)
+        if (!this.mcServer.getResourcePackUrl().isEmpty())
         {
             playerIn.loadResourcePack(this.mcServer.getResourcePackUrl(), this.mcServer.getResourcePackHash());
         }

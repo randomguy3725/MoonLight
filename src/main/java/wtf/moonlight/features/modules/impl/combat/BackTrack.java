@@ -39,7 +39,7 @@ import java.awt.*;
 public class BackTrack extends Module {
     private final ModeValue esp = new ModeValue("Mode", new String[]{"Off", "Box"}, "Box", this);
     public final BoolValue cancelClientP = new BoolValue("Cancel Client Packet",false,this);
-    public final BoolValue swingCheck = new BoolValue("Swing Check",false,this);;
+    public final BoolValue swingCheck = new BoolValue("Swing Check",false,this);
     private final ModeValue activeMode = new ModeValue("Active Mode", new String[]{"Hit", "Not Hit","Always"}, "Always", this);
     public final BoolValue releaseOnVelocity = new BoolValue("Release On Velocity",false,this);
     public SliderValue minMS = new SliderValue("Min MS", 50, 0, 5000, 5, this);

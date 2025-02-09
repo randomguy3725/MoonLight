@@ -333,7 +333,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 
     public boolean hasCustomName()
     {
-        return this.customName != null && this.customName.length() > 0;
+        return this.customName != null && !this.customName.isEmpty();
     }
 
     public void setName(String name)

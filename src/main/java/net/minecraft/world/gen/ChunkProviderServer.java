@@ -28,12 +28,12 @@ import org.apache.logging.log4j.Logger;
 public class ChunkProviderServer implements IChunkProvider
 {
     private static final Logger logger = LogManager.getLogger();
-    private final Set<Long> droppedChunksSet = Collections.<Long>newSetFromMap(new ConcurrentHashMap());
+    private final Set<Long> droppedChunksSet = Collections.<Long>newSetFromMap(new ConcurrentHashMap<>());
     private final Chunk dummyChunk;
     private final IChunkProvider serverChunkGenerator;
     private final IChunkLoader chunkLoader;
     public boolean chunkLoadOverride = true;
-    private final LongHashMap<Chunk> id2ChunkMap = new LongHashMap();
+    private final LongHashMap<Chunk> id2ChunkMap = new LongHashMap<>();
     private final List<Chunk> loadedChunks = Lists.newArrayList();
     private final WorldServer worldObj;
 

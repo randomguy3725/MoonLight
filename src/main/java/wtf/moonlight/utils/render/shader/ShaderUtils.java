@@ -559,7 +559,7 @@ public class ShaderUtils implements InstanceAccess {
               if (dsea > 0.0) {
                 vec3 p = ro + dsea*rd;
                 vec4 s = sea(p.xz, 1.0);
-                float h = s.x;   
+                float h = s.x;
                 vec3 nor = s.yzw;
                 nor = mix(nor, vec3(0.0, 1.0, 0.0), smoothstep(0.0, 200.0, dsea));
             

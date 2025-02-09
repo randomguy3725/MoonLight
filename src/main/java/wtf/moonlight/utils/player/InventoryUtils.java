@@ -172,13 +172,13 @@ public class InventoryUtils implements InstanceAccess {
 
             if (stack != null && stack.getItem() instanceof ItemTool && type == getToolType(stack)) {
                 final double efficiency = getToolEfficiency(stack);
-                if (efficiency > bestTool.getEfficiency())
+                if (efficiency > bestTool.efficiency())
                     bestTool = new Tool(0, efficiency, stack);
             }
         }
 
-        return bestTool.getStack() == itemStack ||
-                getToolEfficiency(itemStack) > bestTool.getEfficiency();
+        return bestTool.stack() == itemStack ||
+                getToolEfficiency(itemStack) > bestTool.efficiency();
     }
 
     public static int getToolType(final ItemStack stack) {
@@ -282,13 +282,13 @@ public class InventoryUtils implements InstanceAccess {
         forEachInventorySlot(InventoryUtils.EXCLUDE_ARMOR_BEGIN, InventoryUtils.END, ((slot, stack) -> {
             if (stack.getItem() instanceof ItemTool && type == getToolType(stack)) {
                 double efficiency = getToolEfficiency(stack);
-                if (efficiency > bestTool.get().getEfficiency())
+                if (efficiency > bestTool.get().efficiency())
                     bestTool.set(new Tool(slot, efficiency, stack));
             }
         }));
 
-        return bestTool.get().getStack() == itemStack ||
-                bestTool.get().getEfficiency() < getToolEfficiency(itemStack);
+        return bestTool.get().stack() == itemStack ||
+                bestTool.get().efficiency() < getToolEfficiency(itemStack);
     }
 
     public static boolean isGoodItem(ItemStack stack) {
@@ -382,16 +382,6 @@ public class InventoryUtils implements InstanceAccess {
         void accept(final int p0, final ItemStack p1);
     }
 
-    @Getter
-    public static class Tool {
-        private final int slot;
-        private final double efficiency;
-        private final ItemStack stack;
-
-        public Tool(final int slot, final double efficiency, final ItemStack stack) {
-            this.slot = slot;
-            this.efficiency = efficiency;
-            this.stack = stack;
-        }
+    public record Tool(int slot, double efficiency, ItemStack stack) {
     }
 }

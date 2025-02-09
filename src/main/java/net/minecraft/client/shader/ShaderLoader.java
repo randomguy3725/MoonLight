@@ -84,13 +84,8 @@ public class ShaderLoader
     {
         byte[] abyte;
 
-        try
-        {
+        try (p_177064_0_) {
             abyte = IOUtils.toByteArray(p_177064_0_);
-        }
-        finally
-        {
-            p_177064_0_.close();
         }
 
         return abyte;

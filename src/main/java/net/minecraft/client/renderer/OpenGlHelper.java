@@ -119,7 +119,7 @@ public class OpenGlHelper
 
         if (!vboRegions)
         {
-            List<String> list = new ArrayList();
+            List<String> list = new ArrayList<>();
 
             if (!flag)
             {

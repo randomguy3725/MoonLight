@@ -49,13 +49,7 @@ public class StatFileWriter
 
     public void unlockAchievement(EntityPlayer playerIn, StatBase statIn, int p_150873_3_)
     {
-        TupleIntJsonSerializable tupleintjsonserializable = this.statsData.get(statIn);
-
-        if (tupleintjsonserializable == null)
-        {
-            tupleintjsonserializable = new TupleIntJsonSerializable();
-            this.statsData.put(statIn, tupleintjsonserializable);
-        }
+        TupleIntJsonSerializable tupleintjsonserializable = this.statsData.computeIfAbsent(statIn, k -> new TupleIntJsonSerializable());
 
         tupleintjsonserializable.setIntegerValue(p_150873_3_);
     }
@@ -74,13 +68,7 @@ public class StatFileWriter
 
     public <T extends IJsonSerializable> T func_150872_a(StatBase p_150872_1_, T p_150872_2_)
     {
-        TupleIntJsonSerializable tupleintjsonserializable = this.statsData.get(p_150872_1_);
-
-        if (tupleintjsonserializable == null)
-        {
-            tupleintjsonserializable = new TupleIntJsonSerializable();
-            this.statsData.put(p_150872_1_, tupleintjsonserializable);
-        }
+        TupleIntJsonSerializable tupleintjsonserializable = this.statsData.computeIfAbsent(p_150872_1_, k -> new TupleIntJsonSerializable());
 
         tupleintjsonserializable.setJsonSerializableValue(p_150872_2_);
         return p_150872_2_;

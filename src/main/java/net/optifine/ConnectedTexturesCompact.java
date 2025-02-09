@@ -163,7 +163,7 @@ public class ConnectedTexturesCompact
 
                 if (map == null)
                 {
-                    map = new IdentityHashMap(1);
+                    map = new IdentityHashMap<>(1);
                     amap1[dir.ordinal()] = map;
                 }
 

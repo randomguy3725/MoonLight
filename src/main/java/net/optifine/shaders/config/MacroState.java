@@ -21,9 +21,9 @@ import net.optifine.expr.ParseException;
 public class MacroState
 {
     private boolean active = true;
-    private final Deque<Boolean> dequeState = new ArrayDeque();
-    private final Deque<Boolean> dequeResolved = new ArrayDeque();
-    private final Map<String, String> mapMacroValues = new HashMap();
+    private final Deque<Boolean> dequeState = new ArrayDeque<>();
+    private final Deque<Boolean> dequeResolved = new ArrayDeque<>();
+    private final Map<String, String> mapMacroValues = new HashMap<>();
     private static final Pattern PATTERN_DIRECTIVE = Pattern.compile("\\s*#\\s*(\\w+)\\s*(.*)");
     private static final Pattern PATTERN_DEFINED = Pattern.compile("defined\\s+(\\w+)");
     private static final Pattern PATTERN_DEFINED_FUNC = Pattern.compile("defined\\s*\\(\\s*(\\w+)\\s*\\)");
@@ -160,7 +160,7 @@ public class MacroState
             {
                 String s = matcher2.group();
 
-                if (s.length() > 0)
+                if (!s.isEmpty())
                 {
                     char c0 = s.charAt(0);
 

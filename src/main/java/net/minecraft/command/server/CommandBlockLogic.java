@@ -113,20 +113,8 @@ public abstract class CommandBlockLogic implements ICommandSender
             {
                 CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Executing command block");
                 CrashReportCategory crashreportcategory = crashreport.makeCategory("Command to be executed");
-                crashreportcategory.addCrashSectionCallable("Command", new Callable<String>()
-                {
-                    public String call() throws Exception
-                    {
-                        return CommandBlockLogic.this.getCommand();
-                    }
-                });
-                crashreportcategory.addCrashSectionCallable("Name", new Callable<String>()
-                {
-                    public String call() throws Exception
-                    {
-                        return CommandBlockLogic.this.getName();
-                    }
-                });
+                crashreportcategory.addCrashSectionCallable("Command", () -> CommandBlockLogic.this.getCommand());
+                crashreportcategory.addCrashSectionCallable("Name", () -> CommandBlockLogic.this.getName());
                 throw new ReportedException(crashreport);
             }
         }

@@ -8,9 +8,9 @@ import net.minecraft.src.Config;
 
 public class EntityUtils
 {
-    private static final Map<Class, Integer> mapIdByClass = new HashMap();
-    private static final Map<String, Integer> mapIdByName = new HashMap();
-    private static final Map<String, Class> mapClassByName = new HashMap();
+    private static final Map<Class, Integer> mapIdByClass = new HashMap<>();
+    private static final Map<String, Integer> mapIdByName = new HashMap<>();
+    private static final Map<String, Class> mapClassByName = new HashMap<>();
 
     public static int getEntityIdByClass(Entity entity)
     {

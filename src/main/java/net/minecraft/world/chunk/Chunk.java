@@ -78,7 +78,7 @@ public class Chunk
 
         for (int i = 0; i < this.entityLists.length; ++i)
         {
-            this.entityLists[i] = new ClassInheritanceMultiMap(Entity.class);
+            this.entityLists[i] = new ClassInheritanceMultiMap<>(Entity.class);
         }
 
         Arrays.fill(this.precipitationHeightMap, - 999);
@@ -479,13 +479,7 @@ public class Chunk
         catch (ReportedException reportedexception)
         {
             CrashReportCategory crashreportcategory = reportedexception.getCrashReport().makeCategory("Block being got");
-            crashreportcategory.addCrashSectionCallable("Location", new Callable<String>()
-            {
-                public String call() throws Exception
-                {
-                    return CrashReportCategory.getCoordinateInfo(new BlockPos(Chunk.this.xPosition * 16 + x, y, Chunk.this.zPosition * 16 + z));
-                }
-            });
+            crashreportcategory.addCrashSectionCallable("Location", () -> CrashReportCategory.getCoordinateInfo(new BlockPos(Chunk.this.xPosition * 16 + x, y, Chunk.this.zPosition * 16 + z)));
             throw reportedexception;
         }
     }
@@ -499,13 +493,7 @@ public class Chunk
         catch (ReportedException reportedexception)
         {
             CrashReportCategory crashreportcategory = reportedexception.getCrashReport().makeCategory("Block being got");
-            crashreportcategory.addCrashSectionCallable("Location", new Callable<String>()
-            {
-                public String call() throws Exception
-                {
-                    return CrashReportCategory.getCoordinateInfo(pos);
-                }
-            });
+            crashreportcategory.addCrashSectionCallable("Location", () -> CrashReportCategory.getCoordinateInfo(pos));
             throw reportedexception;
         }
     }
@@ -551,13 +539,7 @@ public class Chunk
             {
                 CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Getting block state");
                 CrashReportCategory crashreportcategory = crashreport.makeCategory("Block being got");
-                crashreportcategory.addCrashSectionCallable("Location", new Callable<String>()
-                {
-                    public String call() throws Exception
-                    {
-                        return CrashReportCategory.getCoordinateInfo(pos);
-                    }
-                });
+                crashreportcategory.addCrashSectionCallable("Location", () -> CrashReportCategory.getCoordinateInfo(pos));
                 throw new ReportedException(crashreport);
             }
         }

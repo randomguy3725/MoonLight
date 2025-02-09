@@ -21,7 +21,7 @@ public class ViewFrustum
     protected int countChunksX;
     protected int countChunksZ;
     public RenderChunk[] renderChunks;
-    private final Map<ChunkCoordIntPair, VboRegion[]> mapVboRegions = new HashMap();
+    private final Map<ChunkCoordIntPair, VboRegion[]> mapVboRegions = new HashMap<>();
 
     public ViewFrustum(World worldIn, int renderDistanceChunks, RenderGlobal p_i46246_3_, IRenderChunkFactory renderChunkFactory)
     {

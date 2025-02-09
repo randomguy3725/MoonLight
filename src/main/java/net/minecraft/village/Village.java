@@ -34,7 +34,7 @@ public class Village
     private int tickCounter;
     private int numVillagers;
     private int noBreedTicks;
-    private final TreeMap<String, Integer> playerReputation = new TreeMap();
+    private final TreeMap<String, Integer> playerReputation = new TreeMap<>();
     private final List<Village.VillageAggressor> villageAgressors = Lists.newArrayList();
     private int numIronGolems;
 
@@ -320,17 +320,8 @@ public class Village
 
     private void removeDeadAndOldAgressors()
     {
-        Iterator<Village.VillageAggressor> iterator = this.villageAgressors.iterator();
 
-        while (iterator.hasNext())
-        {
-            Village.VillageAggressor village$villageaggressor = iterator.next();
-
-            if (!village$villageaggressor.agressor.isEntityAlive() || Math.abs(this.tickCounter - village$villageaggressor.agressionTime) > 300)
-            {
-                iterator.remove();
-            }
-        }
+        this.villageAgressors.removeIf(village$villageaggressor -> !village$villageaggressor.agressor.isEntityAlive() || Math.abs(this.tickCounter - village$villageaggressor.agressionTime) > 300);
     }
 
     private void removeDeadAndOutOfRangeDoors()

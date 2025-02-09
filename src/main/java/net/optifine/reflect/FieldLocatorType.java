@@ -52,11 +52,6 @@ public class FieldLocatorType implements IFieldLocator
                 Log.log("(Reflector) Field not present: " + oclass.getName() + ".(type: " + this.targetFieldType + ", index: " + this.targetFieldIndex + ")");
                 return null;
             }
-            catch (SecurityException securityexception)
-            {
-                securityexception.printStackTrace();
-                return null;
-            }
             catch (Throwable throwable)
             {
                 throwable.printStackTrace();

@@ -115,7 +115,7 @@ public class BlockBanner extends BlockContainer
     {
         if (te instanceof TileEntityBanner tileentitybanner)
         {
-            ItemStack itemstack = new ItemStack(Items.banner, 1, ((TileEntityBanner)te).getBaseColor());
+            ItemStack itemstack = new ItemStack(Items.banner, 1, tileentitybanner.getBaseColor());
             NBTTagCompound nbttagcompound = new NBTTagCompound();
             TileEntityBanner.setBaseColorAndPatterns(nbttagcompound, tileentitybanner.getBaseColor(), tileentitybanner.getPatterns());
             itemstack.setTagInfo("BlockEntityTag", nbttagcompound);

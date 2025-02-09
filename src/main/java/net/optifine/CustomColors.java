@@ -1294,7 +1294,7 @@ public class CustomColors
 
     private static int[] readSpawnEggColors(Properties props, String fileName, String prefix, String logName)
     {
-        List<Integer> list = new ArrayList();
+        List<Integer> list = new ArrayList<>();
         Set set = props.keySet();
         int i = 0;
 
@@ -1388,7 +1388,7 @@ public class CustomColors
     private static float[][] readDyeColors(Properties props, String fileName, String prefix, String logName)
     {
         EnumDyeColor[] aenumdyecolor = EnumDyeColor.values();
-        Map<String, EnumDyeColor> map = new HashMap();
+        Map<String, EnumDyeColor> map = new HashMap<>();
 
         for (EnumDyeColor enumdyecolor : aenumdyecolor) {
             map.put(enumdyecolor.getName(), enumdyecolor);

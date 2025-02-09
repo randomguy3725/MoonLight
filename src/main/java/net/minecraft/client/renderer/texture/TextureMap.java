@@ -329,27 +329,9 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
                 {
                     CrashReport crashreport = CrashReport.makeCrashReport(throwable1, "Applying mipmap");
                     CrashReportCategory crashreportcategory = crashreport.makeCategory("Sprite being mipmapped");
-                    crashreportcategory.addCrashSectionCallable("Sprite name", new Callable<String>()
-                    {
-                        public String call() throws Exception
-                        {
-                            return textureatlassprite1.getIconName();
-                        }
-                    });
-                    crashreportcategory.addCrashSectionCallable("Sprite size", new Callable<String>()
-                    {
-                        public String call() throws Exception
-                        {
-                            return textureatlassprite1.getIconWidth() + " x " + textureatlassprite1.getIconHeight();
-                        }
-                    });
-                    crashreportcategory.addCrashSectionCallable("Sprite frames", new Callable<String>()
-                    {
-                        public String call() throws Exception
-                        {
-                            return textureatlassprite1.getFrameCount() + " frames";
-                        }
-                    });
+                    crashreportcategory.addCrashSectionCallable("Sprite name", () -> textureatlassprite1.getIconName());
+                    crashreportcategory.addCrashSectionCallable("Sprite size", () -> textureatlassprite1.getIconWidth() + " x " + textureatlassprite1.getIconHeight());
+                    crashreportcategory.addCrashSectionCallable("Sprite frames", () -> textureatlassprite1.getFrameCount() + " frames");
                     crashreportcategory.addCrashSection("Mipmap levels", Integer.valueOf(this.mipmapLevels));
                     throw new ReportedException(crashreport);
                 }

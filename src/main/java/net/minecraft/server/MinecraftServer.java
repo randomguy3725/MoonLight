@@ -772,23 +772,11 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
     public CrashReport addServerInfoToCrashReport(CrashReport report)
     {
-        report.getCategory().addCrashSectionCallable("Profiler Position", new Callable<String>()
-        {
-            public String call() throws Exception
-            {
-                return MinecraftServer.this.theProfiler.profilingEnabled ? MinecraftServer.this.theProfiler.getNameOfLastSection() : "N/A (disabled)";
-            }
-        });
+        report.getCategory().addCrashSectionCallable("Profiler Position", () -> MinecraftServer.this.theProfiler.profilingEnabled ? MinecraftServer.this.theProfiler.getNameOfLastSection() : "N/A (disabled)");
 
         if (this.serverConfigManager != null)
         {
-            report.getCategory().addCrashSectionCallable("Player Count", new Callable<String>()
-            {
-                public String call()
-                {
-                    return MinecraftServer.this.serverConfigManager.getCurrentPlayerCount() + " / " + MinecraftServer.this.serverConfigManager.getMaxPlayers() + "; " + MinecraftServer.this.serverConfigManager.getPlayerList();
-                }
-            });
+            report.getCategory().addCrashSectionCallable("Player Count", () -> MinecraftServer.this.serverConfigManager.getCurrentPlayerCount() + " / " + MinecraftServer.this.serverConfigManager.getMaxPlayers() + "; " + MinecraftServer.this.serverConfigManager.getPlayerList());
         }
 
         return report;

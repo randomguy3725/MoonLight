@@ -50,7 +50,7 @@ public class EntityOcelot extends EntityTameable
         this.tasks.addTask(9, new EntityAIMate(this, 0.8D));
         this.tasks.addTask(10, new EntityAIWander(this, 0.8D));
         this.tasks.addTask(11, new EntityAIWatchClosest(this, EntityPlayer.class, 10.0F));
-        this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityChicken.class, false, null));
+        this.targetTasks.addTask(1, new EntityAITargetNonTamed<>(this, EntityChicken.class, false, null));
     }
 
     protected void entityInit()
@@ -297,7 +297,7 @@ public class EntityOcelot extends EntityTameable
     {
         if (this.avoidEntity == null)
         {
-            this.avoidEntity = new EntityAIAvoidEntity(this, EntityPlayer.class, 16.0F, 0.8D, 1.33D);
+            this.avoidEntity = new EntityAIAvoidEntity<>(this, EntityPlayer.class, 16.0F, 0.8D, 1.33D);
         }
 
         this.tasks.removeTask(this.avoidEntity);

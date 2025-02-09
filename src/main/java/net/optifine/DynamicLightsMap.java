@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class DynamicLightsMap
 {
-    private final Map<Integer, DynamicLight> map = new HashMap();
-    private final List<DynamicLight> list = new ArrayList();
+    private final Map<Integer, DynamicLight> map = new HashMap<>();
+    private final List<DynamicLight> list = new ArrayList<>();
     private boolean dirty = false;
 
     public DynamicLight put(int id, DynamicLight dynamicLight)

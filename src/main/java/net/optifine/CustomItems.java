@@ -126,7 +126,7 @@ public class CustomItems
         String[] astring = ResUtils.collectFiles(rp, "mcpatcher/cit/", ".properties", null);
         Map map = makeAutoImageProperties(rp);
 
-        if (map.size() > 0)
+        if (!map.isEmpty())
         {
             Set set = map.keySet();
             String[] astring1 = (String[]) set.toArray(new String[0]);
@@ -192,14 +192,10 @@ public class CustomItems
 
     private static Comparator getPropertiesComparator()
     {
-        Comparator comparator = new Comparator()
-        {
-            public int compare(Object o1, Object o2)
-            {
-                CustomItemProperties customitemproperties = (CustomItemProperties)o1;
-                CustomItemProperties customitemproperties1 = (CustomItemProperties)o2;
-                return customitemproperties.layer != customitemproperties1.layer ? customitemproperties.layer - customitemproperties1.layer : (customitemproperties.weight != customitemproperties1.weight ? customitemproperties1.weight - customitemproperties.weight : (!customitemproperties.basePath.equals(customitemproperties1.basePath) ? customitemproperties.basePath.compareTo(customitemproperties1.basePath) : customitemproperties.name.compareTo(customitemproperties1.name)));
-            }
+        Comparator comparator = (o1, o2) -> {
+            CustomItemProperties customitemproperties = (CustomItemProperties)o1;
+            CustomItemProperties customitemproperties1 = (CustomItemProperties)o2;
+            return customitemproperties.layer != customitemproperties1.layer ? customitemproperties.layer - customitemproperties1.layer : (customitemproperties.weight != customitemproperties1.weight ? customitemproperties1.weight - customitemproperties.weight : (!customitemproperties.basePath.equals(customitemproperties1.basePath) ? customitemproperties.basePath.compareTo(customitemproperties1.basePath) : customitemproperties.name.compareTo(customitemproperties1.name)));
         };
         return comparator;
     }
@@ -235,7 +231,7 @@ public class CustomItems
 
     private static List<CustomItemProperties> getAllProperties()
     {
-        List<CustomItemProperties> list = new ArrayList();
+        List<CustomItemProperties> list = new ArrayList<>();
         addAll(itemProperties, list);
         addAll(enchantmentProperties, list);
         return list;

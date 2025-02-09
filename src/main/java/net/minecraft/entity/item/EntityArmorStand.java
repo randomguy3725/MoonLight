@@ -152,7 +152,7 @@ public class EntityArmorStand extends EntityLivingBase
 
         tagCompound.setTag("Equipment", nbttaglist);
 
-        if (this.getAlwaysRenderNameTag() && (this.getCustomNameTag() == null || this.getCustomNameTag().length() == 0))
+        if (this.getAlwaysRenderNameTag() && (this.getCustomNameTag() == null || this.getCustomNameTag().isEmpty()))
         {
             tagCompound.setBoolean("CustomNameVisible", this.getAlwaysRenderNameTag());
         }

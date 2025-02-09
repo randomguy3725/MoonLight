@@ -260,7 +260,7 @@ public class ChunkProviderSettings
 
         public static ChunkProviderSettings.Factory jsonToFactory(String p_177865_0_)
         {
-            if (p_177865_0_.length() == 0)
+            if (p_177865_0_.isEmpty())
             {
                 return new ChunkProviderSettings.Factory();
             }

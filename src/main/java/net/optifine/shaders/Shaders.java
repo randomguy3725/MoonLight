@@ -418,7 +418,7 @@ public class Shaders
     private static Set<String> shaderPackOptionSliders = null;
     static ShaderProfile[] shaderPackProfiles = null;
     static Map<String, ScreenShaderOptions> shaderPackGuiScreens = null;
-    static Map<String, IExpressionBool> shaderPackProgramConditions = new HashMap();
+    static Map<String, IExpressionBool> shaderPackProgramConditions = new HashMap<>();
     public static final String PATH_SHADERS_PROPERTIES = "/shaders/shaders.properties";
     public static PropertyDefaultFastFancyOff shaderPackClouds = new PropertyDefaultFastFancyOff("clouds", "Clouds", 0);
     public static PropertyDefaultTrueFalse shaderPackOldLighting = new PropertyDefaultTrueFalse("oldLighting", "Classic Lighting", 0);
@@ -437,7 +437,7 @@ public class Shaders
     public static PropertyDefaultTrueFalse shaderPackBeaconBeamDepth = new PropertyDefaultTrueFalse("beacon.beam.depth", "Rain Depth", 0);
     public static PropertyDefaultTrueFalse shaderPackSeparateAo = new PropertyDefaultTrueFalse("separateAo", "Separate AO", 0);
     public static PropertyDefaultTrueFalse shaderPackFrustumCulling = new PropertyDefaultTrueFalse("frustum.culling", "Frustum Culling", 0);
-    private static Map<String, String> shaderPackResources = new HashMap();
+    private static Map<String, String> shaderPackResources = new HashMap<>();
     private static World currentWorld = null;
     private static final IntList shaderPackDimensions = new IntArrayList();
     private static ICustomTexture[] customTexturesGbuffers = null;
@@ -1015,7 +1015,7 @@ public class Shaders
     {
         String s = "texture." + STAGE_NAMES[stage] + ".";
         Set set = props.keySet();
-        List<ICustomTexture> list = new ArrayList();
+        List<ICustomTexture> list = new ArrayList<>();
 
         for (Object o : set)
         {
@@ -1098,7 +1098,7 @@ public class Shaders
     {
         ConnectedParser connectedparser = new ConnectedParser("Shaders");
         String[] astring = Config.tokenize(line, " ");
-        Deque<String> deque = new ArrayDeque(Arrays.asList(astring));
+        Deque<String> deque = new ArrayDeque<>(Arrays.asList(astring));
         String s = deque.poll();
         TextureType texturetype = (TextureType)connectedparser.parseEnum(deque.poll(), TextureType.values(), "texture type");
 
@@ -1206,7 +1206,7 @@ public class Shaders
                 ByteBuffer bytebuffer = GLAllocation.createDirectByteBuffer(abyte.length);
                 bytebuffer.put(abyte);
                 bytebuffer.flip();
-                TextureMetadataSection texturemetadatasection = SimpleShaderTexture.loadTextureMetadataSection(s, new TextureMetadataSection(true, true, new ArrayList()));
+                TextureMetadataSection texturemetadatasection = SimpleShaderTexture.loadTextureMetadataSection(s, new TextureMetadataSection(true, true, new ArrayList<>()));
                 CustomTextureRaw customtextureraw = new CustomTextureRaw(type, internalFormat, width, height, depth, pixelFormat, pixelType, bytebuffer, textureUnit, texturemetadatasection.getTextureBlur(), texturemetadatasection.getTextureClamp());
                 return customtextureraw;
             }
@@ -1440,7 +1440,7 @@ public class Shaders
             else
             {
                 ShaderOption[] ashaderoption1 = screenshaderoptions.getShaderOptions();
-                List<ShaderOption> list = new ArrayList();
+                List<ShaderOption> list = new ArrayList<>();
 
                 for (ShaderOption shaderoption : ashaderoption1) {
                     if (shaderoption == null) {
@@ -1476,7 +1476,7 @@ public class Shaders
 
     private static ShaderOption[] getShaderOptionsRest(Map<String, ScreenShaderOptions> mapScreens, ShaderOption[] ops)
     {
-        Set<String> set = new HashSet();
+        Set<String> set = new HashSet<>();
 
         for (String s : mapScreens.keySet())
         {
@@ -1490,7 +1490,7 @@ public class Shaders
             }
         }
 
-        List<ShaderOption> list = new ArrayList();
+        List<ShaderOption> list = new ArrayList<>();
 
         for (ShaderOption shaderoption1 : ops) {
             if (shaderoption1.isVisible()) {
@@ -1523,7 +1523,7 @@ public class Shaders
 
     private static ShaderOption[] getVisibleOptions(ShaderOption[] ops)
     {
-        List<ShaderOption> list = new ArrayList();
+        List<ShaderOption> list = new ArrayList<>();
 
         for (ShaderOption shaderoption : ops) {
             if (shaderoption.isVisible()) {
@@ -1633,7 +1633,7 @@ public class Shaders
 
     public static ShaderOption[] getChangedOptions(ShaderOption[] ops)
     {
-        List<ShaderOption> list = new ArrayList();
+        List<ShaderOption> list = new ArrayList<>();
 
         for (ShaderOption shaderoption : ops) {
             if (shaderoption.isEnabled() && shaderoption.isChanged()) {
@@ -1666,7 +1666,7 @@ public class Shaders
 
     public static ArrayList listOfShaders()
     {
-        ArrayList<String> arraylist = new ArrayList();
+        ArrayList<String> arraylist = new ArrayList<>();
         arraylist.add("OFF");
         arraylist.add("(internal)");
         int i = arraylist.size();
@@ -1701,7 +1701,7 @@ public class Shaders
         }
 
         List<String> list = arraylist.subList(i, arraylist.size());
-        Collections.sort(list, String.CASE_INSENSITIVE_ORDER);
+        list.sort(String.CASE_INSENSITIVE_ORDER);
         return arraylist;
     }
 
@@ -2409,7 +2409,7 @@ public class Shaders
             }
 
             ShaderOption[] ashaderoption = getChangedOptions(shaderPackOptions);
-            List<String> list = new ArrayList();
+            List<String> list = new ArrayList<>();
 
             if (bufferedreader != null)
             {
@@ -2513,7 +2513,7 @@ public class Shaders
             }
 
             ShaderOption[] ashaderoption = getChangedOptions(shaderPackOptions);
-            List<String> list = new ArrayList();
+            List<String> list = new ArrayList<>();
             progArbGeometryShader4 = false;
             progMaxVerticesOut = 3;
 
@@ -2612,7 +2612,7 @@ public class Shaders
             }
 
             ShaderOption[] ashaderoption = getChangedOptions(shaderPackOptions);
-            List<String> list = new ArrayList();
+            List<String> list = new ArrayList<>();
 
             if (bufferedreader != null)
             {
@@ -3364,7 +3364,7 @@ public class Shaders
 
     private static void loadEntityDataMap()
     {
-        mapBlockToEntityData = new IdentityHashMap(300);
+        mapBlockToEntityData = new IdentityHashMap<>(300);
 
         if (mapBlockToEntityData.isEmpty())
         {
@@ -5399,11 +5399,11 @@ public class Shaders
 
     private static void loadShaderPackResources()
     {
-        shaderPackResources = new HashMap();
+        shaderPackResources = new HashMap<>();
 
         if (shaderPackLoaded)
         {
-            List<String> list = new ArrayList();
+            List<String> list = new ArrayList<>();
             String s = "/shaders/lang/";
             String s1 = "en_US";
             String s2 = ".lang";

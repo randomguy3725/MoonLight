@@ -85,13 +85,7 @@ public class ModifiableAttributeInstance implements IAttributeInstance
         }
         else
         {
-            Set<AttributeModifier> set = this.mapByName.get(modifier.getName());
-
-            if (set == null)
-            {
-                set = Sets.newHashSet();
-                this.mapByName.put(modifier.getName(), set);
-            }
+            Set<AttributeModifier> set = this.mapByName.computeIfAbsent(modifier.getName(), k -> Sets.newHashSet());
 
             this.mapByOperation.get(Integer.valueOf(modifier.getOperation())).add(modifier);
             set.add(modifier);

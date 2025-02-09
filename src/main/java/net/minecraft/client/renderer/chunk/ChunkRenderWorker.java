@@ -141,36 +141,23 @@ public class ChunkRenderWorker implements Runnable
             }
 
             final ListenableFuture<List<Object>> listenablefuture = Futures.allAsList(lvt_8_1_);
-            generator.addFinishRunnable(new Runnable()
-            {
-                public void run()
-                {
-                    listenablefuture.cancel(false);
-                }
-            });
-            Futures.addCallback(listenablefuture, new FutureCallback<List<Object>>()
-            {
-                public void onSuccess(List<Object> p_onSuccess_1_)
-                {
+            generator.addFinishRunnable(() -> listenablefuture.cancel(false));
+            Futures.addCallback(listenablefuture, new FutureCallback<>() {
+                public void onSuccess(List<Object> p_onSuccess_1_) {
                     ChunkRenderWorker.this.freeRenderBuilder(generator);
                     generator.getLock().lock();
                     label21:
                     {
-                        try
-                        {
-                            if (generator.getStatus() == ChunkCompileTaskGenerator.Status.UPLOADING)
-                            {
+                        try {
+                            if (generator.getStatus() == ChunkCompileTaskGenerator.Status.UPLOADING) {
                                 generator.setStatus(ChunkCompileTaskGenerator.Status.DONE);
                                 break label21;
                             }
 
-                            if (!generator.isFinished())
-                            {
+                            if (!generator.isFinished()) {
                                 ChunkRenderWorker.LOGGER.warn("Chunk render task was " + generator.getStatus() + " when I expected it to be uploading; aborting task");
                             }
-                        }
-                        finally
-                        {
+                        } finally {
                             generator.getLock().unlock();
                         }
 
@@ -178,12 +165,11 @@ public class ChunkRenderWorker implements Runnable
                     }
                     generator.getRenderChunk().setCompiledChunk(lvt_7_1_);
                 }
-                public void onFailure(Throwable p_onFailure_1_)
-                {
+
+                public void onFailure(Throwable p_onFailure_1_) {
                     ChunkRenderWorker.this.freeRenderBuilder(generator);
 
-                    if (!(p_onFailure_1_ instanceof CancellationException) && !(p_onFailure_1_ instanceof InterruptedException))
-                    {
+                    if (!(p_onFailure_1_ instanceof CancellationException) && !(p_onFailure_1_ instanceof InterruptedException)) {
                         Minecraft.getMinecraft().crashed(CrashReport.makeCrashReport(p_onFailure_1_, "Rendering chunk"));
                     }
                 }

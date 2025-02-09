@@ -1380,7 +1380,7 @@ public class Config
 
     private static Set<Dimension> getDisplayModeDimensions(DisplayMode[] p_getDisplayModeDimensions_0_)
     {
-        Set<Dimension> set = new HashSet();
+        Set<Dimension> set = new HashSet<>();
 
         for (DisplayMode displaymode : p_getDisplayModeDimensions_0_) {
             Dimension dimension = new Dimension(displaymode.getWidth(), displaymode.getHeight());
@@ -1689,7 +1689,7 @@ public class Config
 
     private static String[] splitRelease(String p_splitRelease_0_)
     {
-        if (p_splitRelease_0_ != null && p_splitRelease_0_.length() > 0)
+        if (p_splitRelease_0_ != null && !p_splitRelease_0_.isEmpty())
         {
             Pattern pattern = Pattern.compile("([A-Z])([0-9]+)(.*)");
             Matcher matcher = pattern.matcher(p_splitRelease_0_);

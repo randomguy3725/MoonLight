@@ -28,7 +28,7 @@ public class CommandDeOp extends CommandBase
 
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
-        if (args.length == 1 && args[0].length() > 0)
+        if (args.length == 1 && !args[0].isEmpty())
         {
             MinecraftServer minecraftserver = MinecraftServer.getServer();
             GameProfile gameprofile = minecraftserver.getConfigurationManager().getOppedPlayers().getGameProfileFromName(args[0]);

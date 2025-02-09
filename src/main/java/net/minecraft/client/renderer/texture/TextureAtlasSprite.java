@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
 import net.minecraft.client.resources.IResourceManager;
@@ -442,24 +441,18 @@ public class TextureAtlasSprite
                     CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Generating mipmaps for frame");
                     CrashReportCategory crashreportcategory = crashreport.makeCategory("Frame being iterated");
                     crashreportcategory.addCrashSection("Frame index", Integer.valueOf(i));
-                    crashreportcategory.addCrashSectionCallable("Frame sizes", new Callable<String>()
-                    {
-                        public String call() throws Exception
-                        {
-                            StringBuilder stringbuilder = new StringBuilder();
+                    crashreportcategory.addCrashSectionCallable("Frame sizes", () -> {
+                        StringBuilder stringbuilder = new StringBuilder();
 
-                            for (int[] aint1 : aint)
-                            {
-                                if (stringbuilder.length() > 0)
-                                {
-                                    stringbuilder.append(", ");
-                                }
-
-                                stringbuilder.append(aint1 == null ? "null" : Integer.valueOf(aint1.length));
+                        for (int[] aint1 : aint) {
+                            if (!stringbuilder.isEmpty()) {
+                                stringbuilder.append(", ");
                             }
 
-                            return stringbuilder.toString();
+                            stringbuilder.append(aint1 == null ? "null" : Integer.valueOf(aint1.length));
                         }
+
+                        return stringbuilder.toString();
                     });
                     throw new ReportedException(crashreport);
                 }
@@ -699,7 +692,7 @@ public class TextureAtlasSprite
 
     public List<int[][]> getFramesTextureData()
     {
-        List<int[][]> list = new ArrayList();
+        List<int[][]> list = new ArrayList<>();
         list.addAll(this.framesTextureData);
         return list;
     }

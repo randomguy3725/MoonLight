@@ -1,5 +1,6 @@
 package net.minecraft.world.biome;
 
+import java.util.Objects;
 import java.util.Random;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.BlockStone;
@@ -75,14 +76,7 @@ public class BiomeDecorator
             this.currentWorld = worldIn;
             String s = worldIn.getWorldInfo().getGeneratorOptions();
 
-            if (s != null)
-            {
-                this.chunkProviderSettings = ChunkProviderSettings.Factory.jsonToFactory(s).func_177864_b();
-            }
-            else
-            {
-                this.chunkProviderSettings = ChunkProviderSettings.Factory.jsonToFactory("").func_177864_b();
-            }
+            this.chunkProviderSettings = ChunkProviderSettings.Factory.jsonToFactory(Objects.requireNonNullElse(s, "")).func_177864_b();
 
             this.randomGenerator = random;
             this.field_180294_c = p_180292_4_;

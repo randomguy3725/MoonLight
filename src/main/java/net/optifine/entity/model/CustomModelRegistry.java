@@ -13,7 +13,7 @@ public class CustomModelRegistry
 
     private static Map<String, ModelAdapter> makeMapModelAdapters()
     {
-        Map<String, ModelAdapter> map = new LinkedHashMap();
+        Map<String, ModelAdapter> map = new LinkedHashMap<>();
         addModelAdapter(map, new ModelAdapterArmorStand());
         addModelAdapter(map, new ModelAdapterBat());
         addModelAdapter(map, new ModelAdapterBlaze());

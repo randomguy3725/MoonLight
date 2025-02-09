@@ -131,14 +131,14 @@ public class FkCounter {
         this.deadWithers = new boolean[4];
         this.prefixes = new String[4];
         this.teamKills = (HashMap<String, Integer>[]) new HashMap[4];
-        this.deadPlayers = new ArrayList<String>();
+        this.deadPlayers = new ArrayList<>();
         KILL_PATTERN = new Pattern[KILL_MESSAGES.length];
         for (int i = 0; i < KILL_MESSAGES.length; i++) {
             KILL_PATTERN[i] = Pattern.compile(KILL_MESSAGES[i]);
         }
         for (int team = 0; team < 4; ++team) {
             this.prefixes[team] = FkCounter.DEFAULT_PREFIXES[team];
-            this.teamKills[team] = new HashMap<String, Integer>();
+            this.teamKills[team] = new HashMap<>();
         }
         mc = Minecraft.getMinecraft();
     }
@@ -230,7 +230,7 @@ public class FkCounter {
 
     public HashMap<String, Integer> getPlayers(int team) {
         if (!this.isValidTeam(team)) {
-            return new HashMap<String, Integer>();
+            return new HashMap<>();
         }
         return this.teamKills[team];
     }
@@ -309,7 +309,7 @@ public class FkCounter {
     }
 
     private ArrayList<String> getScoreboardNames() {
-        ArrayList<String> scoreboardNames = new ArrayList<String>();
+        ArrayList<String> scoreboardNames = new ArrayList<>();
         try {
             Scoreboard scoreboard = mc.theWorld.getScoreboard();
             ScoreObjective sidebarObjective = scoreboard.getObjectiveInDisplaySlot(1);

@@ -450,7 +450,7 @@ public class RenderManager
                 {
                     if (render instanceof RendererLivingEntity)
                     {
-                        ((RendererLivingEntity)render).setRenderOutlines(this.renderOutlines);
+                        ((RendererLivingEntity<?>)render).setRenderOutlines(this.renderOutlines);
                     }
 
                     if (CustomEntityModels.isActive())

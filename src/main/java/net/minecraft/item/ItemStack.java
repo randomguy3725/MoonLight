@@ -541,7 +541,7 @@ public final class ItemStack
         {
             String s1 = "";
 
-            if (s.length() > 0)
+            if (!s.isEmpty())
             {
                 s = s + " (";
                 s1 = ")";

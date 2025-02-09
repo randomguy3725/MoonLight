@@ -148,9 +148,7 @@ public class GlowESP extends Module {
     }
 
     public void renderEntities(float ticks) {
-        livingEntities.forEach(entity -> {
-            mc.getRenderManager().renderEntityStaticNoShadow(entity, ticks, false);
-        });
+        livingEntities.forEach(entity -> mc.getRenderManager().renderEntityStaticNoShadow(entity, ticks, false));
     }
 
     public void collectEntities() {

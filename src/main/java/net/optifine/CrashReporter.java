@@ -50,11 +50,7 @@ public class CrashReporter
             String s = "http://optifine.net/crashReport";
             String s1 = makeReport(crashReport);
             byte[] abyte = s1.getBytes(StandardCharsets.US_ASCII);
-            IFileUploadListener ifileuploadlistener = new IFileUploadListener()
-            {
-                public void fileUploadFinished(String url, byte[] content, Throwable exception)
-                {
-                }
+            IFileUploadListener ifileuploadlistener = (url, content, exception) -> {
             };
             Map map = new HashMap();
             map.put("OF-Version", Config.getVersion());

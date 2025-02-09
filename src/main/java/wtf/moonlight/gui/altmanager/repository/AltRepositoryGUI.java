@@ -382,7 +382,6 @@ public class AltRepositoryGUI extends GuiScreen {
         this.groupPlayerBox = new GuiGroupPlayerBox(altInfoX, VERTICAL_MARGIN, PLAYER_BOX_WIDTH, altInfoH,
                 this::getSelectedAlt);
         this.groupPlayerBox.addLine(alt -> "In-game name: " + alt.getPlayer().getName());
-        ;
 
         this.sliderHeight = -VERTICAL_MARGIN + this.height + -DOWN_MARGIN;
         final int oldVisibleAltsCount = this.visibleAltsCount;
@@ -563,8 +562,8 @@ public class AltRepositoryGUI extends GuiScreen {
         saveAlts();
 
         try {
-            Files.write(this.moonlight.getDataFolder().resolve("Data.txt"),
-                    this.tokenContent.getBytes(StandardCharsets.UTF_8), CREATE, TRUNCATE_EXISTING);
+            Files.writeString(this.moonlight.getDataFolder().resolve("Data.txt"),
+                    this.tokenContent, CREATE, TRUNCATE_EXISTING);
         } catch (Throwable t) {
             this.logger.error("Unable to reach clients folder", t);
         }
@@ -745,8 +744,7 @@ public class AltRepositoryGUI extends GuiScreen {
     public Alt addAlt(@NonNull AltCredential credential) {
         final Alt alt;
 
-        if (credential instanceof MicrosoftAltCredential) {
-            MicrosoftAltCredential m = (MicrosoftAltCredential) credential;
+        if (credential instanceof MicrosoftAltCredential m) {
 
             alt = new Alt(credential, new FakeEntityPlayer(new GameProfile(m.getUUID(), m.getName()), null), this, false);
         } else {

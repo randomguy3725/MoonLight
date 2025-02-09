@@ -76,7 +76,7 @@ public class SourceLWJGL3OpenAL extends Source {
             return false;
         } else {
             synchronized (this.soundSequenceLock) {
-                if (this.soundSequenceQueue != null && this.soundSequenceQueue.size() > 0) {
+                if (this.soundSequenceQueue != null && !this.soundSequenceQueue.isEmpty()) {
                     this.filenameURL = this.soundSequenceQueue.remove(0);
                     if (this.codec != null) {
                         this.codec.cleanup();
@@ -358,7 +358,7 @@ public class SourceLWJGL3OpenAL extends Source {
             return false;
         } else {
             this.codec.initialize(this.filenameURL.getURL());
-            LinkedList<byte[]> preLoadBuffers = new LinkedList();
+            LinkedList<byte[]> preLoadBuffers = new LinkedList<>();
 
             for (int i = 0; i < SoundSystemConfig.getNumberStreamingBuffers(); ++i) {
                 this.soundBuffer = this.codec.read();

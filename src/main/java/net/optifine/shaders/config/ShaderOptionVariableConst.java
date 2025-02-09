@@ -51,14 +51,14 @@ public class ShaderOptionVariableConst extends ShaderOptionVariable
             String s3 = matcher.group(4);
             String s4 = StrUtils.getSegment(s3, "[", "]");
 
-            if (s4 != null && s4.length() > 0)
+            if (s4 != null && !s4.isEmpty())
             {
                 s3 = s3.replace(s4, "").trim();
             }
 
             String[] astring = parseValues(s2, s4);
 
-            if (s1 != null && s1.length() > 0)
+            if (s1 != null && !s1.isEmpty())
             {
                 path = StrUtils.removePrefix(path, "/shaders/");
                 ShaderOption shaderoption = new ShaderOptionVariableConst(s1, s, s3, s2, astring, path);

@@ -101,7 +101,7 @@ public class OldServerPinger
 
                             for (GameProfile gameprofile : serverstatusresponse.getPlayerCountData().getPlayers())
                             {
-                                if (stringbuilder.length() > 0)
+                                if (!stringbuilder.isEmpty())
                                 {
                                     stringbuilder.append("\n");
                                 }
@@ -111,7 +111,7 @@ public class OldServerPinger
 
                             if (serverstatusresponse.getPlayerCountData().getPlayers().length < serverstatusresponse.getPlayerCountData().getOnlinePlayerCount())
                             {
-                                if (stringbuilder.length() > 0)
+                                if (!stringbuilder.isEmpty())
                                 {
                                     stringbuilder.append("\n");
                                 }
@@ -182,7 +182,7 @@ public class OldServerPinger
 
     private void tryCompatibilityPing(final ServerData server) {
         final ServerAddress serveraddress = ServerAddress.fromString(server.serverIP);
-        (new Bootstrap()).group(NetworkManager.CLIENT_NIO_EVENTLOOP.getValue()).handler(new ChannelInitializer<Channel>() {
+        (new Bootstrap()).group(NetworkManager.CLIENT_NIO_EVENTLOOP.getValue()).handler(new ChannelInitializer<>() {
             protected void initChannel(Channel p_initChannel_1_) throws Exception {
                 try {
                     p_initChannel_1_.config().setOption(ChannelOption.TCP_NODELAY, Boolean.TRUE);

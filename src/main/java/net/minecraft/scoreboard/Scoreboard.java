@@ -42,13 +42,7 @@ public class Scoreboard
             else
             {
                 scoreobjective = new ScoreObjective(this, name, criteria);
-                List<ScoreObjective> list = this.scoreObjectiveCriterias.get(criteria);
-
-                if (list == null)
-                {
-                    list = Lists.newArrayList();
-                    this.scoreObjectiveCriterias.put(criteria, list);
-                }
+                List<ScoreObjective> list = this.scoreObjectiveCriterias.computeIfAbsent(criteria, k -> Lists.newArrayList());
 
                 list.add(scoreobjective);
                 this.scoreObjectives.put(name, scoreobjective);
@@ -87,21 +81,9 @@ public class Scoreboard
         }
         else
         {
-            Map<ScoreObjective, Score> map = this.entitiesScoreObjectives.get(name);
+            Map<ScoreObjective, Score> map = this.entitiesScoreObjectives.computeIfAbsent(name, k -> Maps.newHashMap());
 
-            if (map == null)
-            {
-                map = Maps.newHashMap();
-                this.entitiesScoreObjectives.put(name, map);
-            }
-
-            Score score = map.get(objective);
-
-            if (score == null)
-            {
-                score = new Score(this, objective, name);
-                map.put(objective, score);
-            }
+            Score score = map.computeIfAbsent(objective, o -> new Score(this, o, name));
 
             return score;
         }
@@ -121,7 +103,7 @@ public class Scoreboard
             }
         }
 
-        Collections.sort(list, Score.scoreComparator);
+        list.sort(Score.scoreComparator);
         return list;
     }
 
@@ -154,7 +136,7 @@ public class Scoreboard
             {
                 Score score = map2.remove(objective);
 
-                if (map2.size() < 1)
+                if (map2.isEmpty())
                 {
                     Map<ScoreObjective, Score> map1 = this.entitiesScoreObjectives.remove(name);
 

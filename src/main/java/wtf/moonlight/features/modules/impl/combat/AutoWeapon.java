@@ -49,7 +49,7 @@ public class AutoWeapon extends Module {
 
             mc.thePlayer.inventory.currentItem = slot;
             mc.playerController.updateController();
-            Entity entity = ((C02PacketUseEntity) event.getPacket()).getEntityFromWorld(mc.theWorld);
+            Entity entity = packet.getEntityFromWorld(mc.theWorld);
             event.setCancelled(true);
             sendPacketNoEvent(new C02PacketUseEntity(entity, C02PacketUseEntity.Action.ATTACK));
         }

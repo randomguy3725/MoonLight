@@ -114,7 +114,7 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
 
     public boolean hasCustomName()
     {
-        return this.furnaceCustomName != null && this.furnaceCustomName.length() > 0;
+        return this.furnaceCustomName != null && !this.furnaceCustomName.isEmpty();
     }
 
     public void setCustomInventoryName(String p_145951_1_)

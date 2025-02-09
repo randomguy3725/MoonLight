@@ -364,28 +364,15 @@ public class IntegratedServer extends MinecraftServer
     public CrashReport addServerInfoToCrashReport(CrashReport report)
     {
         report = super.addServerInfoToCrashReport(report);
-        report.getCategory().addCrashSectionCallable("Type", new Callable<String>()
-        {
-            public String call() throws Exception
-            {
-                return "Integrated Server (map_client.txt)";
-            }
-        });
-        report.getCategory().addCrashSectionCallable("Is Modded", new Callable<String>()
-        {
-            public String call() throws Exception
-            {
-                String s = ClientBrandRetriever.getClientModName();
+        report.getCategory().addCrashSectionCallable("Type", () -> "Integrated Server (map_client.txt)");
+        report.getCategory().addCrashSectionCallable("Is Modded", () -> {
+            String s = ClientBrandRetriever.getClientModName();
 
-                if (!s.equals("vanilla"))
-                {
-                    return "Definitely; Client brand changed to '" + s + "'";
-                }
-                else
-                {
-                    s = IntegratedServer.this.getServerModName();
-                    return !s.equals("vanilla") ? "Definitely; Server brand changed to '" + s + "'" : (Minecraft.class.getSigners() == null ? "Very likely; Jar signature invalidated" : "Probably not. Jar signature remains and both client + server brands are untouched.");
-                }
+            if (!s.equals("vanilla")) {
+                return "Definitely; Client brand changed to '" + s + "'";
+            } else {
+                s = IntegratedServer.this.getServerModName();
+                return !s.equals("vanilla") ? "Definitely; Server brand changed to '" + s + "'" : (Minecraft.class.getSigners() == null ? "Very likely; Jar signature invalidated" : "Probably not. Jar signature remains and both client + server brands are untouched.");
             }
         });
         return report;
@@ -461,14 +448,10 @@ public class IntegratedServer extends MinecraftServer
     {
         if (!Reflector.MinecraftForge.exists() || this.isServerRunning())
         {
-            Futures.getUnchecked(this.addScheduledTask(new Runnable()
-            {
-                public void run()
+            Futures.getUnchecked(this.addScheduledTask(() -> {
+                for (EntityPlayerMP entityplayermp : Lists.newArrayList(IntegratedServer.this.getConfigurationManager().getPlayerList()))
                 {
-                    for (EntityPlayerMP entityplayermp : Lists.newArrayList(IntegratedServer.this.getConfigurationManager().getPlayerList()))
-                    {
-                        IntegratedServer.this.getConfigurationManager().playerLoggedOut(entityplayermp);
-                    }
+                    IntegratedServer.this.getConfigurationManager().playerLoggedOut(entityplayermp);
                 }
             }));
         }

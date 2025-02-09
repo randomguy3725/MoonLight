@@ -395,13 +395,7 @@ public class InventoryPlayer implements IInventory
                 CrashReportCategory crashreportcategory = crashreport.makeCategory("Item being added");
                 crashreportcategory.addCrashSection("Item ID", Integer.valueOf(Item.getIdFromItem(itemStackIn.getItem())));
                 crashreportcategory.addCrashSection("Item data", Integer.valueOf(itemStackIn.getMetadata()));
-                crashreportcategory.addCrashSectionCallable("Item name", new Callable<String>()
-                {
-                    public String call() throws Exception
-                    {
-                        return itemStackIn.getDisplayName();
-                    }
-                });
+                crashreportcategory.addCrashSectionCallable("Item name", () -> itemStackIn.getDisplayName());
                 throw new ReportedException(crashreport);
             }
         }

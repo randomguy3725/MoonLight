@@ -1160,13 +1160,7 @@ public class Reflector
 
     private static boolean registerResolvable(final String str)
     {
-        IResolvable iresolvable = new IResolvable()
-        {
-            public void resolve()
-            {
-                Reflector.LOGGER.info("[OptiFine] " + str);
-            }
-        };
+        IResolvable iresolvable = () -> Reflector.LOGGER.info("[OptiFine] " + str);
         ReflectorResolver.register(iresolvable);
         return true;
     }

@@ -402,9 +402,7 @@ public class MovementUtils implements InstanceAccess {
 
         final int[] down = {0};
 
-        Arrays.stream(gameSettings).forEach(keyBinding -> {
-            down[0] = down[0] + (keyBinding.isKeyDown() ? 1 : 0);
-        });
+        Arrays.stream(gameSettings).forEach(keyBinding -> down[0] = down[0] + (keyBinding.isKeyDown() ? 1 : 0));
 
         boolean active = down[0] == 1;
 

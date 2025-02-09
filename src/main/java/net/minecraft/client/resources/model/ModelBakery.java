@@ -384,7 +384,7 @@ public class ModelBakery
 
         for (Entry<RegistryDelegate<Item>, Set<String>> entry : customVariantNames.entrySet())
         {
-            this.variantNames.put((Item) ((RegistryDelegate)entry.getKey()).get(), Lists.newArrayList(((Set)entry.getValue()).iterator()));
+            this.variantNames.put((Item) ((RegistryDelegate<?>)entry.getKey()).get(), Lists.newArrayList(((Set)entry.getValue()).iterator()));
         }
 
         CustomItems.update();
@@ -485,13 +485,7 @@ public class ModelBakery
     {
         Set<ResourceLocation> set = Sets.newHashSet();
         List<ModelResourceLocation> list = Lists.newArrayList(this.variants.keySet());
-        Collections.sort(list, new Comparator<ModelResourceLocation>()
-        {
-            public int compare(ModelResourceLocation p_compare_1_, ModelResourceLocation p_compare_2_)
-            {
-                return p_compare_1_.toString().compareTo(p_compare_2_.toString());
-            }
-        });
+        list.sort((p_compare_1_, p_compare_2_) -> p_compare_1_.toString().compareTo(p_compare_2_.toString()));
 
         for (ModelResourceLocation modelresourcelocation : list)
         {
@@ -670,15 +664,11 @@ public class ModelBakery
         final Set<ResourceLocation> set = this.getVariantsTextureLocations();
         set.addAll(this.getItemsTextureLocations());
         set.remove(TextureMap.LOCATION_MISSING_TEXTURE);
-        IIconCreator iiconcreator = new IIconCreator()
-        {
-            public void registerSprites(TextureMap iconRegistry)
+        IIconCreator iiconcreator = iconRegistry -> {
+            for (ResourceLocation resourcelocation : set)
             {
-                for (ResourceLocation resourcelocation : set)
-                {
-                    TextureAtlasSprite textureatlassprite = iconRegistry.registerSprite(resourcelocation);
-                    ModelBakery.this.sprites.put(resourcelocation, textureatlassprite);
-                }
+                TextureAtlasSprite textureatlassprite = iconRegistry.registerSprite(resourcelocation);
+                ModelBakery.this.sprites.put(resourcelocation, textureatlassprite);
             }
         };
         this.textureMap.loadSprites(this.resourceManager, iiconcreator);
@@ -877,6 +867,7 @@ public class ModelBakery
         }
     }
 
+    @SafeVarargs
     public static <T extends ResourceLocation> void registerItemVariants(Item p_registerItemVariants_0_, T... p_registerItemVariants_1_)
     {
         RegistryDelegate registrydelegate = (RegistryDelegate)Reflector.getFieldValue(p_registerItemVariants_0_, Reflector.ForgeItem_delegate);

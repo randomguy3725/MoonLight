@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Programs
 {
-    private final List<Program> programs = new ArrayList();
+    private final List<Program> programs = new ArrayList<>();
     private final Program programNone = this.make("", ProgramStage.NONE, true);
 
     public Program make(String name, ProgramStage programStage, Program backupProgram)

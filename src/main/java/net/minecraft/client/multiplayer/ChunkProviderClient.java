@@ -19,7 +19,7 @@ public class ChunkProviderClient implements IChunkProvider
 {
     private static final Logger logger = LogManager.getLogger();
     private final Chunk blankChunk;
-    private final LongHashMap<Chunk> chunkMapping = new LongHashMap();
+    private final LongHashMap<Chunk> chunkMapping = new LongHashMap<>();
     private final List<Chunk> chunkListing = Lists.newArrayList();
     private final World worldObj;
 

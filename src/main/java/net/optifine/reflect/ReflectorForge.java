@@ -130,7 +130,7 @@ public class ReflectorForge
             }
             else
             {
-                List<String> list1 = new ArrayList();
+                List<String> list1 = new ArrayList<>();
 
                 for (Object object1 : list)
                 {

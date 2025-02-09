@@ -67,7 +67,7 @@ public class RealmsVertexFormat
 
     public List<RealmsVertexFormatElement> getElements()
     {
-        List<RealmsVertexFormatElement> list = new ArrayList();
+        List<RealmsVertexFormatElement> list = new ArrayList<>();
 
         for (VertexFormatElement vertexformatelement : this.v.getElements())
         {

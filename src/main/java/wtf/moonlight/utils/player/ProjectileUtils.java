@@ -172,67 +172,24 @@ public class ProjectileUtils implements InstanceAccess {
         }
     }
 
-    public static class ProjectileHit {
-        private final double posX;
-        private final double posY;
-        private final double posZ;
-        private final boolean hitEntity;
-        private final boolean hasLanded;
-        private final MovingObjectPosition landingPosition;
-
-        public ProjectileHit(final double posX, final double posY, final double posZ, final boolean hitEntity, final boolean hasLanded, final MovingObjectPosition landingPosition) {
-            this.posX = posX;
-            this.posY = posY;
-            this.posZ = posZ;
-            this.hitEntity = hitEntity;
-            this.hasLanded = hasLanded;
-            this.landingPosition = landingPosition;
-        }
-
-        public double getPosX() {
-            return this.posX;
-        }
-
-        public double getPosY() {
-            return this.posY;
-        }
-
-        public double getPosZ() {
-            return this.posZ;
-        }
-
-        public boolean isHitEntity() {
-            return this.hitEntity;
-        }
-
-        public boolean isHasLanded() {
-            return this.hasLanded;
-        }
-
-        public MovingObjectPosition getLandingPosition() {
-            return this.landingPosition;
-        }
+    public record ProjectileHit(double posX, double posY, double posZ, boolean hitEntity, boolean hasLanded,
+                                MovingObjectPosition landingPosition) {
 
         @Override
-        public int hashCode() {
-            return Objects.hash(this.posX, this.posY, this.posZ, this.hitEntity, this.hasLanded, this.landingPosition);
-        }
-
-        @Override
-        public boolean equals(final Object obj) {
-            if (this == obj) {
-                return true;
+            public boolean equals(final Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null || this.getClass() != obj.getClass()) {
+                    return false;
+                }
+                final ProjectileHit that = (ProjectileHit) obj;
+                return Double.compare(that.posX, this.posX) == 0 && Double.compare(that.posY, this.posY) == 0 && Double.compare(that.posZ, this.posZ) == 0 && this.hitEntity == that.hitEntity && this.hasLanded == that.hasLanded && Objects.equals(this.landingPosition, that.landingPosition);
             }
-            if (obj == null || this.getClass() != obj.getClass()) {
-                return false;
-            }
-            final ProjectileHit that = (ProjectileHit) obj;
-            return Double.compare(that.posX, this.posX) == 0 && Double.compare(that.posY, this.posY) == 0 && Double.compare(that.posZ, this.posZ) == 0 && this.hitEntity == that.hitEntity && this.hasLanded == that.hasLanded && Objects.equals(this.landingPosition, that.landingPosition);
-        }
 
-        @Override
-        public String toString() {
-            return "ProjectileHit{posX=" + this.posX + ", posY=" + this.posY + ", posZ=" + this.posZ + ", hitEntity=" + this.hitEntity + ", hasLanded=" + this.hasLanded + ", landingPosition=" + this.landingPosition + '}';
+            @Override
+            public String toString() {
+                return "ProjectileHit{posX=" + this.posX + ", posY=" + this.posY + ", posZ=" + this.posZ + ", hitEntity=" + this.hitEntity + ", hasLanded=" + this.hasLanded + ", landingPosition=" + this.landingPosition + '}';
+            }
         }
-    }
 }

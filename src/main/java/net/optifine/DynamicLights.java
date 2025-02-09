@@ -36,8 +36,8 @@ import net.optifine.util.PropertiesOrdered;
 public class DynamicLights
 {
     private static final DynamicLightsMap mapDynamicLights = new DynamicLightsMap();
-    private static final Map<Class, Integer> mapEntityLightLevels = new HashMap();
-    private static final Map<Item, Integer> mapItemLightLevels = new HashMap();
+    private static final Map<Class, Integer> mapEntityLightLevels = new HashMap<>();
+    private static final Map<Item, Integer> mapItemLightLevels = new HashMap<>();
     private static long timeUpdateMs = 0L;
     private static final double MAX_DIST = 7.5D;
     private static final double MAX_DIST_SQ = 56.25D;
@@ -112,12 +112,12 @@ public class DynamicLights
             }
         }
 
-        if (mapEntityLightLevels.size() > 0)
+        if (!mapEntityLightLevels.isEmpty())
         {
             Config.dbg("DynamicLights entities: " + mapEntityLightLevels.size());
         }
 
-        if (mapItemLightLevels.size() > 0)
+        if (!mapItemLightLevels.isEmpty())
         {
             Config.dbg("DynamicLights items: " + mapItemLightLevels.size());
         }

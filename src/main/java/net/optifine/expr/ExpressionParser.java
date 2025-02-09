@@ -58,7 +58,7 @@ public class ExpressionParser
             }
             else
             {
-                Deque<Token> deque = new ArrayDeque(Arrays.asList(atoken));
+                Deque<Token> deque = new ArrayDeque<>(Arrays.asList(atoken));
                 return this.parseInfix(deque);
             }
         }
@@ -146,7 +146,7 @@ public class ExpressionParser
                     this.mergeOperators(listExpr, listFunc, k);
                 }
 
-                if (listExpr.size() == 1 && listFunc.size() == 0)
+                if (listExpr.size() == 1 && listFunc.isEmpty())
                 {
                     return listExpr.get(0);
                 }
@@ -290,7 +290,7 @@ public class ExpressionParser
 
     private IExpression[] parseExpressions(Deque<Token> deque) throws ParseException
     {
-        List<IExpression> list = new ArrayList();
+        List<IExpression> list = new ArrayList<>();
 
         while (true)
         {
@@ -377,7 +377,7 @@ public class ExpressionParser
 
     private static Deque<Token> getGroup(Deque<Token> deque, TokenType tokenTypeEnd, boolean tokenEndRequired) throws ParseException
     {
-        Deque<Token> deque3 = new ArrayDeque();
+        Deque<Token> deque3 = new ArrayDeque<>();
         int i = 0;
         Iterator iterator = deque.iterator();
 

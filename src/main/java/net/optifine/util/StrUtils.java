@@ -57,7 +57,7 @@ public class StrUtils
                         for (Object o : list) {
                             String s3 = (String) o;
 
-                            if (s3.length() > 0) {
+                            if (!s3.isEmpty()) {
                                 int k = indexOfMaskSingle(str, s3, i, wildCharSingle);
 
                                 if (k < 0) {
@@ -246,7 +246,7 @@ public class StrUtils
                         for (Object o : list) {
                             String s3 = (String) o;
 
-                            if (s3.length() > 0) {
+                            if (!s3.isEmpty()) {
                                 int k = str.indexOf(s3, i);
 
                                 if (k < 0) {
@@ -270,7 +270,7 @@ public class StrUtils
 
     public static String[] split(String str, String separators)
     {
-        if (str != null && str.length() > 0)
+        if (str != null && !str.isEmpty())
         {
             if (separators == null)
             {
@@ -628,7 +628,7 @@ public class StrUtils
             }
             else
             {
-                List<String> list = new ArrayList(strs.length);
+                List<String> list = new ArrayList<>(strs.length);
 
                 for (int i = 0; i < strs.length; ++i)
                 {

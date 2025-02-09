@@ -19,7 +19,7 @@ public class NativeMemory {
 	}
 
 	private static LongSupplier makeLongSupplier(String[][] paths) {
-		List<Throwable> list = new ArrayList();
+		List<Throwable> list = new ArrayList<>();
 
         for (String[] astring : paths) {
             try {
