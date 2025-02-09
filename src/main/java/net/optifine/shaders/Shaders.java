@@ -1303,85 +1303,57 @@ public class Shaders
     {
         if (stage == 0)
         {
-            if (name.equals("texture"))
-            {
-                return 0;
+            switch (name) {
+                case "texture" -> {
+                    return 0;
+                }
+                case "lightmap" -> {
+                    return 1;
+                }
+                case "normals" -> {
+                    return 2;
+                }
+                case "specular" -> {
+                    return 3;
+                }
+                case "shadowtex0", "watershadow" -> {
+                    return 4;
+                }
+                case "shadow" -> {
+                    return waterShadowEnabled ? 5 : 4;
+                }
+                case "shadowtex1" -> {
+                    return 5;
+                }
+                case "depthtex0" -> {
+                    return 6;
+                }
+                case "gaux1" -> {
+                    return 7;
+                }
+                case "gaux2" -> {
+                    return 8;
+                }
+                case "gaux3" -> {
+                    return 9;
+                }
+                case "gaux4" -> {
+                    return 10;
+                }
+                case "depthtex1" -> {
+                    return 12;
+                }
+                case "shadowcolor0", "shadowcolor" -> {
+                    return 13;
+                }
+                case "shadowcolor1" -> {
+                    return 14;
+                }
+                case "noisetex" -> {
+                    return 15;
+                }
             }
 
-            if (name.equals("lightmap"))
-            {
-                return 1;
-            }
-
-            if (name.equals("normals"))
-            {
-                return 2;
-            }
-
-            if (name.equals("specular"))
-            {
-                return 3;
-            }
-
-            if (name.equals("shadowtex0") || name.equals("watershadow"))
-            {
-                return 4;
-            }
-
-            if (name.equals("shadow"))
-            {
-                return waterShadowEnabled ? 5 : 4;
-            }
-
-            if (name.equals("shadowtex1"))
-            {
-                return 5;
-            }
-
-            if (name.equals("depthtex0"))
-            {
-                return 6;
-            }
-
-            if (name.equals("gaux1"))
-            {
-                return 7;
-            }
-
-            if (name.equals("gaux2"))
-            {
-                return 8;
-            }
-
-            if (name.equals("gaux3"))
-            {
-                return 9;
-            }
-
-            if (name.equals("gaux4"))
-            {
-                return 10;
-            }
-
-            if (name.equals("depthtex1"))
-            {
-                return 12;
-            }
-
-            if (name.equals("shadowcolor0") || name.equals("shadowcolor"))
-            {
-                return 13;
-            }
-
-            if (name.equals("shadowcolor1"))
-            {
-                return 14;
-            }
-
-            if (name.equals("noisetex"))
-            {
-                return 15;
-            }
         }
 
         if (stage == 1 || stage == 2)
@@ -1391,85 +1363,57 @@ public class Shaders
                 return 0;
             }
 
-            if (name.equals("colortex1") || name.equals("gdepth"))
-            {
-                return 1;
+            switch (name) {
+                case "colortex1", "gdepth" -> {
+                    return 1;
+                }
+                case "colortex2", "gnormal" -> {
+                    return 2;
+                }
+                case "colortex3", "composite" -> {
+                    return 3;
+                }
+                case "shadowtex0", "watershadow" -> {
+                    return 4;
+                }
+                case "shadow" -> {
+                    return waterShadowEnabled ? 5 : 4;
+                }
+                case "shadowtex1" -> {
+                    return 5;
+                }
+                case "depthtex0", "gdepthtex" -> {
+                    return 6;
+                }
+                case "colortex4", "gaux1" -> {
+                    return 7;
+                }
+                case "colortex5", "gaux2" -> {
+                    return 8;
+                }
+                case "colortex6", "gaux3" -> {
+                    return 9;
+                }
+                case "colortex7", "gaux4" -> {
+                    return 10;
+                }
+                case "depthtex1" -> {
+                    return 11;
+                }
+                case "depthtex2" -> {
+                    return 12;
+                }
+                case "shadowcolor0", "shadowcolor" -> {
+                    return 13;
+                }
+                case "shadowcolor1" -> {
+                    return 14;
+                }
+                case "noisetex" -> {
+                    return 15;
+                }
             }
 
-            if (name.equals("colortex2") || name.equals("gnormal"))
-            {
-                return 2;
-            }
-
-            if (name.equals("colortex3") || name.equals("composite"))
-            {
-                return 3;
-            }
-
-            if (name.equals("shadowtex0") || name.equals("watershadow"))
-            {
-                return 4;
-            }
-
-            if (name.equals("shadow"))
-            {
-                return waterShadowEnabled ? 5 : 4;
-            }
-
-            if (name.equals("shadowtex1"))
-            {
-                return 5;
-            }
-
-            if (name.equals("depthtex0") || name.equals("gdepthtex"))
-            {
-                return 6;
-            }
-
-            if (name.equals("colortex4") || name.equals("gaux1"))
-            {
-                return 7;
-            }
-
-            if (name.equals("colortex5") || name.equals("gaux2"))
-            {
-                return 8;
-            }
-
-            if (name.equals("colortex6") || name.equals("gaux3"))
-            {
-                return 9;
-            }
-
-            if (name.equals("colortex7") || name.equals("gaux4"))
-            {
-                return 10;
-            }
-
-            if (name.equals("depthtex1"))
-            {
-                return 11;
-            }
-
-            if (name.equals("depthtex2"))
-            {
-                return 12;
-            }
-
-            if (name.equals("shadowcolor0") || name.equals("shadowcolor"))
-            {
-                return 13;
-            }
-
-            if (name.equals("shadowcolor1"))
-            {
-                return 14;
-            }
-
-            if (name.equals("noisetex"))
-            {
-                return 15;
-            }
         }
 
         return -1;

@@ -705,26 +705,23 @@ public class ConnectedParser
         {
             if (!str.equals("top") && !str.equals("up"))
             {
-                if (str.equals("north"))
-                {
-                    return EnumFacing.NORTH;
-                }
-                else if (str.equals("south"))
-                {
-                    return EnumFacing.SOUTH;
-                }
-                else if (str.equals("east"))
-                {
-                    return EnumFacing.EAST;
-                }
-                else if (str.equals("west"))
-                {
-                    return EnumFacing.WEST;
-                }
-                else
-                {
-                    Config.warn("Unknown face: " + str);
-                    return null;
+                switch (str) {
+                    case "north" -> {
+                        return EnumFacing.NORTH;
+                    }
+                    case "south" -> {
+                        return EnumFacing.SOUTH;
+                    }
+                    case "east" -> {
+                        return EnumFacing.EAST;
+                    }
+                    case "west" -> {
+                        return EnumFacing.WEST;
+                    }
+                    default -> {
+                        Config.warn("Unknown face: " + str);
+                        return null;
+                    }
                 }
             }
             else
@@ -1152,25 +1149,21 @@ public class ConnectedParser
         {
             if (prof == 0)
             {
-                if (str.equals("farmer"))
-                {
-                    return 1;
+                switch (str) {
+                    case "farmer" -> {
+                        return 1;
+                    }
+                    case "fisherman" -> {
+                        return 2;
+                    }
+                    case "shepherd" -> {
+                        return 3;
+                    }
+                    case "fletcher" -> {
+                        return 4;
+                    }
                 }
 
-                if (str.equals("fisherman"))
-                {
-                    return 2;
-                }
-
-                if (str.equals("shepherd"))
-                {
-                    return 3;
-                }
-
-                if (str.equals("fletcher"))
-                {
-                    return 4;
-                }
             }
 
             if (prof == 1)
@@ -1194,20 +1187,18 @@ public class ConnectedParser
             {
                 if (prof == 3)
                 {
-                    if (str.equals("armor"))
-                    {
-                        return 1;
+                    switch (str) {
+                        case "armor" -> {
+                            return 1;
+                        }
+                        case "weapon" -> {
+                            return 2;
+                        }
+                        case "tool" -> {
+                            return 3;
+                        }
                     }
 
-                    if (str.equals("weapon"))
-                    {
-                        return 2;
-                    }
-
-                    if (str.equals("tool"))
-                    {
-                        return 3;
-                    }
                 }
 
                 if (prof == 4)

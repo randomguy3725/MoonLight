@@ -113,35 +113,31 @@ public class MacroState
         }
         else if (!this.dequeState.isEmpty())
         {
-            if (name.equals("elif"))
-            {
-                boolean flag3 = this.dequeState.removeLast().booleanValue();
-                boolean flag7 = this.dequeResolved.removeLast().booleanValue();
+            switch (name) {
+                case "elif" -> {
+                    boolean flag3 = this.dequeState.removeLast().booleanValue();
+                    boolean flag7 = this.dequeResolved.removeLast().booleanValue();
 
-                if (flag7)
-                {
-                    this.dequeState.add(Boolean.valueOf(false));
-                    this.dequeResolved.add(Boolean.valueOf(flag7));
+                    if (flag7) {
+                        this.dequeState.add(Boolean.valueOf(false));
+                        this.dequeResolved.add(Boolean.valueOf(flag7));
+                    } else {
+                        boolean flag8 = this.eval(param);
+                        this.dequeState.add(Boolean.valueOf(flag8));
+                        this.dequeResolved.add(Boolean.valueOf(flag8));
+                    }
                 }
-                else
-                {
-                    boolean flag8 = this.eval(param);
-                    this.dequeState.add(Boolean.valueOf(flag8));
-                    this.dequeResolved.add(Boolean.valueOf(flag8));
+                case "else" -> {
+                    boolean flag = this.dequeState.removeLast().booleanValue();
+                    boolean flag1 = this.dequeResolved.removeLast().booleanValue();
+                    boolean flag2 = !flag1;
+                    this.dequeState.add(Boolean.valueOf(flag2));
+                    this.dequeResolved.add(Boolean.valueOf(true));
                 }
-            }
-            else if (name.equals("else"))
-            {
-                boolean flag = this.dequeState.removeLast().booleanValue();
-                boolean flag1 = this.dequeResolved.removeLast().booleanValue();
-                boolean flag2 = !flag1;
-                this.dequeState.add(Boolean.valueOf(flag2));
-                this.dequeResolved.add(Boolean.valueOf(true));
-            }
-            else if (name.equals("endif"))
-            {
-                this.dequeState.removeLast();
-                this.dequeResolved.removeLast();
+                case "endif" -> {
+                    this.dequeState.removeLast();
+                    this.dequeResolved.removeLast();
+                }
             }
         }
     }

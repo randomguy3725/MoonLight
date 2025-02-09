@@ -16,31 +16,19 @@ public class NaturalProperties
 
     public NaturalProperties(String type)
     {
-        if (type.equals("4"))
-        {
-            this.rotation = 4;
-        }
-        else if (type.equals("2"))
-        {
-            this.rotation = 2;
-        }
-        else if (type.equals("F"))
-        {
-            this.flip = true;
-        }
-        else if (type.equals("4F"))
-        {
-            this.rotation = 4;
-            this.flip = true;
-        }
-        else if (type.equals("2F"))
-        {
-            this.rotation = 2;
-            this.flip = true;
-        }
-        else
-        {
-            Config.warn("NaturalTextures: Unknown type: " + type);
+        switch (type) {
+            case "4" -> this.rotation = 4;
+            case "2" -> this.rotation = 2;
+            case "F" -> this.flip = true;
+            case "4F" -> {
+                this.rotation = 4;
+                this.flip = true;
+            }
+            case "2F" -> {
+                this.rotation = 2;
+                this.flip = true;
+            }
+            default -> Config.warn("NaturalTextures: Unknown type: " + type);
         }
     }
 

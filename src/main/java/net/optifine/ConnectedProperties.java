@@ -401,34 +401,29 @@ public class ConnectedProperties
         {
             if (!str.equals("top") && !str.equals("up"))
             {
-                if (str.equals("north"))
-                {
-                    return 4;
-                }
-                else if (str.equals("south"))
-                {
-                    return 8;
-                }
-                else if (str.equals("east"))
-                {
-                    return 32;
-                }
-                else if (str.equals("west"))
-                {
-                    return 16;
-                }
-                else if (str.equals("sides"))
-                {
-                    return 60;
-                }
-                else if (str.equals("all"))
-                {
-                    return 63;
-                }
-                else
-                {
-                    Config.warn("Unknown face: " + str);
-                    return 128;
+                switch (str) {
+                    case "north" -> {
+                        return 4;
+                    }
+                    case "south" -> {
+                        return 8;
+                    }
+                    case "east" -> {
+                        return 32;
+                    }
+                    case "west" -> {
+                        return 16;
+                    }
+                    case "sides" -> {
+                        return 60;
+                    }
+                    case "all" -> {
+                        return 63;
+                    }
+                    default -> {
+                        Config.warn("Unknown face: " + str);
+                        return 128;
+                    }
                 }
             }
             else
@@ -452,22 +447,20 @@ public class ConnectedProperties
         {
             str = str.trim();
 
-            if (str.equals("block"))
-            {
-                return 1;
-            }
-            else if (str.equals("tile"))
-            {
-                return 2;
-            }
-            else if (str.equals("material"))
-            {
-                return 3;
-            }
-            else
-            {
-                Config.warn("Unknown connect: " + str);
-                return 128;
+            switch (str) {
+                case "block" -> {
+                    return 1;
+                }
+                case "tile" -> {
+                    return 2;
+                }
+                case "material" -> {
+                    return 3;
+                }
+                default -> {
+                    Config.warn("Unknown connect: " + str);
+                    return 128;
+                }
             }
         }
     }
@@ -528,30 +521,26 @@ public class ConnectedProperties
                     {
                         if (!str.equals("vertical+horizontal") && !str.equals("v+h"))
                         {
-                            if (str.equals("overlay"))
-                            {
-                                return 11;
-                            }
-                            else if (str.equals("overlay_fixed"))
-                            {
-                                return 12;
-                            }
-                            else if (str.equals("overlay_random"))
-                            {
-                                return 13;
-                            }
-                            else if (str.equals("overlay_repeat"))
-                            {
-                                return 14;
-                            }
-                            else if (str.equals("overlay_ctm"))
-                            {
-                                return 15;
-                            }
-                            else
-                            {
-                                Config.warn("Unknown method: " + str);
-                                return 0;
+                            switch (str) {
+                                case "overlay" -> {
+                                    return 11;
+                                }
+                                case "overlay_fixed" -> {
+                                    return 12;
+                                }
+                                case "overlay_random" -> {
+                                    return 13;
+                                }
+                                case "overlay_repeat" -> {
+                                    return 14;
+                                }
+                                case "overlay_ctm" -> {
+                                    return 15;
+                                }
+                                default -> {
+                                    Config.warn("Unknown method: " + str);
+                                    return 0;
+                                }
                             }
                         }
                         else

@@ -53,21 +53,11 @@ public class GuiShareToLan extends GuiScreen
         }
         else if (button.id == 104)
         {
-            if (this.field_146599_h.equals("spectator"))
-            {
-                this.field_146599_h = "creative";
-            }
-            else if (this.field_146599_h.equals("creative"))
-            {
-                this.field_146599_h = "adventure";
-            }
-            else if (this.field_146599_h.equals("adventure"))
-            {
-                this.field_146599_h = "survival";
-            }
-            else
-            {
-                this.field_146599_h = "spectator";
+            switch (this.field_146599_h) {
+                case "spectator" -> this.field_146599_h = "creative";
+                case "creative" -> this.field_146599_h = "adventure";
+                case "adventure" -> this.field_146599_h = "survival";
+                default -> this.field_146599_h = "spectator";
             }
 
             this.func_146595_g();

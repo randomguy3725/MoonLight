@@ -911,17 +911,10 @@ public class GameSettings
 
                             if (astring[0].equals("renderClouds"))
                             {
-                                if (astring[1].equals("true"))
-                                {
-                                    this.clouds = 2;
-                                }
-                                else if (astring[1].equals("false"))
-                                {
-                                    this.clouds = 0;
-                                }
-                                else if (astring[1].equals("fast"))
-                                {
-                                    this.clouds = 1;
+                                switch (astring[1]) {
+                                    case "true" -> this.clouds = 2;
+                                    case "false" -> this.clouds = 0;
+                                    case "fast" -> this.clouds = 1;
                                 }
                             }
 
