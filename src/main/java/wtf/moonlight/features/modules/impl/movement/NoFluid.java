@@ -1,58 +1,62 @@
-/*
- * MoonLight Hacked Client
- *
- * A free and open-source hacked client for Minecraft.
- * Developed using Minecraft's resources.
- *
- * Repository: https://github.com/randomguy3725/MoonLight
- *
- * Author(s): [Randumbguy & opZywl & lucas]
- */
-package wtf.moonlight.features.modules.impl.combat;
+package wtf.moonlight.features.modules.impl.movement;
 
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.network.play.client.C0BPacketEntityAction;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.network.play.client.C07PacketPlayerDigging;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import wtf.moonlight.events.annotations.EventTarget;
-import wtf.moonlight.events.impl.player.AttackEvent;
-import wtf.moonlight.events.impl.player.UpdateEvent;
+import wtf.moonlight.events.impl.misc.WorldEvent;
+import wtf.moonlight.events.impl.player.MotionEvent;
 import wtf.moonlight.features.modules.Module;
 import wtf.moonlight.features.modules.ModuleCategory;
 import wtf.moonlight.features.modules.ModuleInfo;
-import wtf.moonlight.features.values.impl.BoolValue;
 import wtf.moonlight.features.values.impl.ModeValue;
-import wtf.moonlight.utils.player.MovementUtils;
+import wtf.moonlight.utils.player.PlayerUtils;
 
-@ModuleInfo(name = "MoreKB", category = ModuleCategory.Legit)
-public class MoreKB extends Module {
-    private final ModeValue mode = new ModeValue("Mode", new String[]{"Legit Fast", "Packet"}, "Legit Test", this);
-    private final BoolValue onlyGround = new BoolValue("Only Ground", true, this);
-    public int ticks;
+import java.util.Map;
 
-    EntityLivingBase target = null;
+@ModuleInfo(name = "NoFluid",category = ModuleCategory.Movement)
+public class NoFluid extends Module {
 
-    @EventTarget
-    public void onAttack(AttackEvent event) {
-        if (event.getTargetEntity() != null && event.getTargetEntity() instanceof EntityLivingBase) {
-            target = (EntityLivingBase) event.getTargetEntity();
-            ticks = 2;
-        }
+    private final ModeValue mode = new ModeValue("Mode", new String[]{"Vanilla", "Grim"}, "Vanilla",this);
+
+    public boolean shouldCancel;
+
+    @Override
+    public void onDisable(){
+        shouldCancel = false;
     }
 
     @EventTarget
-    public void onUpdate(UpdateEvent event) {
-        if (target != null && MovementUtils.isMoving()) {
-            if ((onlyGround.get() && mc.thePlayer.onGround || !onlyGround.get())) {
-                switch (mode.get()) {
-                    case "Legit Fast":
-                        mc.thePlayer.sprintingTicksLeft = 0;
-                        break;
-                    case "Packet":
-                        sendPacket(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SPRINTING));
-                        sendPacket(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SPRINTING));
-                        break;
+    public void onWorld(WorldEvent event){
+        shouldCancel = false;
+    }
+
+    @EventTarget
+    public void onMotion(MotionEvent event){
+        setTag(mode.get());
+        if (mc.thePlayer == null)
+            return;
+
+        if (event.isPost()) return;
+
+        shouldCancel = false;
+
+        Map<BlockPos, Block> searchBlock = PlayerUtils.searchBlocks(2);
+
+        for (Map.Entry<BlockPos, Block> block : searchBlock.entrySet()) {
+            boolean checkBlock = mc.theWorld.getBlockState(block.getKey()).getBlock() == Blocks.water
+                    || mc.theWorld.getBlockState(block.getKey()).getBlock() == Blocks.flowing_water
+                    || mc.theWorld.getBlockState(block.getKey()).getBlock() == Blocks.lava
+                    || mc.theWorld.getBlockState(block.getKey()).getBlock() == Blocks.flowing_lava;
+            if (checkBlock) {
+                shouldCancel = true;
+                if (mode.is("Grim") && shouldCancel) {
+                    mc.getNetHandler().getNetworkManager().sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, block.getKey(), EnumFacing.DOWN));
+                    mc.getNetHandler().getNetworkManager().sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, block.getKey(), EnumFacing.DOWN));
                 }
             }
-            target = null;
         }
     }
 }
