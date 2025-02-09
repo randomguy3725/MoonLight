@@ -21,6 +21,7 @@ public class NoWeb extends Module {
     private final ModeValue mode = new ModeValue("Mode", new String[]{"Vanilla", "Grim"}, "Vanilla",this);
     @EventTarget
     public void onMotion(MotionEvent event) {
+        setTag(mode.get());
         if (!mc.thePlayer.isInWeb) {
             return;
         }
