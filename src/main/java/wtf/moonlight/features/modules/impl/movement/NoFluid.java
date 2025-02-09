@@ -52,7 +52,7 @@ public class NoFluid extends Module {
                     || mc.theWorld.getBlockState(block.getKey()).getBlock() == Blocks.flowing_lava;
             if (checkBlock) {
                 shouldCancel = true;
-                if (mode.is("Grim") && shouldCancel) {
+                if (mode.is("GrimAC") && shouldCancel) {
                     mc.getNetHandler().getNetworkManager().sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, block.getKey(), EnumFacing.DOWN));
                     mc.getNetHandler().getNetworkManager().sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, block.getKey(), EnumFacing.DOWN));
                 }

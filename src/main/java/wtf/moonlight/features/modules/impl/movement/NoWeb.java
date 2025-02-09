@@ -30,7 +30,7 @@ public class NoWeb extends Module {
             case "Vanilla":
                 mc.thePlayer.isInWeb = false;
                 break;
-            case "Grim":
+            case "GrimAC":
                 Map<BlockPos, Block> searchBlock = PlayerUtils.searchBlocks(2);
                 for (Map.Entry<BlockPos, Block> block : searchBlock.entrySet()) {
                     if (mc.theWorld.getBlockState(block.getKey()).getBlock() instanceof BlockWeb) {
