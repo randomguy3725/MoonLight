@@ -46,7 +46,8 @@ public class NoWeb extends Module {
                     if (mc.theWorld.getBlockState(block.getKey()).getBlock() instanceof BlockWeb) {
                         mc.thePlayer.motionY = -0.01;
                         }
-                        break;
+                    }
+            break;
         }
     }
 }
