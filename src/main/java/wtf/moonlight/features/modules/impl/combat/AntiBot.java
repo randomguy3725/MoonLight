@@ -28,11 +28,13 @@ import wtf.moonlight.features.modules.ModuleInfo;
 import wtf.moonlight.features.values.impl.BoolValue;
 import wtf.moonlight.features.values.impl.ModeValue;
 import wtf.moonlight.features.values.impl.MultiBoolValue;
+import wtf.moonlight.utils.concurrent.Workers;
 import wtf.moonlight.utils.render.RenderUtils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,8 +49,8 @@ public class AntiBot extends Module {
             new BoolValue("Miniblox", false))
             , this);
     private final ModeValue hytGetNameModes = new ModeValue("GetName Mode", new String[]{"Bw4v4", "Bw1v1", "Bw32", "Bw16"}, "Bw4v4", this, () -> options.isEnabled("HYT Get Name"));
-    public final ArrayList<EntityPlayer> bots = new ArrayList<>();
-    private final List<String> playerName = new ArrayList<>();
+    public final Set<EntityPlayer> bots = new HashSet<>();
+    private final Set<String> playerName = ConcurrentHashMap.newKeySet();
     private static final String VALID_USERNAME_REGEX = "^[a-zA-Z0-9_]{1,16}+$";
 
     @EventTarget
@@ -76,30 +78,28 @@ public class AntiBot extends Module {
                     Matcher matcher2 = Pattern.compile("起床战争>> (.*?) (\\((((.*?) 死了!)))").matcher(s02PacketChat.getChatComponent().getUnformattedText());
                     if (matcher.find() && !s02PacketChat.getChatComponent().getUnformattedText().contains(": 起床战争>>") || !s02PacketChat.getChatComponent().getUnformattedText().contains(": 杀死了")) {
                         String name = matcher.group(1).trim();
-                        if (!name.isEmpty()) {
-                            playerName.add(name);
-                            new Thread(() -> {
+                        if (!name.isEmpty() && playerName.add(name)) {
+                            Workers.IO.execute(() -> {
                                 try {
                                     Thread.sleep(6000);
                                     playerName.remove(name);
-                                } catch (InterruptedException ex) {
-                                    ex.printStackTrace();
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException(e);
                                 }
-                            }).start();
+                            });
                         }
                     }
                     if (matcher2.find() && !s02PacketChat.getChatComponent().getUnformattedText().contains(": 起床战争>>") || !s02PacketChat.getChatComponent().getUnformattedText().contains(": 杀死了")) {
                         String name = matcher2.group(1).trim();
-                        if (!name.isEmpty()) {
-                            playerName.add(name);
-                            new Thread(() -> {
+                        if (!name.isEmpty() && playerName.add(name)) {
+                            Workers.IO.execute(() -> {
                                 try {
                                     Thread.sleep(6000);
                                     playerName.remove(name);
-                                } catch (InterruptedException ex) {
-                                    ex.printStackTrace();
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException(e);
                                 }
-                            }).start();
+                            });
                         }
                     }
                     break;
@@ -109,30 +109,28 @@ public class AntiBot extends Module {
                     Matcher matcher2 = Pattern.compile("玩家 (.*?)死了！").matcher(s02PacketChat.getChatComponent().getUnformattedText());
                     if (matcher.find() && !s02PacketChat.getChatComponent().getUnformattedText().contains(": 击败了") || !s02PacketChat.getChatComponent().getUnformattedText().contains(": 玩家 ")) {
                         String name = matcher.group(1).trim();
-                        if (!name.isEmpty()) {
-                            playerName.add(name);
-                            new Thread(() -> {
+                        if (!name.isEmpty() && playerName.add(name)) {
+                            Workers.IO.execute(() -> {
                                 try {
                                     Thread.sleep(10000);
                                     playerName.remove(name);
-                                } catch (InterruptedException ex) {
-                                    ex.printStackTrace();
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException(e);
                                 }
-                            }).start();
+                            });
                         }
                     }
                     if (matcher2.find() && !s02PacketChat.getChatComponent().getUnformattedText().contains(": 击败了") || !s02PacketChat.getChatComponent().getUnformattedText().contains(": 玩家 ")) {
                         String name = matcher2.group(1).trim();
-                        if (!name.isEmpty()) {
-                            playerName.add(name);
-                            new Thread(() -> {
+                        if (!name.isEmpty() && playerName.add(name)) {
+                            Workers.IO.execute(() -> {
                                 try {
                                     Thread.sleep(10000);
                                     playerName.remove(name);
-                                } catch (InterruptedException ex) {
-                                    ex.printStackTrace();
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException(e);
                                 }
-                            }).start();
+                            });
                         }
                     }
                     break;
@@ -142,10 +140,10 @@ public class AntiBot extends Module {
         }
 
         if (options.isEnabled("Matrix Test")) {
-            if (packet instanceof S38PacketPlayerListItem) {
-                for (S38PacketPlayerListItem.AddPlayerData data : ((S38PacketPlayerListItem) packet).getEntries()) {
-                    if (((S38PacketPlayerListItem) packet).getAction().equals(S38PacketPlayerListItem.Action.ADD_PLAYER) &&
-                            data.getProfile().getProperties().isEmpty() && ((S38PacketPlayerListItem) packet).getEntries().size() == 1
+            if (packet instanceof S38PacketPlayerListItem s38) {
+                for (S38PacketPlayerListItem.AddPlayerData data : s38.getEntries()) {
+                    if (s38.getAction().equals(S38PacketPlayerListItem.Action.ADD_PLAYER) &&
+                            data.getProfile().getProperties().isEmpty() && s38.getEntries().size() == 1
                             && mc.getNetHandler() != null && mc.getNetHandler().getPlayerInfo(data.getProfile().getName()) != null) {
                         if (!bots.contains(data.getProfile().getId())) {
                             bots.add(mc.theWorld.getPlayerEntityByName(data.getProfile().getName()));

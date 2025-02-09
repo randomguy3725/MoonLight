@@ -5,12 +5,10 @@ import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListenableFutureTask;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -25,11 +23,11 @@ import net.minecraft.util.MathHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
+import wtf.moonlight.utils.concurrent.Workers;
 
 public class ChunkRenderDispatcher
 {
     private static final Logger logger = LogManager.getLogger();
-    private static final ThreadFactory threadFactory = (new ThreadFactoryBuilder()).setNameFormat("Chunk Batcher %d").setDaemon(true).build();
     private final List<ChunkRenderWorker> listThreadedWorkers;
     private final BlockingQueue<ChunkCompileTaskGenerator> queueChunkUpdates;
     private final BlockingQueue<RegionRenderCacheBuilder> queueFreeRenderBuilders;
@@ -52,7 +50,7 @@ public class ChunkRenderDispatcher
         this.worldVertexUploader = new WorldVertexBufferUploader();
         this.vertexUploader = new VertexBufferUploader();
         this.queueChunkUploads = Queues.newArrayDeque();
-        this.listPausedBuilders = new ArrayList();
+        this.listPausedBuilders = new ArrayList<>();
         int i = Math.max(1, (int)((double)Runtime.getRuntime().maxMemory() * 0.3D) / 10485760);
         int j = Math.max(1, MathHelper.clamp_int(Runtime.getRuntime().availableProcessors() - 2, 1, i / 5));
 
@@ -68,8 +66,7 @@ public class ChunkRenderDispatcher
         for (int k = 0; k < j; ++k)
         {
             ChunkRenderWorker chunkrenderworker = new ChunkRenderWorker(this);
-            Thread thread = threadFactory.newThread(chunkrenderworker);
-            thread.start();
+            Workers.Default.execute(chunkrenderworker);
             this.listThreadedWorkers.add(chunkrenderworker);
         }
 

@@ -3,12 +3,12 @@ package net.minecraft.util;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import net.minecraft.server.MinecraftServer;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import wtf.moonlight.utils.concurrent.Workers;
 
 import java.io.*;
 import java.net.*;
@@ -16,13 +16,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class HttpUtil
 {
-    public static final ListeningExecutorService field_180193_a = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool((new ThreadFactoryBuilder()).setDaemon(true).setNameFormat("Downloader %d").build()));
-    private static final AtomicInteger downloadThreadsStarted = new AtomicInteger(0);
+    public static final ListeningExecutorService field_180193_a = MoreExecutors.listeningDecorator(Workers.IO);
     private static final Logger logger = LogManager.getLogger();
 
     public static String buildPostString(Map<String, Object> data)
@@ -31,7 +29,7 @@ public class HttpUtil
 
         for (Entry<String, Object> entry : data.entrySet())
         {
-            if (stringbuilder.length() > 0)
+            if (!stringbuilder.isEmpty())
             {
                 stringbuilder.append('&');
             }
@@ -125,7 +123,7 @@ public class HttpUtil
                         URL url = new URL(packUrl);
                         httpurlconnection = (HttpURLConnection)url.openConnection(p_180192_5_);
                         float f = 0.0F;
-                        float f1 = (float)p_180192_2_.entrySet().size();
+                        float f1 = (float) p_180192_2_.size();
 
                         for (Entry<String, String> entry : p_180192_2_.entrySet())
                         {
