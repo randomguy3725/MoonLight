@@ -10,10 +10,11 @@
  */
 package wtf.moonlight.events.impl.player;
 
-import lombok.Getter;
 import wtf.moonlight.events.impl.Event;
 
-@Getter
 public final class UpdateEvent implements Event {
 
+    public static final UpdateEvent INSTANCE = new UpdateEvent();
+
+    private UpdateEvent() {}
 }

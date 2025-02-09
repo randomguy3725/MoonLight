@@ -394,7 +394,7 @@ public class ESP extends Module {
             RenderUtils.resetColor();
         }
 
-        final float partialTicks = event.getPartialTicks();
+        final float partialTicks = event.partialTicks();
 
         for (final EntityPlayer player : mc.theWorld.playerEntities) {
             if (project2D) {
@@ -423,7 +423,7 @@ public class ESP extends Module {
                 final float[] position = new float[]{Float.MAX_VALUE, Float.MAX_VALUE, -1.0F, -1.0F};
 
                 for (final double[] vec : vectors) {
-                    projection = GLUtils.project2D((float) vec[0], (float) vec[1], (float) vec[2], event.getScaledResolution().getScaleFactor());
+                    projection = GLUtils.project2D((float) vec[0], (float) vec[1], (float) vec[2], event.scaledResolution().getScaleFactor());
                     if (projection != null && projection[2] >= 0.0F && projection[2] < 1.0F) {
                         final float pX = projection[0];
                         final float pY = projection[1];

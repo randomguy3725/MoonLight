@@ -11,10 +11,8 @@
 package wtf.moonlight.features.modules.impl.visual;
 
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
@@ -23,7 +21,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.optifine.shaders.Shaders;
 import org.lwjgl.opengl.GL11;
-import org.w3c.dom.Entity;
 import wtf.moonlight.events.annotations.EventTarget;
 import wtf.moonlight.events.impl.player.AttackEvent;
 import wtf.moonlight.events.impl.player.UpdateEvent;
@@ -33,7 +30,6 @@ import wtf.moonlight.events.impl.render.Shader2DEvent;
 import wtf.moonlight.features.modules.Module;
 import wtf.moonlight.features.modules.ModuleCategory;
 import wtf.moonlight.features.modules.ModuleInfo;
-import wtf.moonlight.features.modules.impl.combat.KillAura;
 import wtf.moonlight.features.values.impl.BoolValue;
 import wtf.moonlight.features.values.impl.ModeValue;
 import wtf.moonlight.features.values.impl.SliderValue;
@@ -47,10 +43,7 @@ import wtf.moonlight.utils.render.GLUtils;
 import wtf.moonlight.utils.render.RenderUtils;
 
 import java.awt.*;
-import java.security.SecureRandom;
 import java.util.Objects;
-
-import static org.lwjgl.opengl.GL11.glTranslated;
 
 @ModuleInfo(name = "TargetESP", category = ModuleCategory.Visual)
 public class TargetESP extends Module {
@@ -97,9 +90,9 @@ public class TargetESP extends Module {
                 GL11.glShadeModel(7425);
                 GL11.glHint(3154, 4354);
                 mc.entityRenderer.setupCameraTransform(mc.timer.renderPartialTicks, 2);
-                double x = target.prevPosX + (target.posX - target.prevPosX) * (double) event.getPartialTicks() - mc.getRenderManager().renderPosX;
-                double y = target.prevPosY + (target.posY - target.prevPosY) * (double) event.getPartialTicks() - mc.getRenderManager().renderPosY;
-                double z = target.prevPosZ + (target.posZ - target.prevPosZ) * (double) event.getPartialTicks() - mc.getRenderManager().renderPosZ;
+                double x = target.prevPosX + (target.posX - target.prevPosX) * (double) event.partialTicks() - mc.getRenderManager().renderPosX;
+                double y = target.prevPosY + (target.posY - target.prevPosY) * (double) event.partialTicks() - mc.getRenderManager().renderPosY;
+                double z = target.prevPosZ + (target.posZ - target.prevPosZ) * (double) event.partialTicks() - mc.getRenderManager().renderPosZ;
                 double xMoved = target.posX - target.prevPosX;
                 double yMoved = target.posY - target.prevPosY;
                 double zMoved = target.posZ - target.prevPosZ;
@@ -127,7 +120,7 @@ public class TargetESP extends Module {
                 double distance = 19;
                 int lenght = 20;
 
-                Vec3 interpolated = MathUtils.interpolate(new Vec3(target.lastTickPosX, target.lastTickPosY, target.lastTickPosZ), target.getPositionVector(), event.getPartialTicks());
+                Vec3 interpolated = MathUtils.interpolate(new Vec3(target.lastTickPosX, target.lastTickPosY, target.lastTickPosZ), target.getPositionVector(), event.partialTicks());
                 interpolated.yCoord += 0.75f;
 
                 RenderUtils.setupOrientationMatrix(interpolated.xCoord, interpolated.yCoord + 0.5f, interpolated.zCoord);

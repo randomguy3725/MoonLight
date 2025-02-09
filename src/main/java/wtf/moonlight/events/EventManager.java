@@ -33,6 +33,11 @@ public class EventManager {
         priorityMethodMap = new ConcurrentHashMap<>();
     }
 
+    private static final Comparator<Method> EVENT_HANDLER_COMPARATOR = Comparator.comparingInt(it -> {
+        EventPriority priority = it.getAnnotation(EventPriority.class);
+        return (priority != null) ? priority.value() : 10;
+    });
+
     /**
      * Registers one or more objects to associate their methods with event annotations and stores them in the event handler.
      *
@@ -62,7 +67,10 @@ public class EventManager {
                     methodObjectMap.put(method, obj);
 
                     Class<? extends Event> eventClass = method.getParameterTypes()[0].asSubclass(Event.class);
-                    priorityMethodMap.computeIfAbsent(eventClass, k -> new CopyOnWriteArrayList<>()).add(method);
+                    method.setAccessible(true);
+                    final var methodList = priorityMethodMap.computeIfAbsent(eventClass, k -> new CopyOnWriteArrayList<>());
+                    methodList.add(method);
+                    methodList.sort(EVENT_HANDLER_COMPARATOR);
                 }
             }
         }
@@ -100,14 +108,8 @@ public class EventManager {
 
         List<Method> methods = priorityMethodMap.get(eventClass);
         if (methods != null) {
-            methods.sort(Comparator.comparingInt(method -> {
-                EventPriority priority = method.getAnnotation(EventPriority.class);
-                return (priority != null) ? priority.value() : 10;
-            }));
-
             for (Method method : methods) {
                 Object obj = methodObjectMap.get(method);
-                method.setAccessible(true);
                 try {
                     method.invoke(obj, event);
                 } catch (Exception e) {

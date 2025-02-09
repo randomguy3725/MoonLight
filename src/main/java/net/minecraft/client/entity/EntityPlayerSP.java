@@ -603,8 +603,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
     public void onLivingUpdate()
     {
-        UpdateEvent updateEvent = new UpdateEvent();
-        Moonlight.INSTANCE.getEventManager().call(updateEvent);
+        Moonlight.INSTANCE.getEventManager().call(UpdateEvent.INSTANCE);
         if (this.sprintingTicksLeft > 0)
         {
             --this.sprintingTicksLeft;

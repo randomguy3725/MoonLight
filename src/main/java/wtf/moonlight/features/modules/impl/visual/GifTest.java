@@ -24,7 +24,7 @@ public class GifTest extends Module {
     GifRenderer gif = new GifRenderer(new ResourceLocation("moonlight/texture/gif/test.gif"));
     @EventTarget
     public void onRender2D(Render2DEvent event){
-        gif.drawTexture((float) event.getScaledResolution().getScaledWidth() / 2, (float) event.getScaledResolution().getScaledHeight() / 2,this.gif.getWidth(),this.gif.getHeight());
+        gif.drawTexture((float) event.scaledResolution().getScaledWidth() / 2, (float) event.scaledResolution().getScaledHeight() / 2,this.gif.getWidth(),this.gif.getHeight());
         gif.update();
     }
 }

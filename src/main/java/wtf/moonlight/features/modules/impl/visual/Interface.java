@@ -144,7 +144,7 @@ public class Interface extends Module {
     public void onRender2D(Render2DEvent event) {
 
         if (elements.isEnabled("Island")) {
-            IslandRenderer.INSTANCE.render(event.getScaledResolution(),false);
+            IslandRenderer.INSTANCE.render(event.scaledResolution(),false);
         }
 
         if (watemarkMode.canDisplay()) {
@@ -299,7 +299,7 @@ public class Interface extends Module {
         if (infoMode.canDisplay()) {
             switch (infoMode.get()) {
                 case "Exhi":
-                    float textY = (event.getScaledResolution().getScaledHeight() - 9) + (mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f);
+                    float textY = (event.scaledResolution().getScaledHeight() - 9) + (mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f);
                     mc.fontRendererObj.drawStringWithShadow("XYZ: " +  EnumChatFormatting.WHITE +
                                     xyzFormat.format(mc.thePlayer.posX) + " " +
                                     xyzFormat.format(mc.thePlayer.posY) + " " +
@@ -307,17 +307,17 @@ public class Interface extends Module {
                             , 2, textY, color(0));
                     break;
                 case "Moon":
-                    textY = (event.getScaledResolution().getScaledHeight() - 9) + (mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f);
+                    textY = (event.scaledResolution().getScaledHeight() - 9) + (mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f);
                     mc.fontRendererObj.drawStringWithShadow("FPS: " + EnumChatFormatting.WHITE + Minecraft.getDebugFPS(), 2, textY, color(0));
                     break;
                 case "Moon 2":
-                    textY = (event.getScaledResolution().getScaledHeight() - 6.5F) + (mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f);
+                    textY = (event.scaledResolution().getScaledHeight() - 6.5F) + (mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f);
                     Fonts.interSemiBold.get(19).drawStringWithShadow("§fFPS: " + Minecraft.getDebugFPS(), 1.5F, textY, color(0));
                     break;
                 case "Tenacity":
-                    float XYZText = (event.getScaledResolution().getScaledHeight() - 9);
-                    float SpeedText = (event.getScaledResolution().getScaledHeight() - 18);
-                    float FPSText = (event.getScaledResolution().getScaledHeight() - 27);
+                    float XYZText = (event.scaledResolution().getScaledHeight() - 9);
+                    float SpeedText = (event.scaledResolution().getScaledHeight() - 18);
+                    float FPSText = (event.scaledResolution().getScaledHeight() - 27);
 
                     Fonts.psBold.get(19).drawStringWithShadow("XYZ: ", 2, XYZText, color(0));
                     Fonts.psRegular.get(19).drawStringWithShadow(EnumChatFormatting.WHITE + xyzFormat.format(mc.thePlayer.posX) + " " + xyzFormat.format(mc.thePlayer.posY) + " " + xyzFormat.format(mc.thePlayer.posZ), 26, XYZText, color(0));
@@ -330,9 +330,9 @@ public class Interface extends Module {
         if (versionMode.canDisplay()) {
             switch (versionMode.get()) {
                 case "Default":
-                     float textY = (event.getScaledResolution().getScaledHeight() - 9) + (mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f);
+                     float textY = (event.scaledResolution().getScaledHeight() - 9) + (mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f);
 
-                    Fonts.interMedium.get(17).drawStringWithShadow(EnumChatFormatting.WHITE + Moonlight.INSTANCE.getVersion() + " §7- " + EnumChatFormatting.WHITE + Moonlight.INSTANCE.getDiscordRP().getName() + " §7- " + EnumChatFormatting.WHITE + Sys.getVersion(), (float) event.getScaledResolution().getScaledWidth() - Fonts.interMedium.get(17).getStringWidth(Moonlight.INSTANCE.getVersion() + " - "  + Moonlight.INSTANCE.getDiscordRP().getName() + " §7- " + EnumChatFormatting.WHITE + Sys.getVersion()) - 2.0f, textY + 3.5, color (0));
+                    Fonts.interMedium.get(17).drawStringWithShadow(EnumChatFormatting.WHITE + Moonlight.INSTANCE.getVersion() + " §7- " + EnumChatFormatting.WHITE + Moonlight.INSTANCE.getDiscordRP().getName() + " §7- " + EnumChatFormatting.WHITE + Sys.getVersion(), (float) event.scaledResolution().getScaledWidth() - Fonts.interMedium.get(17).getStringWidth(Moonlight.INSTANCE.getVersion() + " - "  + Moonlight.INSTANCE.getDiscordRP().getName() + " §7- " + EnumChatFormatting.WHITE + Sys.getVersion()) - 2.0f, textY + 3.5, color (0));
                     break;
             }
         }
@@ -353,7 +353,7 @@ public class Interface extends Module {
                     }
                     for (ItemStack everything : stuff) {
                         split += 16;
-                        RenderUtils.renderItemStack(everything, split + (double) event.getScaledResolution().getScaledWidth() / 2 - 4, event.getScaledResolution().getScaledHeight() - (onWater ? 65 : 55) + (mc.thePlayer.capabilities.isCreativeMode ? 14 : 0), 1, true, 0.5f);
+                        RenderUtils.renderItemStack(everything, split + (double) event.scaledResolution().getScaledWidth() / 2 - 4, event.scaledResolution().getScaledHeight() - (onWater ? 65 : 55) + (mc.thePlayer.capabilities.isCreativeMode ? 14 : 0), 1, true, 0.5f);
                     }
                     break;
             }
@@ -363,7 +363,7 @@ public class Interface extends Module {
             int count = 1;
             float lastModuleLeftSide = 0.0f;
             float lastModuleWidth = 0.0f;
-            int screenWidth = event.getScaledResolution().getScaledWidth();
+            int screenWidth = event.scaledResolution().getScaledWidth();
             float y = this.y.get();
             Comparator<Module> sort = (m1, m2) -> {
                 double ab = cFont.get() ? getFr().getStringWidth(m1.getName() + m1.getTag()) : mc.fontRendererObj.getStringWidth(m1.getName() + m1.getTag());
@@ -549,8 +549,8 @@ public class Interface extends Module {
                     type = type + " §7" + Potion.getDurationString(potionEffect);
                 }
                 GlStateManager.pushMatrix();
-                mc.fontRendererObj.drawString(potionName, (float) event.getScaledResolution().getScaledWidth() - mc.fontRendererObj.getStringWidth(type + potionName) - 2.0f, (event.getScaledResolution().getScaledHeight()  - (elements.isEnabled("Version Info") ? 15 : 9)) + y, new Color(potionType.getLiquidColor()).getRGB(), true);
-                mc.fontRendererObj.drawString(type, (float) event.getScaledResolution().getScaledWidth() - mc.fontRendererObj.getStringWidth(type) - 2.0f, (event.getScaledResolution().getScaledHeight() - (elements.isEnabled("Version Info") ? 15 : 9)) + y, new Color(255, 255, 255).getRGB(), true);
+                mc.fontRendererObj.drawString(potionName, (float) event.scaledResolution().getScaledWidth() - mc.fontRendererObj.getStringWidth(type + potionName) - 2.0f, (event.scaledResolution().getScaledHeight()  - (elements.isEnabled("Version Info") ? 15 : 9)) + y, new Color(potionType.getLiquidColor()).getRGB(), true);
+                mc.fontRendererObj.drawString(type, (float) event.scaledResolution().getScaledWidth() - mc.fontRendererObj.getStringWidth(type) - 2.0f, (event.scaledResolution().getScaledHeight() - (elements.isEnabled("Version Info") ? 15 : 9)) + y, new Color(255, 255, 255).getRGB(), true);
 
                 GlStateManager.popMatrix();
                 y -= 9.0f;
@@ -579,8 +579,8 @@ public class Interface extends Module {
                     type = type + " §f" + Potion.getDurationString(potionEffect);
                 }
                 GlStateManager.pushMatrix();
-                Fonts.interMedium.get(17).drawStringWithShadow(potionName, (float) event.getScaledResolution().getScaledWidth() - Fonts.interSemiBold.get(17).getStringWidth(type + potionName) - 2.0f, (event.getScaledResolution().getScaledHeight() - (elements.isEnabled("Version Info") ? 15 : 9)) + y, new Color(potionType.getLiquidColor()).getRGB());
-                Fonts.interMedium.get(17).drawStringWithShadow(type, (float) event.getScaledResolution().getScaledWidth() - Fonts.interMedium.get(17).getStringWidth(type) - 2.0f, (event.getScaledResolution().getScaledHeight() - (elements.isEnabled("Version Info") ? 15 : 9)) + y, new Color(255, 255, 255).getRGB());
+                Fonts.interMedium.get(17).drawStringWithShadow(potionName, (float) event.scaledResolution().getScaledWidth() - Fonts.interSemiBold.get(17).getStringWidth(type + potionName) - 2.0f, (event.scaledResolution().getScaledHeight() - (elements.isEnabled("Version Info") ? 15 : 9)) + y, new Color(potionType.getLiquidColor()).getRGB());
+                Fonts.interMedium.get(17).drawStringWithShadow(type, (float) event.scaledResolution().getScaledWidth() - Fonts.interMedium.get(17).getStringWidth(type) - 2.0f, (event.scaledResolution().getScaledHeight() - (elements.isEnabled("Version Info") ? 15 : 9)) + y, new Color(255, 255, 255).getRGB());
 
                 GlStateManager.popMatrix();
                 y -= 9.5f;
@@ -589,7 +589,7 @@ public class Interface extends Module {
 
         if (elements.isEnabled("Potion HUD") && potionHudMode.is("Mod")) {
             GL11.glPushMatrix();
-            GL11.glTranslatef(25, event.getScaledResolution().getScaledHeight() / 2f, 0F);
+            GL11.glTranslatef(25, event.scaledResolution().getScaledHeight() / 2f, 0F);
             float yPos = -75F;
             float width = 0F;
             for (final PotionEffect effect : mc.thePlayer.getActivePotionEffects()) {
@@ -636,7 +636,7 @@ public class Interface extends Module {
         }
 
         if (elements.isEnabled("Session Info") && sessionInfoMode.is("Exhi")) {
-            mc.fontRendererObj.drawStringWithShadow(RenderUtils.sessionTime(), event.getScaledResolution().getScaledWidth() / 2.0f - mc.fontRendererObj.getStringWidth(RenderUtils.sessionTime()) / 2.0f,BossStatus.bossName != null && BossStatus.statusBarTime > 0 ? 47 : 30.0f, -1);
+            mc.fontRendererObj.drawStringWithShadow(RenderUtils.sessionTime(), event.scaledResolution().getScaledWidth() / 2.0f - mc.fontRendererObj.getStringWidth(RenderUtils.sessionTime()) / 2.0f,BossStatus.bossName != null && BossStatus.statusBarTime > 0 ? 47 : 30.0f, -1);
         }
 
         if (elements.isEnabled("Notification")) {

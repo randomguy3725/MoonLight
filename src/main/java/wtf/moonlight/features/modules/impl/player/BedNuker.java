@@ -142,7 +142,7 @@ public class BedNuker extends Module {
             if (breakProgress == 0.0f)
                 return;
 
-            final ScaledResolution resolution = event.getScaledResolution();
+            final ScaledResolution resolution = event.scaledResolution();
             final int x = resolution.getScaledWidth() / 2;
             final int y = resolution.getScaledHeight() - 70;
             final float thickness = 6;

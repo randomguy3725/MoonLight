@@ -209,7 +209,7 @@ public class AutoGap extends Module {
     @EventTarget
     public void onRender2D(Render2DEvent event) {
         if (eating) {
-            final ScaledResolution resolution = event.getScaledResolution();
+            final ScaledResolution resolution = event.scaledResolution();
             final int x = resolution.getScaledWidth() / 2;
             final int y = resolution.getScaledHeight() - 75;
             final float thickness = 5F;
