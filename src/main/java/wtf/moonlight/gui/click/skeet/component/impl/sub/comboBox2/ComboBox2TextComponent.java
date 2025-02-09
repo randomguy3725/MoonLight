@@ -17,7 +17,6 @@ import wtf.moonlight.gui.click.skeet.component.PredicateComponent;
 import wtf.moonlight.gui.click.skeet.component.impl.sub.text.TextComponent;
 
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public final class ComboBox2TextComponent extends Component implements PredicateComponent, ExpandableComponent

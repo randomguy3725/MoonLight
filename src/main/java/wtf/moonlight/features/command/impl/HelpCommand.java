@@ -12,7 +12,6 @@ package wtf.moonlight.features.command.impl;
 
 import wtf.moonlight.Moonlight;
 import wtf.moonlight.features.command.Command;
-import wtf.moonlight.features.command.CommandManager;
 import wtf.moonlight.utils.misc.DebugUtils;
 
 import java.util.Arrays;

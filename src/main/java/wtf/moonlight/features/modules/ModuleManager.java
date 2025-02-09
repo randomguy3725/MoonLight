@@ -11,7 +11,6 @@
 package wtf.moonlight.features.modules;
 
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import wtf.moonlight.Moonlight;
 import wtf.moonlight.events.annotations.EventTarget;
 import wtf.moonlight.events.impl.misc.KeyPressEvent;

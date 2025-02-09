@@ -1,7 +1,5 @@
 package net.minecraft.util;
 
-import lombok.Setter;
-
 public class Tuple<A, B>
 {
     private A a;

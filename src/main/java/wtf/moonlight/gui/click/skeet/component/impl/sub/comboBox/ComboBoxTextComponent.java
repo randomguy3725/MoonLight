@@ -10,13 +10,11 @@
  */
 package wtf.moonlight.gui.click.skeet.component.impl.sub.comboBox;
 
-import wtf.moonlight.features.values.impl.BoolValue;
 import wtf.moonlight.gui.click.skeet.component.Component;
 import wtf.moonlight.gui.click.skeet.component.ExpandableComponent;
 import wtf.moonlight.gui.click.skeet.component.PredicateComponent;
 import wtf.moonlight.gui.click.skeet.component.impl.sub.text.TextComponent;
 
-import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 

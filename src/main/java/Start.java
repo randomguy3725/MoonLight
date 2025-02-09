@@ -1,6 +1,5 @@
 import net.minecraft.client.main.Main;
 
-import java.io.File;
 import java.util.Arrays;
 
 public class Start {

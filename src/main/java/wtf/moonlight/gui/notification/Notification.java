@@ -12,7 +12,6 @@ package wtf.moonlight.gui.notification;
 
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import wtf.moonlight.Moonlight;
 import wtf.moonlight.features.modules.impl.visual.Interface;
@@ -22,11 +21,6 @@ import wtf.moonlight.utils.animations.Animation;
 import wtf.moonlight.utils.animations.Translate;
 import wtf.moonlight.utils.animations.impl.EaseOutSine;
 import wtf.moonlight.utils.math.TimerUtils;
-import wtf.moonlight.utils.render.ColorUtils;
-import wtf.moonlight.utils.render.RenderUtils;
-import wtf.moonlight.utils.render.RoundedUtils;
-
-import java.awt.*;
 
 
 @Getter

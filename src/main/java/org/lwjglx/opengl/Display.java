@@ -6,7 +6,6 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjglx.LWJGLException;
 import org.lwjglx.Sys;
-import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.*;
 import org.lwjglx.input.KeyCodes;
 import org.lwjglx.input.Keyboard;

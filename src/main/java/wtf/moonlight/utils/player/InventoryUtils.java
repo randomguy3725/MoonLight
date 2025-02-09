@@ -33,7 +33,6 @@ import wtf.moonlight.features.modules.impl.combat.AutoProjectile;
 import wtf.moonlight.features.modules.impl.combat.AutoRod;
 import wtf.moonlight.utils.InstanceAccess;
 
-import javax.tools.Tool;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;

@@ -1,8 +1,5 @@
 package net.optifine.expr;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.optifine.shaders.uniform.Smoother;
 import net.optifine.util.MathUtils;
 

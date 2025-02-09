@@ -2,7 +2,7 @@ package net.minecraft.item;
 
 import com.mojang.authlib.GameProfile;
 import java.util.List;
-import java.util.UUID;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSkull;
 import net.minecraft.block.state.IBlockState;
