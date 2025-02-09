@@ -201,7 +201,7 @@ public class DashTrail extends Module {
 
     @EventTarget
     public void onRender3D(Render3DEvent event) {
-        float partialTicks = event.getPartialTicks();
+        float partialTicks = event.partialTicks();
 
         Frustum frustum = new Frustum(mc.getRenderViewEntity().posX, mc.getRenderViewEntity().posY, mc.getRenderViewEntity().posZ);
         boolean[] dashDops = this.getDashPops();

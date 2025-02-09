@@ -12,5 +12,8 @@ package wtf.moonlight.events.impl.render;
 
 import wtf.moonlight.events.impl.Event;
 
-public class RenderGuiEvent implements Event {
+public final class RenderGuiEvent implements Event {
+    public static final RenderGuiEvent INSTANCE = new RenderGuiEvent();
+
+    private RenderGuiEvent() {}
 }

@@ -153,7 +153,7 @@ public class FireFlies extends Module {
         if (!this.FIRE_PARTS_LIST.isEmpty()) {
             this.setupGLDrawsFireParts(() -> {
                 this.bindResource(this.FIRE_PART_TEX);
-                this.FIRE_PARTS_LIST.forEach(part -> this.drawPart(part, event.getPartialTicks()));
+                this.FIRE_PARTS_LIST.forEach(part -> this.drawPart(part, event.partialTicks()));
             });
         }
     }

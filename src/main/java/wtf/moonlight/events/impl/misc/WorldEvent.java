@@ -10,7 +10,8 @@
  */
 package wtf.moonlight.events.impl.misc;
 
+import net.minecraft.world.World;
 import wtf.moonlight.events.impl.Event;
 
-public class WorldEvent implements Event {
+public record WorldEvent(World oldWorld, World newWorld) implements Event {
 }

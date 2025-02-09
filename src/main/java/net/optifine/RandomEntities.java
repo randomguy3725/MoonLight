@@ -88,15 +88,13 @@ public class RandomEntities
 
     public static void worldChanged(World oldWorld, World newWorld)
     {
-        Moonlight.INSTANCE.getEventManager().call(new WorldEvent());
+        Moonlight.INSTANCE.getEventManager().call(new WorldEvent(oldWorld, newWorld));
         if (newWorld != null)
         {
-            List list = newWorld.getLoadedEntityList();
+            List<Entity> list = newWorld.getLoadedEntityList();
 
-            for (int i = 0; i < list.size(); ++i)
-            {
-                Entity entity = (Entity)list.get(i);
-                entityLoaded(entity, newWorld);
+            for (Entity value : list) {
+                entityLoaded(value, newWorld);
             }
         }
 

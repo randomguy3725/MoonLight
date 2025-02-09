@@ -36,7 +36,7 @@ public class ScaffoldCounter implements InstanceAccess {
     @EventTarget
     public void drawCounter(Render2DEvent event) {
         Scaffold scaffold = INSTANCE.getModuleManager().getModule(Scaffold.class);
-        ScaledResolution sr = event.getScaledResolution();
+        ScaledResolution sr = event.scaledResolution();
         switch (scaffold.counter.get().toLowerCase()) {
             case "normal": {
                 anim.setDirection(scaffold.isEnabled() ? Direction.FORWARDS : Direction.BACKWARDS);

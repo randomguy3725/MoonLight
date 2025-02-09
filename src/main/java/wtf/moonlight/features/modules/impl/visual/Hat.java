@@ -98,7 +98,7 @@ public class Hat extends Module {
         glShadeModel(GL_SMOOTH);
         GLUtils.startBlend();
 
-        final float partialTicks = event.getPartialTicks();
+        final float partialTicks = event.partialTicks();
         final RenderManager render = this.mc.getRenderManager();
 
         final double rx = render.renderPosX;
@@ -107,9 +107,9 @@ public class Hat extends Module {
 
         glTranslated(-rx, -ry, -rz);
 
-        final double x = player.lastTickPosX + (player.posX - player.lastTickPosX) * event.getPartialTicks();
-        final double y = player.lastTickPosY + (player.posY - player.lastTickPosY) * event.getPartialTicks();
-        final double z = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * event.getPartialTicks();
+        final double x = player.lastTickPosX + (player.posX - player.lastTickPosX) * event.partialTicks();
+        final double y = player.lastTickPosY + (player.posY - player.lastTickPosY) * event.partialTicks();
+        final double z = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * event.partialTicks();
 
         final int points = (int) this.points.get();
         final double radius = this.size.get();

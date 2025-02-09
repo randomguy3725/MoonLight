@@ -68,7 +68,7 @@ public class GlowESP extends Module {
         collectEntities();
         framebuffer.framebufferClear();
         framebuffer.bindFramebuffer(true);
-        renderEntities(event.getPartialTicks());
+        renderEntities(event.partialTicks());
         framebuffer.unbindFramebuffer();
         mc.getFramebuffer().bindFramebuffer(true);
         GlStateManager.disableLighting();

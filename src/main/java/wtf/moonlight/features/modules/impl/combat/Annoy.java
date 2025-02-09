@@ -26,7 +26,6 @@ import wtf.moonlight.features.values.impl.ModeValue;
 import wtf.moonlight.features.values.impl.SliderValue;
 import wtf.moonlight.utils.math.MathUtils;
 import wtf.moonlight.utils.math.TimerUtils;
-import wtf.moonlight.utils.player.InventoryUtils;
 import wtf.moonlight.utils.player.MovementCorrection;
 import wtf.moonlight.utils.player.PlayerUtils;
 import wtf.moonlight.utils.player.RotationUtils;

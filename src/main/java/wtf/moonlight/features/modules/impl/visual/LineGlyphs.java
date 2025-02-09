@@ -185,7 +185,7 @@ public class LineGlyphs extends Module {
     public void onRender3D(Render3DEvent event) {
         Frustum frustum = new Frustum(mc.getRenderManager().renderPosX, mc.getRenderManager().renderPosY, mc.getRenderManager().renderPosZ);
         this.gliphsRemoveAuto(1);
-        this.drawAllGliphs(event.getPartialTicks());
+        this.drawAllGliphs(event.partialTicks());
     }
 
     private class GliphsVecGen {

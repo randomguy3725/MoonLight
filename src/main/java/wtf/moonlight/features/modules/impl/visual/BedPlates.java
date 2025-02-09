@@ -87,7 +87,7 @@ public class BedPlates extends Module {
                     continue;
                 if (beds.get(index) != null) {
 
-                    mc.entityRenderer.setupCameraTransform(event.getPartialTicks(), 0);
+                    mc.entityRenderer.setupCameraTransform(event.partialTicks(), 0);
 
                     final double x = blockPos.getX() - mc.getRenderManager().viewerPosX;
                     final double y = blockPos.getY() - mc.getRenderManager().viewerPosY;
@@ -108,7 +108,7 @@ public class BedPlates extends Module {
                     final float[] position = new float[]{Float.MAX_VALUE, Float.MAX_VALUE, -1.0F, -1.0F};
 
                     for (final double[] vec : vectors) {
-                        projection = GLUtils.project2D((float) vec[0], (float) vec[1], (float) vec[2], event.getScaledResolution().getScaleFactor());
+                        projection = GLUtils.project2D((float) vec[0], (float) vec[1], (float) vec[2], event.scaledResolution().getScaleFactor());
                         if (projection != null && projection[2] >= 0.0F && projection[2] < 1.0F) {
                             final float pX = projection[0];
                             final float pY = projection[1];

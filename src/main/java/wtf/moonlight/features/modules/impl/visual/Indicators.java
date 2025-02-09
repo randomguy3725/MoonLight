@@ -51,13 +51,13 @@ public class Indicators extends Module {
 
     @EventTarget
     public void onRender2D(Render2DEvent event) {
-        final ScaledResolution scaledResolution = event.getScaledResolution();
+        final ScaledResolution scaledResolution = event.scaledResolution();
         FontRenderer fontRenderer = Fonts.psRegular.get(size.get() + 3);
 
         final float hWidth = scaledResolution.getScaledWidth() / 2.0f;
         final float hHeight = scaledResolution.getScaledHeight() / 2.0f;
 
-        final float partialTicks = event.getPartialTicks();
+        final float partialTicks = event.partialTicks();
 
         glTranslatef(hWidth, hHeight, 0);
 
