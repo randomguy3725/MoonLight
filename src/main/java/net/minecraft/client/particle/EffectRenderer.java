@@ -188,16 +188,20 @@ public class EffectRenderer
         long i = System.currentTimeMillis();
         int j = entitiesFX.size();
 
-        for (EntityFX entityfx : entitiesFX) {
+        for (int k = 0; k < entitiesFX.size(); ++k)
+        {
+            EntityFX entityfx = entitiesFX.get(k);
             this.tickParticle(entityfx);
 
-            if (entityfx.isDead) {
+            if (entityfx.isDead)
+            {
                 list.add(entityfx);
             }
 
             --j;
 
-            if (System.currentTimeMillis() > i + 20L) {
+            if (System.currentTimeMillis() > i + 20L)
+            {
                 break;
             }
         }
