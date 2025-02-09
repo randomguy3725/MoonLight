@@ -87,6 +87,7 @@ dependencies {
     implementation "org.apache.logging.log4j:log4j-core:2.24.3"
     implementation "org.apache.commons:commons-lang3:3.17.0"
     implementation "commons-io:commons-io:2.18.0"
+    implementation "commons-codec:commons-codec:1.18.0"
 
     implementation "net.java.jinput:jinput:2.0.10"
     implementation "net.java.dev.jna:jna:3.4.0"
