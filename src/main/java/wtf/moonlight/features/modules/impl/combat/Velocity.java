@@ -117,11 +117,11 @@ public class Velocity extends Module {
                     }
                     break;
                 case "Boost":
-                    if (getModule(KillAura.class).target != null)
+                    if (mc.thePlayer.onGround) {
+                        s12.motionX = (int) (mc.thePlayer.motionX * 8000);
+                        s12.motionZ = (int) (mc.thePlayer.motionZ * 8000);
+                    } else {
                         veloPacket = true;
-                    if (getModule(KillAura.class).target == null) {
-                        event.setCancelled(true);
-                        mc.thePlayer.motionY = (double) s12.getMotionY() / 8000;
                     }
                     break;
 
