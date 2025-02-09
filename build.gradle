@@ -101,7 +101,7 @@ dependencies {
 
     implementation "tv.twitch:twitch:6.5"
 
-    implementation "com.google.guava:guava:17.0"
+    implementation "com.google.guava:guava:33.4.0-jre"
     implementation "com.google.code.gson:gson:2.12.1"
 
     implementation "com.paulscode.sound:libraryjavasound:20101123"

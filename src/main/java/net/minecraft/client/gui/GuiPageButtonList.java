@@ -1,6 +1,6 @@
 package net.minecraft.client.gui;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
@@ -355,7 +355,7 @@ public class GuiPageButtonList extends GuiListExtended
         public EditBoxEntry(int p_i45534_1_, String p_i45534_2_, boolean p_i45534_3_, Predicate<String> p_i45534_4_)
         {
             super(p_i45534_1_, p_i45534_2_, p_i45534_3_);
-            this.field_178951_a = Objects.firstNonNull(p_i45534_4_, Predicates.alwaysTrue());
+            this.field_178951_a = MoreObjects.firstNonNull(p_i45534_4_, Predicates.alwaysTrue());
         }
 
         public Predicate<String> func_178950_a()

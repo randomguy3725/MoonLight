@@ -24,6 +24,7 @@ import org.apache.commons.io.comparator.LastModifiedFileComparator;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import wtf.moonlight.utils.concurrent.Workers;
 
 import java.awt.image.BufferedImage;
 import java.io.Closeable;
@@ -223,7 +224,7 @@ public class ResourcePackRepository
                 public void onFailure(Throwable p_onFailure_1_) {
                     settablefuture.setException(p_onFailure_1_);
                 }
-            });
+            }, Workers.IO);
             ListenableFuture listenablefuture = this.downloadingPacks;
             ListenableFuture listenablefuture11 = listenablefuture;
             return listenablefuture11;

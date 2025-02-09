@@ -1,6 +1,6 @@
 package net.minecraft.world.gen.structure;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -160,7 +160,7 @@ public class StructureBoundingBox
 
     public String toString()
     {
-        return Objects.toStringHelper(this).add("x0", this.minX).add("y0", this.minY).add("z0", this.minZ).add("x1", this.maxX).add("y1", this.maxY).add("z1", this.maxZ).toString();
+        return MoreObjects.toStringHelper(this).add("x0", this.minX).add("y0", this.minY).add("z0", this.minZ).add("x1", this.maxX).add("y1", this.maxY).add("z1", this.maxZ).toString();
     }
 
     public NBTTagIntArray toNBTTagIntArray()

@@ -11,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumWorldBlockLayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import wtf.moonlight.utils.concurrent.Workers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -174,7 +175,7 @@ public class ChunkRenderWorker implements Runnable
                         Minecraft.getMinecraft().crashed(CrashReport.makeCrashReport(p_onFailure_1_, "Rendering chunk"));
                     }
                 }
-            });
+            }, Workers.Default);
         }
     }
 

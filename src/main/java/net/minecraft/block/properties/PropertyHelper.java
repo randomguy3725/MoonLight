@@ -1,6 +1,6 @@
 package net.minecraft.block.properties;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 
 public abstract class PropertyHelper<T extends Comparable<T>> implements IProperty<T>
 {
@@ -25,7 +25,7 @@ public abstract class PropertyHelper<T extends Comparable<T>> implements IProper
 
     public String toString()
     {
-        return Objects.toStringHelper(this).add("name", this.name).add("clazz", this.valueClass).add("values", this.getAllowedValues()).toString();
+        return MoreObjects.toStringHelper(this).add("name", this.name).add("clazz", this.valueClass).add("values", this.getAllowedValues()).toString();
     }
 
     public boolean equals(Object p_equals_1_)

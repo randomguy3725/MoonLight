@@ -70,6 +70,7 @@ import org.apache.logging.log4j.Logger;
 import wtf.moonlight.Moonlight;
 import wtf.moonlight.events.impl.player.TeleportEvent;
 import wtf.moonlight.gui.mainmenu.GuiMainMenu;
+import wtf.moonlight.utils.concurrent.Workers;
 
 import java.io.File;
 import java.io.IOException;
@@ -1430,7 +1431,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
                     public void onFailure(Throwable p_onFailure_1_) {
                         NetHandlerPlayClient.this.netManager.sendPacket(new C19PacketResourcePackStatus(s1, C19PacketResourcePackStatus.Action.FAILED_DOWNLOAD));
                     }
-                });
+                }, Workers.IO);
             }
             else
             {
@@ -1450,7 +1451,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
                     public void onFailure(Throwable p_onFailure_1_) {
                         NetHandlerPlayClient.this.netManager.sendPacket(new C19PacketResourcePackStatus(s1, C19PacketResourcePackStatus.Action.FAILED_DOWNLOAD));
                     }
-                });
+                }, Workers.IO);
             }
             else if (this.gameController.getCurrentServerData() != null && this.gameController.getCurrentServerData().getResourceMode() != ServerData.ServerResourceMode.PROMPT)
             {
@@ -1477,7 +1478,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
                             public void onFailure(Throwable p_onFailure_1_) {
                                 NetHandlerPlayClient.this.netManager.sendPacket(new C19PacketResourcePackStatus(s1, C19PacketResourcePackStatus.Action.FAILED_DOWNLOAD));
                             }
-                        });
+                        }, Workers.IO);
                     }
                     else
                     {

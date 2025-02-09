@@ -4,6 +4,7 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import it.unimi.dsi.fastutil.objects.ObjectIterators;
 import net.optifine.util.IteratorCache;
 
 import java.util.*;
@@ -126,7 +127,7 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T>
             List<T> list = ClassInheritanceMultiMap.this.map.get(ClassInheritanceMultiMap.this.initializeClassLookup(clazz));
 
             if (list == null) {
-                return Iterators.emptyIterator();
+                return ObjectIterators.EMPTY_ITERATOR;
             } else {
                 Iterator<T> iterator = list.iterator();
                 return Iterators.filter(iterator, clazz);
@@ -136,7 +137,7 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T>
 
     public Iterator<T> iterator()
     {
-        return (Iterator<T>)(this.values.isEmpty() ? Iterators.emptyIterator() : IteratorCache.getReadOnly(this.values));
+        return (Iterator<T>)(this.values.isEmpty() ? ObjectIterators.EMPTY_ITERATOR : IteratorCache.getReadOnly(this.values));
     }
 
     public int size()
