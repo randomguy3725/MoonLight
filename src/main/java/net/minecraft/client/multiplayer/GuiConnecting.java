@@ -3,7 +3,6 @@ package net.minecraft.client.multiplayer;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.concurrent.atomic.AtomicInteger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiDisconnected;
@@ -18,10 +17,10 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import wtf.moonlight.utils.concurrent.Workers;
 
 public class GuiConnecting extends GuiScreen
 {
-    private static final AtomicInteger CONNECTION_ID = new AtomicInteger(0);
     private static final Logger logger = LogManager.getLogger();
     private NetworkManager networkManager;
     private boolean cancel;
@@ -47,56 +46,52 @@ public class GuiConnecting extends GuiScreen
 
     private void connect(final String ip, final int port)
     {
-        logger.info("Connecting to " + ip + ", " + port);
-        (new Thread("Server Connector #" + CONNECTION_ID.incrementAndGet())
-        {
-            public void run()
+        logger.info("Connecting to {}, {}", ip, port);
+        Workers.IO.execute(() -> {
+            InetAddress inetaddress = null;
+
+            try
             {
-                InetAddress inetaddress = null;
-
-                try
+                if (GuiConnecting.this.cancel)
                 {
-                    if (GuiConnecting.this.cancel)
-                    {
-                        return;
-                    }
-
-                    inetaddress = InetAddress.getByName(ip);
-                    GuiConnecting.this.networkManager = NetworkManager.createNetworkManagerAndConnect(inetaddress, port, GuiConnecting.this.mc.gameSettings.isUsingNativeTransport());
-                    GuiConnecting.this.networkManager.setNetHandler(new NetHandlerLoginClient(GuiConnecting.this.networkManager, GuiConnecting.this.mc, GuiConnecting.this.previousGuiScreen));
-                    GuiConnecting.this.networkManager.sendPacket(new C00Handshake(47, ip, port, EnumConnectionState.LOGIN));
-                    GuiConnecting.this.networkManager.sendPacket(new C00PacketLoginStart(GuiConnecting.this.mc.getSession().getProfile()));
+                    return;
                 }
-                catch (UnknownHostException unknownhostexception)
-                {
-                    if (GuiConnecting.this.cancel)
-                    {
-                        return;
-                    }
 
-                    GuiConnecting.logger.error("Couldn't connect to server", unknownhostexception);
-                    GuiConnecting.this.mc.displayGuiScreen(new GuiDisconnected(GuiConnecting.this.previousGuiScreen, "connect.failed", new ChatComponentTranslation("disconnect.genericReason", "Unknown host")));
-                }
-                catch (Exception exception)
-                {
-                    if (GuiConnecting.this.cancel)
-                    {
-                        return;
-                    }
-
-                    GuiConnecting.logger.error("Couldn't connect to server", exception);
-                    String s = exception.toString();
-
-                    if (inetaddress != null)
-                    {
-                        String s1 = inetaddress + ":" + port;
-                        s = s.replaceAll(s1, "");
-                    }
-
-                    GuiConnecting.this.mc.displayGuiScreen(new GuiDisconnected(GuiConnecting.this.previousGuiScreen, "connect.failed", new ChatComponentTranslation("disconnect.genericReason", s)));
-                }
+                inetaddress = InetAddress.getByName(ip);
+                GuiConnecting.this.networkManager = NetworkManager.createNetworkManagerAndConnect(inetaddress, port, GuiConnecting.this.mc.gameSettings.isUsingNativeTransport());
+                GuiConnecting.this.networkManager.setNetHandler(new NetHandlerLoginClient(GuiConnecting.this.networkManager, GuiConnecting.this.mc, GuiConnecting.this.previousGuiScreen));
+                GuiConnecting.this.networkManager.sendPacket(new C00Handshake(47, ip, port, EnumConnectionState.LOGIN));
+                GuiConnecting.this.networkManager.sendPacket(new C00PacketLoginStart(GuiConnecting.this.mc.getSession().getProfile()));
             }
-        }).start();
+            catch (UnknownHostException unknownhostexception)
+            {
+                if (GuiConnecting.this.cancel)
+                {
+                    return;
+                }
+
+                GuiConnecting.logger.error("Couldn't connect to server", unknownhostexception);
+                GuiConnecting.this.mc.displayGuiScreen(new GuiDisconnected(GuiConnecting.this.previousGuiScreen, "connect.failed", new ChatComponentTranslation("disconnect.genericReason", "Unknown host")));
+            }
+            catch (Exception exception)
+            {
+                if (GuiConnecting.this.cancel)
+                {
+                    return;
+                }
+
+                GuiConnecting.logger.error("Couldn't connect to server", exception);
+                String s = exception.toString();
+
+                if (inetaddress != null)
+                {
+                    String s1 = inetaddress + ":" + port;
+                    s = s.replaceAll(s1, "");
+                }
+
+                GuiConnecting.this.mc.displayGuiScreen(new GuiDisconnected(GuiConnecting.this.previousGuiScreen, "connect.failed", new ChatComponentTranslation("disconnect.genericReason", s)));
+            }
+        });
     }
 
     public void updateScreen()

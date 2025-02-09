@@ -19,6 +19,7 @@ import wtf.moonlight.features.modules.Module;
 import wtf.moonlight.features.modules.ModuleCategory;
 import wtf.moonlight.features.modules.ModuleInfo;
 import wtf.moonlight.features.modules.impl.movement.Freeze;
+import wtf.moonlight.utils.concurrent.Workers;
 import wtf.moonlight.utils.math.MathUtils;
 import wtf.moonlight.utils.math.TimerUtils;
 import wtf.moonlight.utils.misc.DebugUtils;
@@ -26,23 +27,27 @@ import wtf.moonlight.utils.player.FallDistanceComponent;
 import wtf.moonlight.utils.player.PlayerUtils;
 import wtf.moonlight.utils.player.ProjectileUtils;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
 @ModuleInfo(name = "AutoPearl", category = ModuleCategory.Player)
 public class AutoPearl extends Module {
-    private CalculateThread calculateThread;
+    private Future<Vector2f> calculationFuture;
     private boolean attempted;
     private boolean calculating;
     private int bestPearlSlot;
 
     @EventTarget
-    public void onMotion(final MotionEvent event) {
+    public void onMotion(final MotionEvent event) throws ExecutionException, InterruptedException {
         if (mc.thePlayer.onGround) {
             this.attempted = false;
             this.calculating = false;
         }
-        if (event.isPost() && this.calculating && (this.calculateThread == null || this.calculateThread.completed)) {
+        if (event.isPost() && this.calculating && (this.calculationFuture == null || this.calculationFuture.isDone())) {
             this.calculating = false;
-            if (this.calculateThread != null) {
-                getModule(Freeze.class).throwPearl(this.calculateThread.solution);
+            if (this.calculationFuture != null) {
+                getModule(Freeze.class).throwPearl(this.calculationFuture.get());
             }
         }
         final boolean overVoid = !mc.thePlayer.onGround && !PlayerUtils.isBlockUnder(30.0, true);
@@ -64,36 +69,34 @@ public class AutoPearl extends Module {
                 return;
             }
             this.calculating = true;
-            (this.calculateThread = new CalculateThread(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, 0.0, 0.0)).start();
+            var job = new CalculateJob(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, 0.0, 0.0);
+            this.calculationFuture = Workers.Default.submit(job);
             this.getModule(Freeze.class).setEnabled(true);
         }
     }
 
-    private static class CalculateThread extends Thread {
+    private static class CalculateJob implements Callable<Vector2f> {
         private int iteration;
-        private boolean completed;
         private double temperature;
         private double energy;
-        private Vector2f solution;
         public boolean stop;
         private final ProjectileUtils.EnderPearlPredictor predictor;
 
-        private CalculateThread(final double predictX, final double predictY, final double predictZ, final double minMotionY, final double maxMotionY) {
+        private CalculateJob(final double predictX, final double predictY, final double predictZ, final double minMotionY, final double maxMotionY) {
             this.predictor = new ProjectileUtils.EnderPearlPredictor(predictX, predictY, predictZ, minMotionY, maxMotionY);
             this.iteration = 0;
             this.temperature = 10.0;
             this.energy = 0.0;
             this.stop = false;
-            this.completed = false;
         }
 
         @Override
-        public void run() {
+        public Vector2f call() {
             final TimerUtils timer = new TimerUtils();
             timer.reset();
-            this.solution = new Vector2f((float) MathUtils.randomizeDouble(-180, 180), (float) MathUtils.randomizeDouble(-90, 90));
-            Vector2f current = this.solution;
-            this.energy = this.predictor.assessRotation(this.solution);
+            Vector2f solution = new Vector2f((float) MathUtils.randomizeDouble(-180, 180), (float) MathUtils.randomizeDouble(-90, 90));
+            Vector2f current = solution;
+            this.energy = this.predictor.assessRotation(solution);
             double solutionE = this.energy;
             while (this.temperature >= 1.0E-4 && !this.stop) {
                 final Vector2f rotation = new Vector2f((float) (current.x + MathUtils.randomizeDouble(-this.temperature * 18.0, this.temperature * 18.0)), (float) (current.y + MathUtils.randomizeDouble(-this.temperature * 9.0, this.temperature * 9.0)));
@@ -110,8 +113,8 @@ public class AutoPearl extends Module {
                     current = rotation;
                     if (assessment > solutionE) {
                         solutionE = assessment;
-                        this.solution = new Vector2f(rotation.x, rotation.y);
-                        DebugUtils.sendMessage("Find a better solution: (" + this.solution.x + ", " + this.solution.y + "), value: " + solutionE);
+                        solution = new Vector2f(rotation.x, rotation.y);
+                        DebugUtils.sendMessage("Find a better solution: (" + solution.x + ", " + solution.y + "), value: " + solutionE);
                     }
                 }
                 this.temperature *= 0.997;
@@ -119,7 +122,7 @@ public class AutoPearl extends Module {
             }
             DebugUtils.sendMessage("Simulated annealing completed within " + this.iteration + " iterations");
             DebugUtils.sendMessage("Time used: " + timer.getTime() + " solution energy: " + solutionE);
-            this.completed = true;
+            return solution;
         }
     }
 }

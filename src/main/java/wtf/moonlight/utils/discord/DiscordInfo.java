@@ -20,6 +20,7 @@ import net.minecraft.client.gui.GuiSelectWorld;
 import wtf.moonlight.features.modules.Module;
 import wtf.moonlight.features.modules.impl.visual.Interface;
 import wtf.moonlight.utils.InstanceAccess;
+import wtf.moonlight.utils.concurrent.Workers;
 import wtf.moonlight.utils.misc.ServerUtils;
 
 public class DiscordInfo implements InstanceAccess {
@@ -52,48 +53,46 @@ public class DiscordInfo implements InstanceAccess {
         }).build();
 
         DiscordRPC.discordInitialize("1266031153572479107", handlers, true);
-        new Thread("Discord RPC Callback") {
-            @Override
-            public void run() {
-                while (running) {
-                    int killed = INSTANCE.getModuleManager().getModule(Interface.class).killed;
-                    int win = INSTANCE.getModuleManager().getModule(Interface.class).won;
-                    if (mc.thePlayer != null) {
-                        if (mc.isSingleplayer()) {
-                            update("Ig: " + detectUsername(), "is in SinglePlayer", true);
-                            updateSmallImageText(getCount() + "/" + getTotal() + " modules Enabled");
-                        } else if (mc.getCurrentServerData() != null) {
-                            if (ServerUtils.isOnHypixel()) {
-                                update("Ig: " + detectUsername(), "Kills: " + killed + " " + "Wins: " + win, true);
-                                updateSmallImageText("playing on '" + mc.getCurrentServerData().serverIP + "' with " + getCount() + "/" + getTotal() + " modules Enabled");
-                            } else {
-                                update("Ig: " + detectUsername(), "is playing on " + mc.getCurrentServerData().serverIP, true);
-                                updateSmallImageText("raping kids | " + getCount() + "/" + getTotal() + " modules Enabled");
-                            }
-                        } else if (mc.currentScreen instanceof GuiDownloadTerrain) {
-                            update("...", "", false);
-                        }
-                    } else {
-                        if (mc.currentScreen instanceof GuiSelectWorld) {
-                            update("Selecting World...", "", false);
-                        } else if (mc.currentScreen instanceof GuiMultiplayer) {
-                            update("Selecting Server...", "", false);
-                        } else if (mc.currentScreen instanceof GuiDownloadTerrain) {
-                            update("...", "", false);
+        Workers.IO.execute(() -> {
+            while (running) {
+                int killed = INSTANCE.getModuleManager().getModule(Interface.class).killed;
+                int win = INSTANCE.getModuleManager().getModule(Interface.class).won;
+                if (mc.thePlayer != null) {
+                    if (mc.isSingleplayer()) {
+                        update("Ig: " + detectUsername(), "is in SinglePlayer", true);
+                        updateSmallImageText(getCount() + "/" + getTotal() + " modules Enabled");
+                    } else if (mc.getCurrentServerData() != null) {
+                        if (ServerUtils.isOnHypixel()) {
+                            update("Ig: " + detectUsername(), "Kills: " + killed + " " + "Wins: " + win, true);
+                            updateSmallImageText("playing on '" + mc.getCurrentServerData().serverIP + "' with " + getCount() + "/" + getTotal() + " modules Enabled");
                         } else {
-                            update("Idling...", "", false);
+                            update("Ig: " + detectUsername(), "is playing on " + mc.getCurrentServerData().serverIP, true);
+                            updateSmallImageText("raping kids | " + getCount() + "/" + getTotal() + " modules Enabled");
                         }
+                    } else if (mc.currentScreen instanceof GuiDownloadTerrain) {
+                        update("...", "", false);
                     }
-
-                    try {
-                        sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                } else {
+                    if (mc.currentScreen instanceof GuiSelectWorld) {
+                        update("Selecting World...", "", false);
+                    } else if (mc.currentScreen instanceof GuiMultiplayer) {
+                        update("Selecting Server...", "", false);
+                    } else if (mc.currentScreen instanceof GuiDownloadTerrain) {
+                        update("...", "", false);
+                    } else {
+                        update("Idling...", "", false);
                     }
-                    DiscordRPC.discordRunCallbacks();
                 }
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    break;
+                }
+
+                DiscordRPC.discordRunCallbacks();
             }
-        }.start();
+        });
     }
 
     public void stop() {

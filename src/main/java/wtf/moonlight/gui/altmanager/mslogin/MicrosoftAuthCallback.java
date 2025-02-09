@@ -14,7 +14,7 @@ import wtf.moonlight.gui.altmanager.repository.credential.MicrosoftAltCredential
 import com.sun.net.httpserver.HttpServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
+import wtf.moonlight.utils.concurrent.Workers;
 
 import java.io.Closeable;
 import java.io.OutputStream;
@@ -28,7 +28,7 @@ import java.util.function.BiConsumer;
 public class MicrosoftAuthCallback implements Closeable {
     public static final String url = "https://login.live.com/oauth20_authorize.srf?client_id=54fd49e4-2103-4044-9603-2b028c814ec3&response_type=code&scope=XboxLive.signin%20XboxLive.offline_access&redirect_uri=http://localhost:59125&prompt=select_account";
     private static final Logger logger = LogManager.getLogger(MicrosoftAuthCallback.class);
-    
+
     private static HttpServer server;
 
     public CompletableFuture<MicrosoftAltCredential> start(BiConsumer<String, Object[]> progressHandler) {
@@ -53,17 +53,14 @@ public class MicrosoftAuthCallback implements Closeable {
                     }
                     close();
 
-                    final Thread thread = new Thread(() -> {
+                    Workers.IO.execute(() -> {
                         try {
                             cf.complete(auth(progressHandler, ex.getRequestURI().getQuery()));
                         } catch (Throwable t) {
                             logger.error("Unable to authenticate via Microsoft.", t);
                             cf.completeExceptionally(t);
                         }
-                    }, "MicrosoftAuthThread");
-
-                    thread.setDaemon(true);
-                    thread.start();
+                    });
                 } catch (Throwable t) {
                     logger.error("Unable to process request on Microsoft authentication callback server.", t);
                     close();

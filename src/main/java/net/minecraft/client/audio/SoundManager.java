@@ -33,6 +33,7 @@ import paulscode.sound.SoundSystemException;
 import paulscode.sound.SoundSystemLogger;
 import paulscode.sound.Source;
 import paulscode.sound.codecs.CodecJOrbis;
+import wtf.moonlight.utils.concurrent.Workers;
 
 public class SoundManager
 {
@@ -79,47 +80,34 @@ public class SoundManager
         this.loadSoundSystem();
     }
 
-    private synchronized void loadSoundSystem()
-    {
-        if (!this.loaded)
-        {
-            try
-            {
-                (new Thread(new Runnable()
-                {
-                    public void run()
+    private synchronized void loadSoundSystem() {
+        if (!this.loaded) {
+            try {
+                Workers.Default.execute(() -> {
+                    SoundSystemConfig.setLogger(new SoundSystemLogger()
                     {
-                        SoundSystemConfig.setLogger(new SoundSystemLogger()
-                        {
-                            public void message(String p_message_1_, int p_message_2_)
-                            {
-                                if (!p_message_1_.isEmpty())
-                                {
-                                    SoundManager.logger.info(p_message_1_);
-                                }
+                        public void message(String p_message_1_, int p_message_2_) {
+                            if (!p_message_1_.isEmpty()) {
+                                SoundManager.logger.info(p_message_1_);
                             }
-                            public void importantMessage(String p_importantMessage_1_, int p_importantMessage_2_)
-                            {
-                                if (!p_importantMessage_1_.isEmpty())
-                                {
-                                    SoundManager.logger.warn(p_importantMessage_1_);
-                                }
+                        }
+                        public void importantMessage(String p_importantMessage_1_, int p_importantMessage_2_) {
+                            if (!p_importantMessage_1_.isEmpty()) {
+                                SoundManager.logger.warn(p_importantMessage_1_);
                             }
-                            public void errorMessage(String p_errorMessage_1_, String p_errorMessage_2_, int p_errorMessage_3_)
-                            {
-                                if (!p_errorMessage_2_.isEmpty())
-                                {
-                                    SoundManager.logger.error("Error in class '" + p_errorMessage_1_ + "'");
-                                    SoundManager.logger.error(p_errorMessage_2_);
-                                }
+                        }
+                        public void errorMessage(String p_errorMessage_1_, String p_errorMessage_2_, int p_errorMessage_3_) {
+                            if (!p_errorMessage_2_.isEmpty()) {
+                                SoundManager.logger.error("Error in class '{}'", p_errorMessage_1_);
+                                SoundManager.logger.error(p_errorMessage_2_);
                             }
-                        });
-                        SoundManager.this.sndSystem = SoundManager.this.new SoundSystemStarterThread();
-                        SoundManager.this.loaded = true;
-                        SoundManager.this.sndSystem.setMasterVolume(SoundManager.this.options.getSoundLevel(SoundCategory.MASTER));
-                        SoundManager.logger.info(SoundManager.LOG_MARKER, "Sound engine started");
-                    }
-                }, "Sound Library Loader")).start();
+                        }
+                    });
+                    SoundManager.this.sndSystem = SoundManager.this.new SoundSystemStarterThread();
+                    SoundManager.this.loaded = true;
+                    SoundManager.this.sndSystem.setMasterVolume(SoundManager.this.options.getSoundLevel(SoundCategory.MASTER));
+                    SoundManager.logger.info(SoundManager.LOG_MARKER, "Sound engine started");
+                });
             }
             catch (RuntimeException runtimeexception)
             {
