@@ -52,7 +52,7 @@ public class AntiFireball extends Module {
             return;
 
         for (Entity entity : mc.theWorld.loadedEntityList) {
-            if (entity instanceof EntityFireball && entity.getDistanceToEntity(mc.thePlayer) < range.get()) {
+            if (entity instanceof EntityFireball && entity.getDistanceToEntity(mc.thePlayer) < range.get() && isEnabled(LongJump.class)) {
                 if (attackTimer.hasTimeElapsed((long) (1000L / (aps.get() + 2)))) {
 
                     float[] finalRotation = RotationUtils.getAngles(entity);
