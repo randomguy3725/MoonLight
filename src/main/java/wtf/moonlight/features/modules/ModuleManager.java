@@ -97,6 +97,8 @@ public class ModuleManager {
                 Strafe.class,
                 Fly.class,
                 Scaffold.class,
+                NoFluid.class,
+                NoWeb.class,
 
                 // Player
                 AntiFireball.class,
@@ -138,7 +140,9 @@ public class ModuleManager {
                 Shaders.class,
                 Trajectories.class,
                 TargetESP.class,
-                Breadcrumbs.class
+                Breadcrumbs.class,
+                DamageParticles.class,
+                ItemESP.class
         );
 
         // Sort modules alphabetically by name for better organization

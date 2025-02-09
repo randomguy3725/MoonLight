@@ -55,10 +55,12 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import wtf.moonlight.Moonlight;
+import wtf.moonlight.events.impl.misc.EntityUpdateEvent;
 import wtf.moonlight.events.impl.player.AfterJumpEvent;
 import wtf.moonlight.events.impl.player.JumpEvent;
 import wtf.moonlight.events.impl.player.MoveEvent;
 import wtf.moonlight.events.impl.player.MoveMathEvent;
+import wtf.moonlight.features.modules.impl.movement.NoFluid;
 import wtf.moonlight.features.modules.impl.visual.Animations;
 import wtf.moonlight.features.modules.impl.visual.Rotation;
 import wtf.moonlight.utils.animations.ContinualAnimation;
@@ -324,6 +326,8 @@ public abstract class EntityLivingBase extends Entity
         this.prevRotationYaw = this.rotationYaw;
         this.prevRotationPitch = this.rotationPitch;
         this.worldObj.theProfiler.endSection();
+
+        Moonlight.INSTANCE.getEventManager().call(new EntityUpdateEvent(this));
     }
 
     public boolean isChild()
@@ -1396,10 +1400,8 @@ public abstract class EntityLivingBase extends Entity
             return;
         if (this.isServerWorld())
         {
-            if (!this.isInWater() || this instanceof EntityPlayer && ((EntityPlayer)this).capabilities.isFlying)
-            {
-                if (!this.isInLava() || this instanceof EntityPlayer && ((EntityPlayer)this).capabilities.isFlying)
-                {
+            if (!(this.isInWater() && !Moonlight.INSTANCE.getModuleManager().getModule(NoFluid.class).shouldCancel) || this instanceof EntityPlayer && ((EntityPlayer) this).capabilities.isFlying) {
+                if (!(this.isInLava() && !Moonlight.INSTANCE.getModuleManager().getModule(NoFluid.class).shouldCancel) || this instanceof EntityPlayer && ((EntityPlayer) this).capabilities.isFlying) {
                     float f4 = 0.91F;
 
                     if (this.onGround)

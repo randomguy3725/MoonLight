@@ -392,7 +392,7 @@ public class FontRenderer implements IResourceManagerReloadListener
         GlStateManager.popMatrix();
     }
 
-    protected void drawOutlinedString(String text, final float x, final float y, int color) {
+    private void drawOutlinedString(String text, final float x, final float y, int color) {
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         if (this.bidiFlag) {
             text = this.bidiReorder(text);

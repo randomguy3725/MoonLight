@@ -40,6 +40,7 @@ import com.google.common.base.Predicate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PlayerUtils implements InstanceAccess {
     private static final HashMap<Integer, Integer> GOOD_POTIONS = new HashMap<>() {{
@@ -355,5 +356,19 @@ public class PlayerUtils implements InstanceAccess {
                 eyes.addVector(rotationVector.xCoord * range, rotationVector.yCoord * range, rotationVector.zCoord * range));
 
         return movingObjectPosition.hitVec.distanceTo(eyes);
+    }
+
+    public static Map<BlockPos, Block> searchBlocks(final int radius) {
+        final Map<BlockPos, Block> blocks = new HashMap<BlockPos, Block>();
+        for (int x = radius; x > -radius; --x) {
+            for (int y = radius; y > -radius; --y) {
+                for (int z = radius; z > -radius; --z) {
+                    final BlockPos blockPos = new BlockPos(mc.thePlayer.lastTickPosX + x, mc.thePlayer.lastTickPosY + y, mc.thePlayer.lastTickPosZ + z);
+                    final Block block = getBlock(blockPos);
+                    blocks.put(blockPos, block);
+                }
+            }
+        }
+        return blocks;
     }
 }

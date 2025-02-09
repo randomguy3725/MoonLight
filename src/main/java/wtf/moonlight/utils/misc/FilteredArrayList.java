@@ -22,14 +22,12 @@ import java.util.stream.Stream;
 
 public final class FilteredArrayList<T, F> implements Iterable<F> {
 
-    /* fields */
     private final Function<? super T, ? extends F> mapper;
     private final Supplier<Comparator<F>> comparator;
 
     private final Collection<T> list;
     private List<F> filtered;
 
-    /* constructors */
     public FilteredArrayList(@NotNull Collection<T> list, @NotNull Function<? super T, ? extends F> mapper, @Nullable Supplier<Comparator<F>> comparator) {
         this.mapper = mapper;
         this.comparator = comparator;
@@ -38,7 +36,6 @@ public final class FilteredArrayList<T, F> implements Iterable<F> {
         update();
     }
 
-    /* methods */
     public void update() {
         this.filtered = new ObjectArrayList<>(list.size());
 
@@ -123,7 +120,6 @@ public final class FilteredArrayList<T, F> implements Iterable<F> {
         return filtered.iterator();
     }
 
-    //region Internal part
     private void sortFiltered() {
         if (comparator != null) filtered.sort(comparator.get());
     }
@@ -139,6 +135,5 @@ public final class FilteredArrayList<T, F> implements Iterable<F> {
 
         return result;
     }
-    //endregion
 
 }

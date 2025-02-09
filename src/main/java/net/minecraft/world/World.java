@@ -21,7 +21,6 @@ import net.minecraft.block.BlockSnow;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
@@ -57,6 +56,7 @@ import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldInfo;
 import wtf.moonlight.Moonlight;
+import wtf.moonlight.features.modules.impl.movement.NoFluid;
 import wtf.moonlight.features.modules.impl.visual.DashTrail;
 
 public abstract class World implements IBlockAccess
@@ -1915,6 +1915,13 @@ public abstract class World implements IBlockAccess
                         blockpos$mutableblockpos.set(k1, l1, i2);
                         IBlockState iblockstate = this.getBlockState(blockpos$mutableblockpos);
                         Block block = iblockstate.getBlock();
+
+                        if(Moonlight.INSTANCE.getModuleManager().getModule(NoFluid.class).shouldCancel && (block == Blocks.water || block == Blocks.flowing_water)){
+                            continue;
+                        }
+                        if(Moonlight.INSTANCE.getModuleManager().getModule(NoFluid.class).shouldCancel && (block == Blocks.lava || block == Blocks.flowing_lava)){
+                            continue;
+                        }
 
                         if (block.getMaterial() == materialIn)
                         {
