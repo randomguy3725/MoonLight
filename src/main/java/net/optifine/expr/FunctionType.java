@@ -70,7 +70,6 @@ public enum FunctionType
     private final String name;
     private final IParameters parameters;
     public static FunctionType[] VALUES = values();
-    private static final Map<Integer, Float> mapSmooth = new HashMap();
 
     FunctionType(ExpressionType expressionType, String name, ExpressionType[] parameterTypes)
     {

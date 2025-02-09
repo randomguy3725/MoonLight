@@ -13,6 +13,9 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 import javax.imageio.ImageIO;
+
+import io.netty.util.collection.IntObjectHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectIntPair;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneWire;
 import net.minecraft.block.BlockStem;
@@ -48,8 +51,7 @@ import net.optifine.util.PropertiesOrdered;
 import net.optifine.util.ResUtils;
 import net.optifine.util.StrUtils;
 import net.optifine.util.TextureUtils;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
+import org.jetbrains.annotations.Nullable;
 
 public class CustomColors
 {
@@ -230,9 +232,9 @@ public class CustomColors
             stemMelonColors = getCustomColors(s + "melonstem.png", 8, 1);
             String[] astring11 = new String[] {"myceliumparticle.png", "myceliumparticlecolor.png"};
             myceliumParticleColors = getCustomColors(s, astring11, -1, -1);
-            Pair<LightMapPack[], Integer> pair = parseLightMapPacks();
-            lightMapPacks = pair.getLeft();
-            lightmapMinDimensionId = pair.getRight().intValue();
+            var pair = parseLightMapPacks();
+            lightMapPacks = pair.left();
+            lightmapMinDimensionId = pair.rightInt();
             readColorProperties("mcpatcher/color.properties");
             blockColormaps = readBlockColormaps(new String[] {s + "custom/", s + "blocks/"}, colorsBlockColormaps, 256, 256);
             updateUseDefaultGrassFoliageColors();
@@ -290,59 +292,47 @@ public class CustomColors
         }
     }
 
-    private static Pair<LightMapPack[], Integer> parseLightMapPacks()
+    private static ObjectIntPair<@Nullable LightMapPack[]> parseLightMapPacks()
     {
         String s = "mcpatcher/lightmap/world";
         String s1 = ".png";
         String[] astring = ResUtils.collectFiles(s, s1);
-        Map<Integer, String> map = new HashMap();
+        var map = new IntObjectHashMap<String>();
 
-        for (int i = 0; i < astring.length; ++i)
-        {
-            String s2 = astring[i];
+        for (String s2 : astring) {
             String s3 = StrUtils.removePrefixSuffix(s2, s, s1);
             int j = Config.parseInt(s3, Integer.MIN_VALUE);
 
-            if (j == Integer.MIN_VALUE)
-            {
+            if (j == Integer.MIN_VALUE) {
                 warn("Invalid dimension ID: " + s3 + ", path: " + s2);
-            }
-            else
-            {
-                map.put(Integer.valueOf(j), s2);
+            } else {
+                map.put(j, s2);
             }
         }
 
-        Set<Integer> set = map.keySet();
-        Integer[] ainteger = set.toArray(new Integer[set.size()]);
-        Arrays.sort(ainteger);
+        int[] keys = map.keys();
+        Arrays.sort(keys);
 
-        if (ainteger.length <= 0)
+        if (keys.length == 0)
         {
-            return new ImmutablePair(null, Integer.valueOf(0));
+            return ObjectIntPair.of(null, 0);
         }
         else
         {
-            int j1 = ainteger[0].intValue();
-            int k1 = ainteger[ainteger.length - 1].intValue();
+            int j1 = keys[0];
+            int k1 = keys[keys.length - 1];
             int k = k1 - j1 + 1;
             CustomColormap[] acustomcolormap = new CustomColormap[k];
 
-            for (int l = 0; l < ainteger.length; ++l)
-            {
-                Integer integer = ainteger[l];
+            for (int integer : keys) {
                 String s4 = map.get(integer);
                 CustomColormap customcolormap = getCustomColors(s4, -1, -1);
 
-                if (customcolormap != null)
-                {
-                    if (customcolormap.getWidth() < 16)
-                    {
+                if (customcolormap != null) {
+                    if (customcolormap.getWidth() < 16) {
                         warn("Invalid lightmap width: " + customcolormap.getWidth() + ", path: " + s4);
-                    }
-                    else
-                    {
-                        int i1 = integer.intValue() - j1;
+                    } else {
+                        int i1 = integer - j1;
                         acustomcolormap[i1] = customcolormap;
                     }
                 }
@@ -368,7 +358,7 @@ public class CustomColors
                 }
             }
 
-            return new ImmutablePair(alightmappack, Integer.valueOf(j1));
+            return ObjectIntPair.of(alightmappack, j1);
         }
     }
 

@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import it.unimi.dsi.fastutil.ints.IntArrayList;
 import net.optifine.ConnectedProperties;
 import net.optifine.util.EntityUtils;
 
@@ -295,18 +296,13 @@ public class ConnectedParser
             {
                 IBlockState iblockstate = block.getDefaultState();
                 Collection collection = iblockstate.getPropertyNames();
-                Map<IProperty, List<Comparable>> map = new HashMap();
+                Map<IProperty, List<Comparable>> map = new HashMap<>();
 
-                for (int i = 0; i < params.length; ++i)
-                {
-                    String s1 = params[i];
-
-                    if (s1.length() > 0)
-                    {
+                for (String s1 : params) {
+                    if (!s1.isEmpty()) {
                         String[] astring = Config.tokenize(s1, "=");
 
-                        if (astring.length != 2)
-                        {
+                        if (astring.length != 2) {
                             this.warn("Invalid block property: " + s1);
                             return null;
                         }
@@ -315,29 +311,24 @@ public class ConnectedParser
                         String s3 = astring[1];
                         IProperty iproperty = ConnectedProperties.getProperty(s2, collection);
 
-                        if (iproperty == null)
-                        {
+                        if (iproperty == null) {
                             this.warn("Property not found: " + s2 + ", block: " + block);
                             return null;
                         }
 
                         List<Comparable> list = map.get(s2);
 
-                        if (list == null)
-                        {
-                            list = new ArrayList();
+                        if (list == null) {
+                            list = new ArrayList<>();
                             map.put(iproperty, list);
                         }
 
                         String[] astring1 = Config.tokenize(s3, ",");
 
-                        for (int j = 0; j < astring1.length; ++j)
-                        {
-                            String s4 = astring1[j];
+                        for (String s4 : astring1) {
                             Comparable comparable = parsePropertyValue(iproperty, s4);
 
-                            if (comparable == null)
-                            {
+                            if (comparable == null) {
                                 this.warn("Property value not found: " + s4 + ", property: " + s2 + ", block: " + block);
                                 return null;
                             }
@@ -353,19 +344,18 @@ public class ConnectedParser
                 }
                 else
                 {
-                    List<Integer> list1 = new ArrayList();
+                    var list1 = new IntArrayList();
 
                     for (int k = 0; k < 16; ++k)
                     {
-                        int l = k;
 
                         try
                         {
-                            IBlockState iblockstate1 = this.getStateFromMeta(block, l);
+                            IBlockState iblockstate1 = this.getStateFromMeta(block, k);
 
                             if (this.matchState(iblockstate1, map))
                             {
-                                list1.add(Integer.valueOf(l));
+                                list1.add(k);
                             }
                         }
                         catch (IllegalArgumentException var18)
@@ -379,14 +369,7 @@ public class ConnectedParser
                     }
                     else
                     {
-                        int[] aint1 = new int[list1.size()];
-
-                        for (int i1 = 0; i1 < aint1.length; ++i1)
-                        {
-                            aint1[i1] = list1.get(i1).intValue();
-                        }
-
-                        return aint1;
+                        return list1.toIntArray();
                     }
                 }
             }

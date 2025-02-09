@@ -29,6 +29,6 @@ public abstract class Check implements InstanceAccess {
 
     public void flag(EntityPlayer player, String verbose) {
         DebugUtils.sendMessage(player.getName() + EnumChatFormatting.WHITE + " detected for " + EnumChatFormatting.GRAY + getName() + EnumChatFormatting.WHITE + ", " + EnumChatFormatting.WHITE + verbose);
-        INSTANCE.getModuleManager().getModule(HackerDetector.class).hackers.add(player);
+        INSTANCE.getModuleManager().getModule(HackerDetector.class).mark(player);
     }
 }

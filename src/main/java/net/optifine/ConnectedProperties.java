@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
+import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -146,7 +148,7 @@ public class ConnectedProperties
         }
         else
         {
-            Map<Integer, Integer> map = new HashMap();
+            var map = new Int2IntOpenHashMap();
 
             for (Object object : props.keySet())
             {
@@ -170,7 +172,7 @@ public class ConnectedProperties
 
                                 if (j >= 0 && j < this.tiles.length)
                                 {
-                                    map.put(Integer.valueOf(i), Integer.valueOf(j));
+                                    map.put(i, j);
                                 }
                                 else
                                 {
@@ -198,9 +200,9 @@ public class ConnectedProperties
                 {
                     aint[k] = -1;
 
-                    if (map.containsKey(Integer.valueOf(k)))
+                    if (map.containsKey(k))
                     {
-                        aint[k] = map.get(Integer.valueOf(k)).intValue();
+                        aint[k] = map.get(k);
                     }
                 }
 

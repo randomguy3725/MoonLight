@@ -1,9 +1,10 @@
 package net.optifine.shaders;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSet;
 import net.minecraft.src.Config;
 import net.optifine.config.MatchBlock;
 
@@ -40,35 +41,27 @@ public class BlockAlias
 
     public int[] getMatchBlockIds()
     {
-        Set<Integer> set = new HashSet();
+        IntSet set = new IntOpenHashSet(this.matchBlocks.length);
 
-        for (int i = 0; i < this.matchBlocks.length; ++i)
-        {
-            MatchBlock matchblock = this.matchBlocks[i];
+        for (MatchBlock matchblock : this.matchBlocks) {
             int j = matchblock.getBlockId();
-            set.add(Integer.valueOf(j));
+            set.add(j);
         }
 
-        Integer[] ainteger = set.toArray(new Integer[set.size()]);
-        int[] aint = Config.toPrimitive(ainteger);
-        return aint;
+        return set.toIntArray();
     }
 
     public MatchBlock[] getMatchBlocks(int matchBlockId)
     {
-        List<MatchBlock> list = new ArrayList();
+        List<MatchBlock> list = new ArrayList<>();
 
-        for (int i = 0; i < this.matchBlocks.length; ++i)
-        {
-            MatchBlock matchblock = this.matchBlocks[i];
-
-            if (matchblock.getBlockId() == matchBlockId)
-            {
+        for (MatchBlock matchblock : this.matchBlocks) {
+            if (matchblock.getBlockId() == matchBlockId) {
                 list.add(matchblock);
             }
         }
 
-        MatchBlock[] amatchblock = list.toArray(new MatchBlock[list.size()]);
+        MatchBlock[] amatchblock = list.toArray(new MatchBlock[0]);
         return amatchblock;
     }
 

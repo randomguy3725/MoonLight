@@ -26,9 +26,7 @@ import wtf.moonlight.features.modules.impl.misc.hackerdetector.impl.*;
 import wtf.moonlight.features.values.impl.BoolValue;
 import wtf.moonlight.features.values.impl.MultiBoolValue;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @ModuleInfo(name = "HackerDetector", category = ModuleCategory.Misc)
 public class HackerDetector extends Module {
@@ -45,7 +43,7 @@ public class HackerDetector extends Module {
     ), this);
 
     public final BoolValue selfCheck = new BoolValue("Self", false, this);
-    public final List<EntityPlayer> hackers = new ArrayList<>();
+    private final Set<EntityPlayer> hackers = new HashSet<>();
     private final ArrayList<Check> checks = new ArrayList<>();
 
     public HackerDetector() {
@@ -103,6 +101,10 @@ public class HackerDetector extends Module {
 
     public void addChecks(Check... checks) {
         this.checks.addAll(Arrays.asList(checks));
+    }
+
+    public void mark(EntityPlayer ent) {
+        hackers.add(ent);
     }
 
     public boolean isHacker(EntityPlayer ent) {

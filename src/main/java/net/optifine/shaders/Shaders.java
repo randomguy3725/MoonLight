@@ -28,6 +28,9 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -436,7 +439,7 @@ public class Shaders
     public static PropertyDefaultTrueFalse shaderPackFrustumCulling = new PropertyDefaultTrueFalse("frustum.culling", "Frustum Culling", 0);
     private static Map<String, String> shaderPackResources = new HashMap();
     private static World currentWorld = null;
-    private static final List<Integer> shaderPackDimensions = new ArrayList();
+    private static final IntList shaderPackDimensions = new IntArrayList();
     private static ICustomTexture[] customTexturesGbuffers = null;
     private static ICustomTexture[] customTexturesComposite = null;
     private static ICustomTexture[] customTexturesDeferred = null;
@@ -947,13 +950,13 @@ public class Shaders
 
             if (shaderPack.hasDirectory(s))
             {
-                shaderPackDimensions.add(Integer.valueOf(i));
+                shaderPackDimensions.add(i);
             }
         }
 
-        if (shaderPackDimensions.size() > 0)
+        if (!shaderPackDimensions.isEmpty())
         {
-            Integer[] ainteger = shaderPackDimensions.toArray(new Integer[shaderPackDimensions.size()]);
+            int[] ainteger = shaderPackDimensions.toIntArray();
             Config.dbg("[Shaders] Worlds: " + Config.arrayToString(ainteger));
         }
     }
@@ -1719,17 +1722,13 @@ public class Shaders
             ShaderOption[] ashaderoption = ShaderPackParser.parseShaderPackOptions(shaderPack, astring, shaderPackDimensions);
             Properties properties = loadOptionProperties(shaderPack);
 
-            for (int i = 0; i < ashaderoption.length; ++i)
-            {
-                ShaderOption shaderoption = ashaderoption[i];
+            for (ShaderOption shaderoption : ashaderoption) {
                 String s = properties.getProperty(shaderoption.getName());
 
-                if (s != null)
-                {
+                if (s != null) {
                     shaderoption.resetValue();
 
-                    if (!shaderoption.setValue(s))
-                    {
+                    if (!shaderoption.setValue(s)) {
                         Config.warn("[Shaders] Invalid value, option: " + shaderoption.getName() + ", value: " + s);
                     }
                 }
@@ -2207,7 +2206,7 @@ public class Shaders
             {
                 int i = currentWorld.provider.getDimensionId();
 
-                if (shaderPackDimensions.contains(Integer.valueOf(i)))
+                if (shaderPackDimensions.contains(i))
                 {
                     s = "world" + i + "/";
                 }
@@ -4175,8 +4174,8 @@ public class Shaders
 
             if (j != i)
             {
-                boolean flag = shaderPackDimensions.contains(Integer.valueOf(i));
-                boolean flag1 = shaderPackDimensions.contains(Integer.valueOf(j));
+                boolean flag = shaderPackDimensions.contains(i);
+                boolean flag1 = shaderPackDimensions.contains(j);
 
                 if (flag || flag1)
                 {

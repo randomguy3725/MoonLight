@@ -1,16 +1,14 @@
 package net.optifine;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
+
+import io.netty.util.collection.IntObjectHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectIntPair;
 import net.minecraft.network.PacketThreadUtil;
 import net.minecraft.src.Config;
 import net.optifine.util.ResUtils;
 import net.optifine.util.StrUtils;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 
 public class CustomLoadingScreens
 {
@@ -42,59 +40,51 @@ public class CustomLoadingScreens
     {
         screens = null;
         screensMinDimensionId = 0;
-        Pair<CustomLoadingScreen[], Integer> pair = parseScreens();
-        screens = pair.getLeft();
-        screensMinDimensionId = pair.getRight().intValue();
+        var pair = parseScreens();
+        screens = pair.left();
+        screensMinDimensionId = pair.rightInt();
     }
 
-    private static Pair<CustomLoadingScreen[], Integer> parseScreens()
+    private static ObjectIntPair<CustomLoadingScreen[]> parseScreens()
     {
         String s = "optifine/gui/loading/background";
         String s1 = ".png";
         String[] astring = ResUtils.collectFiles(s, s1);
-        Map<Integer, String> map = new HashMap();
+        var map = new IntObjectHashMap<String>();
 
-        for (int i = 0; i < astring.length; ++i)
-        {
-            String s2 = astring[i];
+        for (String s2 : astring) {
             String s3 = StrUtils.removePrefixSuffix(s2, s, s1);
             int j = Config.parseInt(s3, Integer.MIN_VALUE);
 
-            if (j == Integer.MIN_VALUE)
-            {
+            if (j == Integer.MIN_VALUE) {
                 warn("Invalid dimension ID: " + s3 + ", path: " + s2);
-            }
-            else
-            {
-                map.put(Integer.valueOf(j), s2);
+            } else {
+                map.put(j, s2);
             }
         }
 
-        Set<Integer> set = map.keySet();
-        Integer[] ainteger = set.toArray(new Integer[set.size()]);
-        Arrays.sort(ainteger);
+        int[] set = map.keys();
+        Arrays.sort(set);
 
-        if (ainteger.length <= 0)
+        if (set.length == 0)
         {
-            return new ImmutablePair(null, Integer.valueOf(0));
+            return ObjectIntPair.of(null, 0);
         }
         else
         {
             String s5 = "optifine/gui/loading/loading.properties";
             Properties properties = ResUtils.readProperties(s5, "CustomLoadingScreens");
-            int k = ainteger[0].intValue();
-            int l = ainteger[ainteger.length - 1].intValue();
+            int k = set[0];
+            int l = set[set.length - 1];
             int i1 = l - k + 1;
             CustomLoadingScreen[] acustomloadingscreen = new CustomLoadingScreen[i1];
 
-            for (int j1 = 0; j1 < ainteger.length; ++j1)
-            {
-                Integer integer = ainteger[j1];
+            for (Integer integer : set) {
                 String s4 = map.get(integer);
-                acustomloadingscreen[integer.intValue() - k] = CustomLoadingScreen.parseScreen(s4, integer.intValue(), properties);
+                acustomloadingscreen[integer - k] = CustomLoadingScreen.parseScreen(s4, integer, properties);
             }
 
-            return new ImmutablePair(acustomloadingscreen, Integer.valueOf(k));
+            return ObjectIntPair.of(acustomloadingscreen, k);
         }
     }
 
