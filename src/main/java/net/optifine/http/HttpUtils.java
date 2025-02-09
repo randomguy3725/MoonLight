@@ -10,6 +10,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+
+import kotlin.io.TextStreamsKt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Config;
 
@@ -108,18 +110,7 @@ public class HttpUtils
             outputstream.close();
             InputStream inputstream = httpurlconnection.getInputStream();
             InputStreamReader inputstreamreader = new InputStreamReader(inputstream, StandardCharsets.US_ASCII);
-            BufferedReader bufferedreader = new BufferedReader(inputstreamreader);
-            StringBuffer stringbuffer = new StringBuffer();
-            String s2;
-
-            while ((s2 = bufferedreader.readLine()) != null)
-            {
-                stringbuffer.append(s2);
-                stringbuffer.append('\r');
-            }
-
-            bufferedreader.close();
-            s3 = stringbuffer.toString();
+            s3 = TextStreamsKt.readText(inputstreamreader);
         }
         finally
         {

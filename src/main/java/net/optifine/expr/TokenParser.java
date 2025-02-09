@@ -44,7 +44,7 @@ public class TokenParser
 
     private static Token readToken(char chFirst, TokenType type, PushbackReader pr) throws IOException
     {
-        StringBuffer stringbuffer = new StringBuffer();
+        StringBuilder stringbuffer = new StringBuilder();
         stringbuffer.append(chFirst);
 
         while (true)
