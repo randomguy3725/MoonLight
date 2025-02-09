@@ -15,7 +15,7 @@ import lombok.Setter;
 import wtf.moonlight.features.modules.Module;
 import wtf.moonlight.features.values.Value;
 
-import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
 
 @Getter
 @Setter
@@ -23,7 +23,7 @@ public class TextValue extends Value {
     private String text;
     private boolean onlyNumber;
 
-    public TextValue(String name, String text, Module module, Supplier<Boolean> visible) {
+    public TextValue(String name, String text, Module module, BooleanSupplier visible) {
         super(name, module, visible);
         this.text = text;
         this.onlyNumber = false;
@@ -34,7 +34,7 @@ public class TextValue extends Value {
         this.text = text;
     }
 
-    public TextValue(String name, String text, boolean onlyNumber, Module module, Supplier<Boolean> visible) {
+    public TextValue(String name, String text, boolean onlyNumber, Module module, BooleanSupplier visible) {
         super(name, module, visible);
         this.text = text;
         this.onlyNumber = onlyNumber;

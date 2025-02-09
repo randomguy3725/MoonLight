@@ -14,6 +14,7 @@ import wtf.moonlight.gui.click.skeet.component.Component;
 import wtf.moonlight.gui.click.skeet.component.PredicateComponent;
 import wtf.moonlight.gui.click.skeet.component.impl.sub.text.TextComponent;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -21,7 +22,7 @@ public final class SliderTextComponent extends Component implements PredicateCom
 {
     private final SliderComponent sliderComponent;
     
-    public SliderTextComponent(final Component parent, final String text, final Supplier<Float> getValue, final Consumer<Float> setValue, final Supplier<Float> getMin, final Supplier<Float> getMax, final Supplier<Float> getIncrement, final Supplier<Boolean> isVisible, final float x, final float y) {
+    public SliderTextComponent(final Component parent, final String text, final Supplier<Float> getValue, final Consumer<Float> setValue, final Supplier<Float> getMin, final Supplier<Float> getMax, final Supplier<Float> getIncrement, final BooleanSupplier isVisible, final float x, final float y) {
         super(parent, x, y, 40.166668f, 4.0f);
         this.addChild(this.sliderComponent = new SliderComponent(this, 0.0f, 6.0f, this.getWidth(), 4.0f) {
             @Override
@@ -51,13 +52,13 @@ public final class SliderTextComponent extends Component implements PredicateCom
             
             @Override
             public boolean isVisible() {
-                return isVisible.get();
+                return isVisible.getAsBoolean();
             }
         });
         this.addChild(new TextComponent(this, text, 1.0f, 0.0f));
     }
     
-    public SliderTextComponent(final Component parent, final String text, final Supplier<Float> getValue, final Consumer<Float> setValue, final Supplier<Float> getMin, final Supplier<Float> getMax, final Supplier<Float> getIncrement, final Supplier<Boolean> isVisible) {
+    public SliderTextComponent(final Component parent, final String text, final Supplier<Float> getValue, final Consumer<Float> setValue, final Supplier<Float> getMin, final Supplier<Float> getMax, final Supplier<Float> getIncrement, final BooleanSupplier isVisible) {
         this(parent, text, getValue, setValue, getMin, getMax, getIncrement, isVisible, 0.0f, 0.0f);
     }
     

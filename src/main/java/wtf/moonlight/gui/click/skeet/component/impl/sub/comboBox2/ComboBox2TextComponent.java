@@ -17,6 +17,7 @@ import wtf.moonlight.gui.click.skeet.component.PredicateComponent;
 import wtf.moonlight.gui.click.skeet.component.impl.sub.text.TextComponent;
 
 import java.util.List;
+import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 public final class ComboBox2TextComponent extends Component implements PredicateComponent, ExpandableComponent
@@ -25,13 +26,13 @@ public final class ComboBox2TextComponent extends Component implements Predicate
     private final TextComponent textComponent;
 
     public ComboBox2TextComponent(final Component parent, final String name, final Supplier<List<BoolValue>> getValues,
-                                  final Supplier<Boolean> isVisible,
+                                  final BooleanSupplier isVisible,
                                   final float x, final float y) {
         super(parent, x, y, 40.166668f, 16.0f);
         this.comboBoxComponent = new ComboBox2Component(this, 0.0f, 6.0f, this.getWidth(), 10.0f) {
             @Override
             public boolean isVisible() {
-                return isVisible.get();
+                return isVisible.getAsBoolean();
             }
 
             @Override
@@ -44,7 +45,7 @@ public final class ComboBox2TextComponent extends Component implements Predicate
         this.addChild(this.textComponent);
     }
 
-    public ComboBox2TextComponent(final Component parent, final String name, final Supplier<List<BoolValue>> getValues, final Supplier<Boolean> isVisible) {
+    public ComboBox2TextComponent(final Component parent, final String name, final Supplier<List<BoolValue>> getValues, final BooleanSupplier isVisible) {
         this(parent, name, getValues,isVisible, 0.0f, 0.0f);
     }
 

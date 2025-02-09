@@ -15,7 +15,8 @@ import wtf.moonlight.gui.click.skeet.component.ExpandableComponent;
 import wtf.moonlight.gui.click.skeet.component.PredicateComponent;
 import wtf.moonlight.gui.click.skeet.component.impl.sub.text.TextComponent;
 
-import java.util.function.Consumer;
+import java.util.function.BooleanSupplier;
+import java.util.function.IntConsumer;
 import java.util.function.Supplier;
 
 public final class ComboBoxTextComponent extends Component implements PredicateComponent, ExpandableComponent
@@ -23,14 +24,14 @@ public final class ComboBoxTextComponent extends Component implements PredicateC
     private final ComboBoxComponent comboBoxComponent;
     private final TextComponent textComponent;
 
-    public ComboBoxTextComponent(final Component parent, final String name, final Supplier<String[]> getValues, final Consumer<Integer> setValueByIndex,
-                                 final Supplier<String> getValue, final Supplier<Boolean> isVisible,
+    public ComboBoxTextComponent(final Component parent, final String name, final Supplier<String[]> getValues, final IntConsumer setValueByIndex,
+                                 final Supplier<String> getValue, final BooleanSupplier isVisible,
                                  final float x, final float y) {
         super(parent, x, y, 40.166668f, 16.0f);
         this.comboBoxComponent = new ComboBoxComponent(this, 0.0f, 6.0f, this.getWidth(), 10.0f) {
             @Override
             public boolean isVisible() {
-                return isVisible.get();
+                return isVisible.getAsBoolean();
             }
             
             @Override
@@ -53,7 +54,7 @@ public final class ComboBoxTextComponent extends Component implements PredicateC
         this.addChild(this.textComponent);
     }
     
-    public ComboBoxTextComponent(final Component parent, final String name, final Supplier<String[]> getValues, final Consumer<Integer> setValueByIndex, final Supplier<String> getValue,  final Supplier<Boolean> isVisible) {
+    public ComboBoxTextComponent(final Component parent, final String name, final Supplier<String[]> getValues, final IntConsumer setValueByIndex, final Supplier<String> getValue,  final BooleanSupplier isVisible) {
         this(parent, name, getValues, setValueByIndex, getValue, isVisible, 0.0f, 0.0f);
     }
     

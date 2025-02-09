@@ -17,6 +17,7 @@ import wtf.moonlight.gui.click.skeet.component.PredicateComponent;
 import wtf.moonlight.gui.click.skeet.component.impl.sub.text.TextComponent;
 
 import java.awt.*;
+import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -26,7 +27,7 @@ public class ColorPickerTextComponent extends Component implements PredicateComp
     private final TextComponent textComponent;
     private static final int COLOR_PICKER_WIDTH = 11;
 
-    public ColorPickerTextComponent(final Component parent, final String text, final Supplier<Color> getColor, final Consumer<Color> setColor, final Supplier<Boolean> isVisible, final float x, final float y) {
+    public ColorPickerTextComponent(final Component parent, final String text, final Supplier<Color> getColor, final Consumer<Color> setColor, final BooleanSupplier isVisible, final float x, final float y) {
         super(parent, x, y, 0.0f, 5.0f);
         this.textComponent = new TextComponent(this, text, 1.0f, 1.0f);
         this.addChild(this.colorPicker = new ColorPickerComponent(this, SkeetUI.HALF_GROUP_BOX - COLOR_PICKER_WIDTH, 0.0f, 11.0f, 5.0f) {
@@ -42,12 +43,12 @@ public class ColorPickerTextComponent extends Component implements PredicateComp
             
             @Override
             public boolean isVisible() {
-                return isVisible.get();
+                return isVisible.getAsBoolean();
             }
         });
         this.addChild(this.textComponent);
     }
-    public ColorPickerTextComponent(final Component parent, final String text, final Supplier<Color> getColor, final Consumer<Color> setColor, final Supplier<Boolean> isVisible) {
+    public ColorPickerTextComponent(final Component parent, final String text, final Supplier<Color> getColor, final Consumer<Color> setColor, final BooleanSupplier isVisible) {
         this(parent, text, getColor, setColor, isVisible, 0.0f, 0.0f);
     }
 

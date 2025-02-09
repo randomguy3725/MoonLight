@@ -17,7 +17,7 @@ import wtf.moonlight.features.values.Value;
 import wtf.moonlight.utils.render.ColorUtils;
 
 import java.awt.*;
-import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
 
 @Getter
 @Setter
@@ -28,7 +28,7 @@ public class ColorValue extends Value {
     private float alpha = 1;
     private boolean rainbow = false;
 
-    public ColorValue(String name, Color color, Module module, Supplier<Boolean> visible) {
+    public ColorValue(String name, Color color, Module module, BooleanSupplier visible) {
         super(name, module, visible);
         set(color);
     }

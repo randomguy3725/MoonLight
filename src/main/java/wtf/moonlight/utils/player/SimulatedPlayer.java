@@ -12,6 +12,7 @@ package wtf.moonlight.utils.player;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
+import it.unimi.dsi.fastutil.doubles.DoubleDoublePair;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -37,7 +38,6 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
-import org.apache.commons.lang3.tuple.Pair;
 import wtf.moonlight.utils.InstanceAccess;
 
 import java.util.List;
@@ -561,8 +561,8 @@ public class SimulatedPlayer implements InstanceAccess {
             boolean flag = onGround && (isSneaking() || safeWalk);
 
             if (flag) {
-                d3 = checkForCollision(this, velocityX, velocityZ).getLeft();
-                d5 = checkForCollision(this, velocityX, velocityZ).getRight();
+                d3 = checkForCollision(this, velocityX, velocityZ).leftDouble();
+                d5 = checkForCollision(this, velocityX, velocityZ).rightDouble();
             }
 
             List<AxisAlignedBB> list1 = worldObj.getCollidingBoundingBoxes(player,
@@ -1178,7 +1178,7 @@ public class SimulatedPlayer implements InstanceAccess {
         return !capabilities.isFlying;
     }
 
-    public Pair<Double, Double> checkForCollision(SimulatedPlayer simPlayer, double velocityX, double velocityZ) {
+    public DoubleDoublePair checkForCollision(SimulatedPlayer simPlayer, double velocityX, double velocityZ) {
         EntityPlayerSP player = mc.thePlayer;
         World worldObj = player.worldObj;
 
@@ -1229,7 +1229,7 @@ public class SimulatedPlayer implements InstanceAccess {
             }
         }
 
-        return Pair.of(d3, d5);
+        return DoubleDoublePair.of(d3, d5);
     }
     public float getEyeHeight()
     {

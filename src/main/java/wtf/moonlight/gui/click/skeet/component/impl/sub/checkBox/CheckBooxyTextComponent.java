@@ -10,24 +10,25 @@
  */
 package wtf.moonlight.gui.click.skeet.component.impl.sub.checkBox;
 
+import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import wtf.moonlight.gui.click.skeet.component.Component;
 import wtf.moonlight.gui.click.skeet.component.PredicateComponent;
 import wtf.moonlight.gui.click.skeet.component.impl.sub.text.TextComponent;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class CheckBooxyTextComponent extends Component implements PredicateComponent
 {
     private final CheckBooxyComponent checkBox;
     private final TextComponent textComponent;
 
-    public CheckBooxyTextComponent(final Component parent, final String text, final Supplier<Boolean> isChecked, final Consumer<Boolean> onChecked, final Supplier<Boolean> isVisible, final float x, final float y) {
+    public CheckBooxyTextComponent(final Component parent, final String text, final BooleanSupplier isChecked, final BooleanConsumer onChecked, final BooleanSupplier isVisible, final float x, final float y) {
         super(parent, x, y, 0.0f, 5.0f);
         this.checkBox = new CheckBooxyComponent(this, 0.0f, 0.0f, 5.0f, 5.0f) {
             @Override
             public boolean isChecked() {
-                return isChecked.get();
+                return isChecked.getAsBoolean();
             }
 
             @Override
@@ -37,7 +38,7 @@ public class CheckBooxyTextComponent extends Component implements PredicateCompo
 
             @Override
             public boolean isVisible() {
-                return isVisible.get();
+                return isVisible.getAsBoolean();
             }
         };
         this.textComponent = new TextComponent(this, text, 8.0f, 1.0f);
@@ -45,11 +46,11 @@ public class CheckBooxyTextComponent extends Component implements PredicateCompo
         this.addChild(this.textComponent);
     }
 
-    public CheckBooxyTextComponent(final Component parent, final String text, final Supplier<Boolean> isChecked, final Consumer<Boolean> onChecked, final Supplier<Boolean> isVisible) {
+    public CheckBooxyTextComponent(final Component parent, final String text, final BooleanSupplier isChecked, final BooleanConsumer onChecked, final BooleanSupplier isVisible) {
         this(parent, text, isChecked, onChecked, isVisible, 0.0f, 0.0f);
     }
 
-    public CheckBooxyTextComponent(final Component parent, final String text, final Supplier<Boolean> isChecked, final Consumer<Boolean> onChecked) {
+    public CheckBooxyTextComponent(final Component parent, final String text, final BooleanSupplier isChecked, final BooleanConsumer onChecked) {
         this(parent, text, isChecked, onChecked, () -> true);
     }
     

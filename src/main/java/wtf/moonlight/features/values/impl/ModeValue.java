@@ -16,7 +16,7 @@ import wtf.moonlight.features.modules.Module;
 import wtf.moonlight.features.values.Value;
 
 import java.util.Arrays;
-import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
 
 @Getter
 public class ModeValue extends Value {
@@ -24,7 +24,7 @@ public class ModeValue extends Value {
     private int index;
     public String[] modes;
 
-    public ModeValue(String name, String[] modes, String current, Module module, Supplier<Boolean> visible) {
+    public ModeValue(String name, String[] modes, String current, Module module, BooleanSupplier visible) {
         super(name, module, visible);
         this.modes = modes;
         this.index = Arrays.asList(modes).indexOf(current);

@@ -14,24 +14,25 @@ import lombok.Getter;
 import wtf.moonlight.features.modules.Module;
 
 import java.awt.*;
-import java.util.Optional;
-import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
 
 @Getter
 public abstract class Value {
     private final String name;
     @Getter
-    public Supplier<Boolean> visible;
+    public BooleanSupplier visible;
     public Color color = Color.WHITE;
 
-    public Value(String name, Module module, Supplier<Boolean> visible) {
+    public Value(String name, Module module, BooleanSupplier visible) {
         this.name = name;
         this.visible = visible;
-        Optional.ofNullable(module).ifPresent(m -> m.addValue(this));
+        if (module != null) {
+            module.addValue(this);
+        }
     }
 
 
     public Boolean canDisplay() {
-        return this.visible.get();
+        return this.visible.getAsBoolean();
     }
 }

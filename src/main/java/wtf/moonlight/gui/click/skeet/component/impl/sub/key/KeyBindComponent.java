@@ -18,19 +18,19 @@ import wtf.moonlight.gui.click.skeet.component.Component;
 import wtf.moonlight.gui.font.FontRenderer;
 
 import java.awt.*;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.util.function.IntConsumer;
+import java.util.function.IntSupplier;
 
 public final class KeyBindComponent extends ButtonComponent
 {
     private static final FontRenderer FONT_RENDERER = SkeetUI.KEYBIND_FONT_RENDERER;
     public static final FontRenderer abcFont = new FontRenderer(new Font("Tahoma", Font.PLAIN, 9), false);
-    private final Supplier<Integer> getBind;
-    private final Consumer<Integer> onSetBind;
+    private final IntSupplier getBind;
+    private final IntConsumer onSetBind;
     private boolean binding;
 
 
-    public KeyBindComponent(final Component parent, final Supplier<Integer> getBind, final Consumer<Integer> onSetBind, final float x, final float y) {
+    public KeyBindComponent(final Component parent, final IntSupplier getBind, final IntConsumer onSetBind, final float x, final float y) {
         super(parent, x, y, KeyBindComponent.FONT_RENDERER.getStringWidth("[") * 2.0f, KeyBindComponent.FONT_RENDERER.getHeight());
         this.getBind = getBind;
         this.onSetBind = onSetBind;
@@ -70,7 +70,7 @@ public final class KeyBindComponent extends ButtonComponent
     }
 
     private String getBind() {
-        final int bind = this.getBind.get();
+        final int bind = this.getBind.getAsInt();
         if (bind == Keyboard.KEY_RSHIFT) {
             return "-";
         }

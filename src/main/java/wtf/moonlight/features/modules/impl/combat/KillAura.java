@@ -63,8 +63,6 @@ import wtf.moonlight.utils.render.RenderUtils;
 
 import java.security.SecureRandom;
 import java.util.*;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
 
 @ModuleInfo(name = "KillAura", category = ModuleCategory.Combat, key = Keyboard.KEY_R)
 public class KillAura extends Module {
@@ -575,8 +573,7 @@ public class KillAura extends Module {
     }
 
     private boolean checks() {
-        return Stream.<Supplier<Boolean>>of(mc.thePlayer::isInLava, mc.thePlayer::isBurning, mc.thePlayer::isInWater,
-                () -> mc.thePlayer.isInWeb).map(Supplier::get).anyMatch(Boolean.TRUE::equals);
+        return mc.thePlayer.isInWeb || mc.thePlayer.isInLava() || mc.thePlayer.isBurning() || mc.thePlayer.isInWater();
     }
 
     public List<EntityLivingBase> getTargets() {
@@ -585,8 +582,6 @@ public class KillAura extends Module {
             if (entity instanceof EntityLivingBase e) {
                 if (isValid(e) && PlayerUtils.getDistanceToEntityBox(e) <= searchRange.get() && (RotationUtils.getRotationDifference(e) <= fov.get() || fov.get() == 180))
                     entities.add(e);
-                else entities.remove(e);
-
             }
         }
         return entities;

@@ -156,6 +156,6 @@ public class MultiBoxComponent extends Component {
     }
     @Override
     public boolean isVisible() {
-        return setting.visible.get();
+        return setting.visible.getAsBoolean();
     }
 }

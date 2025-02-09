@@ -18,14 +18,14 @@ import wtf.moonlight.gui.click.skeet.component.Component;
 import wtf.moonlight.utils.render.ColorUtils;
 import wtf.moonlight.utils.render.RenderUtils;
 
-import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 
 public final class ButtonComponentImpl extends ButtonComponent
 {
     private final String text;
-    private final Consumer<Integer> onPress;
+    private final IntConsumer onPress;
     
-    public ButtonComponentImpl(final Component parent, final String text, final Consumer<Integer> onPress, final float width, final float height) {
+    public ButtonComponentImpl(final Component parent, final String text, final IntConsumer onPress, final float width, final float height) {
         super(parent, 0.0f, 0.0f, width, height);
         this.text = text;
         this.onPress = onPress;

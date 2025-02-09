@@ -16,7 +16,7 @@ import wtf.moonlight.features.values.Value;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
 
 public class MultiBoolValue extends Value {
@@ -24,7 +24,7 @@ public class MultiBoolValue extends Value {
     public int index;
     public float animation;
 
-    public MultiBoolValue(String name, List<BoolValue> options, Module module, Supplier<Boolean> visible) {
+    public MultiBoolValue(String name, List<BoolValue> options, Module module, BooleanSupplier visible) {
         super(name, module, visible);
         this.options = options;
         index = options.size();

@@ -16,7 +16,7 @@ import net.minecraft.util.MathHelper;
 import wtf.moonlight.features.modules.Module;
 import wtf.moonlight.features.values.Value;
 
-import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
 
 public class SliderValue extends Value {
     private float value;
@@ -28,7 +28,7 @@ public class SliderValue extends Value {
     private final float increment;
 
 
-    public SliderValue(String name, float value, float min, float max, float increment, Module module, Supplier<Boolean> visible) {
+    public SliderValue(String name, float value, float min, float max, float increment, Module module, BooleanSupplier visible) {
         super(name, module, visible);
         this.value = value;
         this.min = min;
@@ -36,7 +36,7 @@ public class SliderValue extends Value {
         this.increment = increment;
     }
 
-    public SliderValue(String name, float value, float min, float max, Module module, Supplier<Boolean> visible) {
+    public SliderValue(String name, float value, float min, float max, Module module, BooleanSupplier visible) {
         super(name, module, visible);
         this.value = value;
         this.min = min;

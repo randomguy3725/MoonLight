@@ -10,17 +10,16 @@
  */
 package wtf.moonlight.features.values.impl;
 
-
 import wtf.moonlight.features.modules.Module;
 import wtf.moonlight.features.values.Value;
 
-import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
 
 public class BoolValue extends Value {
     private boolean value;
     public float anim;
 
-    public BoolValue(String name, boolean value, Module module, Supplier<Boolean> visible) {
+    public BoolValue(String name, boolean value, Module module, BooleanSupplier visible) {
         super(name, module, visible);
         this.value = value;
     }
