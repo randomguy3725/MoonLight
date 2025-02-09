@@ -182,7 +182,7 @@ public class ChunkVisibility
                 }
             }
 
-            EnumFacing[] aenumfacing1 = list.toArray(new EnumFacing[list.size()]);
+            EnumFacing[] aenumfacing1 = list.toArray(new EnumFacing[0]);
             aenumfacing[j] = aenumfacing1;
         }
 

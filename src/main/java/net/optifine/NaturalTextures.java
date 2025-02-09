@@ -93,7 +93,7 @@ public class NaturalTextures
                     }
                 }
 
-                propertiesByIndex = (NaturalProperties[]) arraylist.toArray(new NaturalProperties[arraylist.size()]);
+                propertiesByIndex = (NaturalProperties[]) arraylist.toArray(new NaturalProperties[0]);
             }
             catch (FileNotFoundException var17)
             {

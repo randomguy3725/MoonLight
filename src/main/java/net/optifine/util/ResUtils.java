@@ -30,7 +30,7 @@ public class ResUtils
             set.addAll(Arrays.asList(astring));
         }
 
-        String[] astring1 = set.toArray(new String[set.size()]);
+        String[] astring1 = set.toArray(new String[0]);
         return astring1;
     }
 
@@ -97,7 +97,7 @@ public class ResUtils
                 }
             }
 
-            String[] astring = (String[]) list.toArray(new String[list.size()]);
+            String[] astring = (String[]) list.toArray(new String[0]);
             return astring;
         }
     }
@@ -133,7 +133,7 @@ public class ResUtils
                 }
             }
 
-            String[] astring1 = (String[]) list.toArray(new String[list.size()]);
+            String[] astring1 = (String[]) list.toArray(new String[0]);
             return astring1;
         }
     }
@@ -165,7 +165,7 @@ public class ResUtils
             }
 
             zipfile.close();
-            String[] astring = (String[]) list.toArray(new String[list.size()]);
+            String[] astring = (String[]) list.toArray(new String[0]);
             return astring;
         }
         catch (IOException ioexception)

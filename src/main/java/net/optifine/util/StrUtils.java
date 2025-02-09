@@ -293,7 +293,7 @@ public class StrUtils
                 }
 
                 list.add(str.substring(i));
-                return (String[]) list.toArray(new String[list.size()]);
+                return (String[]) list.toArray(new String[0]);
             }
         }
         else
@@ -640,7 +640,7 @@ public class StrUtils
                     }
                 }
 
-                String[] astring = list.toArray(new String[list.size()]);
+                String[] astring = list.toArray(new String[0]);
                 return astring;
             }
         }

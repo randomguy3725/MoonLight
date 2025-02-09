@@ -539,7 +539,7 @@ public class CustomColormap implements CustomColors.IColorizer
                 }
             }
 
-            Integer[] ainteger = (Integer[]) set.toArray(new Integer[set.size()]);
+            Integer[] ainteger = (Integer[]) set.toArray(new Integer[0]);
             int[] aint = new int[ainteger.length];
 
             for (int j = 0; j < ainteger.length; ++j)

@@ -49,7 +49,7 @@ public class FieldLocatorActionKeyF3 implements IFieldLocator
         Set<Field> set1 = new HashSet(Arrays.asList(afield2));
         Set<Field> set2 = new HashSet(set);
         set2.retainAll(set1);
-        Field[] afield3 = set2.toArray(new Field[set2.size()]);
+        Field[] afield3 = set2.toArray(new Field[0]);
         return afield3.length != 1 ? null : afield3[0];
     }
 }

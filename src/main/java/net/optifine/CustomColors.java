@@ -457,7 +457,7 @@ public class CustomColors
             }
         }
 
-        String[] astring = (String[]) map.keySet().toArray(new String[map.size()]);
+        String[] astring = (String[]) map.keySet().toArray(new String[0]);
 
         for (String s6 : astring) {
             String s3 = props.getProperty(s6);
@@ -491,7 +491,7 @@ public class CustomColors
         }
         else
         {
-            CustomColormap[] acustomcolormap = (CustomColormap[]) list.toArray(new CustomColormap[list.size()]);
+            CustomColormap[] acustomcolormap = (CustomColormap[]) list.toArray(new CustomColormap[0]);
             return acustomcolormap;
         }
     }
@@ -594,7 +594,7 @@ public class CustomColors
 
             if (list != null)
             {
-                CustomColormap[] acustomcolormap1 = (CustomColormap[]) list.toArray(new CustomColormap[list.size()]);
+                CustomColormap[] acustomcolormap1 = (CustomColormap[]) list.toArray(new CustomColormap[0]);
                 acustomcolormap[i] = acustomcolormap1;
             }
         }

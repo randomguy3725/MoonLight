@@ -85,7 +85,7 @@ public class TextureAnimations
             }
         }
 
-        TextureAnimation[] atextureanimation1 = (TextureAnimation[]) list.toArray(new TextureAnimation[list.size()]);
+        TextureAnimation[] atextureanimation1 = (TextureAnimation[]) list.toArray(new TextureAnimation[0]);
         return atextureanimation1;
     }
 
@@ -128,7 +128,7 @@ public class TextureAnimations
                 }
             }
 
-            TextureAnimation[] atextureanimation = (TextureAnimation[]) list.toArray(new TextureAnimation[list.size()]);
+            TextureAnimation[] atextureanimation = (TextureAnimation[]) list.toArray(new TextureAnimation[0]);
             return atextureanimation;
         }
     }

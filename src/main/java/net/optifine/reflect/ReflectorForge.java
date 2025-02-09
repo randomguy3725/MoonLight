@@ -145,7 +145,7 @@ public class ReflectorForge
                     }
                 }
 
-                String[] astring = list1.toArray(new String[list1.size()]);
+                String[] astring = list1.toArray(new String[0]);
                 return astring;
             }
         }

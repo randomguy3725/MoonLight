@@ -118,6 +118,6 @@ public enum EnumParticleTypes
             }
         }
 
-        PARTICLE_NAMES = list.toArray(new String[list.size()]);
+        PARTICLE_NAMES = list.toArray(new String[0]);
     }
 }

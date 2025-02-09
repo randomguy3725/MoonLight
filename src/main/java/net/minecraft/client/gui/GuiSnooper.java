@@ -35,7 +35,7 @@ public class GuiSnooper extends GuiScreen
             list.add(s1);
         }
 
-        this.field_146607_r = list.toArray(new String[list.size()]);
+        this.field_146607_r = list.toArray(new String[0]);
         this.field_146604_g.clear();
         this.field_146609_h.clear();
         this.buttonList.add(this.field_146605_t = new GuiButton(1, this.width / 2 - 152, this.height - 30, 150, 20, this.game_settings_2.getKeyBinding(GameSettings.Options.SNOOPER_ENABLED)));
