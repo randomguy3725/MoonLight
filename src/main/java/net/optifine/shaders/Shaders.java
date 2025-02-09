@@ -589,9 +589,7 @@ public class Shaders
 
         EnumShaderOption[] aenumshaderoption = EnumShaderOption.values();
 
-        for (int i = 0; i < aenumshaderoption.length; ++i)
-        {
-            EnumShaderOption enumshaderoption = aenumshaderoption[i];
+        for (EnumShaderOption enumshaderoption : aenumshaderoption) {
             String s = enumshaderoption.getPropertyKey();
             String s1 = enumshaderoption.getValueDefault();
             String s2 = shadersConfig.getProperty(s, s1);
@@ -698,9 +696,7 @@ public class Shaders
 
         EnumShaderOption[] aenumshaderoption = EnumShaderOption.values();
 
-        for (int i = 0; i < aenumshaderoption.length; ++i)
-        {
-            EnumShaderOption enumshaderoption = aenumshaderoption[i];
+        for (EnumShaderOption enumshaderoption : aenumshaderoption) {
             String s = enumshaderoption.getPropertyKey();
             String s1 = getEnumShaderOption(enumshaderoption);
             shadersConfig.setProperty(s, s1);
@@ -985,9 +981,7 @@ public class Shaders
         EntityAliases.reset();
         customUniforms = null;
 
-        for (int i = 0; i < ProgramsAll.length; ++i)
-        {
-            Program program = ProgramsAll[i];
+        for (Program program : ProgramsAll) {
             program.resetProperties();
         }
 
@@ -1423,19 +1417,14 @@ public class Shaders
     {
         if (cts != null)
         {
-            for (int i = 0; i < cts.length; ++i)
-            {
-                ICustomTexture icustomtexture = cts[i];
+            for (ICustomTexture icustomtexture : cts) {
                 GlStateManager.setActiveTexture(33984 + icustomtexture.getTextureUnit());
                 int j = icustomtexture.getTextureId();
                 int k = icustomtexture.getTarget();
 
-                if (k == 3553)
-                {
+                if (k == 3553) {
                     GlStateManager.bindTexture(j);
-                }
-                else
-                {
+                } else {
                     GL11.glBindTexture(k, j);
                 }
             }
@@ -1456,9 +1445,7 @@ public class Shaders
     {
         if (cts != null)
         {
-            for (int i = 0; i < cts.length; ++i)
-            {
-                ICustomTexture icustomtexture = cts[i];
+            for (ICustomTexture icustomtexture : cts) {
                 icustomtexture.deleteTexture();
             }
         }
@@ -1493,21 +1480,13 @@ public class Shaders
                 ShaderOption[] ashaderoption1 = screenshaderoptions.getShaderOptions();
                 List<ShaderOption> list = new ArrayList();
 
-                for (int i = 0; i < ashaderoption1.length; ++i)
-                {
-                    ShaderOption shaderoption = ashaderoption1[i];
-
-                    if (shaderoption == null)
-                    {
+                for (ShaderOption shaderoption : ashaderoption1) {
+                    if (shaderoption == null) {
                         list.add(null);
-                    }
-                    else if (shaderoption instanceof ShaderOptionRest)
-                    {
+                    } else if (shaderoption instanceof ShaderOptionRest) {
                         ShaderOption[] ashaderoption2 = getShaderOptionsRest(shaderPackGuiScreens, ashaderoption);
                         list.addAll(Arrays.asList(ashaderoption2));
-                    }
-                    else
-                    {
+                    } else {
                         list.add(shaderoption);
                     }
                 }
@@ -1542,12 +1521,8 @@ public class Shaders
             ScreenShaderOptions screenshaderoptions = mapScreens.get(s);
             ShaderOption[] ashaderoption = screenshaderoptions.getShaderOptions();
 
-            for (int i = 0; i < ashaderoption.length; ++i)
-            {
-                ShaderOption shaderoption = ashaderoption[i];
-
-                if (shaderoption != null)
-                {
+            for (ShaderOption shaderoption : ashaderoption) {
+                if (shaderoption != null) {
                     set.add(shaderoption.getName());
                 }
             }
@@ -1555,16 +1530,11 @@ public class Shaders
 
         List<ShaderOption> list = new ArrayList();
 
-        for (int j = 0; j < ops.length; ++j)
-        {
-            ShaderOption shaderoption1 = ops[j];
-
-            if (shaderoption1.isVisible())
-            {
+        for (ShaderOption shaderoption1 : ops) {
+            if (shaderoption1.isVisible()) {
                 String s1 = shaderoption1.getName();
 
-                if (!set.contains(s1))
-                {
+                if (!set.contains(s1)) {
                     list.add(shaderoption1);
                 }
             }
@@ -1593,12 +1563,8 @@ public class Shaders
     {
         List<ShaderOption> list = new ArrayList();
 
-        for (int i = 0; i < ops.length; ++i)
-        {
-            ShaderOption shaderoption = ops[i];
-
-            if (shaderoption.isVisible())
-            {
+        for (ShaderOption shaderoption : ops) {
+            if (shaderoption.isVisible()) {
                 list.add(shaderoption);
             }
         }
@@ -1618,12 +1584,8 @@ public class Shaders
 
         if (shaderPackOptions != null)
         {
-            for (int i = 0; i < sos.length; ++i)
-            {
-                ShaderOption shaderoption = sos[i];
-
-                if (shaderoption.isChanged() && shaderoption.isEnabled())
-                {
+            for (ShaderOption shaderoption : sos) {
+                if (shaderoption.isChanged() && shaderoption.isEnabled()) {
                     properties.setProperty(shaderoption.getName(), shaderoption.getValue());
                 }
             }
@@ -1711,12 +1673,8 @@ public class Shaders
     {
         List<ShaderOption> list = new ArrayList();
 
-        for (int i = 0; i < ops.length; ++i)
-        {
-            ShaderOption shaderoption = ops[i];
-
-            if (shaderoption.isEnabled() && shaderoption.isChanged())
-            {
+        for (ShaderOption shaderoption : ops) {
+            if (shaderoption.isEnabled() && shaderoption.isChanged()) {
                 list.add(shaderoption);
             }
         }
@@ -1729,12 +1687,8 @@ public class Shaders
     {
         if (ops != null && ops.length > 0)
         {
-            for (int i = 0; i < ops.length; ++i)
-            {
-                ShaderOption shaderoption = ops[i];
-
-                if (shaderoption.matchesLine(line))
-                {
+            for (ShaderOption shaderoption : ops) {
+                if (shaderoption.matchesLine(line)) {
                     line = shaderoption.getSourceLine();
                     break;
                 }
@@ -1764,25 +1718,18 @@ public class Shaders
 
             File[] afile = shaderPacksDir.listFiles();
 
-            for (int j = 0; j < afile.length; ++j)
-            {
-                File file1 = afile[j];
+            for (File file1 : afile) {
                 String s = file1.getName();
 
-                if (file1.isDirectory())
-                {
-                    if (!s.equals("debug"))
-                    {
+                if (file1.isDirectory()) {
+                    if (!s.equals("debug")) {
                         File file2 = new File(file1, "shaders");
 
-                        if (file2.exists() && file2.isDirectory())
-                        {
+                        if (file2.exists() && file2.isDirectory()) {
                             arraylist.add(s);
                         }
                     }
-                }
-                else if (file1.isFile() && s.toLowerCase().endsWith(".zip"))
-                {
+                } else if (file1.isFile() && s.toLowerCase().endsWith(".zip")) {
                     arraylist.add(s);
                 }
             }
@@ -1873,12 +1820,8 @@ public class Shaders
 
     private static Program getProgramById(int programID)
     {
-        for (int i = 0; i < ProgramsAll.length; ++i)
-        {
-            Program program = ProgramsAll[i];
-
-            if (program.getId() == programID)
-            {
+        for (Program program : ProgramsAll) {
+            if (program.getId() == programID) {
                 return program;
             }
         }
@@ -2156,30 +2099,24 @@ public class Shaders
                 }
             }
 
-            for (int k = 0; k < ProgramsAll.length; ++k)
-            {
-                Program program = ProgramsAll[k];
+            for (Program program : ProgramsAll) {
                 program.resetId();
                 program.resetConfiguration();
 
-                if (program.getProgramStage() != ProgramStage.NONE)
-                {
+                if (program.getProgramStage() != ProgramStage.NONE) {
                     String s1 = program.getName();
                     String s2 = s + s1;
                     boolean flag1 = true;
 
-                    if (shaderPackProgramConditions.containsKey(s2))
-                    {
+                    if (shaderPackProgramConditions.containsKey(s2)) {
                         flag1 = flag1 && shaderPackProgramConditions.get(s2).eval();
                     }
 
-                    if (shaderprofile != null)
-                    {
+                    if (shaderprofile != null) {
                         flag1 = flag1 && !shaderprofile.isProgramDisabled(s2);
                     }
 
-                    if (!flag1)
-                    {
+                    if (!flag1) {
                         SMCLog.info("Program disabled: " + s2);
                         s1 = "<disabled>";
                         s2 = s + s1;
@@ -2192,8 +2129,7 @@ public class Shaders
                     setupProgram(program, s4, s5, s6);
                     int j = program.getId();
 
-                    if (j > 0)
-                    {
+                    if (j > 0) {
                         SMCLog.info("Program loaded: " + s2);
                     }
 
@@ -2204,10 +2140,8 @@ public class Shaders
 
             hasDeferredPrograms = false;
 
-            for (int l = 0; l < ProgramsDeferred.length; ++l)
-            {
-                if (ProgramsDeferred[l].getId() != 0)
-                {
+            for (Program program : ProgramsDeferred) {
+                if (program.getId() != 0) {
                     hasDeferredPrograms = true;
                     break;
                 }
@@ -2245,17 +2179,13 @@ public class Shaders
                 sfbDrawBuffers.put(k1, 36064 + k1);
             }
 
-            for (int l1 = 0; l1 < ProgramsAll.length; ++l1)
-            {
-                Program program1 = ProgramsAll[l1];
+            for (Program program1 : ProgramsAll) {
                 Program program2;
 
-                for (program2 = program1; program2.getId() == 0 && program2.getProgramBackup() != program2; program2 = program2.getProgramBackup())
-                {
+                for (program2 = program1; program2.getId() == 0 && program2.getProgramBackup() != program2; program2 = program2.getProgramBackup()) {
                 }
 
-                if (program2 != program1 && program1 != ProgramShadow)
-                {
+                if (program2 != program1 && program1 != ProgramShadow) {
                     program1.copyFrom(program2);
                 }
             }
@@ -3122,12 +3052,8 @@ public class Shaders
 
                 if (afile != null)
                 {
-                    for (int i = 0; i < afile.length; ++i)
-                    {
-                        File file1 = afile[i];
-
-                        if (file1.isDirectory())
-                        {
+                    for (File file1 : afile) {
+                        if (file1.isDirectory()) {
                             clearDirectory(file1);
                         }
 
@@ -3596,12 +3522,8 @@ public class Shaders
         {
             checkGLError("Shaders.uninit pre");
 
-            for (int i = 0; i < ProgramsAll.length; ++i)
-            {
-                Program program = ProgramsAll[i];
-
-                if (program.getRef() != 0)
-                {
+            for (Program program : ProgramsAll) {
+                if (program.getRef() != 0) {
                     ARBShaderObjects.glDeleteObjectARB(program.getRef());
                     checkGLError("del programRef");
                 }
@@ -4691,17 +4613,12 @@ public class Shaders
             GL20.glDrawBuffers(dfbDrawBuffers);
             checkGLError("pre-composite");
 
-            for (int i1 = 0; i1 < ps.length; ++i1)
-            {
-                Program program = ps[i1];
-
-                if (program.getId() != 0)
-                {
+            for (Program program : ps) {
+                if (program.getId() != 0) {
                     useProgram(program);
                     checkGLError(program.getName());
 
-                    if (activeCompositeMipmapSetting != 0)
-                    {
+                    if (activeCompositeMipmapSetting != 0) {
                         genCompositeMipmap();
                     }
 
@@ -4709,10 +4626,8 @@ public class Shaders
                     drawComposite();
                     postDrawComposite();
 
-                    for (int j = 0; j < usedColorBuffers; ++j)
-                    {
-                        if (program.getToggleColorTextures()[j])
-                        {
+                    for (int j = 0; j < usedColorBuffers; ++j) {
+                        if (program.getToggleColorTextures()[j]) {
                             dfbColorTexturesFlip.flip(j);
                             GlStateManager.setActiveTexture(33984 + colorTextureImageUnit[j]);
                             GlStateManager.bindTexture(dfbColorTexturesFlip.getA(j));

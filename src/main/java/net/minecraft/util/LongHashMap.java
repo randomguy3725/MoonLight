@@ -197,10 +197,8 @@ public class LongHashMap<V>
     {
         int i = 0;
 
-        for (int j = 0; j < this.hashArray.length; ++j)
-        {
-            if (this.hashArray[j] != null)
-            {
+        for (Entry<V> vEntry : this.hashArray) {
+            if (vEntry != null) {
                 ++i;
             }
         }

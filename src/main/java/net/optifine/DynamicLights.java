@@ -88,9 +88,7 @@ public class DynamicLights
                 {
                     List<DynamicLight> list = mapDynamicLights.valueList();
 
-                    for (int j = 0; j < list.size(); ++j)
-                    {
-                        DynamicLight dynamiclight = list.get(j);
+                    for (DynamicLight dynamiclight : list) {
                         dynamiclight.update(renderGlobal);
                     }
                 }
@@ -105,18 +103,12 @@ public class DynamicLights
         mapItemLightLevels.clear();
         String[] astring = ReflectorForge.getForgeModIds();
 
-        for (int i = 0; i < astring.length; ++i)
-        {
-            String s = astring[i];
-
-            try
-            {
+        for (String s : astring) {
+            try {
                 ResourceLocation resourcelocation = new ResourceLocation(s, "optifine/dynamic_lights.properties");
                 InputStream inputstream = Config.getResourceStream(resourcelocation);
                 loadModConfiguration(inputstream, resourcelocation.toString(), s);
-            }
-            catch (IOException var5)
-            {
+            } catch (IOException var5) {
             }
         }
 
@@ -158,37 +150,26 @@ public class DynamicLights
         {
             String[] astring = Config.tokenize(prop, " ");
 
-            for (int i = 0; i < astring.length; ++i)
-            {
-                String s = astring[i];
+            for (String s : astring) {
                 String[] astring1 = Config.tokenize(s, ":");
 
-                if (astring1.length != 2)
-                {
+                if (astring1.length != 2) {
                     cp.warn("Invalid entry: " + s + ", in:" + path);
-                }
-                else
-                {
+                } else {
                     String s1 = astring1[0];
                     String s2 = astring1[1];
                     String s3 = modId + ":" + s1;
                     ResourceLocation resourcelocation = new ResourceLocation(s3);
                     Object object = ol.getObject(resourcelocation);
 
-                    if (object == null)
-                    {
+                    if (object == null) {
                         cp.warn("Object not found: " + s3);
-                    }
-                    else
-                    {
+                    } else {
                         int j = cp.parseInt(s2, -1);
 
-                        if (j >= 0 && j <= 15)
-                        {
+                        if (j >= 0 && j <= 15) {
                             mapLightLevels.put(object, Integer.valueOf(j));
-                        }
-                        else
-                        {
+                        } else {
                             cp.warn("Invalid light level: " + s);
                         }
                     }
@@ -272,35 +253,29 @@ public class DynamicLights
             List<DynamicLight> list = mapDynamicLights.valueList();
             int i = list.size();
 
-            for (int j = 0; j < i; ++j)
-            {
-                DynamicLight dynamiclight = list.get(j);
+            for (DynamicLight dynamiclight : list) {
                 int k = dynamiclight.getLastLightLevel();
 
-                if (k > 0)
-                {
+                if (k > 0) {
                     double d1 = dynamiclight.getLastPosX();
                     double d2 = dynamiclight.getLastPosY();
                     double d3 = dynamiclight.getLastPosZ();
-                    double d4 = (double)pos.getX() - d1;
-                    double d5 = (double)pos.getY() - d2;
-                    double d6 = (double)pos.getZ() - d3;
+                    double d4 = (double) pos.getX() - d1;
+                    double d5 = (double) pos.getY() - d2;
+                    double d6 = (double) pos.getZ() - d3;
                     double d7 = d4 * d4 + d5 * d5 + d6 * d6;
 
-                    if (dynamiclight.isUnderwater() && !Config.isClearWater())
-                    {
+                    if (dynamiclight.isUnderwater() && !Config.isClearWater()) {
                         k = Config.limit(k - 2, 0, 15);
                         d7 *= 2.0D;
                     }
 
-                    if (d7 <= 56.25D)
-                    {
+                    if (d7 <= 56.25D) {
                         double d8 = Math.sqrt(d7);
                         double d9 = 1.0D - d8 / 7.5D;
-                        double d10 = d9 * (double)k;
+                        double d10 = d9 * (double) k;
 
-                        if (d10 > d0)
-                        {
+                        if (d10 > d0) {
                             d0 = d10;
                         }
                     }
@@ -464,9 +439,7 @@ public class DynamicLights
         {
             List<DynamicLight> list = mapDynamicLights.valueList();
 
-            for (int i = 0; i < list.size(); ++i)
-            {
-                DynamicLight dynamiclight = list.get(i);
+            for (DynamicLight dynamiclight : list) {
                 dynamiclight.updateLitChunks(renderGlobal);
             }
 

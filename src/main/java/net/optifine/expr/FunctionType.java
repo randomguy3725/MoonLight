@@ -412,12 +412,8 @@ public enum FunctionType
 
     public static FunctionType parse(String str)
     {
-        for (int i = 0; i < VALUES.length; ++i)
-        {
-            FunctionType functiontype = VALUES[i];
-
-            if (functiontype.getName().equals(str))
-            {
+        for (FunctionType functiontype : VALUES) {
+            if (functiontype.getName().equals(str)) {
                 return functiontype;
             }
         }

@@ -279,13 +279,10 @@ public class Village
         double d0 = Double.MAX_VALUE;
         Village.VillageAggressor village$villageaggressor = null;
 
-        for (int i = 0; i < this.villageAgressors.size(); ++i)
-        {
-            Village.VillageAggressor village$villageaggressor1 = this.villageAgressors.get(i);
+        for (VillageAggressor village$villageaggressor1 : this.villageAgressors) {
             double d1 = village$villageaggressor1.agressor.getDistanceSqToEntity(entitylivingbaseIn);
 
-            if (d1 <= d0)
-            {
+            if (d1 <= d0) {
                 village$villageaggressor = village$villageaggressor1;
                 d0 = d1;
             }

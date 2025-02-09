@@ -55,28 +55,19 @@ public class CustomEntityModels
             {
                 ResourceLocation[] aresourcelocation = getModelLocations();
 
-                for (int i = 0; i < aresourcelocation.length; ++i)
-                {
-                    ResourceLocation resourcelocation = aresourcelocation[i];
+                for (ResourceLocation resourcelocation : aresourcelocation) {
                     Config.dbg("CustomEntityModel: " + resourcelocation.getResourcePath());
                     IEntityRenderer ientityrenderer = parseEntityRender(resourcelocation);
 
-                    if (ientityrenderer != null)
-                    {
+                    if (ientityrenderer != null) {
                         Class oclass = ientityrenderer.getEntityClass();
 
-                        if (oclass != null)
-                        {
-                            if (ientityrenderer instanceof Render)
-                            {
-                                map.put(oclass, (Render)ientityrenderer);
-                            }
-                            else if (ientityrenderer instanceof TileEntitySpecialRenderer)
-                            {
-                                map1.put(oclass, (TileEntitySpecialRenderer)ientityrenderer);
-                            }
-                            else
-                            {
+                        if (oclass != null) {
+                            if (ientityrenderer instanceof Render) {
+                                map.put(oclass, (Render) ientityrenderer);
+                            } else if (ientityrenderer instanceof TileEntitySpecialRenderer) {
+                                map1.put(oclass, (TileEntitySpecialRenderer) ientityrenderer);
+                            } else {
                                 Config.warn("Unknown renderer type: " + ientityrenderer.getClass().getName());
                             }
 
@@ -127,14 +118,11 @@ public class CustomEntityModels
         List<ResourceLocation> list = new ArrayList();
         String[] astring = CustomModelRegistry.getModelNames();
 
-        for (int i = 0; i < astring.length; ++i)
-        {
-            String s2 = astring[i];
+        for (String s2 : astring) {
             String s3 = s + s2 + s1;
             ResourceLocation resourcelocation = new ResourceLocation(s3);
 
-            if (Config.hasResource(resourcelocation))
-            {
+            if (Config.hasResource(resourcelocation)) {
                 list.add(resourcelocation);
             }
         }
@@ -237,12 +225,8 @@ public class CustomEntityModels
 
     private static boolean modifyModel(ModelAdapter modelAdapter, ModelBase model, CustomModelRenderer[] modelRenderers, ModelResolver mr)
     {
-        for (int i = 0; i < modelRenderers.length; ++i)
-        {
-            CustomModelRenderer custommodelrenderer = modelRenderers[i];
-
-            if (!modifyModel(modelAdapter, model, custommodelrenderer, mr))
-            {
+        for (CustomModelRenderer custommodelrenderer : modelRenderers) {
+            if (!modifyModel(modelAdapter, model, custommodelrenderer, mr)) {
                 return false;
             }
         }

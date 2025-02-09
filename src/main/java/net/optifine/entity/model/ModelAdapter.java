@@ -60,13 +60,10 @@ public abstract class ModelAdapter
         String[] astring = this.getModelRendererNames();
         List<ModelRenderer> list = new ArrayList();
 
-        for (int i = 0; i < astring.length; ++i)
-        {
-            String s = astring[i];
+        for (String s : astring) {
             ModelRenderer modelrenderer = this.getModelRenderer(model, s);
 
-            if (modelrenderer != null)
-            {
+            if (modelrenderer != null) {
                 list.add(modelrenderer);
             }
         }

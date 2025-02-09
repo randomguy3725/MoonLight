@@ -27,17 +27,13 @@ public class ShaderExpressionResolver implements IExpressionResolver
     {
         ShaderParameterFloat[] ashaderparameterfloat = ShaderParameterFloat.values();
 
-        for (int i = 0; i < ashaderparameterfloat.length; ++i)
-        {
-            ShaderParameterFloat shaderparameterfloat = ashaderparameterfloat[i];
+        for (ShaderParameterFloat shaderparameterfloat : ashaderparameterfloat) {
             this.addParameterFloat(this.mapExpressions, shaderparameterfloat);
         }
 
         ShaderParameterBool[] ashaderparameterbool = ShaderParameterBool.values();
 
-        for (int k = 0; k < ashaderparameterbool.length; ++k)
-        {
-            ShaderParameterBool shaderparameterbool = ashaderparameterbool[k];
+        for (ShaderParameterBool shaderparameterbool : ashaderparameterbool) {
             this.mapExpressions.put(shaderparameterbool.getName(), shaderparameterbool);
         }
 

@@ -136,12 +136,8 @@ public class RenderChunk
         this.renderChunksOffset16Updated = false;
         this.renderChunkNeighboursUpated = false;
 
-        for (int k = 0; k < this.renderChunkNeighbours.length; ++k)
-        {
-            RenderChunk renderchunk = this.renderChunkNeighbours[k];
-
-            if (renderchunk != null)
-            {
+        for (RenderChunk renderchunk : this.renderChunkNeighbours) {
+            if (renderchunk != null) {
                 renderchunk.renderChunkNeighboursUpated = false;
             }
         }
@@ -237,45 +233,38 @@ public class RenderChunk
                     aenumworldblocklayer[0] = block.getBlockLayer();
                 }
 
-                for (int j = 0; j < aenumworldblocklayer.length; ++j)
-                {
-                    EnumWorldBlockLayer enumworldblocklayer = aenumworldblocklayer[j];
+                for (EnumWorldBlockLayer enumWorldBlockLayer : aenumworldblocklayer) {
+                    EnumWorldBlockLayer enumworldblocklayer = enumWorldBlockLayer;
 
-                    if (flag)
-                    {
+                    if (flag) {
                         boolean flag2 = Reflector.callBoolean(block, Reflector.ForgeBlock_canRenderInLayer, enumworldblocklayer);
 
-                        if (!flag2)
-                        {
+                        if (!flag2) {
                             continue;
                         }
                     }
 
-                    if (flag1)
-                    {
+                    if (flag1) {
                         Reflector.callVoid(Reflector.ForgeHooksClient_setRenderLayer, enumworldblocklayer);
                     }
 
                     enumworldblocklayer = this.fixBlockLayer(iblockstate, enumworldblocklayer);
                     int k = enumworldblocklayer.ordinal();
 
-                    if (block.getRenderType() != -1)
-                    {
+                    if (block.getRenderType() != -1) {
                         WorldRenderer worldrenderer = generator.getRegionRenderCacheBuilder().getWorldRendererByLayerId(k);
                         worldrenderer.setBlockLayer(enumworldblocklayer);
                         RenderEnv renderenv = worldrenderer.getRenderEnv(iblockstate, blockposm);
                         renderenv.setRegionRenderCacheBuilder(generator.getRegionRenderCacheBuilder());
 
-                        if (!compiledchunk.isLayerStarted(enumworldblocklayer))
-                        {
+                        if (!compiledchunk.isLayerStarted(enumworldblocklayer)) {
                             compiledchunk.setLayerStarted(enumworldblocklayer);
                             this.preRenderBlocks(worldrenderer, blockpos);
                         }
 
                         aboolean[k] |= blockrendererdispatcher.renderBlock(iblockstate, blockposm, chunkcacheof, worldrenderer);
 
-                        if (renderenv.isOverlaysRendered())
-                        {
+                        if (renderenv.isOverlaysRendered()) {
                             this.postRenderOverlays(generator.getRegionRenderCacheBuilder(), compiledchunk, aboolean);
                             renderenv.setOverlaysRendered(false);
                         }

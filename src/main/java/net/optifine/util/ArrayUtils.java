@@ -13,12 +13,8 @@ public class ArrayUtils
         }
         else
         {
-            for (int i = 0; i < arr.length; ++i)
-            {
-                Object object = arr[i];
-
-                if (object == val)
-                {
+            for (Object object : arr) {
+                if (object == val) {
                     return true;
                 }
             }
@@ -292,10 +288,8 @@ public class ArrayUtils
 
     public static boolean equalsOne(int val, int[] vals)
     {
-        for (int i = 0; i < vals.length; ++i)
-        {
-            if (vals[i] == val)
-            {
+        for (int j : vals) {
+            if (j == val) {
                 return true;
             }
         }
@@ -311,12 +305,8 @@ public class ArrayUtils
         }
         else
         {
-            for (int i = 0; i < bs.length; ++i)
-            {
-                Object object = bs[i];
-
-                if (equals(a, object))
-                {
+            for (Object object : bs) {
+                if (equals(a, object)) {
                     return true;
                 }
             }
@@ -338,12 +328,8 @@ public class ArrayUtils
         }
         else
         {
-            for (int i = 0; i < bs.length; ++i)
-            {
-                Object object = bs[i];
-
-                if (a == object)
-                {
+            for (Object object : bs) {
+                if (a == object) {
                     return true;
                 }
             }

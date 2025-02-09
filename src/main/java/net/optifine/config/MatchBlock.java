@@ -55,10 +55,8 @@ public class MatchBlock
         {
             if (metadata >= 0 && metadata <= 15)
             {
-                for (int i = 0; i < this.metadatas.length; ++i)
-                {
-                    if (this.metadatas[i] == metadata)
-                    {
+                for (int j : this.metadatas) {
+                    if (j == metadata) {
                         return;
                     }
                 }

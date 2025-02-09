@@ -607,11 +607,9 @@ public class InventoryPlayer implements IInventory
     {
         int i = 0;
 
-        for (int j = 0; j < this.armorInventory.length; ++j)
-        {
-            if (this.armorInventory[j] != null && this.armorInventory[j].getItem() instanceof ItemArmor)
-            {
-                int k = ((ItemArmor)this.armorInventory[j].getItem()).damageReduceAmount;
+        for (ItemStack stack : this.armorInventory) {
+            if (stack != null && stack.getItem() instanceof ItemArmor) {
+                int k = ((ItemArmor) stack.getItem()).damageReduceAmount;
                 i += k;
             }
         }
@@ -685,18 +683,14 @@ public class InventoryPlayer implements IInventory
 
     public boolean hasItemStack(ItemStack itemStackIn)
     {
-        for (int i = 0; i < this.armorInventory.length; ++i)
-        {
-            if (this.armorInventory[i] != null && this.armorInventory[i].isItemEqual(itemStackIn))
-            {
+        for (ItemStack value : this.armorInventory) {
+            if (value != null && value.isItemEqual(itemStackIn)) {
                 return true;
             }
         }
 
-        for (int j = 0; j < this.mainInventory.length; ++j)
-        {
-            if (this.mainInventory[j] != null && this.mainInventory[j].isItemEqual(itemStackIn))
-            {
+        for (ItemStack stack : this.mainInventory) {
+            if (stack != null && stack.isItemEqual(itemStackIn)) {
                 return true;
             }
         }

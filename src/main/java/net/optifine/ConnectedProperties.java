@@ -276,33 +276,24 @@ public class ConnectedProperties
             String[] astring = Config.tokenize(str, " ,");
             label32:
 
-            for (int i = 0; i < astring.length; ++i)
-            {
-                String s = astring[i];
-
-                if (s.contains("-"))
-                {
+            for (String s : astring) {
+                if (s.contains("-")) {
                     String[] astring1 = Config.tokenize(s, "-");
 
-                    if (astring1.length == 2)
-                    {
+                    if (astring1.length == 2) {
                         int j = Config.parseInt(astring1[0], -1);
                         int k = Config.parseInt(astring1[1], -1);
 
-                        if (j >= 0 && k >= 0)
-                        {
-                            if (j > k)
-                            {
+                        if (j >= 0 && k >= 0) {
+                            if (j > k) {
                                 Config.warn("Invalid interval: " + s + ", when parsing: " + str);
                                 continue;
                             }
 
                             int l = j;
 
-                            while (true)
-                            {
-                                if (l > k)
-                                {
+                            while (true) {
+                                if (l > k) {
                                     continue label32;
                                 }
 
@@ -382,9 +373,7 @@ public class ConnectedProperties
             String[] astring = Config.tokenize(str, " ,");
             int i = 0;
 
-            for (int j = 0; j < astring.length; ++j)
-            {
-                String s = astring[j];
+            for (String s : astring) {
                 int k = parseFace(s);
                 i |= k;
             }
@@ -1145,43 +1134,33 @@ public class ConnectedProperties
         {
             List list = new ArrayList();
 
-            for (int i = 0; i < tileNames.length; ++i)
-            {
-                String s = tileNames[i];
+            for (String s : tileNames) {
                 ResourceLocation resourcelocation = new ResourceLocation(s);
                 String s1 = resourcelocation.getResourceDomain();
                 String s2 = resourcelocation.getResourcePath();
 
-                if (!s2.contains("/"))
-                {
+                if (!s2.contains("/")) {
                     s2 = "textures/blocks/" + s2;
                 }
 
                 String s3 = s2 + ".png";
 
-                if (skipTiles && s3.endsWith("<skip>.png"))
-                {
+                if (skipTiles && s3.endsWith("<skip>.png")) {
                     list.add(null);
-                }
-                else if (defaultTiles && s3.endsWith("<default>.png"))
-                {
+                } else if (defaultTiles && s3.endsWith("<default>.png")) {
                     list.add(ConnectedTextures.SPRITE_DEFAULT);
-                }
-                else
-                {
+                } else {
                     ResourceLocation resourcelocation1 = new ResourceLocation(s1, s3);
                     boolean flag = Config.hasResource(resourcelocation1);
 
-                    if (!flag)
-                    {
+                    if (!flag) {
                         Config.warn("File not found: " + s3);
                     }
 
                     String s4 = "textures/";
                     String s5 = s2;
 
-                    if (s2.startsWith(s4))
-                    {
+                    if (s2.startsWith(s4)) {
                         s5 = s2.substring(s4.length());
                     }
 
@@ -1228,9 +1207,7 @@ public class ConnectedProperties
 
         if (this.matchBlocks != null)
         {
-            for (int j = 0; j < this.matchBlocks.length; ++j)
-            {
-                MatchBlock matchblock = this.matchBlocks[j];
+            for (MatchBlock matchblock : this.matchBlocks) {
                 i = this.getMax(matchblock.getMetadatas(), i);
             }
         }
@@ -1246,12 +1223,8 @@ public class ConnectedProperties
         }
         else
         {
-            for (int i = 0; i < mds.length; ++i)
-            {
-                int j = mds[i];
-
-                if (j > max)
-                {
+            for (int j : mds) {
+                if (j > max) {
                     max = j;
                 }
             }

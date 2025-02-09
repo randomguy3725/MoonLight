@@ -1856,9 +1856,7 @@ public abstract class EntityLivingBase extends Entity
 
         if (!list.isEmpty())
         {
-            for (int i = 0; i < list.size(); ++i)
-            {
-                Entity entity = list.get(i);
+            for (Entity entity : list) {
                 this.collideWithEntity(entity);
             }
         }

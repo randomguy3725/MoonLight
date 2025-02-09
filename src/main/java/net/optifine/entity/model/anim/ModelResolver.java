@@ -93,20 +93,16 @@ public class ModelResolver implements IModelResolver
             }
             else
             {
-                for (int i = 0; i < this.customModelRenderers.length; ++i)
-                {
-                    CustomModelRenderer custommodelrenderer = this.customModelRenderers[i];
+                for (CustomModelRenderer custommodelrenderer : this.customModelRenderers) {
                     ModelRenderer modelrenderer1 = custommodelrenderer.getModelRenderer();
 
-                    if (name.equals(modelrenderer1.getId()))
-                    {
+                    if (name.equals(modelrenderer1.getId())) {
                         return modelrenderer1;
                     }
 
                     ModelRenderer modelrenderer2 = modelrenderer1.getChildDeep(name);
 
-                    if (modelrenderer2 != null)
-                    {
+                    if (modelrenderer2 != null) {
                         return modelrenderer2;
                     }
                 }

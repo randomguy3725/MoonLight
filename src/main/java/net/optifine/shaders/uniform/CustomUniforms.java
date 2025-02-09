@@ -31,9 +31,7 @@ public class CustomUniforms
 
     public void setProgram(int program)
     {
-        for (int i = 0; i < this.uniforms.length; ++i)
-        {
-            CustomUniform customuniform = this.uniforms[i];
+        for (CustomUniform customuniform : this.uniforms) {
             customuniform.setProgram(program);
         }
     }
@@ -42,27 +40,21 @@ public class CustomUniforms
     {
         this.resetCache();
 
-        for (int i = 0; i < this.uniforms.length; ++i)
-        {
-            CustomUniform customuniform = this.uniforms[i];
+        for (CustomUniform customuniform : this.uniforms) {
             customuniform.update();
         }
     }
 
     private void resetCache()
     {
-        for (int i = 0; i < this.expressionsCached.length; ++i)
-        {
-            IExpressionCached iexpressioncached = this.expressionsCached[i];
+        for (IExpressionCached iexpressioncached : this.expressionsCached) {
             iexpressioncached.reset();
         }
     }
 
     public void reset()
     {
-        for (int i = 0; i < this.uniforms.length; ++i)
-        {
-            CustomUniform customuniform = this.uniforms[i];
+        for (CustomUniform customuniform : this.uniforms) {
             customuniform.reset();
         }
     }

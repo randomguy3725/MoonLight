@@ -124,37 +124,30 @@ public class Explosion
         List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this.exploder, new AxisAlignedBB(k1, i2, j2, l1, i1, j1));
         Vec3 vec3 = new Vec3(this.explosionX, this.explosionY, this.explosionZ);
 
-        for (int k2 = 0; k2 < list.size(); ++k2)
-        {
-            Entity entity = list.get(k2);
+        for (Entity entity : list) {
+            if (!entity.isImmuneToExplosions()) {
+                double d12 = entity.getDistance(this.explosionX, this.explosionY, this.explosionZ) / (double) f3;
 
-            if (!entity.isImmuneToExplosions())
-            {
-                double d12 = entity.getDistance(this.explosionX, this.explosionY, this.explosionZ) / (double)f3;
-
-                if (d12 <= 1.0D)
-                {
+                if (d12 <= 1.0D) {
                     double d5 = entity.posX - this.explosionX;
-                    double d7 = entity.posY + (double)entity.getEyeHeight() - this.explosionY;
+                    double d7 = entity.posY + (double) entity.getEyeHeight() - this.explosionY;
                     double d9 = entity.posZ - this.explosionZ;
                     double d13 = MathHelper.sqrt_double(d5 * d5 + d7 * d7 + d9 * d9);
 
-                    if (d13 != 0.0D)
-                    {
+                    if (d13 != 0.0D) {
                         d5 = d5 / d13;
                         d7 = d7 / d13;
                         d9 = d9 / d13;
                         double d14 = this.worldObj.getBlockDensity(vec3, entity.getEntityBoundingBox());
                         double d10 = (1.0D - d12) * d14;
-                        entity.attackEntityFrom(DamageSource.setExplosionSource(this), (float)((int)((d10 * d10 + d10) / 2.0D * 8.0D * (double)f3 + 1.0D)));
+                        entity.attackEntityFrom(DamageSource.setExplosionSource(this), (float) ((int) ((d10 * d10 + d10) / 2.0D * 8.0D * (double) f3 + 1.0D)));
                         double d11 = EnchantmentProtection.func_92092_a(entity, d10);
                         entity.motionX += d5 * d11;
                         entity.motionY += d7 * d11;
                         entity.motionZ += d9 * d11;
 
-                        if (entity instanceof EntityPlayer && !((EntityPlayer)entity).capabilities.disableDamage)
-                        {
-                            this.playerKnockbackMap.put((EntityPlayer)entity, new Vec3(d5 * d10, d7 * d10, d9 * d10));
+                        if (entity instanceof EntityPlayer && !((EntityPlayer) entity).capabilities.disableDamage) {
+                            this.playerKnockbackMap.put((EntityPlayer) entity, new Vec3(d5 * d10, d7 * d10, d9 * d10));
                         }
                     }
                 }

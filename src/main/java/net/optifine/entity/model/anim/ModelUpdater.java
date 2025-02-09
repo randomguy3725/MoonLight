@@ -11,21 +11,15 @@ public class ModelUpdater
 
     public void update()
     {
-        for (int i = 0; i < this.modelVariableUpdaters.length; ++i)
-        {
-            ModelVariableUpdater modelvariableupdater = this.modelVariableUpdaters[i];
+        for (ModelVariableUpdater modelvariableupdater : this.modelVariableUpdaters) {
             modelvariableupdater.update();
         }
     }
 
     public boolean initialize(IModelResolver mr)
     {
-        for (int i = 0; i < this.modelVariableUpdaters.length; ++i)
-        {
-            ModelVariableUpdater modelvariableupdater = this.modelVariableUpdaters[i];
-
-            if (!modelvariableupdater.initialize(mr))
-            {
+        for (ModelVariableUpdater modelvariableupdater : this.modelVariableUpdaters) {
+            if (!modelvariableupdater.initialize(mr)) {
                 return false;
             }
         }

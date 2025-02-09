@@ -96,18 +96,14 @@ public class PlayerManager
         {
             this.previousTotalWorldTime = j;
 
-            for (int k = 0; k < this.playerInstanceList.size(); ++k)
-            {
-                PlayerManager.PlayerInstance playermanager$playerinstance1 = this.playerInstanceList.get(k);
+            for (PlayerInstance playermanager$playerinstance1 : this.playerInstanceList) {
                 playermanager$playerinstance1.onUpdate();
                 playermanager$playerinstance1.processChunk();
             }
         }
         else
         {
-            for (int l = 0; l < this.playerInstancesToUpdate.size(); ++l)
-            {
-                PlayerManager.PlayerInstance playermanager$playerinstance2 = this.playerInstancesToUpdate.get(l);
+            for (PlayerInstance playermanager$playerinstance2 : this.playerInstancesToUpdate) {
                 playermanager$playerinstance2.onUpdate();
             }
         }
@@ -563,12 +559,8 @@ public class PlayerManager
 
         public void sendToAllPlayersWatchingChunk(Packet thePacket)
         {
-            for (int i = 0; i < this.playersWatchingChunk.size(); ++i)
-            {
-                EntityPlayerMP entityplayermp = this.playersWatchingChunk.get(i);
-
-                if (!entityplayermp.loadedChunks.contains(this.chunkCoords))
-                {
+            for (EntityPlayerMP entityplayermp : this.playersWatchingChunk) {
+                if (!entityplayermp.loadedChunks.contains(this.chunkCoords)) {
                     entityplayermp.playerNetServerHandler.sendPacket(thePacket);
                 }
             }
@@ -621,9 +613,8 @@ public class PlayerManager
                             int l = k << 4;
                             List<TileEntity> list = PlayerManager.this.theWorldServer.getTileEntitiesIn(i, l, j, i + 16, l + 16, j + 16);
 
-                            for (int i1 = 0; i1 < list.size(); ++i1)
-                            {
-                                this.sendTileToAllPlayersWatchingChunk(list.get(i1));
+                            for (TileEntity tileEntity : list) {
+                                this.sendTileToAllPlayersWatchingChunk(tileEntity);
                             }
                         }
                     }

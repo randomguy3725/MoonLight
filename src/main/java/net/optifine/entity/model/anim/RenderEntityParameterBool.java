@@ -119,12 +119,8 @@ public enum RenderEntityParameterBool implements IExpressionBool
         }
         else
         {
-            for (int i = 0; i < VALUES.length; ++i)
-            {
-                RenderEntityParameterBool renderentityparameterbool = VALUES[i];
-
-                if (renderentityparameterbool.getName().equals(str))
-                {
+            for (RenderEntityParameterBool renderentityparameterbool : VALUES) {
+                if (renderentityparameterbool.getName().equals(str)) {
                     return renderentityparameterbool;
                 }
             }

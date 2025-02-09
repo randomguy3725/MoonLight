@@ -140,13 +140,11 @@ public class EntityArmorStand extends EntityLivingBase
         super.writeEntityToNBT(tagCompound);
         NBTTagList nbttaglist = new NBTTagList();
 
-        for (int i = 0; i < this.contents.length; ++i)
-        {
+        for (ItemStack content : this.contents) {
             NBTTagCompound nbttagcompound = new NBTTagCompound();
 
-            if (this.contents[i] != null)
-            {
-                this.contents[i].writeToNBT(nbttagcompound);
+            if (content != null) {
+                content.writeToNBT(nbttagcompound);
             }
 
             nbttaglist.appendTag(nbttagcompound);
@@ -322,12 +320,8 @@ public class EntityArmorStand extends EntityLivingBase
 
         if (list != null && !list.isEmpty())
         {
-            for (int i = 0; i < list.size(); ++i)
-            {
-                Entity entity = list.get(i);
-
-                if (entity instanceof EntityMinecart && ((EntityMinecart)entity).getMinecartType() == EntityMinecart.EnumMinecartType.RIDEABLE && this.getDistanceSqToEntity(entity) <= 0.2D)
-                {
+            for (Entity entity : list) {
+                if (entity instanceof EntityMinecart && ((EntityMinecart) entity).getMinecartType() == EntityMinecart.EnumMinecartType.RIDEABLE && this.getDistanceSqToEntity(entity) <= 0.2D) {
                     entity.applyEntityCollision(this);
                 }
             }

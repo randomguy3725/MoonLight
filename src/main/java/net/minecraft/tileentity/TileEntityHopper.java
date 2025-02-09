@@ -304,12 +304,10 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
         {
             int[] aint = isidedinventory.getSlotsForFace(side);
 
-            for (int k = 0; k < aint.length; ++k)
-            {
-                ItemStack itemstack1 = isidedinventory.getStackInSlot(aint[k]);
+            for (int i : aint) {
+                ItemStack itemstack1 = isidedinventory.getStackInSlot(i);
 
-                if (itemstack1 == null || itemstack1.stackSize != itemstack1.getMaxStackSize())
-                {
+                if (itemstack1 == null || itemstack1.stackSize != itemstack1.getMaxStackSize()) {
                     return false;
                 }
             }
@@ -338,10 +336,8 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
         {
             int[] aint = isidedinventory.getSlotsForFace(side);
 
-            for (int i = 0; i < aint.length; ++i)
-            {
-                if (isidedinventory.getStackInSlot(aint[i]) != null)
-                {
+            for (int j : aint) {
+                if (isidedinventory.getStackInSlot(j) != null) {
                     return false;
                 }
             }
@@ -379,10 +375,8 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
             {
                 int[] aint = isidedinventory.getSlotsForFace(enumfacing);
 
-                for (int i = 0; i < aint.length; ++i)
-                {
-                    if (pullItemFromSlot(p_145891_0_, iinventory, aint[i], enumfacing))
-                    {
+                for (int j : aint) {
+                    if (pullItemFromSlot(p_145891_0_, iinventory, j, enumfacing)) {
                         return true;
                     }
                 }

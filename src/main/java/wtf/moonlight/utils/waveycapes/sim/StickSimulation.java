@@ -91,8 +91,7 @@ public class StickSimulation {
             }
         }
         // fix in the position/length, this prevents it from acting like a spring/stretchy
-        for (int x = 0; x < sticks.size(); x++) {
-            Stick stick = sticks.get(x);
+        for (Stick stick : sticks) {
             Vector2 stickDir = stick.pointA.position.clone().subtract(stick.pointB.position).normalize();
             if (!stick.pointB.locked) {
                 stick.pointB.position = stick.pointA.position.clone().subtract(stickDir.mul(stick.length));

@@ -241,9 +241,8 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
             {
                 int i = packetIn.getEntityID() - entity.getEntityId();
 
-                for (int j = 0; j < aentity.length; ++j)
-                {
-                    aentity[j].setEntityId(aentity[j].getEntityId() + i);
+                for (Entity value : aentity) {
+                    value.setEntityId(value.getEntityId() + i);
                 }
             }
 
@@ -704,9 +703,8 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         {
             int i = packetIn.getEntityID() - entitylivingbase.getEntityId();
 
-            for (int j = 0; j < aentity.length; ++j)
-            {
-                aentity[j].setEntityId(aentity[j].getEntityId() + i);
+            for (Entity entity : aentity) {
+                entity.setEntityId(entity.getEntityId() + i);
             }
         }
 

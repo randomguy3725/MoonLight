@@ -190,19 +190,15 @@ public class SaveFormatOld implements ISaveFormat
 
     protected static boolean deleteFiles(File[] files)
     {
-        for (int i = 0; i < files.length; ++i)
-        {
-            File file1 = files[i];
+        for (File file1 : files) {
             logger.debug("Deleting " + file1);
 
-            if (file1.isDirectory() && !deleteFiles(file1.listFiles()))
-            {
+            if (file1.isDirectory() && !deleteFiles(file1.listFiles())) {
                 logger.warn("Couldn't delete directory " + file1);
                 return false;
             }
 
-            if (!file1.delete())
-            {
+            if (!file1.delete()) {
                 logger.warn("Couldn't delete file " + file1);
                 return false;
             }

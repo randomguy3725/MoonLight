@@ -13,9 +13,7 @@ public class PlayerConfiguration
     {
         if (this.initialized)
         {
-            for (int i = 0; i < this.playerItemModels.length; ++i)
-            {
-                PlayerItemModel playeritemmodel = this.playerItemModels[i];
+            for (PlayerItemModel playeritemmodel : this.playerItemModels) {
                 playeritemmodel.render(modelBiped, player, scale, partialTicks);
             }
         }

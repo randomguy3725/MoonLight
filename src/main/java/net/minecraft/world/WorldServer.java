@@ -693,13 +693,10 @@ public class WorldServer extends World implements IThreadListener
     {
         List<TileEntity> list = Lists.newArrayList();
 
-        for (int i = 0; i < this.loadedTileEntityList.size(); ++i)
-        {
-            TileEntity tileentity = this.loadedTileEntityList.get(i);
+        for (TileEntity tileentity : this.loadedTileEntityList) {
             BlockPos blockpos = tileentity.getPos();
 
-            if (blockpos.getX() >= minX && blockpos.getY() >= minY && blockpos.getZ() >= minZ && blockpos.getX() < maxX && blockpos.getY() < maxY && blockpos.getZ() < maxZ)
-            {
+            if (blockpos.getX() >= minX && blockpos.getY() >= minY && blockpos.getZ() >= minZ && blockpos.getX() < maxX && blockpos.getY() < maxY && blockpos.getZ() < maxZ) {
                 list.add(tileentity);
             }
         }
@@ -899,9 +896,8 @@ public class WorldServer extends World implements IThreadListener
 
         if (aentity != null)
         {
-            for (int i = 0; i < aentity.length; ++i)
-            {
-                this.entitiesById.addKey(aentity[i].getEntityId(), aentity[i]);
+            for (Entity entity : aentity) {
+                this.entitiesById.addKey(entity.getEntityId(), entity);
             }
         }
     }
@@ -915,9 +911,8 @@ public class WorldServer extends World implements IThreadListener
 
         if (aentity != null)
         {
-            for (int i = 0; i < aentity.length; ++i)
-            {
-                this.entitiesById.removeObject(aentity[i].getEntityId());
+            for (Entity entity : aentity) {
+                this.entitiesById.removeObject(entity.getEntityId());
             }
         }
     }
@@ -1072,14 +1067,12 @@ public class WorldServer extends World implements IThreadListener
     {
         Packet packet = new S2APacketParticles(particleType, longDistance, (float)xCoord, (float)yCoord, (float)zCoord, (float)xOffset, (float)yOffset, (float)zOffset, (float)particleSpeed, numberOfParticles, particleArguments);
 
-        for (int i = 0; i < this.playerEntities.size(); ++i)
-        {
-            EntityPlayerMP entityplayermp = (EntityPlayerMP)this.playerEntities.get(i);
+        for (EntityPlayer playerEntity : this.playerEntities) {
+            EntityPlayerMP entityplayermp = (EntityPlayerMP) playerEntity;
             BlockPos blockpos = entityplayermp.getPosition();
             double d0 = blockpos.distanceSq(xCoord, yCoord, zCoord);
 
-            if (d0 <= 256.0D || longDistance && d0 <= 65536.0D)
-            {
+            if (d0 <= 256.0D || longDistance && d0 <= 65536.0D) {
                 entityplayermp.playerNetServerHandler.sendPacket(packet);
             }
         }

@@ -229,23 +229,17 @@ public class ChunkProviderServer implements IChunkProvider
         int i = 0;
         List<Chunk> list = Lists.newArrayList(this.loadedChunks);
 
-        for (int j = 0; j < list.size(); ++j)
-        {
-            Chunk chunk = list.get(j);
-
-            if (saveAllChunks)
-            {
+        for (Chunk chunk : list) {
+            if (saveAllChunks) {
                 this.saveChunkExtraData(chunk);
             }
 
-            if (chunk.needsSaving(saveAllChunks))
-            {
+            if (chunk.needsSaving(saveAllChunks)) {
                 this.saveChunkData(chunk);
                 chunk.setModified(false);
                 ++i;
 
-                if (i == 24 && !saveAllChunks)
-                {
+                if (i == 24 && !saveAllChunks) {
                     return false;
                 }
             }

@@ -64,9 +64,7 @@ public class ReflectorMethod implements IResolvable
                         {
                             Log.warn("(Reflector) More than one method found: " + oclass.getName() + "." + this.targetMethodName);
 
-                            for (int i = 0; i < amethod.length; ++i)
-                            {
-                                Method method = amethod[i];
+                            for (Method method : amethod) {
                                 Log.warn("(Reflector)  - " + method);
                             }
 
@@ -186,16 +184,11 @@ public class ReflectorMethod implements IResolvable
     {
         Method[] amethod = cls.getDeclaredMethods();
 
-        for (int i = 0; i < amethod.length; ++i)
-        {
-            Method method = amethod[i];
-
-            if (method.getName().equals(methodName))
-            {
+        for (Method method : amethod) {
+            if (method.getName().equals(methodName)) {
                 Class[] aclass = method.getParameterTypes();
 
-                if (Reflector.matchesTypes(paramTypes, aclass))
-                {
+                if (Reflector.matchesTypes(paramTypes, aclass)) {
                     return method;
                 }
             }
@@ -209,12 +202,8 @@ public class ReflectorMethod implements IResolvable
         List list = new ArrayList();
         Method[] amethod = cls.getDeclaredMethods();
 
-        for (int i = 0; i < amethod.length; ++i)
-        {
-            Method method = amethod[i];
-
-            if (method.getName().equals(methodName))
-            {
+        for (Method method : amethod) {
+            if (method.getName().equals(methodName)) {
                 list.add(method);
             }
         }

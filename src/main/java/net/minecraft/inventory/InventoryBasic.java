@@ -182,9 +182,8 @@ public class InventoryBasic implements IInventory
     {
         if (this.changeListeners != null)
         {
-            for (int i = 0; i < this.changeListeners.size(); ++i)
-            {
-                this.changeListeners.get(i).onInventoryChanged(this);
+            for (IInvBasic changeListener : this.changeListeners) {
+                changeListener.onInventoryChanged(this);
             }
         }
     }

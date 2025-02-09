@@ -38,14 +38,9 @@ public class FieldLocatorType implements IFieldLocator
                 Field[] afield = oclass.getDeclaredFields();
                 int i = 0;
 
-                for (int j = 0; j < afield.length; ++j)
-                {
-                    Field field = afield[j];
-
-                    if (field.getType() == this.targetFieldType)
-                    {
-                        if (i == this.targetFieldIndex)
-                        {
+                for (Field field : afield) {
+                    if (field.getType() == this.targetFieldType) {
+                        if (i == this.targetFieldIndex) {
                             field.setAccessible(true);
                             return field;
                         }

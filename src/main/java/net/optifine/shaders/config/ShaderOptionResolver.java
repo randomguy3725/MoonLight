@@ -11,12 +11,8 @@ public class ShaderOptionResolver implements IExpressionResolver
 
     public ShaderOptionResolver(ShaderOption[] options)
     {
-        for (int i = 0; i < options.length; ++i)
-        {
-            ShaderOption shaderoption = options[i];
-
-            if (shaderoption instanceof ShaderOptionSwitch shaderoptionswitch)
-            {
+        for (ShaderOption shaderoption : options) {
+            if (shaderoption instanceof ShaderOptionSwitch shaderoptionswitch) {
                 ExpressionShaderOptionSwitch expressionshaderoptionswitch = new ExpressionShaderOptionSwitch(shaderoptionswitch);
                 this.mapOptions.put(shaderoption.getName(), expressionshaderoptionswitch);
             }

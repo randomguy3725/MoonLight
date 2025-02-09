@@ -457,9 +457,8 @@ public class PlayerItemParser
 
         boolean flag = false;
 
-        for (int i = 0; i < aint.length; ++i)
-        {
-            if (aint[i] != null) {
+        for (int[] ints : aint) {
+            if (ints != null) {
                 flag = true;
                 break;
             }

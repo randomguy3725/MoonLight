@@ -80,11 +80,9 @@ public class WorldType
 
     public static WorldType parseWorldType(String type)
     {
-        for (int i = 0; i < worldTypes.length; ++i)
-        {
-            if (worldTypes[i] != null && worldTypes[i].worldType.equalsIgnoreCase(type))
-            {
-                return worldTypes[i];
+        for (WorldType value : worldTypes) {
+            if (value != null && value.worldType.equalsIgnoreCase(type)) {
+                return value;
             }
         }
 

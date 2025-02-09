@@ -9,18 +9,14 @@ public class ShaderUniforms
 
     public void setProgram(int program)
     {
-        for (int i = 0; i < this.listUniforms.size(); ++i)
-        {
-            ShaderUniformBase shaderuniformbase = this.listUniforms.get(i);
+        for (ShaderUniformBase shaderuniformbase : this.listUniforms) {
             shaderuniformbase.setProgram(program);
         }
     }
 
     public void reset()
     {
-        for (int i = 0; i < this.listUniforms.size(); ++i)
-        {
-            ShaderUniformBase shaderuniformbase = this.listUniforms.get(i);
+        for (ShaderUniformBase shaderuniformbase : this.listUniforms) {
             shaderuniformbase.reset();
         }
     }

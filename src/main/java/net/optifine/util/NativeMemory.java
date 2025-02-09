@@ -21,16 +21,14 @@ public class NativeMemory {
 	private static LongSupplier makeLongSupplier(String[][] paths) {
 		List<Throwable> list = new ArrayList();
 
-		for (int i = 0; i < paths.length; ++i) {
-			String[] astring = paths[i];
-
-			try {
-				LongSupplier longsupplier = makeLongSupplier(astring);
-				return longsupplier;
-			} catch (Throwable throwable) {
-				list.add(throwable);
-			}
-		}
+        for (String[] astring : paths) {
+            try {
+                LongSupplier longsupplier = makeLongSupplier(astring);
+                return longsupplier;
+            } catch (Throwable throwable) {
+                list.add(throwable);
+            }
+        }
 
 		for (Throwable throwable1 : list) {
 			Config.warn(throwable1.getClass().getName() + ": " + throwable1.getMessage());
