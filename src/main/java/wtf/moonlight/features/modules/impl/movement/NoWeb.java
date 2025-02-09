@@ -18,7 +18,7 @@ import java.util.Map;
 @ModuleInfo(name = "NoWeb",category = ModuleCategory.Movement)
 public class NoWeb extends Module {
 
-    private final ModeValue mode = new ModeValue("Mode", new String[]{"Vanilla", "GrimAC"}, "Vanilla",this);
+    private final ModeValue mode = new ModeValue("Mode", new String[]{"Vanilla", "GrimAC", "Intave"}, "Vanilla",this);
     @EventTarget
     public void onMotion(MotionEvent event) {
         setTag(mode.get());
@@ -40,6 +40,13 @@ public class NoWeb extends Module {
                 }
                 mc.thePlayer.isInWeb = false;
                 break;
+            case "Intave":
+                Map<BlockPos, Block> searchBlock = PlayerUtils.searchBlocks(2);
+                for (Map.Entry<BlockPos, Block> block : searchBlock.entrySet()) {
+                    if (mc.theWorld.getBlockState(block.getKey()).getBlock() instanceof BlockWeb) {
+                        mc.thePlayer.motionY = -0.01;
+                        }
+                        break;
         }
     }
 }
