@@ -10,8 +10,6 @@
  */
 package wtf.moonlight.utils.misc;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,7 +35,7 @@ public final class FilteredArrayList<T, F> implements Iterable<F> {
     }
 
     public void update() {
-        this.filtered = new ObjectArrayList<>(list.size());
+        this.filtered = new ArrayList<>(list.size());
 
         for (T t : list) {
             F f = mapper.apply(t);
@@ -126,7 +124,7 @@ public final class FilteredArrayList<T, F> implements Iterable<F> {
 
     @NotNull
     private Set<F> mapCollection(@NotNull Collection<? extends T> c) {
-        Set<F> result = new ObjectOpenHashSet<>(c.size());
+        Set<F> result = new HashSet<>(c.size());
 
         for (T t : c) {
             F f = mapper.apply(t);

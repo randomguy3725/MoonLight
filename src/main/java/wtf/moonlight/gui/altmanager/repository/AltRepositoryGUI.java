@@ -12,8 +12,6 @@ package wtf.moonlight.gui.altmanager.repository;
 
 import com.google.common.base.Strings;
 import com.mojang.authlib.GameProfile;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectLists;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -67,6 +65,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -102,7 +101,7 @@ public class AltRepositoryGUI extends GuiScreen {
 
     private TokenField searchField;
     private final FilteredArrayList<Alt, Alt> alts = new FilteredArrayList<>(
-            ObjectLists.synchronize(new ObjectArrayList<>()), alt -> {
+            new CopyOnWriteArrayList<>(), alt -> {
         if (this.searchField == null || StringUtils.isBlank(this.searchField.getText())) return alt;
         if (alt == null) return null;
 
