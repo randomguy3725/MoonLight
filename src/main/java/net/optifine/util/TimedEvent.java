@@ -12,9 +12,9 @@ public class TimedEvent
         synchronized (mapEventTimes)
         {
             long i = System.currentTimeMillis();
-            Long olong = mapEventTimes.computeIfAbsent(name, k -> Long.valueOf(i));
+            Long olong = mapEventTimes.computeIfAbsent(name, k -> i);
 
-            long j = olong.longValue();
+            long j = olong;
 
             if (i < j + timeIntervalMs)
             {
@@ -22,7 +22,7 @@ public class TimedEvent
             }
             else
             {
-                mapEventTimes.put(name, Long.valueOf(i));
+                mapEventTimes.put(name, i);
                 return true;
             }
         }

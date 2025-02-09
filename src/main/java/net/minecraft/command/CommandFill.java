@@ -55,7 +55,7 @@ public class CommandFill extends CommandBase
 
             if (j > 32768)
             {
-                throw new CommandException("commands.fill.tooManyBlocks", Integer.valueOf(j), Integer.valueOf(32768));
+                throw new CommandException("commands.fill.tooManyBlocks", j, 32768);
             }
             else if (blockpos2.getY() >= 0 && blockpos3.getY() < 256)
             {
@@ -201,7 +201,7 @@ public class CommandFill extends CommandBase
                 else
                 {
                     sender.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, j);
-                    notifyOperators(sender, this, "commands.fill.success", Integer.valueOf(j));
+                    notifyOperators(sender, this, "commands.fill.success", j);
                 }
             }
             else

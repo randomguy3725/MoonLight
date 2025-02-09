@@ -190,7 +190,7 @@ public class EntityFallingBlock extends Entity
 
                 if (flag && (double)this.rand.nextFloat() < 0.05000000074505806D + (double)i * 0.05D)
                 {
-                    int j = this.fallTile.getValue(BlockAnvil.DAMAGE).intValue();
+                    int j = this.fallTile.getValue(BlockAnvil.DAMAGE);
                     ++j;
 
                     if (j > 2)
@@ -199,7 +199,7 @@ public class EntityFallingBlock extends Entity
                     }
                     else
                     {
-                        this.fallTile = this.fallTile.withProperty(BlockAnvil.DAMAGE, Integer.valueOf(j));
+                        this.fallTile = this.fallTile.withProperty(BlockAnvil.DAMAGE, j);
                     }
                 }
             }
@@ -293,8 +293,8 @@ public class EntityFallingBlock extends Entity
         if (this.fallTile != null)
         {
             Block block = this.fallTile.getBlock();
-            category.addCrashSection("Immitating block ID", Integer.valueOf(Block.getIdFromBlock(block)));
-            category.addCrashSection("Immitating block data", Integer.valueOf(block.getMetaFromState(this.fallTile)));
+            category.addCrashSection("Immitating block ID", Block.getIdFromBlock(block));
+            category.addCrashSection("Immitating block data", block.getMetaFromState(this.fallTile));
         }
     }
 

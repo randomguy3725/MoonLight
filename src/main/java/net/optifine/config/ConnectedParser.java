@@ -580,7 +580,7 @@ public class ConnectedParser
 
                         if (k >= 0 && l >= 0 && k <= l) {
                             for (int i1 = k; i1 <= l; ++i1) {
-                                list.add(Integer.valueOf(i1));
+                                list.add(i1);
                             }
                         } else {
                             this.warn("Invalid interval: " + s + ", when parsing: " + str);
@@ -592,7 +592,7 @@ public class ConnectedParser
                     if (j < 0) {
                         this.warn("Invalid number: " + s + ", when parsing: " + str);
                     } else {
-                        list.add(Integer.valueOf(j));
+                        list.add(j);
                     }
                 }
             }
@@ -601,7 +601,7 @@ public class ConnectedParser
 
             for (int j1 = 0; j1 < aint.length; ++j1)
             {
-                aint[j1] = list.get(j1).intValue();
+                aint[j1] = list.get(j1);
             }
 
             return aint;
@@ -1057,7 +1057,7 @@ public class ConnectedParser
                 return null;
             }
 
-            set.add(Integer.valueOf(j));
+            set.add(j);
         }
 
         Integer[] ainteger = set.toArray(new Integer[0]);
@@ -1065,7 +1065,7 @@ public class ConnectedParser
 
         for (int k = 0; k < aint.length; ++k)
         {
-            aint[k] = ainteger[k].intValue();
+            aint[k] = ainteger[k];
         }
 
         return aint;
@@ -1171,7 +1171,7 @@ public class ConnectedParser
                 if (j < 0) {
                     this.warn("Item has no ID: " + item + ", name: " + s);
                 } else {
-                    set.add(Integer.valueOf(j));
+                    set.add(j);
                 }
             }
         }
@@ -1193,7 +1193,7 @@ public class ConnectedParser
             if (j < 0) {
                 this.warn("Entity not found: " + s);
             } else {
-                set.add(Integer.valueOf(j));
+                set.add(j);
             }
         }
 

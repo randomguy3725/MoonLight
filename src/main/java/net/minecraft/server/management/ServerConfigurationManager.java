@@ -626,25 +626,25 @@ public abstract class ServerConfigurationManager
 
     public String func_181058_b(boolean p_181058_1_)
     {
-        String s = "";
+        StringBuilder s = new StringBuilder();
         List<EntityPlayerMP> list = Lists.newArrayList(this.playerEntityList);
 
         for (int i = 0; i < list.size(); ++i)
         {
             if (i > 0)
             {
-                s = s + ", ";
+                s.append(", ");
             }
 
-            s = s + list.get(i).getName();
+            s.append(list.get(i).getName());
 
             if (p_181058_1_)
             {
-                s = s + " (" + list.get(i).getUniqueID().toString() + ")";
+                s.append(" (").append(list.get(i).getUniqueID().toString()).append(")");
             }
         }
 
-        return s;
+        return s.toString();
     }
 
     public String[] getAllUsernames()

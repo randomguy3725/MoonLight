@@ -312,7 +312,7 @@ public class BlockFluidRenderer
             }
             else
             {
-                int k = iblockstate.getValue(BlockLiquid.LEVEL).intValue();
+                int k = iblockstate.getValue(BlockLiquid.LEVEL);
 
                 if (k >= 8 || k == 0)
                 {

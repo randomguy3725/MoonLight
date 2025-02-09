@@ -58,7 +58,7 @@ public class VertexFormat
         else
         {
             this.elements.add(element);
-            this.offsets.add(Integer.valueOf(this.nextOffset));
+            this.offsets.add(this.nextOffset);
 
             switch (element.getUsage())
             {
@@ -71,7 +71,7 @@ public class VertexFormat
                     break;
 
                 case UV:
-                    this.uvOffsetsById.add(element.getIndex(), Integer.valueOf(this.nextOffset));
+                    this.uvOffsetsById.add(element.getIndex(), this.nextOffset);
             }
 
             this.nextOffset += element.getSize();
@@ -106,24 +106,24 @@ public class VertexFormat
 
     public int getUvOffsetById(int id)
     {
-        return this.uvOffsetsById.get(id).intValue();
+        return this.uvOffsetsById.get(id);
     }
 
     public String toString()
     {
-        String s = "format: " + this.elements.size() + " elements: ";
+        StringBuilder s = new StringBuilder("format: " + this.elements.size() + " elements: ");
 
         for (int i = 0; i < this.elements.size(); ++i)
         {
-            s = s + this.elements.get(i).toString();
+            s.append(this.elements.get(i).toString());
 
             if (i != this.elements.size() - 1)
             {
-                s = s + " ";
+                s.append(" ");
             }
         }
 
-        return s;
+        return s.toString();
     }
 
     private boolean hasPosition()
@@ -170,7 +170,7 @@ public class VertexFormat
 
     public int getOffset(int p_181720_1_)
     {
-        return this.offsets.get(p_181720_1_).intValue();
+        return this.offsets.get(p_181720_1_);
     }
 
     public boolean equals(Object p_equals_1_)

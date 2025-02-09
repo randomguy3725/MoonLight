@@ -102,7 +102,7 @@ public class CommandParticle extends CommandBase
                     }
 
                     worldserver.spawnParticle(enumparticletypes, flag1, d6, d0, d1, i, d2, d3, d4, d5, aint);
-                    notifyOperators(sender, this, "commands.particle.success", s, Integer.valueOf(Math.max(i, 1)));
+                    notifyOperators(sender, this, "commands.particle.success", s, Math.max(i, 1));
                 }
             }
         }

@@ -63,7 +63,7 @@ public class NativeMemory {
 						return -1L;
 					} else {
 						try {
-							return ((Long) finalMethod.invoke(finalObject, new Object[0])).longValue();
+							return (Long) finalMethod.invoke(finalObject, new Object[0]);
 						} catch (Throwable throwable) {
 							Config.warn(throwable.getClass().getName() + ": " + throwable.getMessage());
 							this.disabled = true;

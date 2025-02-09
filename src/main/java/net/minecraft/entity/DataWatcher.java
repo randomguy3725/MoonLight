@@ -45,15 +45,15 @@ public class DataWatcher
         {
             throw new IllegalArgumentException("Data value id is too big with " + id + "! (Max is " + 31 + ")");
         }
-        else if (this.watchedObjects.containsKey(Integer.valueOf(id)))
+        else if (this.watchedObjects.containsKey(id))
         {
             throw new IllegalArgumentException("Duplicate id value for " + id + "!");
         }
         else
         {
-            DataWatcher.WatchableObject datawatcher$watchableobject = new DataWatcher.WatchableObject(integer.intValue(), id, object);
+            DataWatcher.WatchableObject datawatcher$watchableobject = new DataWatcher.WatchableObject(integer, id, object);
             this.lock.writeLock().lock();
-            this.watchedObjects.put(Integer.valueOf(id), datawatcher$watchableobject);
+            this.watchedObjects.put(id, datawatcher$watchableobject);
             this.lock.writeLock().unlock();
             this.isBlank = false;
         }
@@ -63,29 +63,29 @@ public class DataWatcher
     {
         DataWatcher.WatchableObject datawatcher$watchableobject = new DataWatcher.WatchableObject(type, id, null);
         this.lock.writeLock().lock();
-        this.watchedObjects.put(Integer.valueOf(id), datawatcher$watchableobject);
+        this.watchedObjects.put(id, datawatcher$watchableobject);
         this.lock.writeLock().unlock();
         this.isBlank = false;
     }
 
     public byte getWatchableObjectByte(int id)
     {
-        return ((Byte)this.getWatchedObject(id).getObject()).byteValue();
+        return (Byte) this.getWatchedObject(id).getObject();
     }
 
     public short getWatchableObjectShort(int id)
     {
-        return ((Short)this.getWatchedObject(id).getObject()).shortValue();
+        return (Short) this.getWatchedObject(id).getObject();
     }
 
     public int getWatchableObjectInt(int id)
     {
-        return ((Integer)this.getWatchedObject(id).getObject()).intValue();
+        return (Integer) this.getWatchedObject(id).getObject();
     }
 
     public float getWatchableObjectFloat(int id)
     {
-        return ((Float)this.getWatchedObject(id).getObject()).floatValue();
+        return (Float) this.getWatchedObject(id).getObject();
     }
 
     public String getWatchableObjectString(int id)
@@ -105,13 +105,13 @@ public class DataWatcher
 
         try
         {
-            datawatcher$watchableobject = this.watchedObjects.get(Integer.valueOf(id));
+            datawatcher$watchableobject = this.watchedObjects.get(id);
         }
         catch (Throwable throwable)
         {
             CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Getting synched entity data");
             CrashReportCategory crashreportcategory = crashreport.makeCategory("Synched entity data");
-            crashreportcategory.addCrashSection("Data ID", Integer.valueOf(id));
+            crashreportcategory.addCrashSection("Data ID", id);
             throw new ReportedException(crashreport);
         }
 
@@ -231,19 +231,19 @@ public class DataWatcher
         switch (object.getObjectType())
         {
             case 0:
-                buffer.writeByte(((Byte)object.getObject()).byteValue());
+                buffer.writeByte((Byte) object.getObject());
                 break;
 
             case 1:
-                buffer.writeShort(((Short)object.getObject()).shortValue());
+                buffer.writeShort((Short) object.getObject());
                 break;
 
             case 2:
-                buffer.writeInt(((Integer)object.getObject()).intValue());
+                buffer.writeInt((Integer) object.getObject());
                 break;
 
             case 3:
-                buffer.writeFloat(((Float)object.getObject()).floatValue());
+                buffer.writeFloat((Float) object.getObject());
                 break;
 
             case 4:
@@ -288,19 +288,19 @@ public class DataWatcher
             switch (j)
             {
                 case 0:
-                    datawatcher$watchableobject = new DataWatcher.WatchableObject(j, k, Byte.valueOf(buffer.readByte()));
+                    datawatcher$watchableobject = new DataWatcher.WatchableObject(j, k, buffer.readByte());
                     break;
 
                 case 1:
-                    datawatcher$watchableobject = new DataWatcher.WatchableObject(j, k, Short.valueOf(buffer.readShort()));
+                    datawatcher$watchableobject = new DataWatcher.WatchableObject(j, k, buffer.readShort());
                     break;
 
                 case 2:
-                    datawatcher$watchableobject = new DataWatcher.WatchableObject(j, k, Integer.valueOf(buffer.readInt()));
+                    datawatcher$watchableobject = new DataWatcher.WatchableObject(j, k, buffer.readInt());
                     break;
 
                 case 3:
-                    datawatcher$watchableobject = new DataWatcher.WatchableObject(j, k, Float.valueOf(buffer.readFloat()));
+                    datawatcher$watchableobject = new DataWatcher.WatchableObject(j, k, buffer.readFloat());
                     break;
 
                 case 4:
@@ -337,7 +337,7 @@ public class DataWatcher
 
         for (DataWatcher.WatchableObject datawatcher$watchableobject : p_75687_1_)
         {
-            DataWatcher.WatchableObject datawatcher$watchableobject1 = this.watchedObjects.get(Integer.valueOf(datawatcher$watchableobject.getDataValueId()));
+            DataWatcher.WatchableObject datawatcher$watchableobject1 = this.watchedObjects.get(datawatcher$watchableobject.getDataValueId());
 
             if (datawatcher$watchableobject1 != null)
             {
@@ -362,14 +362,14 @@ public class DataWatcher
 
     static
     {
-        dataTypes.put(Byte.class, Integer.valueOf(0));
-        dataTypes.put(Short.class, Integer.valueOf(1));
-        dataTypes.put(Integer.class, Integer.valueOf(2));
-        dataTypes.put(Float.class, Integer.valueOf(3));
-        dataTypes.put(String.class, Integer.valueOf(4));
-        dataTypes.put(ItemStack.class, Integer.valueOf(5));
-        dataTypes.put(BlockPos.class, Integer.valueOf(6));
-        dataTypes.put(Rotations.class, Integer.valueOf(7));
+        dataTypes.put(Byte.class, 0);
+        dataTypes.put(Short.class, 1);
+        dataTypes.put(Integer.class, 2);
+        dataTypes.put(Float.class, 3);
+        dataTypes.put(String.class, 4);
+        dataTypes.put(ItemStack.class, 5);
+        dataTypes.put(BlockPos.class, 6);
+        dataTypes.put(Rotations.class, 7);
     }
 
     public static class WatchableObject

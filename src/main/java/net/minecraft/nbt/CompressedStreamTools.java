@@ -161,7 +161,7 @@ public class CompressedStreamTools
                 CrashReport crashreport = CrashReport.makeCrashReport(ioexception, "Loading NBT data");
                 CrashReportCategory crashreportcategory = crashreport.makeCategory("NBT Tag");
                 crashreportcategory.addCrashSection("Tag name", "[UNNAMED TAG]");
-                crashreportcategory.addCrashSection("Tag type", Byte.valueOf(b0));
+                crashreportcategory.addCrashSection("Tag type", b0);
                 throw new ReportedException(crashreport);
             }
         }

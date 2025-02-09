@@ -68,11 +68,11 @@ public class RegionFile
 
             for (int j = 0; j < k1; ++j)
             {
-                this.sectorFree.add(Boolean.valueOf(true));
+                this.sectorFree.add(Boolean.TRUE);
             }
 
-            this.sectorFree.set(0, Boolean.valueOf(false));
-            this.sectorFree.set(1, Boolean.valueOf(false));
+            this.sectorFree.set(0, Boolean.FALSE);
+            this.sectorFree.set(1, Boolean.FALSE);
             this.dataFile.seek(0L);
 
             for (int l1 = 0; l1 < 1024; ++l1)
@@ -84,7 +84,7 @@ public class RegionFile
                 {
                     for (int l = 0; l < (k & 255); ++l)
                     {
-                        this.sectorFree.set((k >> 8) + l, Boolean.valueOf(false));
+                        this.sectorFree.set((k >> 8) + l, Boolean.FALSE);
                     }
                 }
             }
@@ -197,10 +197,10 @@ public class RegionFile
             {
                 for (int i1 = 0; i1 < k; ++i1)
                 {
-                    this.sectorFree.set(j + i1, Boolean.valueOf(true));
+                    this.sectorFree.set(j + i1, Boolean.TRUE);
                 }
 
-                int l1 = this.sectorFree.indexOf(Boolean.valueOf(true));
+                int l1 = this.sectorFree.indexOf(Boolean.TRUE);
                 int j1 = 0;
 
                 if (l1 != -1)
@@ -209,7 +209,7 @@ public class RegionFile
                     {
                         if (j1 != 0)
                         {
-                            if (this.sectorFree.get(k1).booleanValue())
+                            if (this.sectorFree.get(k1))
                             {
                                 ++j1;
                             }
@@ -218,7 +218,7 @@ public class RegionFile
                                 j1 = 0;
                             }
                         }
-                        else if (this.sectorFree.get(k1).booleanValue())
+                        else if (this.sectorFree.get(k1))
                         {
                             l1 = k1;
                             j1 = 1;
@@ -238,7 +238,7 @@ public class RegionFile
 
                     for (int j2 = 0; j2 < l; ++j2)
                     {
-                        this.sectorFree.set(j + j2, Boolean.valueOf(false));
+                        this.sectorFree.set(j + j2, Boolean.FALSE);
                     }
 
                     this.write(j, data, length);
@@ -251,7 +251,7 @@ public class RegionFile
                     for (int i2 = 0; i2 < l; ++i2)
                     {
                         this.dataFile.write(emptySector);
-                        this.sectorFree.add(Boolean.valueOf(false));
+                        this.sectorFree.add(Boolean.FALSE);
                     }
 
                     this.sizeDelta += 4096 * l;

@@ -1710,7 +1710,7 @@ public class Shaders
 
         if (i != 36053)
         {
-            System.err.format("FramebufferStatus 0x%04X at %s\n", Integer.valueOf(i), location);
+            System.err.format("FramebufferStatus 0x%04X at %s\n", i, location);
         }
 
         return i;
@@ -1724,12 +1724,12 @@ public class Shaders
         {
             String s = Config.getGlErrorString(i);
             String s1 = getErrorInfo(i, location);
-            String s2 = String.format("OpenGL error: %s (%s)%s, at: %s", Integer.valueOf(i), s, s1, location);
+            String s2 = String.format("OpenGL error: %s (%s)%s, at: %s", i, s, s1, location);
             SMCLog.severe(s2);
 
             if (Config.isShowGlErrors() && TimedEvent.isActive("ShowGlErrorShaders", 10000L))
             {
-                String s3 = I18n.format("of.message.openglError", Integer.valueOf(i), s);
+                String s3 = I18n.format("of.message.openglError", i, s);
                 printChat(s3);
             }
         }
@@ -1756,7 +1756,7 @@ public class Shaders
             s2 = "none";
         }
 
-        stringbuilder.append(", program: " + s2);
+        stringbuilder.append(", program: ").append(s2);
         Program program = getProgramById(activeProgramID);
 
         if (program != activeProgram)
@@ -1768,12 +1768,12 @@ public class Shaders
                 s3 = "none";
             }
 
-            stringbuilder.append(" (" + s3 + ")");
+            stringbuilder.append(" (").append(s3).append(")");
         }
 
         if (location.equals("setDrawBuffers"))
         {
-            stringbuilder.append(", drawBuffers: " + activeProgram.getDrawBufSettings());
+            stringbuilder.append(", drawBuffers: ").append(activeProgram.getDrawBufSettings());
         }
 
         return stringbuilder.toString();
@@ -2254,7 +2254,7 @@ public class Shaders
 
             if (obool != null)
             {
-                aboolean[i] = obool.booleanValue();
+                aboolean[i] = obool;
             }
         }
     }
@@ -2836,7 +2836,7 @@ public class Shaders
                                                                 if (vector4f != null)
                                                                 {
                                                                     gbuffersClearColor[j1] = vector4f;
-                                                                    SMCLog.info("%s clear color: %s %s %s %s", s3, Float.valueOf(vector4f.getX()), Float.valueOf(vector4f.getY()), Float.valueOf(vector4f.getZ()), Float.valueOf(vector4f.getW()));
+                                                                    SMCLog.info("%s clear color: %s %s %s %s", s3, vector4f.getX(), vector4f.getY(), vector4f.getZ(), vector4f.getW());
                                                                 }
                                                                 else
                                                                 {
@@ -3371,7 +3371,7 @@ public class Shaders
             {
                 Block block = Block.blockRegistry.getObject(resourcelocation);
                 int i = Block.blockRegistry.getIDForObject(block);
-                mapBlockToEntityData.put(block, Integer.valueOf(i));
+                mapBlockToEntityData.put(block, i);
             }
         }
 
@@ -3404,7 +3404,7 @@ public class Shaders
 
                         if (block1 != null)
                         {
-                            mapBlockToEntityData.put(block1, Integer.valueOf(j));
+                            mapBlockToEntityData.put(block1, j);
                         }
                         else
                         {

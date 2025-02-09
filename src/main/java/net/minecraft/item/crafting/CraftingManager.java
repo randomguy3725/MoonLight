@@ -184,7 +184,7 @@ public class CraftingManager
 
     public ShapedRecipes addRecipe(ItemStack stack, Object... recipeComponents)
     {
-        String s = "";
+        StringBuilder s = new StringBuilder();
         int i = 0;
         int j = 0;
         int k = 0;
@@ -196,7 +196,7 @@ public class CraftingManager
             for (String s2 : astring) {
                 ++k;
                 j = s2.length();
-                s = s + s2;
+                s.append(s2);
             }
         }
         else
@@ -206,7 +206,7 @@ public class CraftingManager
                 String s1 = (String)recipeComponents[i++];
                 ++k;
                 j = s1.length();
-                s = s + s1;
+                s.append(s1);
             }
         }
 
@@ -239,9 +239,9 @@ public class CraftingManager
         {
             char c0 = s.charAt(i1);
 
-            if (map.containsKey(Character.valueOf(c0)))
+            if (map.containsKey(c0))
             {
-                aitemstack[i1] = map.get(Character.valueOf(c0)).copy();
+                aitemstack[i1] = map.get(c0).copy();
             }
             else
             {

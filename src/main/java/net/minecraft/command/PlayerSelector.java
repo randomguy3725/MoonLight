@@ -283,11 +283,11 @@ public class PlayerSelector
                     Score score = scoreboard.getValueFromObjective(s1, scoreobjective);
                     int i = score.getScorePoints();
 
-                    if (i < entry.getValue().intValue() && flag) {
+                    if (i < entry.getValue() && flag) {
                         return false;
                     }
 
-                    if (i > entry.getValue().intValue() && !flag) {
+                    if (i > entry.getValue() && !flag) {
                         return false;
                     }
                 }
@@ -547,7 +547,7 @@ public class PlayerSelector
         {
             if (s.startsWith("score_") && s.length() > "score_".length())
             {
-                map.put(s.substring("score_".length()), Integer.valueOf(MathHelper.parseIntWithDefault(p_96560_0_.get(s), 1)));
+                map.put(s.substring("score_".length()), MathHelper.parseIntWithDefault(p_96560_0_.get(s), 1));
             }
         }
 

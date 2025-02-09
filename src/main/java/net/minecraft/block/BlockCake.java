@@ -23,14 +23,14 @@ public class BlockCake extends Block
     protected BlockCake()
     {
         super(Material.cake);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BITES, Integer.valueOf(0)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(BITES, 0));
         this.setTickRandomly(true);
     }
 
     public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
     {
         float f = 0.0625F;
-        float f1 = (float)(1 + worldIn.getBlockState(pos).getValue(BITES).intValue() * 2) / 16.0F;
+        float f1 = (float)(1 + worldIn.getBlockState(pos).getValue(BITES) * 2) / 16.0F;
         float f2 = 0.5F;
         this.setBlockBounds(f1, 0.0F, f, 1.0F - f, f2, 1.0F - f);
     }
@@ -45,7 +45,7 @@ public class BlockCake extends Block
     public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
     {
         float f = 0.0625F;
-        float f1 = (float)(1 + state.getValue(BITES).intValue() * 2) / 16.0F;
+        float f1 = (float)(1 + state.getValue(BITES) * 2) / 16.0F;
         float f2 = 0.5F;
         return new AxisAlignedBB((float)pos.getX() + f1, pos.getY(), (float)pos.getZ() + f, (float)(pos.getX() + 1) - f, (float)pos.getY() + f2, (float)(pos.getZ() + 1) - f);
     }
@@ -82,11 +82,11 @@ public class BlockCake extends Block
         {
             player.triggerAchievement(StatList.field_181724_H);
             player.getFoodStats().addStats(2, 0.1F);
-            int i = state.getValue(BITES).intValue();
+            int i = state.getValue(BITES);
 
             if (i < 6)
             {
-                worldIn.setBlockState(pos, state.withProperty(BITES, Integer.valueOf(i + 1)), 3);
+                worldIn.setBlockState(pos, state.withProperty(BITES, i + 1), 3);
             }
             else
             {
@@ -135,12 +135,12 @@ public class BlockCake extends Block
 
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(BITES, Integer.valueOf(meta));
+        return this.getDefaultState().withProperty(BITES, meta);
     }
 
     public int getMetaFromState(IBlockState state)
     {
-        return state.getValue(BITES).intValue();
+        return state.getValue(BITES);
     }
 
     protected BlockState createBlockState()
@@ -150,7 +150,7 @@ public class BlockCake extends Block
 
     public int getComparatorInputOverride(World worldIn, BlockPos pos)
     {
-        return (7 - worldIn.getBlockState(pos).getValue(BITES).intValue()) * 2;
+        return (7 - worldIn.getBlockState(pos).getValue(BITES)) * 2;
     }
 
     public boolean hasComparatorInputOverride()

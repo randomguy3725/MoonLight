@@ -66,11 +66,11 @@ public abstract class CommandBase implements ICommand
 
         if (i < min)
         {
-            throw new NumberInvalidException("commands.generic.num.tooSmall", Integer.valueOf(i), Integer.valueOf(min));
+            throw new NumberInvalidException("commands.generic.num.tooSmall", i, min);
         }
         else if (i > max)
         {
-            throw new NumberInvalidException("commands.generic.num.tooBig", Integer.valueOf(i), Integer.valueOf(max));
+            throw new NumberInvalidException("commands.generic.num.tooBig", i, max);
         }
         else
         {
@@ -96,11 +96,11 @@ public abstract class CommandBase implements ICommand
 
         if (i < min)
         {
-            throw new NumberInvalidException("commands.generic.num.tooSmall", Long.valueOf(i), Long.valueOf(min));
+            throw new NumberInvalidException("commands.generic.num.tooSmall", i, min);
         }
         else if (i > max)
         {
-            throw new NumberInvalidException("commands.generic.num.tooBig", Long.valueOf(i), Long.valueOf(max));
+            throw new NumberInvalidException("commands.generic.num.tooBig", i, max);
         }
         else
         {
@@ -146,11 +146,11 @@ public abstract class CommandBase implements ICommand
 
         if (d0 < min)
         {
-            throw new NumberInvalidException("commands.generic.double.tooSmall", Double.valueOf(d0), Double.valueOf(min));
+            throw new NumberInvalidException("commands.generic.double.tooSmall", d0, min);
         }
         else if (d0 > max)
         {
-            throw new NumberInvalidException("commands.generic.double.tooBig", Double.valueOf(d0), Double.valueOf(max));
+            throw new NumberInvalidException("commands.generic.double.tooBig", d0, max);
         }
         else
         {
@@ -381,7 +381,7 @@ public abstract class CommandBase implements ICommand
 
         if (flag && Double.isNaN(p_175767_0_))
         {
-            throw new NumberInvalidException("commands.generic.num.invalid", Double.valueOf(p_175767_0_));
+            throw new NumberInvalidException("commands.generic.num.invalid", p_175767_0_);
         }
         else
         {
@@ -408,12 +408,12 @@ public abstract class CommandBase implements ICommand
             {
                 if (d0 < (double)min)
                 {
-                    throw new NumberInvalidException("commands.generic.double.tooSmall", Double.valueOf(d0), Integer.valueOf(min));
+                    throw new NumberInvalidException("commands.generic.double.tooSmall", d0, min);
                 }
 
                 if (d0 > (double)max)
                 {
-                    throw new NumberInvalidException("commands.generic.double.tooBig", Double.valueOf(d0), Integer.valueOf(max));
+                    throw new NumberInvalidException("commands.generic.double.tooBig", d0, max);
                 }
             }
 
@@ -432,7 +432,7 @@ public abstract class CommandBase implements ICommand
 
         if (flag && Double.isNaN(base))
         {
-            throw new NumberInvalidException("commands.generic.num.invalid", Double.valueOf(base));
+            throw new NumberInvalidException("commands.generic.num.invalid", base);
         }
         else
         {
@@ -459,12 +459,12 @@ public abstract class CommandBase implements ICommand
             {
                 if (d0 < (double)min)
                 {
-                    throw new NumberInvalidException("commands.generic.double.tooSmall", Double.valueOf(d0), Integer.valueOf(min));
+                    throw new NumberInvalidException("commands.generic.double.tooSmall", d0, min);
                 }
 
                 if (d0 > (double)max)
                 {
-                    throw new NumberInvalidException("commands.generic.double.tooBig", Double.valueOf(d0), Integer.valueOf(max));
+                    throw new NumberInvalidException("commands.generic.double.tooBig", d0, max);
                 }
             }
 

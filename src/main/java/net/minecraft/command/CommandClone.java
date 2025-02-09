@@ -52,7 +52,7 @@ public class CommandClone extends CommandBase
 
             if (i > 32768)
             {
-                throw new CommandException("commands.clone.tooManyBlocks", Integer.valueOf(i), Integer.valueOf(32768));
+                throw new CommandException("commands.clone.tooManyBlocks", i, 32768);
             }
             else
             {
@@ -233,7 +233,7 @@ public class CommandClone extends CommandBase
                             else
                             {
                                 sender.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, i);
-                                notifyOperators(sender, this, "commands.clone.success", Integer.valueOf(i));
+                                notifyOperators(sender, this, "commands.clone.success", i);
                             }
                         }
                         else

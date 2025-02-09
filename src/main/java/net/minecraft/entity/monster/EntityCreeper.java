@@ -68,9 +68,9 @@ public class EntityCreeper extends EntityMob
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(16, Byte.valueOf((byte) - 1));
-        this.dataWatcher.addObject(17, Byte.valueOf((byte)0));
-        this.dataWatcher.addObject(18, Byte.valueOf((byte)0));
+        this.dataWatcher.addObject(16, (byte) -1);
+        this.dataWatcher.addObject(17, (byte) 0);
+        this.dataWatcher.addObject(18, (byte) 0);
     }
 
     public void writeEntityToNBT(NBTTagCompound tagCompound)
@@ -90,7 +90,7 @@ public class EntityCreeper extends EntityMob
     public void readEntityFromNBT(NBTTagCompound tagCompund)
     {
         super.readEntityFromNBT(tagCompund);
-        this.dataWatcher.updateObject(17, Byte.valueOf((byte)(tagCompund.getBoolean("powered") ? 1 : 0)));
+        this.dataWatcher.updateObject(17, (byte) (tagCompund.getBoolean("powered") ? 1 : 0));
 
         if (tagCompund.hasKey("Fuse", 99))
         {
@@ -198,13 +198,13 @@ public class EntityCreeper extends EntityMob
 
     public void setCreeperState(int state)
     {
-        this.dataWatcher.updateObject(16, Byte.valueOf((byte)state));
+        this.dataWatcher.updateObject(16, (byte) state);
     }
 
     public void onStruckByLightning(EntityLightningBolt lightningBolt)
     {
         super.onStruckByLightning(lightningBolt);
-        this.dataWatcher.updateObject(17, Byte.valueOf((byte)1));
+        this.dataWatcher.updateObject(17, (byte) 1);
     }
 
     protected boolean interact(EntityPlayer player)
@@ -245,7 +245,7 @@ public class EntityCreeper extends EntityMob
 
     public void ignite()
     {
-        this.dataWatcher.updateObject(18, Byte.valueOf((byte)1));
+        this.dataWatcher.updateObject(18, (byte) 1);
     }
 
     public boolean isAIEnabled()

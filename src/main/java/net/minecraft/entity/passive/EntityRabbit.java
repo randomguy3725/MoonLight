@@ -128,7 +128,7 @@ public class EntityRabbit extends EntityAnimal
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(18, Byte.valueOf((byte)0));
+        this.dataWatcher.addObject(18, (byte) 0);
     }
 
     public void updateAITasks()
@@ -391,7 +391,7 @@ public class EntityRabbit extends EntityAnimal
             }
         }
 
-        this.dataWatcher.updateObject(18, Byte.valueOf((byte)rabbitTypeId));
+        this.dataWatcher.updateObject(18, (byte) rabbitTypeId);
     }
 
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata)
@@ -551,7 +551,7 @@ public class EntityRabbit extends EntityAnimal
                 IBlockState iblockstate = world.getBlockState(blockpos);
                 Block block = iblockstate.getBlock();
 
-                if (this.field_179499_e && block instanceof BlockCarrot && iblockstate.getValue(BlockCarrot.AGE).intValue() == 7)
+                if (this.field_179499_e && block instanceof BlockCarrot && iblockstate.getValue(BlockCarrot.AGE) == 7)
                 {
                     world.setBlockState(blockpos, Blocks.air.getDefaultState(), 2);
                     world.destroyBlock(blockpos, true);
@@ -573,7 +573,7 @@ public class EntityRabbit extends EntityAnimal
                 IBlockState iblockstate = worldIn.getBlockState(pos);
                 block = iblockstate.getBlock();
 
-                if (block instanceof BlockCarrot && iblockstate.getValue(BlockCarrot.AGE).intValue() == 7 && this.field_179498_d && !this.field_179499_e)
+                if (block instanceof BlockCarrot && iblockstate.getValue(BlockCarrot.AGE) == 7 && this.field_179498_d && !this.field_179499_e)
                 {
                     this.field_179499_e = true;
                     return true;

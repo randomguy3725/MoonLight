@@ -13,9 +13,9 @@ public class FrameEvent
         synchronized (mapEventFrames)
         {
             int i = Minecraft.getMinecraft().entityRenderer.frameCount;
-            Integer integer = mapEventFrames.computeIfAbsent(name, k -> Integer.valueOf(i));
+            Integer integer = mapEventFrames.computeIfAbsent(name, k -> i);
 
-            int j = integer.intValue();
+            int j = integer;
 
             if (i > j && i < j + frameInterval)
             {
@@ -23,7 +23,7 @@ public class FrameEvent
             }
             else
             {
-                mapEventFrames.put(name, Integer.valueOf(i));
+                mapEventFrames.put(name, i);
                 return true;
             }
         }

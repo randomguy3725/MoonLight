@@ -359,7 +359,7 @@ public class PlayerUtils implements InstanceAccess {
     }
 
     public static Map<BlockPos, Block> searchBlocks(final int radius) {
-        final Map<BlockPos, Block> blocks = new HashMap<BlockPos, Block>();
+        final Map<BlockPos, Block> blocks = new HashMap<>();
         for (int x = radius; x > -radius; --x) {
             for (int y = radius; y > -radius; --y) {
                 for (int z = radius; z > -radius; --z) {

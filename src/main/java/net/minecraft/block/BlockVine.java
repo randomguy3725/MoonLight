@@ -34,14 +34,14 @@ public class BlockVine extends Block
     public BlockVine()
     {
         super(Material.vine);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(UP, Boolean.valueOf(false)).withProperty(NORTH, Boolean.valueOf(false)).withProperty(EAST, Boolean.valueOf(false)).withProperty(SOUTH, Boolean.valueOf(false)).withProperty(WEST, Boolean.valueOf(false)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(UP, Boolean.FALSE).withProperty(NORTH, Boolean.FALSE).withProperty(EAST, Boolean.FALSE).withProperty(SOUTH, Boolean.FALSE).withProperty(WEST, Boolean.FALSE));
         this.setTickRandomly(true);
         this.setCreativeTab(CreativeTabs.tabDecorations);
     }
 
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
     {
-        return state.withProperty(UP, Boolean.valueOf(worldIn.getBlockState(pos.up()).getBlock().isBlockNormalCube()));
+        return state.withProperty(UP, worldIn.getBlockState(pos.up()).getBlock().isBlockNormalCube());
     }
 
     public void setBlockBoundsForItemRender()
@@ -75,7 +75,7 @@ public class BlockVine extends Block
         float f6 = 0.0F;
         boolean flag = false;
 
-        if (worldIn.getBlockState(pos).getValue(WEST).booleanValue())
+        if (worldIn.getBlockState(pos).getValue(WEST))
         {
             f4 = Math.max(f4, 0.0625F);
             f1 = 0.0F;
@@ -86,7 +86,7 @@ public class BlockVine extends Block
             flag = true;
         }
 
-        if (worldIn.getBlockState(pos).getValue(EAST).booleanValue())
+        if (worldIn.getBlockState(pos).getValue(EAST))
         {
             f1 = Math.min(f1, 0.9375F);
             f4 = 1.0F;
@@ -97,7 +97,7 @@ public class BlockVine extends Block
             flag = true;
         }
 
-        if (worldIn.getBlockState(pos).getValue(NORTH).booleanValue())
+        if (worldIn.getBlockState(pos).getValue(NORTH))
         {
             f6 = Math.max(f6, 0.0625F);
             f3 = 0.0F;
@@ -108,7 +108,7 @@ public class BlockVine extends Block
             flag = true;
         }
 
-        if (worldIn.getBlockState(pos).getValue(SOUTH).booleanValue())
+        if (worldIn.getBlockState(pos).getValue(SOUTH))
         {
             f3 = Math.min(f3, 0.9375F);
             f6 = 1.0F;
@@ -160,13 +160,13 @@ public class BlockVine extends Block
         {
             PropertyBool propertybool = getPropertyFor(enumfacing);
 
-            if (state.getValue(propertybool).booleanValue() && !this.canPlaceOn(worldIn.getBlockState(pos.offset(enumfacing)).getBlock()))
+            if (state.getValue(propertybool) && !this.canPlaceOn(worldIn.getBlockState(pos.offset(enumfacing)).getBlock()))
             {
                 IBlockState iblockstate1 = worldIn.getBlockState(pos.up());
 
-                if (iblockstate1.getBlock() != this || !iblockstate1.getValue(propertybool).booleanValue())
+                if (iblockstate1.getBlock() != this || !iblockstate1.getValue(propertybool))
                 {
-                    state = state.withProperty(propertybool, Boolean.valueOf(false));
+                    state = state.withProperty(propertybool, Boolean.FALSE);
                 }
             }
         }
@@ -254,17 +254,17 @@ public class BlockVine extends Block
                         {
                             if (rand.nextBoolean() || !this.canPlaceOn(worldIn.getBlockState(blockpos1.offset(enumfacing3)).getBlock()))
                             {
-                                iblockstate2 = iblockstate2.withProperty(getPropertyFor(enumfacing3), Boolean.valueOf(false));
+                                iblockstate2 = iblockstate2.withProperty(getPropertyFor(enumfacing3), Boolean.FALSE);
                             }
                         }
 
-                        if (iblockstate2.getValue(NORTH).booleanValue() || iblockstate2.getValue(EAST).booleanValue() || iblockstate2.getValue(SOUTH).booleanValue() || iblockstate2.getValue(WEST).booleanValue())
+                        if (iblockstate2.getValue(NORTH) || iblockstate2.getValue(EAST) || iblockstate2.getValue(SOUTH) || iblockstate2.getValue(WEST))
                         {
                             worldIn.setBlockState(blockpos1, iblockstate2, 2);
                         }
                     }
                 }
-                else if (enumfacing1.getAxis().isHorizontal() && !state.getValue(getPropertyFor(enumfacing1)).booleanValue())
+                else if (enumfacing1.getAxis().isHorizontal() && !state.getValue(getPropertyFor(enumfacing1)))
                 {
                     if (!flag)
                     {
@@ -275,26 +275,26 @@ public class BlockVine extends Block
                         {
                             EnumFacing enumfacing2 = enumfacing1.rotateY();
                             EnumFacing enumfacing4 = enumfacing1.rotateYCCW();
-                            boolean flag1 = state.getValue(getPropertyFor(enumfacing2)).booleanValue();
-                            boolean flag2 = state.getValue(getPropertyFor(enumfacing4)).booleanValue();
+                            boolean flag1 = state.getValue(getPropertyFor(enumfacing2));
+                            boolean flag2 = state.getValue(getPropertyFor(enumfacing4));
                             BlockPos blockpos4 = blockpos3.offset(enumfacing2);
                             BlockPos blockpos = blockpos3.offset(enumfacing4);
 
                             if (flag1 && this.canPlaceOn(worldIn.getBlockState(blockpos4).getBlock()))
                             {
-                                worldIn.setBlockState(blockpos3, this.getDefaultState().withProperty(getPropertyFor(enumfacing2), Boolean.valueOf(true)), 2);
+                                worldIn.setBlockState(blockpos3, this.getDefaultState().withProperty(getPropertyFor(enumfacing2), Boolean.TRUE), 2);
                             }
                             else if (flag2 && this.canPlaceOn(worldIn.getBlockState(blockpos).getBlock()))
                             {
-                                worldIn.setBlockState(blockpos3, this.getDefaultState().withProperty(getPropertyFor(enumfacing4), Boolean.valueOf(true)), 2);
+                                worldIn.setBlockState(blockpos3, this.getDefaultState().withProperty(getPropertyFor(enumfacing4), Boolean.TRUE), 2);
                             }
                             else if (flag1 && worldIn.isAirBlock(blockpos4) && this.canPlaceOn(worldIn.getBlockState(pos.offset(enumfacing2)).getBlock()))
                             {
-                                worldIn.setBlockState(blockpos4, this.getDefaultState().withProperty(getPropertyFor(enumfacing1.getOpposite()), Boolean.valueOf(true)), 2);
+                                worldIn.setBlockState(blockpos4, this.getDefaultState().withProperty(getPropertyFor(enumfacing1.getOpposite()), Boolean.TRUE), 2);
                             }
                             else if (flag2 && worldIn.isAirBlock(blockpos) && this.canPlaceOn(worldIn.getBlockState(pos.offset(enumfacing4)).getBlock()))
                             {
-                                worldIn.setBlockState(blockpos, this.getDefaultState().withProperty(getPropertyFor(enumfacing1.getOpposite()), Boolean.valueOf(true)), 2);
+                                worldIn.setBlockState(blockpos, this.getDefaultState().withProperty(getPropertyFor(enumfacing1.getOpposite()), Boolean.TRUE), 2);
                             }
                             else if (this.canPlaceOn(worldIn.getBlockState(blockpos3.up()).getBlock()))
                             {
@@ -303,7 +303,7 @@ public class BlockVine extends Block
                         }
                         else if (block1.blockMaterial.isOpaque() && block1.isFullCube())
                         {
-                            worldIn.setBlockState(pos, state.withProperty(getPropertyFor(enumfacing1), Boolean.valueOf(true)), 2);
+                            worldIn.setBlockState(pos, state.withProperty(getPropertyFor(enumfacing1), Boolean.TRUE), 2);
                         }
                     }
                 }
@@ -323,11 +323,11 @@ public class BlockVine extends Block
                             {
                                 if (rand.nextBoolean())
                                 {
-                                    iblockstate1 = iblockstate1.withProperty(getPropertyFor(enumfacing), Boolean.valueOf(false));
+                                    iblockstate1 = iblockstate1.withProperty(getPropertyFor(enumfacing), Boolean.FALSE);
                                 }
                             }
 
-                            if (iblockstate1.getValue(NORTH).booleanValue() || iblockstate1.getValue(EAST).booleanValue() || iblockstate1.getValue(SOUTH).booleanValue() || iblockstate1.getValue(WEST).booleanValue())
+                            if (iblockstate1.getValue(NORTH) || iblockstate1.getValue(EAST) || iblockstate1.getValue(SOUTH) || iblockstate1.getValue(WEST))
                             {
                                 worldIn.setBlockState(blockpos2, iblockstate1, 2);
                             }
@@ -340,13 +340,13 @@ public class BlockVine extends Block
                             {
                                 PropertyBool propertybool = getPropertyFor(enumfacing5);
 
-                                if (rand.nextBoolean() && state.getValue(propertybool).booleanValue())
+                                if (rand.nextBoolean() && state.getValue(propertybool))
                                 {
-                                    iblockstate3 = iblockstate3.withProperty(propertybool, Boolean.valueOf(true));
+                                    iblockstate3 = iblockstate3.withProperty(propertybool, Boolean.TRUE);
                                 }
                             }
 
-                            if (iblockstate3.getValue(NORTH).booleanValue() || iblockstate3.getValue(EAST).booleanValue() || iblockstate3.getValue(SOUTH).booleanValue() || iblockstate3.getValue(WEST).booleanValue())
+                            if (iblockstate3.getValue(NORTH) || iblockstate3.getValue(EAST) || iblockstate3.getValue(SOUTH) || iblockstate3.getValue(WEST))
                             {
                                 worldIn.setBlockState(blockpos2, iblockstate3, 2);
                             }
@@ -359,8 +359,8 @@ public class BlockVine extends Block
 
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
-        IBlockState iblockstate = this.getDefaultState().withProperty(UP, Boolean.valueOf(false)).withProperty(NORTH, Boolean.valueOf(false)).withProperty(EAST, Boolean.valueOf(false)).withProperty(SOUTH, Boolean.valueOf(false)).withProperty(WEST, Boolean.valueOf(false));
-        return facing.getAxis().isHorizontal() ? iblockstate.withProperty(getPropertyFor(facing.getOpposite()), Boolean.valueOf(true)) : iblockstate;
+        IBlockState iblockstate = this.getDefaultState().withProperty(UP, Boolean.FALSE).withProperty(NORTH, Boolean.FALSE).withProperty(EAST, Boolean.FALSE).withProperty(SOUTH, Boolean.FALSE).withProperty(WEST, Boolean.FALSE);
+        return facing.getAxis().isHorizontal() ? iblockstate.withProperty(getPropertyFor(facing.getOpposite()), Boolean.TRUE) : iblockstate;
     }
 
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
@@ -393,29 +393,29 @@ public class BlockVine extends Block
 
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(SOUTH, Boolean.valueOf((meta & 1) > 0)).withProperty(WEST, Boolean.valueOf((meta & 2) > 0)).withProperty(NORTH, Boolean.valueOf((meta & 4) > 0)).withProperty(EAST, Boolean.valueOf((meta & 8) > 0));
+        return this.getDefaultState().withProperty(SOUTH, (meta & 1) > 0).withProperty(WEST, (meta & 2) > 0).withProperty(NORTH, (meta & 4) > 0).withProperty(EAST, (meta & 8) > 0);
     }
 
     public int getMetaFromState(IBlockState state)
     {
         int i = 0;
 
-        if (state.getValue(SOUTH).booleanValue())
+        if (state.getValue(SOUTH))
         {
             i |= 1;
         }
 
-        if (state.getValue(WEST).booleanValue())
+        if (state.getValue(WEST))
         {
             i |= 2;
         }
 
-        if (state.getValue(NORTH).booleanValue())
+        if (state.getValue(NORTH))
         {
             i |= 4;
         }
 
-        if (state.getValue(EAST).booleanValue())
+        if (state.getValue(EAST))
         {
             i |= 8;
         }
@@ -446,7 +446,7 @@ public class BlockVine extends Block
 
         for (PropertyBool propertybool : ALL_FACES)
         {
-            if (state.getValue(propertybool).booleanValue())
+            if (state.getValue(propertybool))
             {
                 ++i;
             }

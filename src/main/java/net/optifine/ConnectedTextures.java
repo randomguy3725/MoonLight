@@ -153,11 +153,11 @@ public class ConnectedTextures
 
             if (d0 < 0.4D)
             {
-                return iblockstate.getValue(BlockPane.WEST).booleanValue();
+                return iblockstate.getValue(BlockPane.WEST);
             }
             else if (d0 > 0.6D)
             {
-                return iblockstate.getValue(BlockPane.EAST).booleanValue();
+                return iblockstate.getValue(BlockPane.EAST);
             }
             else
             {
@@ -165,7 +165,7 @@ public class ConnectedTextures
 
                 if (d1 < 0.4D)
                 {
-                    return iblockstate.getValue(BlockPane.NORTH).booleanValue();
+                    return iblockstate.getValue(BlockPane.NORTH);
                 }
                 else
                 {
@@ -174,7 +174,7 @@ public class ConnectedTextures
                         return true;
                     }
 
-                    return iblockstate.getValue(BlockPane.SOUTH).booleanValue();
+                    return iblockstate.getValue(BlockPane.SOUTH);
                 }
             }
         }

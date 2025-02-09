@@ -71,7 +71,7 @@ public class CrashReport
                 }
             }
 
-            return String.format("%d total; %s", Integer.valueOf(i), stringbuilder);
+            return String.format("%d total; %s", i, stringbuilder);
         });
         this.theReportCategory.addCrashSectionCallable("IntCache", IntCache::getCacheSizes);
 

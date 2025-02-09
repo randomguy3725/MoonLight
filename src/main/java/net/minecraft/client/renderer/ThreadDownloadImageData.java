@@ -83,7 +83,7 @@ public class ThreadDownloadImageData extends SimpleTexture
             this.imageBuffer.skinAvailable();
         }
 
-        this.imageFound = Boolean.valueOf(this.bufferedImage != null);
+        this.imageFound = this.bufferedImage != null;
     }
 
     public void loadTexture(IResourceManager resourceManager) throws IOException

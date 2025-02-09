@@ -188,7 +188,7 @@ public class FkCounter {
                     final String killer = matcher.group(2);
                     final String killedTeamColor = getLastColorCodeBefore(colorMessage, killedPlayer);
                     final String killerTeamColor = getLastColorCodeBefore(colorMessage.replaceFirst(killedPlayer, ""), killer);
-                    if (!killedTeamColor.equals("") && !killerTeamColor.equals("")) {
+                    if (!killedTeamColor.isEmpty() && !killerTeamColor.isEmpty()) {
                         removeKilledPlayer(killedPlayer, killedTeamColor);
                         if (getWitherDead(killedTeamColor)) {
                             addKill(killer, killerTeamColor);

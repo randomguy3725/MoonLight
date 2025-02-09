@@ -9,7 +9,7 @@ public class ChatComponentTranslationFormatException extends IllegalArgumentExce
 
     public ChatComponentTranslationFormatException(ChatComponentTranslation component, int index)
     {
-        super(String.format("Invalid index %d requested for %s", Integer.valueOf(index), component));
+        super(String.format("Invalid index %d requested for %s", index, component));
     }
 
     public ChatComponentTranslationFormatException(ChatComponentTranslation component, Throwable cause)

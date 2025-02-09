@@ -23,7 +23,7 @@ public class BlockPressurePlateWeighted extends BlockBasePressurePlate
     protected BlockPressurePlateWeighted(Material p_i46380_1_, int p_i46380_2_, MapColor p_i46380_3_)
     {
         super(p_i46380_1_, p_i46380_3_);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(POWER, Integer.valueOf(0)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(POWER, 0));
         this.field_150068_a = p_i46380_2_;
     }
 
@@ -44,12 +44,12 @@ public class BlockPressurePlateWeighted extends BlockBasePressurePlate
 
     protected int getRedstoneStrength(IBlockState state)
     {
-        return state.getValue(POWER).intValue();
+        return state.getValue(POWER);
     }
 
     protected IBlockState setRedstoneStrength(IBlockState state, int strength)
     {
-        return state.withProperty(POWER, Integer.valueOf(strength));
+        return state.withProperty(POWER, strength);
     }
 
     public int tickRate(World worldIn)
@@ -59,12 +59,12 @@ public class BlockPressurePlateWeighted extends BlockBasePressurePlate
 
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(POWER, Integer.valueOf(meta));
+        return this.getDefaultState().withProperty(POWER, meta);
     }
 
     public int getMetaFromState(IBlockState state)
     {
-        return state.getValue(POWER).intValue();
+        return state.getValue(POWER);
     }
 
     protected BlockState createBlockState()

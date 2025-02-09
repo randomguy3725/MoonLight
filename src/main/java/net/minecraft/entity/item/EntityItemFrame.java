@@ -32,7 +32,7 @@ public class EntityItemFrame extends EntityHanging
     protected void entityInit()
     {
         this.getDataWatcher().addObjectByDataType(8, 5);
-        this.getDataWatcher().addObject(9, Byte.valueOf((byte)0));
+        this.getDataWatcher().addObject(9, (byte) 0);
     }
 
     public float getCollisionBorderSize()
@@ -168,7 +168,7 @@ public class EntityItemFrame extends EntityHanging
 
     private void func_174865_a(int p_174865_1_, boolean p_174865_2_)
     {
-        this.getDataWatcher().updateObject(9, Byte.valueOf((byte)(p_174865_1_ % 8)));
+        this.getDataWatcher().updateObject(9, (byte) (p_174865_1_ % 8));
 
         if (p_174865_2_ && this.hangingPosition != null)
         {

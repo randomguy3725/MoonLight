@@ -6,7 +6,6 @@ import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import wtf.moonlight.events.annotations.EventTarget;
-import wtf.moonlight.events.impl.misc.WorldEvent;
 import wtf.moonlight.events.impl.player.MotionEvent;
 import wtf.moonlight.features.modules.Module;
 import wtf.moonlight.features.modules.ModuleCategory;

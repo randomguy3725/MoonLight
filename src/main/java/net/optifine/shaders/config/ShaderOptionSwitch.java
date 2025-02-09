@@ -97,6 +97,6 @@ public class ShaderOptionSwitch extends ShaderOption
 
     public static boolean isTrue(String val)
     {
-        return Boolean.valueOf(val).booleanValue();
+        return Boolean.parseBoolean(val);
     }
 }

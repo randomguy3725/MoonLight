@@ -403,7 +403,7 @@ public class RenderItem implements IResourceManagerReloadListener
                 }
                 else if (Reflector.ForgeItem_getModel.exists())
                 {
-                    modelresourcelocation = (ModelResourceLocation)Reflector.call(item, Reflector.ForgeItem_getModel, new Object[] {stack, entityplayer, Integer.valueOf(entityplayer.getItemInUseCount())});
+                    modelresourcelocation = (ModelResourceLocation)Reflector.call(item, Reflector.ForgeItem_getModel, new Object[] {stack, entityplayer, entityplayer.getItemInUseCount()});
                 }
 
                 if (modelresourcelocation != null)

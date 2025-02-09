@@ -91,12 +91,12 @@ public class WorldChunkManager
             {
                 CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Invalid Biome id");
                 CrashReportCategory crashreportcategory = crashreport.makeCategory("DownfallBlock");
-                crashreportcategory.addCrashSection("biome id", Integer.valueOf(i));
-                crashreportcategory.addCrashSection("downfalls[] size", Integer.valueOf(listToReuse.length));
-                crashreportcategory.addCrashSection("x", Integer.valueOf(x));
-                crashreportcategory.addCrashSection("z", Integer.valueOf(z));
-                crashreportcategory.addCrashSection("w", Integer.valueOf(width));
-                crashreportcategory.addCrashSection("h", Integer.valueOf(length));
+                crashreportcategory.addCrashSection("biome id", i);
+                crashreportcategory.addCrashSection("downfalls[] size", listToReuse.length);
+                crashreportcategory.addCrashSection("x", x);
+                crashreportcategory.addCrashSection("z", z);
+                crashreportcategory.addCrashSection("w", width);
+                crashreportcategory.addCrashSection("h", length);
                 throw new ReportedException(crashreport);
             }
         }
@@ -133,11 +133,11 @@ public class WorldChunkManager
         {
             CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Invalid Biome id");
             CrashReportCategory crashreportcategory = crashreport.makeCategory("RawBiomeBlock");
-            crashreportcategory.addCrashSection("biomes[] size", Integer.valueOf(biomes.length));
-            crashreportcategory.addCrashSection("x", Integer.valueOf(x));
-            crashreportcategory.addCrashSection("z", Integer.valueOf(z));
-            crashreportcategory.addCrashSection("w", Integer.valueOf(width));
-            crashreportcategory.addCrashSection("h", Integer.valueOf(height));
+            crashreportcategory.addCrashSection("biomes[] size", biomes.length);
+            crashreportcategory.addCrashSection("x", x);
+            crashreportcategory.addCrashSection("z", z);
+            crashreportcategory.addCrashSection("w", width);
+            crashreportcategory.addCrashSection("h", height);
             throw new ReportedException(crashreport);
         }
     }
@@ -205,9 +205,9 @@ public class WorldChunkManager
             CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Invalid Biome id");
             CrashReportCategory crashreportcategory = crashreport.makeCategory("Layer");
             crashreportcategory.addCrashSection("Layer", this.genBiomes.toString());
-            crashreportcategory.addCrashSection("x", Integer.valueOf(p_76940_1_));
-            crashreportcategory.addCrashSection("z", Integer.valueOf(p_76940_2_));
-            crashreportcategory.addCrashSection("radius", Integer.valueOf(p_76940_3_));
+            crashreportcategory.addCrashSection("x", p_76940_1_);
+            crashreportcategory.addCrashSection("z", p_76940_2_);
+            crashreportcategory.addCrashSection("radius", p_76940_3_);
             crashreportcategory.addCrashSection("allowed", p_76940_4_);
             throw new ReportedException(crashreport);
         }

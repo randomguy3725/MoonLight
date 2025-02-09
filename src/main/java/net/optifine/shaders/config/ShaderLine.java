@@ -241,7 +241,7 @@ public class ShaderLine
         }
         else
         {
-            return Boolean.valueOf(this.value).booleanValue();
+            return Boolean.parseBoolean(this.value);
         }
     }
 }

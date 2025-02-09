@@ -45,7 +45,7 @@ public class EntityGhast extends EntityFlying implements IMob
 
     public void setAttacking(boolean attacking)
     {
-        this.dataWatcher.updateObject(16, Byte.valueOf((byte)(attacking ? 1 : 0)));
+        this.dataWatcher.updateObject(16, (byte) (attacking ? 1 : 0));
     }
 
     public int getFireballStrength()
@@ -84,7 +84,7 @@ public class EntityGhast extends EntityFlying implements IMob
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(16, Byte.valueOf((byte)0));
+        this.dataWatcher.addObject(16, (byte) 0);
     }
 
     protected void applyEntityAttributes()

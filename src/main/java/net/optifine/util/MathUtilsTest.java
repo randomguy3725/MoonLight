@@ -72,7 +72,7 @@ public class MathUtilsTest
                     return;
             }
 
-            dbg(String.format("%.2f, Math: %f, Helper: %f, diff: %f", Double.valueOf(d2), Float.valueOf(f), Float.valueOf(f1), Float.valueOf(Math.abs(f - f1))));
+            dbg(String.format("%.2f, Math: %f, Helper: %f, diff: %f", d2, f, f1, Math.abs(f - f1)));
         }
     }
 

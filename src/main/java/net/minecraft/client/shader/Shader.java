@@ -38,8 +38,8 @@ public class Shader
     {
         this.listAuxNames.add(this.listAuxNames.size(), p_148041_1_);
         this.listAuxFramebuffers.add(this.listAuxFramebuffers.size(), p_148041_2_);
-        this.listAuxWidths.add(this.listAuxWidths.size(), Integer.valueOf(p_148041_3_));
-        this.listAuxHeights.add(this.listAuxHeights.size(), Integer.valueOf(p_148041_4_));
+        this.listAuxWidths.add(this.listAuxWidths.size(), p_148041_3_);
+        this.listAuxHeights.add(this.listAuxHeights.size(), p_148041_4_);
     }
 
     private void preLoadShader()
@@ -72,7 +72,7 @@ public class Shader
         for (int i = 0; i < this.listAuxFramebuffers.size(); ++i)
         {
             this.manager.addSamplerTexture(this.listAuxNames.get(i), this.listAuxFramebuffers.get(i));
-            this.manager.getShaderUniformOrDefault("AuxSize" + i).set((float) this.listAuxWidths.get(i).intValue(), (float) this.listAuxHeights.get(i).intValue());
+            this.manager.getShaderUniformOrDefault("AuxSize" + i).set((float) this.listAuxWidths.get(i), (float) this.listAuxHeights.get(i));
         }
 
         this.manager.getShaderUniformOrDefault("ProjMat").set(this.projectionMatrix);

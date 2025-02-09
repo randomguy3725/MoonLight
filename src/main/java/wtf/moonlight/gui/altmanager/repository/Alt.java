@@ -133,9 +133,9 @@ public class Alt {
             if (unbanDate != -1) {
                 int seconds = (int) ((unbanDate - System.currentTimeMillis()) / 1000);
                 String days = seconds > 86400 ? (seconds / 86400) + "d " : "";
-                seconds = !days.equals("") ? seconds % 86400 : seconds;
+                seconds = !days.isEmpty() ? seconds % 86400 : seconds;
                 String hours = seconds > 3600 ? seconds / 3600 + "h " : "";
-                seconds = !hours.equals("") ? seconds % 3600 : seconds;
+                seconds = !hours.isEmpty() ? seconds % 3600 : seconds;
                 String minutes = seconds > 60 ? seconds / 60 + "m " : "";
                 unbansIn = days + hours + minutes;
             } else {

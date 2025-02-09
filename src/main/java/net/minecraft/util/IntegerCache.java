@@ -15,7 +15,7 @@ public class IntegerCache
 
         for (int j = CACHE.length; i < j; ++i)
         {
-            CACHE[i] = Integer.valueOf(i);
+            CACHE[i] = i;
         }
     }
 }
