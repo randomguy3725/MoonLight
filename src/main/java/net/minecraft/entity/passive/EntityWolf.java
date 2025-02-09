@@ -116,7 +116,7 @@ public class EntityWolf extends EntityTameable
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(18, new Float(this.getHealth()));
+        this.dataWatcher.addObject(18, this.getHealth());
         this.dataWatcher.addObject(19, Byte.valueOf((byte) 0));
         this.dataWatcher.addObject(20, Byte.valueOf((byte) EnumDyeColor.RED.getMetadata()));
     }
