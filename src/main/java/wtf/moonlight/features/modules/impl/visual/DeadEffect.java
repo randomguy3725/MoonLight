@@ -11,6 +11,7 @@
 package wtf.moonlight.features.modules.impl.visual;
 
 import com.mojang.authlib.GameProfile;
+import it.unimi.dsi.fastutil.longs.LongArrayFIFOQueue;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -27,8 +28,8 @@ import wtf.moonlight.features.values.impl.ColorValue;
 import wtf.moonlight.features.values.impl.SliderValue;
 
 import java.awt.*;
-import java.util.LinkedList;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.glPopAttrib;
@@ -39,8 +40,8 @@ public class DeadEffect extends Module {
     public final ColorValue color = new ColorValue("Color", new Color(0,128,255),this);
     public final SliderValue speed = new SliderValue("Speed",20,20,100,this);
     public final SliderValue maxOffset = new SliderValue("Max Offset",1,0.1f,100,0.1f,this);
-    public final CopyOnWriteArrayList<Person> popList = new CopyOnWriteArrayList<>();
-    private final LinkedList<Long> frames = new LinkedList<>();
+    private final ArrayList<Person> popList = new ArrayList<>();
+    private final LongArrayFIFOQueue frames = new LongArrayFIFOQueue();
     private int fps;
 
     @EventTarget
@@ -84,16 +85,18 @@ public class DeadEffect extends Module {
             GlStateManager.disableBlend();
         glPopAttrib();
     }
+
+    private static final long ONE_SECOND = 1000000L * 1000L;
+
     @EventTarget
     public void onUpdate(UpdateEvent event) {
+
         long time = System.nanoTime();
 
-        frames.add(time);
-
-        while (true) {
-            long f = frames.getFirst();
-            final long ONE_SECOND = 1000000L * 1000L;
-            if (time - f > ONE_SECOND) frames.remove();
+        frames.enqueue(time);
+        while (!frames.isEmpty()) {
+            long f = frames.firstLong();
+            if (time - f > ONE_SECOND) frames.dequeueLong();
             else break;
         }
 
@@ -167,7 +170,7 @@ public class DeadEffect extends Module {
         return 1.0f / fps;
     }
 
-    public class Person {
+    private class Person {
         private final EntityPlayer player;
         private final ModelPlayer modelPlayer;
         private double alpha;
@@ -178,7 +181,7 @@ public class DeadEffect extends Module {
             this.alpha = 180;
         }
 
-        public void update(CopyOnWriteArrayList<Person> arrayList) {
+        public void update(Collection<Person> arrayList) {
             if (alpha <= 0) {
                 arrayList.remove(this);
                 mc.theWorld.removeEntity(player);

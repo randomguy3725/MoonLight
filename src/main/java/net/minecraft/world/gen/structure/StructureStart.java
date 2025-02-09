@@ -1,7 +1,7 @@
 package net.minecraft.world.gen.structure;
 
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 
 public abstract class StructureStart
 {
-    protected LinkedList<StructureComponent> components = new LinkedList();
+    protected List<StructureComponent> components = new ArrayList<>();
     protected StructureBoundingBox boundingBox;
     private int chunkPosX;
     private int chunkPosZ;
@@ -30,24 +30,14 @@ public abstract class StructureStart
         return this.boundingBox;
     }
 
-    public LinkedList<StructureComponent> getComponents()
+    public List<StructureComponent> getComponents()
     {
         return this.components;
     }
 
     public void generateStructure(World worldIn, Random rand, StructureBoundingBox structurebb)
     {
-        Iterator<StructureComponent> iterator = this.components.iterator();
-
-        while (iterator.hasNext())
-        {
-            StructureComponent structurecomponent = iterator.next();
-
-            if (structurecomponent.getBoundingBox().intersectsWith(structurebb) && !structurecomponent.addComponentParts(worldIn, rand, structurebb))
-            {
-                iterator.remove();
-            }
-        }
+        this.components.removeIf(structurecomponent -> structurecomponent.getBoundingBox().intersectsWith(structurebb) && !structurecomponent.addComponentParts(worldIn, rand, structurebb));
     }
 
     protected void updateBoundingBox()

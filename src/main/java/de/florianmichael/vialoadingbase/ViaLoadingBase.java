@@ -33,11 +33,12 @@ import de.florianmichael.vialoadingbase.platform.viaversion.VLBViaCommandHandler
 import de.florianmichael.vialoadingbase.platform.viaversion.VLBViaInjector;
 import de.florianmichael.vialoadingbase.platform.viaversion.VLBViaProviders;
 import de.florianmichael.vialoadingbase.util.JLoggerToLog4j;
+import kotlin.collections.CollectionsKt;
 import org.apache.logging.log4j.LogManager;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BooleanSupplier;
@@ -58,7 +59,7 @@ public class ViaLoadingBase {
     public final static Map<ProtocolVersion, ComparableProtocolVersion> PROTOCOLS = new LinkedHashMap<>();
     private static ViaLoadingBase instance;
 
-    private final LinkedList<Platform> platforms;
+    private final List<Platform> platforms;
     private final File runDirectory;
     private final int nativeVersion;
     private final BooleanSupplier forceNativeVersionCondition;
@@ -70,7 +71,7 @@ public class ViaLoadingBase {
     private ComparableProtocolVersion nativeProtocolVersion;
     private ComparableProtocolVersion targetProtocolVersion;
 
-    public ViaLoadingBase(LinkedList<Platform> platforms, File runDirectory, int nativeVersion, BooleanSupplier forceNativeVersionCondition, Supplier<JsonObject> dumpSupplier, Consumer<ViaProviders> providers, Consumer<ViaManagerImpl.ViaManagerBuilder> managerBuilderConsumer, Consumer<ComparableProtocolVersion> onProtocolReload) {
+    public ViaLoadingBase(List<Platform> platforms, File runDirectory, int nativeVersion, BooleanSupplier forceNativeVersionCondition, Supplier<JsonObject> dumpSupplier, Consumer<ViaProviders> providers, Consumer<ViaManagerImpl.ViaManagerBuilder> managerBuilderConsumer, Consumer<ComparableProtocolVersion> onProtocolReload) {
         this.platforms = platforms;
 
         this.runDirectory = new File(runDirectory, "ViaLoadingBase");
@@ -174,15 +175,15 @@ public class ViaLoadingBase {
     }
 
     public static ComparableProtocolVersion fromProtocolId(final int protocolId) {
-        return PROTOCOLS.values().stream().filter(protocol -> protocol.getVersion() == protocolId).findFirst().orElse(null);
+        return CollectionsKt.firstOrNull(PROTOCOLS.values(), protocol -> protocol.getVersion() == protocolId);
     }
 
     public static List<ProtocolVersion> getProtocols() {
-        return new LinkedList<>(PROTOCOLS.keySet());
+        return new ArrayList<>(PROTOCOLS.keySet());
     }
 
     public static class ViaLoadingBaseBuilder {
-        private final LinkedList<Platform> platforms = new LinkedList<>();
+        private final List<Platform> platforms = new ArrayList<>();
 
         private File runDirectory;
         private Integer nativeVersion;
