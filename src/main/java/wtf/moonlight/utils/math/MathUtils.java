@@ -13,7 +13,6 @@ package wtf.moonlight.utils.math;
 import net.minecraft.util.*;
 
 import java.security.SecureRandom;
-import java.util.Random;
 
 import static wtf.moonlight.utils.InstanceAccess.mc;
 

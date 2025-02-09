@@ -8,9 +8,7 @@ public class MathUtilsTest
     {
         MathUtilsTest.OPER[] amathutilstest$oper = MathUtilsTest.OPER.values();
 
-        for (int i = 0; i < amathutilstest$oper.length; ++i)
-        {
-            MathUtilsTest.OPER mathutilstest$oper = amathutilstest$oper[i];
+        for (OPER mathutilstest$oper : amathutilstest$oper) {
             dbg("******** " + mathutilstest$oper + " ***********");
             test(mathutilstest$oper, false);
         }

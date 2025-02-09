@@ -195,25 +195,13 @@ public class GuiOverlayDebug extends Gui
         {
             Entity entity = this.mc.getRenderViewEntity();
             EnumFacing enumfacing = entity.getHorizontalFacing();
-            String s = "Invalid";
-
-            switch (enumfacing)
-            {
-                case NORTH:
-                    s = "Towards negative Z";
-                    break;
-
-                case SOUTH:
-                    s = "Towards positive Z";
-                    break;
-
-                case WEST:
-                    s = "Towards negative X";
-                    break;
-
-                case EAST:
-                    s = "Towards positive X";
-            }
+            String s = switch (enumfacing) {
+                case NORTH -> "Towards negative Z";
+                case SOUTH -> "Towards positive Z";
+                case WEST -> "Towards negative X";
+                case EAST -> "Towards positive X";
+                default -> "Invalid";
+            };
 
             List<String> list = Lists.newArrayList("Minecraft 1.8.9 (" + this.mc.getVersion() + "/" + ClientBrandRetriever.getClientModName() + ")", this.mc.debug, this.mc.renderGlobal.getDebugInfoRenders(), this.mc.renderGlobal.getDebugInfoEntities(), "P: " + this.mc.effectRenderer.getStatistics() + ". T: " + this.mc.theWorld.getDebugLoadedEntities() + s1, this.mc.theWorld.getProviderName(), "", String.format("XYZ: %.3f / %.5f / %.3f", Double.valueOf(this.mc.getRenderViewEntity().posX), Double.valueOf(this.mc.getRenderViewEntity().getEntityBoundingBox().minY), Double.valueOf(this.mc.getRenderViewEntity().posZ)), String.format("Block: %d %d %d", Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()), Integer.valueOf(blockpos.getZ())), String.format("Chunk: %d %d %d in %d %d %d", Integer.valueOf(blockpos.getX() & 15), Integer.valueOf(blockpos.getY() & 15), Integer.valueOf(blockpos.getZ() & 15), Integer.valueOf(blockpos.getX() >> 4), Integer.valueOf(blockpos.getY() >> 4), Integer.valueOf(blockpos.getZ() >> 4)), String.format("Facing: %s (%s) (%.1f / %.1f)", enumfacing, s, Float.valueOf(MathHelper.wrapAngleTo180_float(entity.rotationYaw)), Float.valueOf(MathHelper.wrapAngleTo180_float(entity.rotationPitch))));
 

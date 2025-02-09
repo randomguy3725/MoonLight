@@ -98,9 +98,7 @@ public class ContainerEnchantment extends Container
     {
         super.detectAndSendChanges();
 
-        for (int i = 0; i < this.crafters.size(); ++i)
-        {
-            ICrafting icrafting = this.crafters.get(i);
+        for (ICrafting icrafting : this.crafters) {
             icrafting.sendProgressBarUpdate(this, 0, this.enchantLevels[0]);
             icrafting.sendProgressBarUpdate(this, 1, this.enchantLevels[1]);
             icrafting.sendProgressBarUpdate(this, 2, this.enchantLevels[2]);
@@ -252,16 +250,10 @@ public class ContainerEnchantment extends Container
                         itemstack.setItem(Items.enchanted_book);
                     }
 
-                    for (int j = 0; j < list.size(); ++j)
-                    {
-                        EnchantmentData enchantmentdata = list.get(j);
-
-                        if (flag)
-                        {
+                    for (EnchantmentData enchantmentdata : list) {
+                        if (flag) {
                             Items.enchanted_book.addEnchantment(itemstack, enchantmentdata);
-                        }
-                        else
-                        {
+                        } else {
                             itemstack.addEnchantment(enchantmentdata.enchantmentobj, enchantmentdata.enchantmentLevel);
                         }
                     }

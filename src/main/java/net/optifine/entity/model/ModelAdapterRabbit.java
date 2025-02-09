@@ -60,7 +60,7 @@ public class ModelAdapterRabbit extends ModelAdapter
         }
         else
         {
-            mapPartFields = new HashMap();
+            mapPartFields = new HashMap<>();
             mapPartFields.put("left_foot", Integer.valueOf(0));
             mapPartFields.put("right_foot", Integer.valueOf(1));
             mapPartFields.put("left_thigh", Integer.valueOf(2));

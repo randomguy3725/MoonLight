@@ -100,24 +100,24 @@ public class Iterator3d implements Iterator<BlockPos>
     {
         BlockPos blockpos = this.iteratorAxis.next();
 
-        switch (this.axis)
-        {
-            case 0:
+        return switch (this.axis) {
+            case 0 -> {
                 this.blockPos.setXyz(blockpos.getX() * this.kX, blockpos.getY() * this.kY, blockpos.getZ() * this.kZ);
-                return this.blockPos;
-
-            case 1:
+                yield this.blockPos;
+            }
+            case 1 -> {
                 this.blockPos.setXyz(blockpos.getY() * this.kX, blockpos.getX() * this.kY, blockpos.getZ() * this.kZ);
-                return this.blockPos;
-
-            case 2:
+                yield this.blockPos;
+            }
+            case 2 -> {
                 this.blockPos.setXyz(blockpos.getZ() * this.kX, blockpos.getY() * this.kY, blockpos.getX() * this.kZ);
-                return this.blockPos;
-
-            default:
+                yield this.blockPos;
+            }
+            default -> {
                 this.blockPos.setXyz(blockpos.getX() * this.kX, blockpos.getY() * this.kY, blockpos.getZ() * this.kZ);
-                return this.blockPos;
-        }
+                yield this.blockPos;
+            }
+        };
     }
 
     public void remove()

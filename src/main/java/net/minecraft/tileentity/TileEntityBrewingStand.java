@@ -37,7 +37,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
 
     public boolean hasCustomName()
     {
-        return this.customName != null && this.customName.length() > 0;
+        return this.customName != null && !this.customName.isEmpty();
     }
 
     public void setName(String name)
@@ -355,14 +355,10 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
 
     public int getField(int id)
     {
-        switch (id)
-        {
-            case 0:
-                return this.brewTime;
-
-            default:
-                return 0;
-        }
+        return switch (id) {
+            case 0 -> this.brewTime;
+            default -> 0;
+        };
     }
 
     public void setField(int id, int value)

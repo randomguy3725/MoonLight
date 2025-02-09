@@ -199,19 +199,14 @@ public class EntityTracker
             CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Adding entity to track");
             CrashReportCategory crashreportcategory = crashreport.makeCategory("Entity To Track");
             crashreportcategory.addCrashSection("Tracking range", trackingRange + " blocks");
-            crashreportcategory.addCrashSectionCallable("Update interval", new Callable<String>()
-            {
-                public String call() throws Exception
-                {
-                    String s = "Once per " + updateFrequency + " ticks";
+            crashreportcategory.addCrashSectionCallable("Update interval", () -> {
+                String s = "Once per " + updateFrequency + " ticks";
 
-                    if (updateFrequency == Integer.MAX_VALUE)
-                    {
-                        s = "Maximum (" + s + ")";
-                    }
-
-                    return s;
+                if (updateFrequency == Integer.MAX_VALUE) {
+                    s = "Maximum (" + s + ")";
                 }
+
+                return s;
             });
             entityIn.addEntityCrashInfo(crashreportcategory);
             CrashReportCategory crashreportcategory1 = crashreport.makeCategory("Entity That Is Already Tracked");
@@ -262,14 +257,9 @@ public class EntityTracker
             }
         }
 
-        for (int i = 0; i < list.size(); ++i)
-        {
-            EntityPlayerMP entityplayermp = list.get(i);
-
-            for (EntityTrackerEntry entitytrackerentry1 : this.trackedEntities)
-            {
-                if (entitytrackerentry1.trackedEntity != entityplayermp)
-                {
+        for (EntityPlayerMP entityplayermp : list) {
+            for (EntityTrackerEntry entitytrackerentry1 : this.trackedEntities) {
+                if (entitytrackerentry1.trackedEntity != entityplayermp) {
                     entitytrackerentry1.updatePlayerEntity(entityplayermp);
                 }
             }

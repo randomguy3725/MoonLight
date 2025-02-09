@@ -127,7 +127,7 @@ public class EntityPigZombie extends EntityZombie
         this.angerLevel = tagCompund.getShort("Anger");
         String s = tagCompund.getString("HurtBy");
 
-        if (s.length() > 0)
+        if (!s.isEmpty())
         {
             this.angerTargetUUID = UUID.fromString(s);
             EntityPlayer entityplayer = this.worldObj.getPlayerEntityByUUID(this.angerTargetUUID);

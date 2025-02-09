@@ -43,12 +43,12 @@ import org.apache.logging.log4j.Logger;
 public class NetworkSystem
 {
     private static final Logger logger = LogManager.getLogger();
-    public static final LazyLoadBase<NioEventLoopGroup> eventLoops = new LazyLoadBase<NioEventLoopGroup>() {
+    public static final LazyLoadBase<NioEventLoopGroup> eventLoops = new LazyLoadBase<>() {
         protected NioEventLoopGroup load() {
             return new NioEventLoopGroup(0, Executors.newCachedThreadPool((new ThreadFactoryBuilder()).setNameFormat("Netty Server IO #%d").setDaemon(true).build()));
         }
     };
-    public static final LazyLoadBase<EpollEventLoopGroup> SERVER_EPOLL_EVENTLOOP = new LazyLoadBase<EpollEventLoopGroup>() {
+    public static final LazyLoadBase<EpollEventLoopGroup> SERVER_EPOLL_EVENTLOOP = new LazyLoadBase<>() {
         protected EpollEventLoopGroup load() {
             return new EpollEventLoopGroup(0, Executors.newCachedThreadPool((new ThreadFactoryBuilder()).setNameFormat("Netty Epoll Server IO #%d").setDaemon(true).build()));
         }
@@ -89,16 +89,11 @@ public class NetworkSystem
                 logger.info("Using default channel type");
             }
 
-            this.endpoints.add((new ServerBootstrap()).channel(oclass).childHandler(new ChannelInitializer<Channel>()
-            {
-                protected void initChannel(Channel p_initChannel_1_) throws Exception
-                {
-                    try
-                    {
+            this.endpoints.add((new ServerBootstrap()).channel(oclass).childHandler(new ChannelInitializer<>() {
+                protected void initChannel(Channel p_initChannel_1_) throws Exception {
+                    try {
                         p_initChannel_1_.config().setOption(ChannelOption.TCP_NODELAY, Boolean.valueOf(true));
-                    }
-                    catch (ChannelException var3)
-                    {
+                    } catch (ChannelException var3) {
                     }
 
                     p_initChannel_1_.pipeline().addLast("timeout", new ReadTimeoutHandler(30)).addLast("legacy_query", new PingResponseHandler(NetworkSystem.this)).addLast("splitter", new MessageDeserializer2()).addLast("decoder", new MessageDeserializer(EnumPacketDirection.SERVERBOUND)).addLast("prepender", new MessageSerializer2()).addLast("encoder", new MessageSerializer(EnumPacketDirection.CLIENTBOUND));
@@ -117,10 +112,8 @@ public class NetworkSystem
 
         synchronized (this.endpoints)
         {
-            channelfuture = (new ServerBootstrap()).channel(LocalServerChannel.class).childHandler(new ChannelInitializer<Channel>()
-            {
-                protected void initChannel(Channel p_initChannel_1_) throws Exception
-                {
+            channelfuture = (new ServerBootstrap()).channel(LocalServerChannel.class).childHandler(new ChannelInitializer<>() {
+                protected void initChannel(Channel p_initChannel_1_) throws Exception {
                     NetworkManager networkmanager = new NetworkManager(EnumPacketDirection.SERVERBOUND);
                     networkmanager.setNetHandler(new NetHandlerHandshakeMemory(NetworkSystem.this.mcServer, networkmanager));
                     NetworkSystem.this.networkManagers.add(networkmanager);
@@ -179,25 +172,13 @@ public class NetworkSystem
                             {
                                 CrashReport crashreport = CrashReport.makeCrashReport(exception, "Ticking memory connection");
                                 CrashReportCategory crashreportcategory = crashreport.makeCategory("Ticking connection");
-                                crashreportcategory.addCrashSectionCallable("Connection", new Callable<String>()
-                                {
-                                    public String call() throws Exception
-                                    {
-                                        return networkmanager.toString();
-                                    }
-                                });
+                                crashreportcategory.addCrashSectionCallable("Connection", () -> networkmanager.toString());
                                 throw new ReportedException(crashreport);
                             }
 
                             logger.warn("Failed to handle packet for " + networkmanager.getRemoteAddress(), exception);
                             final ChatComponentText chatcomponenttext = new ChatComponentText("Internal server error");
-                            networkmanager.sendPacket(new S40PacketDisconnect(chatcomponenttext), new GenericFutureListener < Future <? super Void >> ()
-                            {
-                                public void operationComplete(Future <? super Void > p_operationComplete_1_) throws Exception
-                                {
-                                    networkmanager.closeChannel(chatcomponenttext);
-                                }
-                            });
+                            networkmanager.sendPacket(new S40PacketDisconnect(chatcomponenttext), p_operationComplete_1_ -> networkmanager.closeChannel(chatcomponenttext));
                             networkmanager.disableAutoRead();
                         }
                     }

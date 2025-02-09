@@ -152,7 +152,7 @@ public class CommandStats extends CommandBase
                     String s1 = args[i++];
                     String s2 = args[i];
 
-                    if (s1.length() == 0 || s2.length() == 0)
+                    if (s1.isEmpty() || s2.isEmpty())
                     {
                         throw new CommandException("commands.stats.failed");
                     }

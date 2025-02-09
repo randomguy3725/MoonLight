@@ -10,8 +10,8 @@ public class LinkedListTest
     public static void main(String[] args) throws Exception
     {
         LinkedList<VboRange> linkedlist = new LinkedList();
-        List<VboRange> list = new ArrayList();
-        List<VboRange> list1 = new ArrayList();
+        List<VboRange> list = new ArrayList<>();
+        List<VboRange> list1 = new ArrayList<>();
         Random random = new Random();
         int i = 100;
 
@@ -89,7 +89,7 @@ public class LinkedListTest
             }
             VboRange vborange = node.getItem();
 
-            if (stringbuffer.length() > 0)
+            if (!stringbuffer.isEmpty())
             {
                 stringbuffer.append(", ");
             }

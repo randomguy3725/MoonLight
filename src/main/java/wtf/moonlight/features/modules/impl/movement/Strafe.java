@@ -16,7 +16,6 @@ import wtf.moonlight.features.modules.Module;
 import wtf.moonlight.features.modules.ModuleCategory;
 import wtf.moonlight.features.modules.ModuleInfo;
 import wtf.moonlight.features.values.impl.BoolValue;
-import wtf.moonlight.features.values.impl.SliderValue;
 import wtf.moonlight.utils.player.MovementUtils;
 
 @ModuleInfo(name = "Strafe", category = ModuleCategory.Movement)

@@ -68,7 +68,7 @@ public class VisGraph
     private Set<EnumFacing> func_178604_a(int p_178604_1_)
     {
         Set<EnumFacing> set = EnumSet.noneOf(EnumFacing.class);
-        Queue<Integer> queue = new ArrayDeque(384);
+        Queue<Integer> queue = new ArrayDeque<>(384);
         queue.add(IntegerCache.getInteger(p_178604_1_));
         this.field_178612_d.set(p_178604_1_, true);
 
@@ -130,59 +130,51 @@ public class VisGraph
 
     private int func_178603_a(int p_178603_1_, EnumFacing p_178603_2_)
     {
-        switch (p_178603_2_)
-        {
-            case DOWN:
-                if ((p_178603_1_ >> 8 & 15) == 0)
-                {
-                    return -1;
+        return switch (p_178603_2_) {
+            case DOWN -> {
+                if ((p_178603_1_ >> 8 & 15) == 0) {
+                    yield -1;
                 }
 
-                return p_178603_1_ - field_178615_c;
-
-            case UP:
-                if ((p_178603_1_ >> 8 & 15) == 15)
-                {
-                    return -1;
+                yield p_178603_1_ - field_178615_c;
+            }
+            case UP -> {
+                if ((p_178603_1_ >> 8 & 15) == 15) {
+                    yield -1;
                 }
 
-                return p_178603_1_ + field_178615_c;
-
-            case NORTH:
-                if ((p_178603_1_ >> 4 & 15) == 0)
-                {
-                    return -1;
+                yield p_178603_1_ + field_178615_c;
+            }
+            case NORTH -> {
+                if ((p_178603_1_ >> 4 & 15) == 0) {
+                    yield -1;
                 }
 
-                return p_178603_1_ - field_178614_b;
-
-            case SOUTH:
-                if ((p_178603_1_ >> 4 & 15) == 15)
-                {
-                    return -1;
+                yield p_178603_1_ - field_178614_b;
+            }
+            case SOUTH -> {
+                if ((p_178603_1_ >> 4 & 15) == 15) {
+                    yield -1;
                 }
 
-                return p_178603_1_ + field_178614_b;
-
-            case WEST:
-                if ((p_178603_1_ >> 0 & 15) == 0)
-                {
-                    return -1;
+                yield p_178603_1_ + field_178614_b;
+            }
+            case WEST -> {
+                if ((p_178603_1_ >> 0 & 15) == 0) {
+                    yield -1;
                 }
 
-                return p_178603_1_ - field_178616_a;
-
-            case EAST:
-                if ((p_178603_1_ >> 0 & 15) == 15)
-                {
-                    return -1;
+                yield p_178603_1_ - field_178616_a;
+            }
+            case EAST -> {
+                if ((p_178603_1_ >> 0 & 15) == 15) {
+                    yield -1;
                 }
 
-                return p_178603_1_ + field_178616_a;
-
-            default:
-                return -1;
-        }
+                yield p_178603_1_ + field_178616_a;
+            }
+            default -> -1;
+        };
     }
 
     static

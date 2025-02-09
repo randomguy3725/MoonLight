@@ -447,12 +447,8 @@ public class Config
             Thread[] athread = new Thread[i];
             threadgroup.enumerate(athread, false);
 
-            for (int j = 0; j < athread.length; ++j)
-            {
-                Thread thread = athread[j];
-
-                if (thread != null && thread.getName().startsWith(p_setThreadPriority_0_))
-                {
+            for (Thread thread : athread) {
+                if (thread != null && thread.getName().startsWith(p_setThreadPriority_0_)) {
                     thread.setPriority(p_setThreadPriority_1_);
                 }
             }
@@ -486,33 +482,25 @@ public class Config
 
     public static int getMipmapType()
     {
-        switch (gameSettings.ofMipmapType)
-        {
-            case 0:
-                return 9986;
-
-            case 1:
-                return 9986;
-
-            case 2:
-                if (isMultiTexture())
-                {
-                    return 9985;
+        return switch (gameSettings.ofMipmapType) {
+            case 0 -> 9986;
+            case 1 -> 9986;
+            case 2 -> {
+                if (isMultiTexture()) {
+                    yield 9985;
                 }
 
-                return 9986;
-
-            case 3:
-                if (isMultiTexture())
-                {
-                    return 9987;
+                yield 9986;
+            }
+            case 3 -> {
+                if (isMultiTexture()) {
+                    yield 9987;
                 }
 
-                return 9986;
-
-            default:
-                return 9986;
-        }
+                yield 9986;
+            }
+            default -> 9986;
+        };
     }
 
     public static boolean isUseAlphaFunc()
@@ -987,7 +975,7 @@ public class Config
             list1.add(resourcepackrepository.getResourcePackInstance());
         }
 
-        IResourcePack[] airesourcepack = (IResourcePack[]) list1.toArray(new IResourcePack[list1.size()]);
+        IResourcePack[] airesourcepack = (IResourcePack[]) list1.toArray(new IResourcePack[0]);
         return airesourcepack;
     }
 
@@ -1331,7 +1319,7 @@ public class Config
             list.add(s);
         }
 
-        String[] astring = (String[]) list.toArray(new String[list.size()]);
+        String[] astring = (String[]) list.toArray(new String[0]);
         return astring;
     }
 
@@ -1361,7 +1349,7 @@ public class Config
                     }
                 }
 
-                DisplayMode[] adisplaymode2 = (DisplayMode[]) list.toArray(new DisplayMode[list.size()]);
+                DisplayMode[] adisplaymode2 = (DisplayMode[]) list.toArray(new DisplayMode[0]);
                 Arrays.sort(adisplaymode2, new DisplayModeComparator());
                 return adisplaymode2;
             }
@@ -1392,11 +1380,9 @@ public class Config
 
     private static Set<Dimension> getDisplayModeDimensions(DisplayMode[] p_getDisplayModeDimensions_0_)
     {
-        Set<Dimension> set = new HashSet();
+        Set<Dimension> set = new HashSet<>();
 
-        for (int i = 0; i < p_getDisplayModeDimensions_0_.length; ++i)
-        {
-            DisplayMode displaymode = p_getDisplayModeDimensions_0_[i];
+        for (DisplayMode displaymode : p_getDisplayModeDimensions_0_) {
             Dimension dimension = new Dimension(displaymode.getWidth(), displaymode.getHeight());
             set.add(dimension);
         }
@@ -1408,17 +1394,13 @@ public class Config
     {
         List list = new ArrayList();
 
-        for (int i = 0; i < p_getDisplayModes_0_.length; ++i)
-        {
-            DisplayMode displaymode = p_getDisplayModes_0_[i];
-
-            if ((double)displaymode.getWidth() == p_getDisplayModes_1_.getWidth() && (double)displaymode.getHeight() == p_getDisplayModes_1_.getHeight())
-            {
+        for (DisplayMode displaymode : p_getDisplayModes_0_) {
+            if ((double) displaymode.getWidth() == p_getDisplayModes_1_.getWidth() && (double) displaymode.getHeight() == p_getDisplayModes_1_.getHeight()) {
                 list.add(displaymode);
             }
         }
 
-        DisplayMode[] adisplaymode = (DisplayMode[]) list.toArray(new DisplayMode[list.size()]);
+        DisplayMode[] adisplaymode = (DisplayMode[]) list.toArray(new DisplayMode[0]);
         return adisplaymode;
     }
 
@@ -1426,12 +1408,8 @@ public class Config
     {
         if (p_getDisplayMode_1_ != null)
         {
-            for (int i = 0; i < p_getDisplayMode_0_.length; ++i)
-            {
-                DisplayMode displaymode = p_getDisplayMode_0_[i];
-
-                if (displaymode.getBitsPerPixel() == p_getDisplayMode_1_.getBitsPerPixel() && displaymode.getFrequency() == p_getDisplayMode_1_.getFrequency())
-                {
+            for (DisplayMode displaymode : p_getDisplayMode_0_) {
+                if (displaymode.getBitsPerPixel() == p_getDisplayMode_1_.getBitsPerPixel() && displaymode.getFrequency() == p_getDisplayMode_1_.getFrequency()) {
                     return displaymode;
                 }
             }
@@ -1467,12 +1445,8 @@ public class Config
     {
         DisplayMode[] adisplaymode = getDisplayModes();
 
-        for (int i = 0; i < adisplaymode.length; ++i)
-        {
-            DisplayMode displaymode = adisplaymode[i];
-
-            if (displaymode.getWidth() == p_getDisplayMode_0_.width && displaymode.getHeight() == p_getDisplayMode_0_.height)
-            {
+        for (DisplayMode displaymode : adisplaymode) {
+            if (displaymode.getWidth() == p_getDisplayMode_0_.width && displaymode.getHeight() == p_getDisplayMode_0_.height) {
                 return displaymode;
             }
         }
@@ -1596,7 +1570,7 @@ public class Config
 
             if (s == null)
             {
-                String[] astring = (String[]) list.toArray(new String[list.size()]);
+                String[] astring = (String[]) list.toArray(new String[0]);
                 return astring;
             }
 
@@ -1715,7 +1689,7 @@ public class Config
 
     private static String[] splitRelease(String p_splitRelease_0_)
     {
-        if (p_splitRelease_0_ != null && p_splitRelease_0_.length() > 0)
+        if (p_splitRelease_0_ != null && !p_splitRelease_0_.isEmpty())
         {
             Pattern pattern = Pattern.compile("([A-Z])([0-9]+)(.*)");
             Matcher matcher = pattern.matcher(p_splitRelease_0_);
@@ -1818,12 +1792,8 @@ public class Config
         }
         else
         {
-            for (int i = 0; i < p_equalsOne_1_.length; ++i)
-            {
-                Object object = p_equalsOne_1_[i];
-
-                if (equals(p_equalsOne_0_, object))
-                {
+            for (Object object : p_equalsOne_1_) {
+                if (equals(p_equalsOne_0_, object)) {
                     return true;
                 }
             }
@@ -1834,10 +1804,8 @@ public class Config
 
     public static boolean equalsOne(int p_equalsOne_0_, int[] p_equalsOne_1_)
     {
-        for (int i = 0; i < p_equalsOne_1_.length; ++i)
-        {
-            if (p_equalsOne_1_[i] == p_equalsOne_0_)
-            {
+        for (int j : p_equalsOne_1_) {
+            if (j == p_equalsOne_0_) {
                 return true;
             }
         }
@@ -1853,12 +1821,8 @@ public class Config
         }
         else
         {
-            for (int i = 0; i < p_isSameOne_1_.length; ++i)
-            {
-                Object object = p_isSameOne_1_[i];
-
-                if (p_isSameOne_0_ == object)
-                {
+            for (Object object : p_isSameOne_1_) {
+                if (p_isSameOne_0_ == object) {
                     return true;
                 }
             }
@@ -2199,13 +2163,10 @@ public class Config
     {
         String[] astring = new String[] {"sun.arch.data.model", "com.ibm.vm.bitmode", "os.arch"};
 
-        for (int i = 0; i < astring.length; ++i)
-        {
-            String s = astring[i];
+        for (String s : astring) {
             String s1 = System.getProperty(s);
 
-            if (s1 != null && s1.contains("64"))
-            {
+            if (s1 != null && s1.contains("64")) {
                 return 64;
             }
         }
@@ -2430,35 +2391,17 @@ public class Config
 
     public static String getGlErrorString(int p_getGlErrorString_0_)
     {
-        switch (p_getGlErrorString_0_)
-        {
-            case 0:
-                return "No error";
-
-            case 1280:
-                return "Invalid enum";
-
-            case 1281:
-                return "Invalid value";
-
-            case 1282:
-                return "Invalid operation";
-
-            case 1283:
-                return "Stack overflow";
-
-            case 1284:
-                return "Stack underflow";
-
-            case 1285:
-                return "Out of memory";
-
-            case 1286:
-                return "Invalid framebuffer operation";
-
-            default:
-                return "Unknown";
-        }
+        return switch (p_getGlErrorString_0_) {
+            case 0 -> "No error";
+            case 1280 -> "Invalid enum";
+            case 1281 -> "Invalid value";
+            case 1282 -> "Invalid operation";
+            case 1283 -> "Stack overflow";
+            case 1284 -> "Stack underflow";
+            case 1285 -> "Out of memory";
+            case 1286 -> "Invalid framebuffer operation";
+            default -> "Unknown";
+        };
     }
 
     public static boolean isTrue(Boolean p_isTrue_0_)

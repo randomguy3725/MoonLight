@@ -18,7 +18,7 @@ public class Teleporter
 {
     private final WorldServer worldServerInstance;
     private final Random random;
-    private final LongHashMap<Teleporter.PortalPosition> destinationCoordinateCache = new LongHashMap();
+    private final LongHashMap<Teleporter.PortalPosition> destinationCoordinateCache = new LongHashMap<>();
     private final List<Long> destinationCoordinateKeys = Lists.newArrayList();
 
     public Teleporter(WorldServer worldIn)

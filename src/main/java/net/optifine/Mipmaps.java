@@ -56,7 +56,7 @@ public class Mipmaps
 
                 if (k <= 0 && l <= 0)
                 {
-                    Dimension[] adimension = (Dimension[]) list.toArray(new Dimension[list.size()]);
+                    Dimension[] adimension = (Dimension[]) list.toArray(new Dimension[0]);
                     return adimension;
                 }
 

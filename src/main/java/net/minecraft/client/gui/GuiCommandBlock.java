@@ -48,7 +48,7 @@ public class GuiCommandBlock extends GuiScreen
         this.previousOutputTextField.setText("-");
         this.field_175389_t = this.localCommandBlock.shouldTrackOutput();
         this.func_175388_a();
-        this.doneBtn.enabled = this.commandTextField.getText().trim().length() > 0;
+        this.doneBtn.enabled = !this.commandTextField.getText().trim().isEmpty();
     }
 
     public void onGuiClosed()
@@ -93,7 +93,7 @@ public class GuiCommandBlock extends GuiScreen
     {
         this.commandTextField.textboxKeyTyped(typedChar, keyCode);
         this.previousOutputTextField.textboxKeyTyped(typedChar, keyCode);
-        this.doneBtn.enabled = this.commandTextField.getText().trim().length() > 0;
+        this.doneBtn.enabled = !this.commandTextField.getText().trim().isEmpty();
 
         if (keyCode != 28 && keyCode != 156)
         {
@@ -129,7 +129,7 @@ public class GuiCommandBlock extends GuiScreen
         this.drawString(this.fontRendererObj, I18n.format("advMode.allEntities"), this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
         this.drawString(this.fontRendererObj, "", this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
 
-        if (this.previousOutputTextField.getText().length() > 0)
+        if (!this.previousOutputTextField.getText().isEmpty())
         {
             i = i + j * this.fontRendererObj.FONT_HEIGHT + 16;
             this.drawString(this.fontRendererObj, I18n.format("advMode.previousOutput"), this.width / 2 - 150, i, 10526880);

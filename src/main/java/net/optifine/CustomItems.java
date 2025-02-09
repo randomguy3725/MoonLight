@@ -126,10 +126,10 @@ public class CustomItems
         String[] astring = ResUtils.collectFiles(rp, "mcpatcher/cit/", ".properties", null);
         Map map = makeAutoImageProperties(rp);
 
-        if (map.size() > 0)
+        if (!map.isEmpty())
         {
             Set set = map.keySet();
-            String[] astring1 = (String[]) set.toArray(new String[set.size()]);
+            String[] astring1 = (String[]) set.toArray(new String[0]);
             astring = (String[]) Config.addObjectsToArray(astring, astring1);
         }
 
@@ -137,27 +137,21 @@ public class CustomItems
         List list = makePropertyList(itemProperties);
         List list1 = makePropertyList(enchantmentProperties);
 
-        for (int i = 0; i < astring.length; ++i)
-        {
-            String s = astring[i];
+        for (String s : astring) {
             Config.dbg("CustomItems: " + s);
 
-            try
-            {
+            try {
                 CustomItemProperties customitemproperties = null;
 
-                if (map.containsKey(s))
-                {
-                    customitemproperties = (CustomItemProperties)map.get(s);
+                if (map.containsKey(s)) {
+                    customitemproperties = (CustomItemProperties) map.get(s);
                 }
 
-                if (customitemproperties == null)
-                {
+                if (customitemproperties == null) {
                     ResourceLocation resourcelocation = new ResourceLocation(s);
                     InputStream inputstream = rp.getInputStream(resourcelocation);
 
-                    if (inputstream == null)
-                    {
+                    if (inputstream == null) {
                         Config.warn("CustomItems file not found: " + s);
                         continue;
                     }
@@ -168,18 +162,13 @@ public class CustomItems
                     customitemproperties = new CustomItemProperties(properties, s);
                 }
 
-                if (customitemproperties.isValid(s))
-                {
+                if (customitemproperties.isValid(s)) {
                     addToItemList(customitemproperties, list);
                     addToEnchantmentList(customitemproperties, list1);
                 }
-            }
-            catch (FileNotFoundException var11)
-            {
+            } catch (FileNotFoundException var11) {
                 Config.warn("CustomItems file not found: " + s);
-            }
-            catch (Exception exception)
-            {
+            } catch (Exception exception) {
                 exception.printStackTrace();
             }
         }
@@ -188,22 +177,14 @@ public class CustomItems
         enchantmentProperties = propertyListToArray(list1);
         Comparator comparator = getPropertiesComparator();
 
-        for (int j = 0; j < itemProperties.length; ++j)
-        {
-            CustomItemProperties[] acustomitemproperties = itemProperties[j];
-
-            if (acustomitemproperties != null)
-            {
+        for (CustomItemProperties[] acustomitemproperties : itemProperties) {
+            if (acustomitemproperties != null) {
                 Arrays.sort(acustomitemproperties, comparator);
             }
         }
 
-        for (int k = 0; k < enchantmentProperties.length; ++k)
-        {
-            CustomItemProperties[] acustomitemproperties1 = enchantmentProperties[k];
-
-            if (acustomitemproperties1 != null)
-            {
+        for (CustomItemProperties[] acustomitemproperties1 : enchantmentProperties) {
+            if (acustomitemproperties1 != null) {
                 Arrays.sort(acustomitemproperties1, comparator);
             }
         }
@@ -211,14 +192,10 @@ public class CustomItems
 
     private static Comparator getPropertiesComparator()
     {
-        Comparator comparator = new Comparator()
-        {
-            public int compare(Object o1, Object o2)
-            {
-                CustomItemProperties customitemproperties = (CustomItemProperties)o1;
-                CustomItemProperties customitemproperties1 = (CustomItemProperties)o2;
-                return customitemproperties.layer != customitemproperties1.layer ? customitemproperties.layer - customitemproperties1.layer : (customitemproperties.weight != customitemproperties1.weight ? customitemproperties1.weight - customitemproperties.weight : (!customitemproperties.basePath.equals(customitemproperties1.basePath) ? customitemproperties.basePath.compareTo(customitemproperties1.basePath) : customitemproperties.name.compareTo(customitemproperties1.name)));
-            }
+        Comparator comparator = (o1, o2) -> {
+            CustomItemProperties customitemproperties = (CustomItemProperties)o1;
+            CustomItemProperties customitemproperties1 = (CustomItemProperties)o2;
+            return customitemproperties.layer != customitemproperties1.layer ? customitemproperties.layer - customitemproperties1.layer : (customitemproperties.weight != customitemproperties1.weight ? customitemproperties1.weight - customitemproperties.weight : (!customitemproperties.basePath.equals(customitemproperties1.basePath) ? customitemproperties.basePath.compareTo(customitemproperties1.basePath) : customitemproperties.name.compareTo(customitemproperties1.name)));
         };
         return comparator;
     }
@@ -254,7 +231,7 @@ public class CustomItems
 
     private static List<CustomItemProperties> getAllProperties()
     {
-        List<CustomItemProperties> list = new ArrayList();
+        List<CustomItemProperties> list = new ArrayList<>();
         addAll(itemProperties, list);
         addAll(enchantmentProperties, list);
         return list;
@@ -264,18 +241,10 @@ public class CustomItems
     {
         if (cipsArr != null)
         {
-            for (int i = 0; i < cipsArr.length; ++i)
-            {
-                CustomItemProperties[] acustomitemproperties = cipsArr[i];
-
-                if (acustomitemproperties != null)
-                {
-                    for (int j = 0; j < acustomitemproperties.length; ++j)
-                    {
-                        CustomItemProperties customitemproperties = acustomitemproperties[j];
-
-                        if (customitemproperties != null)
-                        {
+            for (CustomItemProperties[] acustomitemproperties : cipsArr) {
+                if (acustomitemproperties != null) {
+                    for (CustomItemProperties customitemproperties : acustomitemproperties) {
+                        if (customitemproperties != null) {
                             list.add(customitemproperties);
                         }
                     }
@@ -301,14 +270,11 @@ public class CustomItems
         String[] astring1 = new String[] {".png"};
         String[] astring2 = ResUtils.collectFiles(rp, astring, astring1);
 
-        for (int i = 0; i < astring2.length; ++i)
-        {
-            String s1 = astring2[i];
+        for (String s1 : astring2) {
             String name = StrUtils.removePrefixSuffix(s1, astring, astring1);
             Properties properties = makePotionProperties(name, type, itemId, s1);
 
-            if (properties != null)
-            {
+            if (properties != null) {
                 String s3 = StrUtils.removeSuffix(s1, astring1) + ".properties";
                 CustomItemProperties customitemproperties = new CustomItemProperties(properties, s3);
                 map.put(s3, customitemproperties);
@@ -448,16 +414,11 @@ public class CustomItems
         String s = "potion." + name;
         Potion[] apotion = Potion.potionTypes;
 
-        for (int i = 0; i < apotion.length; ++i)
-        {
-            Potion potion = apotion[i];
-
-            if (potion != null)
-            {
+        for (Potion potion : apotion) {
+            if (potion != null) {
                 String s1 = potion.getName();
 
-                if (s.equals(s1))
-                {
+                if (s.equals(s1)) {
                     return potion.getId();
                 }
             }
@@ -472,13 +433,10 @@ public class CustomItems
 
         if (propsArr != null)
         {
-            for (int i = 0; i < propsArr.length; ++i)
-            {
-                CustomItemProperties[] acustomitemproperties = propsArr[i];
+            for (CustomItemProperties[] acustomitemproperties : propsArr) {
                 List list1 = null;
 
-                if (acustomitemproperties != null)
-                {
+                if (acustomitemproperties != null) {
                     list1 = new ArrayList(Arrays.asList(acustomitemproperties));
                 }
 
@@ -499,7 +457,7 @@ public class CustomItems
 
             if (list != null)
             {
-                CustomItemProperties[] acustomitemproperties1 = (CustomItemProperties[]) list.toArray(new CustomItemProperties[list.size()]);
+                CustomItemProperties[] acustomitemproperties1 = (CustomItemProperties[]) list.toArray(new CustomItemProperties[0]);
                 Arrays.sort(acustomitemproperties1, new CustomItemsComparator());
                 acustomitemproperties[i] = acustomitemproperties1;
             }
@@ -674,12 +632,8 @@ public class CustomItems
 
                 if (acustomitemproperties != null)
                 {
-                    for (int j = 0; j < acustomitemproperties.length; ++j)
-                    {
-                        CustomItemProperties customitemproperties = acustomitemproperties[j];
-
-                        if (customitemproperties.type == type && matchesProperties(customitemproperties, itemStack, null))
-                        {
+                    for (CustomItemProperties customitemproperties : acustomitemproperties) {
+                        if (customitemproperties.type == type && matchesProperties(customitemproperties, itemStack, null)) {
                             return customitemproperties;
                         }
                     }
@@ -732,12 +686,10 @@ public class CustomItems
 
                 boolean flag = false;
 
-                for (int k = 0; k < aint.length; ++k)
-                {
-                    int l = aint[k][0];
+                for (int[] ints : aint) {
+                    int l = ints[0];
 
-                    if (cip.enchantmentIds.isInRange(l))
-                    {
+                    if (cip.enchantmentIds.isInRange(l)) {
                         flag = true;
                         break;
                     }
@@ -758,12 +710,10 @@ public class CustomItems
 
                 boolean flag1 = false;
 
-                for (int i1 = 0; i1 < aint.length; ++i1)
-                {
-                    int k1 = aint[i1][1];
+                for (int[] ints : aint) {
+                    int k1 = ints[1];
 
-                    if (cip.enchantmentLevels.isInRange(k1))
-                    {
+                    if (cip.enchantmentLevels.isInRange(k1)) {
                         flag1 = true;
                         break;
                     }
@@ -854,32 +804,23 @@ public class CustomItems
                 boolean flag = false;
                 TextureManager texturemanager = Config.getTextureManager();
 
-                for (int i = 0; i < aint.length; ++i)
-                {
-                    int j = aint[i][0];
+                for (int[] ints : aint) {
+                    int j = ints[0];
 
-                    if (j >= 0 && j < enchantmentProperties.length)
-                    {
+                    if (j >= 0 && j < enchantmentProperties.length) {
                         CustomItemProperties[] acustomitemproperties = enchantmentProperties[j];
 
-                        if (acustomitemproperties != null)
-                        {
-                            for (int k = 0; k < acustomitemproperties.length; ++k)
-                            {
-                                CustomItemProperties customitemproperties = acustomitemproperties[k];
-
-                                if (set == null)
-                                {
+                        if (acustomitemproperties != null) {
+                            for (CustomItemProperties customitemproperties : acustomitemproperties) {
+                                if (set == null) {
                                     set = new HashSet();
                                 }
 
-                                if (set.add(Integer.valueOf(j)) && matchesProperties(customitemproperties, itemStack, aint) && customitemproperties.textureLocation != null)
-                                {
+                                if (set.add(Integer.valueOf(j)) && matchesProperties(customitemproperties, itemStack, aint) && customitemproperties.textureLocation != null) {
                                     texturemanager.bindTexture(customitemproperties.textureLocation);
                                     float f = customitemproperties.getTextureWidth(texturemanager);
 
-                                    if (!flag)
-                                    {
+                                    if (!flag) {
                                         flag = true;
                                         GlStateManager.depthMask(false);
                                         GlStateManager.depthFunc(514);
@@ -890,7 +831,7 @@ public class CustomItems
                                     Blender.setupBlend(customitemproperties.blend, 1.0F);
                                     GlStateManager.pushMatrix();
                                     GlStateManager.scale(f / 2.0F, f / 2.0F, f / 2.0F);
-                                    float f1 = customitemproperties.speed * (float)(Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
+                                    float f1 = customitemproperties.speed * (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
                                     GlStateManager.translate(f1, 0.0F, 0.0F);
                                     GlStateManager.rotate(customitemproperties.rotation, 0.0F, 0.0F, 1.0F);
                                     renderItem.renderModel(model, -1);
@@ -947,36 +888,26 @@ public class CustomItems
                 boolean flag = false;
                 TextureManager texturemanager = Config.getTextureManager();
 
-                for (int i = 0; i < aint.length; ++i)
-                {
-                    int j = aint[i][0];
+                for (int[] ints : aint) {
+                    int j = ints[0];
 
-                    if (j >= 0 && j < enchantmentProperties.length)
-                    {
+                    if (j >= 0 && j < enchantmentProperties.length) {
                         CustomItemProperties[] acustomitemproperties = enchantmentProperties[j];
 
-                        if (acustomitemproperties != null)
-                        {
-                            for (int k = 0; k < acustomitemproperties.length; ++k)
-                            {
-                                CustomItemProperties customitemproperties = acustomitemproperties[k];
-
-                                if (set == null)
-                                {
+                        if (acustomitemproperties != null) {
+                            for (CustomItemProperties customitemproperties : acustomitemproperties) {
+                                if (set == null) {
                                     set = new HashSet();
                                 }
 
-                                if (set.add(Integer.valueOf(j)) && matchesProperties(customitemproperties, itemStack, aint) && customitemproperties.textureLocation != null)
-                                {
+                                if (set.add(Integer.valueOf(j)) && matchesProperties(customitemproperties, itemStack, aint) && customitemproperties.textureLocation != null) {
                                     texturemanager.bindTexture(customitemproperties.textureLocation);
                                     float f = customitemproperties.getTextureWidth(texturemanager);
 
-                                    if (!flag)
-                                    {
+                                    if (!flag) {
                                         flag = true;
 
-                                        if (Config.isShaders())
-                                        {
+                                        if (Config.isShaders()) {
                                             ShadersRender.renderEnchantedGlintBegin();
                                         }
 
@@ -992,7 +923,7 @@ public class CustomItems
                                     GlStateManager.rotate(customitemproperties.rotation, 0.0F, 0.0F, 1.0F);
                                     float f1 = f / 8.0F;
                                     GlStateManager.scale(f1, f1 / 2.0F, f1);
-                                    float f2 = customitemproperties.speed * (float)(Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
+                                    float f2 = customitemproperties.speed * (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
                                     GlStateManager.translate(0.0F, f2, 0.0F);
                                     GlStateManager.matrixMode(5888);
                                     model.render(entity, limbSwing, prevLimbSwing, timeLimbSwing, yaw, pitch, scale);

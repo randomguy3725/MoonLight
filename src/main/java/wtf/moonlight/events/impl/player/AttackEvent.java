@@ -14,7 +14,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.minecraft.entity.Entity;
 import wtf.moonlight.events.impl.CancellableEvent;
-import wtf.moonlight.events.impl.Event;
 
 @Getter
 @AllArgsConstructor

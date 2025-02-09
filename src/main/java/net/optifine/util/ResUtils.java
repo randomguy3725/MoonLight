@@ -22,17 +22,15 @@ public class ResUtils
 
     public static String[] collectFiles(String[] prefixes, String[] suffixes)
     {
-        Set<String> set = new LinkedHashSet();
+        Set<String> set = new LinkedHashSet<>();
         IResourcePack[] airesourcepack = Config.getResourcePacks();
 
-        for (int i = 0; i < airesourcepack.length; ++i)
-        {
-            IResourcePack iresourcepack = airesourcepack[i];
+        for (IResourcePack iresourcepack : airesourcepack) {
             String[] astring = collectFiles(iresourcepack, prefixes, suffixes, null);
             set.addAll(Arrays.asList(astring));
         }
 
-        String[] astring1 = set.toArray(new String[set.size()]);
+        String[] astring1 = set.toArray(new String[0]);
         return astring1;
     }
 
@@ -91,18 +89,15 @@ public class ResUtils
         {
             List list = new ArrayList();
 
-            for (int i = 0; i < paths.length; ++i)
-            {
-                String s = paths[i];
+            for (String s : paths) {
                 ResourceLocation resourcelocation = new ResourceLocation(s);
 
-                if (rp.resourceExists(resourcelocation))
-                {
+                if (rp.resourceExists(resourcelocation)) {
                     list.add(s);
                 }
             }
 
-            String[] astring = (String[]) list.toArray(new String[list.size()]);
+            String[] astring = (String[]) list.toArray(new String[0]);
             return astring;
         }
     }
@@ -119,26 +114,18 @@ public class ResUtils
         }
         else
         {
-            for (int i = 0; i < afile.length; ++i)
-            {
-                File file1 = afile[i];
-
-                if (file1.isFile())
-                {
+            for (File file1 : afile) {
+                if (file1.isFile()) {
                     String s3 = basePath + file1.getName();
 
-                    if (s3.startsWith(s))
-                    {
+                    if (s3.startsWith(s)) {
                         s3 = s3.substring(s.length());
 
-                        if (StrUtils.startsWith(s3, prefixes) && StrUtils.endsWith(s3, suffixes))
-                        {
+                        if (StrUtils.startsWith(s3, prefixes) && StrUtils.endsWith(s3, suffixes)) {
                             list.add(s3);
                         }
                     }
-                }
-                else if (file1.isDirectory())
-                {
+                } else if (file1.isDirectory()) {
                     String s1 = basePath + file1.getName() + "/";
                     String[] astring = collectFilesFolder(file1, s1, prefixes, suffixes);
 
@@ -146,7 +133,7 @@ public class ResUtils
                 }
             }
 
-            String[] astring1 = (String[]) list.toArray(new String[list.size()]);
+            String[] astring1 = (String[]) list.toArray(new String[0]);
             return astring1;
         }
     }
@@ -178,7 +165,7 @@ public class ResUtils
             }
 
             zipfile.close();
-            String[] astring = (String[]) list.toArray(new String[list.size()]);
+            String[] astring = (String[]) list.toArray(new String[0]);
             return astring;
         }
         catch (IOException ioexception)
@@ -239,10 +226,6 @@ public class ResUtils
                 properties.load(in);
                 in.close();
                 return properties;
-            }
-            catch (FileNotFoundException var3)
-            {
-                return null;
             }
             catch (IOException var4)
             {

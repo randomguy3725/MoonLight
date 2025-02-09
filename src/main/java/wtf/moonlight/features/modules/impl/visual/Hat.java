@@ -116,24 +116,20 @@ public class Hat extends Module {
 
         Color[] colors = new Color[181];
         Color[] colorMode = new Color[0];
-        switch (this.mode.get()) {
-            case "Astolfo":
-                colorMode = new Color[]{new Color(252, 106, 140), new Color(252, 106, 213),
-                        new Color(218, 106, 252), new Color(145, 106, 252), new Color(106, 140, 252),
-                        new Color(106, 213, 252), new Color(106, 213, 252), new Color(106, 140, 252),
-                        new Color(145, 106, 252), new Color(218, 106, 252), new Color(252, 106, 213),
-                        new Color(252, 106, 140)};
-                break;
-            case "Sexy":
-                colorMode = new Color[]{new Color(255, 150, 255), new Color(255, 132, 199), new Color(211, 101, 187), new Color(160, 80, 158), new Color(120, 63, 160), new Color(123, 65, 168), new Color(104, 52, 152), new Color(142, 74, 175), new Color(160, 83, 179), new Color(255, 110, 189), new Color(255, 150, 255)};
-                break;
-            case "Fade":
-                colorMode = new Color[]{this.colorValue.get(), this.colorValue.get(), this.colorValue.get().darker(), this.colorValue.get().darker().darker(), this.colorValue.get(), this.colorValue.get().darker(), this.colorValue.get().darker().darker(), this.colorValue.get(), this.colorValue.get().darker(), this.colorValue.get().darker().darker(), this.colorValue.get(), this.colorValue.get()};
-                break;
-            case "Blend":
-                colorMode = new Color[]{this.colorValue.get().darker().darker(), this.colorValue.get(), this.colorValue.get(), this.colorValue.get(), this.colorValue.get().darker().darker(), this.secondColorValue.get().darker().darker(), this.secondColorValue.get(), this.secondColorValue.get(), this.secondColorValue.get(), this.secondColorValue.get().darker().darker(), this.thirdColorValue.get().darker().darker(), this.thirdColorValue.get(), this.thirdColorValue.get(), this.thirdColorValue.get(), this.thirdColorValue.get().darker().darker()};
-                break;
-        }
+        colorMode = switch (this.mode.get()) {
+            case "Astolfo" -> new Color[]{new Color(252, 106, 140), new Color(252, 106, 213),
+                    new Color(218, 106, 252), new Color(145, 106, 252), new Color(106, 140, 252),
+                    new Color(106, 213, 252), new Color(106, 213, 252), new Color(106, 140, 252),
+                    new Color(145, 106, 252), new Color(218, 106, 252), new Color(252, 106, 213),
+                    new Color(252, 106, 140)};
+            case "Sexy" ->
+                    new Color[]{new Color(255, 150, 255), new Color(255, 132, 199), new Color(211, 101, 187), new Color(160, 80, 158), new Color(120, 63, 160), new Color(123, 65, 168), new Color(104, 52, 152), new Color(142, 74, 175), new Color(160, 83, 179), new Color(255, 110, 189), new Color(255, 150, 255)};
+            case "Fade" ->
+                    new Color[]{this.colorValue.get(), this.colorValue.get(), this.colorValue.get().darker(), this.colorValue.get().darker().darker(), this.colorValue.get(), this.colorValue.get().darker(), this.colorValue.get().darker().darker(), this.colorValue.get(), this.colorValue.get().darker(), this.colorValue.get().darker().darker(), this.colorValue.get(), this.colorValue.get()};
+            case "Blend" ->
+                    new Color[]{this.colorValue.get().darker().darker(), this.colorValue.get(), this.colorValue.get(), this.colorValue.get(), this.colorValue.get().darker().darker(), this.secondColorValue.get().darker().darker(), this.secondColorValue.get(), this.secondColorValue.get(), this.secondColorValue.get(), this.secondColorValue.get().darker().darker(), this.thirdColorValue.get().darker().darker(), this.thirdColorValue.get(), this.thirdColorValue.get(), this.thirdColorValue.get(), this.thirdColorValue.get().darker().darker()};
+            default -> colorMode;
+        };
 
         for (int i = 0; i < colors.length; ++i) {
             colors[i] = this.fadeBetween(colorMode, (this.offSetValue.get()), (double) i * ((double) (this.offSetValue.get()) / this.points.get()));

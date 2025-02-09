@@ -3,7 +3,6 @@ package net.minecraft.client.shader;
 import com.google.common.collect.Maps;
 import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.Map;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -85,13 +84,8 @@ public class ShaderLoader
     {
         byte[] abyte;
 
-        try
-        {
+        try (p_177064_0_) {
             abyte = IOUtils.toByteArray(p_177064_0_);
-        }
-        finally
-        {
-            p_177064_0_.close();
         }
 
         return abyte;

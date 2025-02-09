@@ -22,8 +22,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.text.ParseException;
@@ -207,10 +205,7 @@ public class PlayerProfileCache
                 }
             }
         }
-        catch (FileNotFoundException var9)
-        {
-        }
-        catch (JsonParseException var10)
+        catch (FileNotFoundException | JsonParseException var9)
         {
         }
         finally
@@ -228,9 +223,6 @@ public class PlayerProfileCache
         {
             bufferedwriter = Files.newWriter(this.usercacheFile, Charsets.UTF_8);
             bufferedwriter.write(s);
-        }
-        catch (FileNotFoundException var8)
-        {
         }
         catch (IOException var9)
         {

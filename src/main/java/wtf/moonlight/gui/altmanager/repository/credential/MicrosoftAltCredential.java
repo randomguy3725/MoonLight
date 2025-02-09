@@ -28,9 +28,8 @@ public class MicrosoftAltCredential extends AltCredential {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof MicrosoftAltCredential)) return false;
+        if (!(o instanceof MicrosoftAltCredential that)) return false;
         if (!super.equals(o)) return false;
-        final MicrosoftAltCredential that = (MicrosoftAltCredential) o;
         return name.equals(that.name) && refreshToken.equals(that.refreshToken) && uuid.equals(that.uuid);
     }
 

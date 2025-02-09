@@ -2,9 +2,10 @@ package net.optifine.shaders;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
+
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.src.Config;
 import net.minecraft.util.ResourceLocation;
 import net.optifine.config.ConnectedParser;
@@ -59,7 +60,7 @@ public class ItemAliases
             }
             else
             {
-                List<Integer> list = new ArrayList();
+                IntList list = new IntArrayList();
                 String s = "/shaders/item.properties";
                 InputStream inputstream = shaderPack.getResourceAsStream(s);
 
@@ -70,35 +71,29 @@ public class ItemAliases
 
                 loadModItemAliases(list);
 
-                if (list.size() > 0)
+                if (!list.isEmpty())
                 {
-                    itemAliases = toArray(list);
+                    itemAliases = list.toIntArray();
                 }
             }
         }
     }
 
-    private static void loadModItemAliases(List<Integer> listItemAliases)
+    private static void loadModItemAliases(IntList listItemAliases)
     {
         String[] astring = ReflectorForge.getForgeModIds();
 
-        for (int i = 0; i < astring.length; ++i)
-        {
-            String s = astring[i];
-
-            try
-            {
+        for (String s : astring) {
+            try {
                 ResourceLocation resourcelocation = new ResourceLocation(s, "shaders/item.properties");
                 InputStream inputstream = Config.getResourceStream(resourcelocation);
                 loadItemAliases(inputstream, resourcelocation.toString(), listItemAliases);
-            }
-            catch (IOException var6)
-            {
+            } catch (IOException var6) {
             }
         }
     }
 
-    private static void loadItemAliases(InputStream in, String path, List<Integer> listItemAliases)
+    private static void loadItemAliases(InputStream in, String path, IntList listItemAliases)
     {
         if (in != null)
         {
@@ -136,9 +131,7 @@ public class ItemAliases
 
                             if (aint != null && aint.length >= 1)
                             {
-                                for (int j = 0; j < aint.length; ++j)
-                                {
-                                    int k = aint[j];
+                                for (int k : aint) {
                                     addToList(listItemAliases, k, i);
                                 }
                             }
@@ -157,26 +150,14 @@ public class ItemAliases
         }
     }
 
-    private static void addToList(List<Integer> list, int index, int val)
+    private static void addToList(IntList list, int index, int val)
     {
         while (list.size() <= index)
         {
-            list.add(Integer.valueOf(Integer.MIN_VALUE));
+            list.add(Integer.MIN_VALUE);
         }
 
-        list.set(index, Integer.valueOf(val));
-    }
-
-    private static int[] toArray(List<Integer> list)
-    {
-        int[] aint = new int[list.size()];
-
-        for (int i = 0; i < aint.length; ++i)
-        {
-            aint[i] = list.get(i).intValue();
-        }
-
-        return aint;
+        list.set(index, val);
     }
 
     public static void reset()

@@ -46,35 +46,16 @@ public class GuiBrewingStand extends GuiContainer
 
             int i1 = k / 2 % 7;
 
-            switch (i1)
-            {
-                case 0:
-                    l = 29;
-                    break;
-
-                case 1:
-                    l = 24;
-                    break;
-
-                case 2:
-                    l = 20;
-                    break;
-
-                case 3:
-                    l = 16;
-                    break;
-
-                case 4:
-                    l = 11;
-                    break;
-
-                case 5:
-                    l = 6;
-                    break;
-
-                case 6:
-                    l = 0;
-            }
+            l = switch (i1) {
+                case 0 -> 29;
+                case 1 -> 24;
+                case 2 -> 20;
+                case 3 -> 16;
+                case 4 -> 11;
+                case 5 -> 6;
+                case 6 -> 0;
+                default -> l;
+            };
 
             if (l > 0)
             {

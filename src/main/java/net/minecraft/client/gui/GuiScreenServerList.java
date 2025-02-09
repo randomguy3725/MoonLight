@@ -32,7 +32,7 @@ public class GuiScreenServerList extends GuiScreen
         this.field_146302_g.setMaxStringLength(128);
         this.field_146302_g.setFocused(true);
         this.field_146302_g.setText(this.mc.gameSettings.lastServer);
-        this.buttonList.get(0).enabled = this.field_146302_g.getText().length() > 0 && this.field_146302_g.getText().split(":").length > 0;
+        this.buttonList.get(0).enabled = !this.field_146302_g.getText().isEmpty() && this.field_146302_g.getText().split(":").length > 0;
     }
 
     public void onGuiClosed()
@@ -62,7 +62,7 @@ public class GuiScreenServerList extends GuiScreen
     {
         if (this.field_146302_g.textboxKeyTyped(typedChar, keyCode))
         {
-            this.buttonList.get(0).enabled = this.field_146302_g.getText().length() > 0 && this.field_146302_g.getText().split(":").length > 0;
+            this.buttonList.get(0).enabled = !this.field_146302_g.getText().isEmpty() && this.field_146302_g.getText().split(":").length > 0;
         }
         else if (keyCode == 28 || keyCode == 156)
         {

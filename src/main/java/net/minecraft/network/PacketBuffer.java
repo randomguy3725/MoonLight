@@ -1,6 +1,5 @@
 package net.minecraft.network;
 
-import java.nio.charset.StandardCharsets;
 import io.netty.buffer.*;
 import io.netty.handler.codec.DecoderException;
 import io.netty.handler.codec.EncoderException;

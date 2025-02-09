@@ -32,7 +32,6 @@ import wtf.moonlight.Moonlight;
 import wtf.moonlight.features.modules.impl.combat.KillAura;
 import wtf.moonlight.features.modules.impl.visual.Animations;
 import wtf.moonlight.features.modules.impl.visual.Camera;
-import wtf.moonlight.utils.math.MathUtils;
 import wtf.moonlight.utils.misc.SpoofSlotUtils;
 
 public class ItemRenderer

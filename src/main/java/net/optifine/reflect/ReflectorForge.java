@@ -130,7 +130,7 @@ public class ReflectorForge
             }
             else
             {
-                List<String> list1 = new ArrayList();
+                List<String> list1 = new ArrayList<>();
 
                 for (Object object1 : list)
                 {
@@ -145,7 +145,7 @@ public class ReflectorForge
                     }
                 }
 
-                String[] astring = list1.toArray(new String[list1.size()]);
+                String[] astring = list1.toArray(new String[0]);
                 return astring;
             }
         }

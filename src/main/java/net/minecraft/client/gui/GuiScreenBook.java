@@ -129,7 +129,7 @@ public class GuiScreenBook extends GuiScreen
             this.buttonSign.visible = !this.bookGettingSigned;
             this.buttonCancel.visible = this.bookGettingSigned;
             this.buttonFinalize.visible = this.bookGettingSigned;
-            this.buttonFinalize.enabled = this.bookTitle.trim().length() > 0;
+            this.buttonFinalize.enabled = !this.bookTitle.trim().isEmpty();
         }
     }
 
@@ -143,7 +143,7 @@ public class GuiScreenBook extends GuiScreen
                 {
                     String s = this.bookPages.getStringTagAt(this.bookPages.tagCount() - 1);
 
-                    if (s.length() != 0)
+                    if (!s.isEmpty())
                     {
                         break;
                     }
@@ -277,7 +277,7 @@ public class GuiScreenBook extends GuiScreen
                 case 14:
                     String s = this.pageGetCurrent();
 
-                    if (s.length() > 0)
+                    if (!s.isEmpty())
                     {
                         this.pageSetCurrent(s.substring(0, s.length() - 1));
                     }

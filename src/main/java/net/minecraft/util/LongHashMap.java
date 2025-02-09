@@ -185,7 +185,7 @@ public class LongHashMap<V>
     private void createKey(int p_76156_1_, long p_76156_2_, V p_76156_4_, int p_76156_5_)
     {
         LongHashMap.Entry<V> entry = this.hashArray[p_76156_5_];
-        this.hashArray[p_76156_5_] = new LongHashMap.Entry(p_76156_1_, p_76156_2_, p_76156_4_, entry);
+        this.hashArray[p_76156_5_] = new LongHashMap.Entry<>(p_76156_1_, p_76156_2_, p_76156_4_, entry);
 
         if (this.numHashElements++ >= this.capacity)
         {
@@ -197,10 +197,8 @@ public class LongHashMap<V>
     {
         int i = 0;
 
-        for (int j = 0; j < this.hashArray.length; ++j)
-        {
-            if (this.hashArray[j] != null)
-            {
+        for (Entry<V> vEntry : this.hashArray) {
+            if (vEntry != null) {
                 ++i;
             }
         }

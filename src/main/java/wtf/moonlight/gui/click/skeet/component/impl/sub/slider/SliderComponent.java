@@ -23,6 +23,7 @@ import wtf.moonlight.utils.render.RenderUtils;
 
 import java.awt.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 public abstract class SliderComponent extends ButtonComponent implements PredicateComponent
@@ -92,9 +93,9 @@ public abstract class SliderComponent extends ButtonComponent implements Predica
         final double halfOfInc = inc / 2.0;
         final double floored = StrictMath.floor(value / inc) * inc;
         if (value >= floored + halfOfInc) {
-            return new BigDecimal(StrictMath.ceil(value / inc) * inc).setScale(2, 4).floatValue();
+            return new BigDecimal(StrictMath.ceil(value / inc) * inc).setScale(2, RoundingMode.HALF_UP).floatValue();
         }
-        return new BigDecimal(floored).setScale(2, 4).floatValue();
+        return new BigDecimal(floored).setScale(2, RoundingMode.HALF_UP).floatValue();
     }
     
     public abstract float getValue();

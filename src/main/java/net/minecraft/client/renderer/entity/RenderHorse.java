@@ -45,24 +45,13 @@ public class RenderHorse extends RenderLiving<EntityHorse>
     {
         if (!entity.func_110239_cn())
         {
-            switch (entity.getHorseType())
-            {
-                case 0:
-                default:
-                    return whiteHorseTextures;
-
-                case 1:
-                    return donkeyTextures;
-
-                case 2:
-                    return muleTextures;
-
-                case 3:
-                    return zombieHorseTextures;
-
-                case 4:
-                    return skeletonHorseTextures;
-            }
+            return switch (entity.getHorseType()) {
+                default -> whiteHorseTextures;
+                case 1 -> donkeyTextures;
+                case 2 -> muleTextures;
+                case 3 -> zombieHorseTextures;
+                case 4 -> skeletonHorseTextures;
+            };
         }
         else
         {

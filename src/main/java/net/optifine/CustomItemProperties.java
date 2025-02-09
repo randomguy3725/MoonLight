@@ -189,36 +189,26 @@ public class CustomItemProperties
             String[] astring = Config.tokenize(str, " ");
             label45:
 
-            for (int i = 0; i < astring.length; ++i)
-            {
-                String s = astring[i];
+            for (String s : astring) {
                 int j = Config.parseInt(s, -1);
 
-                if (j >= 0)
-                {
+                if (j >= 0) {
                     set.add(Integer.valueOf(j));
-                }
-                else
-                {
-                    if (s.contains("-"))
-                    {
+                } else {
+                    if (s.contains("-")) {
                         String[] astring1 = Config.tokenize(s, "-");
 
-                        if (astring1.length == 2)
-                        {
+                        if (astring1.length == 2) {
                             int k = Config.parseInt(astring1[0], -1);
                             int l = Config.parseInt(astring1[1], -1);
 
-                            if (k >= 0 && l >= 0)
-                            {
+                            if (k >= 0 && l >= 0) {
                                 int i1 = Math.min(k, l);
                                 int j1 = Math.max(k, l);
                                 int k1 = i1;
 
-                                while (true)
-                                {
-                                    if (k1 > j1)
-                                    {
+                                while (true) {
+                                    if (k1 > j1) {
                                         continue label45;
                                     }
 
@@ -231,27 +221,21 @@ public class CustomItemProperties
 
                     Item item = Item.getByNameOrId(s);
 
-                    if (item == null)
-                    {
+                    if (item == null) {
                         Config.warn("Item not found: " + s);
-                    }
-                    else
-                    {
+                    } else {
                         int i2 = Item.getIdFromItem(item);
 
-                        if (i2 <= 0)
-                        {
+                        if (i2 <= 0) {
                             Config.warn("Item not found: " + s);
-                        }
-                        else
-                        {
+                        } else {
                             set.add(Integer.valueOf(i2));
                         }
                     }
                 }
             }
 
-            Integer[] ainteger = (Integer[]) set.toArray(new Integer[set.size()]);
+            Integer[] ainteger = (Integer[]) set.toArray(new Integer[0]);
             int[] aint = new int[ainteger.length];
 
             for (int l1 = 0; l1 < aint.length; ++l1)
@@ -525,16 +509,11 @@ public class CustomItemProperties
             String[] astring = Config.tokenize(str, " ");
             RangeListInt rangelistint = new RangeListInt();
 
-            for (int i = 0; i < astring.length; ++i)
-            {
-                String s = astring[i];
-
-                if (parser != null)
-                {
+            for (String s : astring) {
+                if (parser != null) {
                     int j = parser.parse(s, Integer.MIN_VALUE);
 
-                    if (j != Integer.MIN_VALUE)
-                    {
+                    if (j != Integer.MIN_VALUE) {
                         rangelistint.addRange(new RangeInt(j, j));
                         continue;
                     }
@@ -542,8 +521,7 @@ public class CustomItemProperties
 
                 RangeInt rangeint = this.parseRangeInt(s);
 
-                if (rangeint == null)
-                {
+                if (rangeint == null) {
                     Config.warn("Invalid range list: " + str);
                     return null;
                 }
@@ -644,7 +622,7 @@ public class CustomItemProperties
                 list.add(nbttagvalue);
             }
 
-            NbtTagValue[] anbttagvalue = (NbtTagValue[]) list.toArray(new NbtTagValue[list.size()]);
+            NbtTagValue[] anbttagvalue = (NbtTagValue[]) list.toArray(new NbtTagValue[0]);
             return anbttagvalue;
         }
     }
@@ -677,29 +655,27 @@ public class CustomItemProperties
         {
             str = str.toLowerCase();
 
-            if (str.equals("any"))
-            {
-                return 0;
-            }
-            else if (str.equals("main"))
-            {
-                return 1;
-            }
-            else if (str.equals("off"))
-            {
-                return 2;
-            }
-            else
-            {
-                Config.warn("Invalid hand: " + str);
-                return 0;
+            switch (str) {
+                case "any" -> {
+                    return 0;
+                }
+                case "main" -> {
+                    return 1;
+                }
+                case "off" -> {
+                    return 2;
+                }
+                default -> {
+                    Config.warn("Invalid hand: " + str);
+                    return 0;
+                }
             }
         }
     }
 
     public boolean isValid(String path)
     {
-        if (this.name != null && this.name.length() > 0)
+        if (this.name != null && !this.name.isEmpty())
         {
             if (this.basePath == null)
             {
@@ -860,7 +836,7 @@ public class CustomItemProperties
 
                         if (this.mapBakedModelsTexture == null)
                         {
-                            this.mapBakedModelsTexture = new HashMap();
+                            this.mapBakedModelsTexture = new HashMap<>();
                         }
 
                         this.mapBakedModelsTexture.put(s2, ibakedmodel);
@@ -1177,7 +1153,7 @@ public class CustomItemProperties
                     {
                         if (this.mapBakedModelsFull == null)
                         {
-                            this.mapBakedModelsFull = new HashMap();
+                            this.mapBakedModelsFull = new HashMap<>();
                         }
 
                         this.mapBakedModelsFull.put(s2, ibakedmodel1);

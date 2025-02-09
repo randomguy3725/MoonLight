@@ -54,16 +54,13 @@ public class StrUtils
                     {
                         int i = 0;
 
-                        for (int j = 0; j < list.size(); ++j)
-                        {
-                            String s3 = (String)list.get(j);
+                        for (Object o : list) {
+                            String s3 = (String) o;
 
-                            if (s3.length() > 0)
-                            {
+                            if (!s3.isEmpty()) {
                                 int k = indexOfMaskSingle(str, s3, i, wildCharSingle);
 
-                                if (k < 0)
-                                {
+                                if (k < 0) {
                                     return false;
                                 }
 
@@ -189,12 +186,8 @@ public class StrUtils
 
     public static boolean equalsMask(String str, String[] masks, char wildChar)
     {
-        for (int i = 0; i < masks.length; ++i)
-        {
-            String s = masks[i];
-
-            if (equalsMask(str, s, wildChar))
-            {
+        for (String s : masks) {
+            if (equalsMask(str, s, wildChar)) {
                 return true;
             }
         }
@@ -250,16 +243,13 @@ public class StrUtils
                     {
                         int i = 0;
 
-                        for (int j = 0; j < list.size(); ++j)
-                        {
-                            String s3 = (String)list.get(j);
+                        for (Object o : list) {
+                            String s3 = (String) o;
 
-                            if (s3.length() > 0)
-                            {
+                            if (!s3.isEmpty()) {
                                 int k = str.indexOf(s3, i);
 
-                                if (k < 0)
-                                {
+                                if (k < 0) {
                                     return false;
                                 }
 
@@ -280,7 +270,7 @@ public class StrUtils
 
     public static String[] split(String str, String separators)
     {
-        if (str != null && str.length() > 0)
+        if (str != null && !str.isEmpty())
         {
             if (separators == null)
             {
@@ -303,7 +293,7 @@ public class StrUtils
                 }
 
                 list.add(str.substring(i));
-                return (String[]) list.toArray(new String[list.size()]);
+                return (String[]) list.toArray(new String[0]);
             }
         }
         else
@@ -464,12 +454,8 @@ public class StrUtils
         }
         else
         {
-            for (int i = 0; i < prefixes.length; ++i)
-            {
-                String s = prefixes[i];
-
-                if (str.startsWith(s))
-                {
+            for (String s : prefixes) {
+                if (str.startsWith(s)) {
                     return true;
                 }
             }
@@ -490,12 +476,8 @@ public class StrUtils
         }
         else
         {
-            for (int i = 0; i < suffixes.length; ++i)
-            {
-                String s = suffixes[i];
-
-                if (str.endsWith(s))
-                {
+            for (String s : suffixes) {
+                if (str.endsWith(s)) {
                     return true;
                 }
             }
@@ -646,7 +628,7 @@ public class StrUtils
             }
             else
             {
-                List<String> list = new ArrayList(strs.length);
+                List<String> list = new ArrayList<>(strs.length);
 
                 for (int i = 0; i < strs.length; ++i)
                 {
@@ -658,7 +640,7 @@ public class StrUtils
                     }
                 }
 
-                String[] astring = list.toArray(new String[list.size()]);
+                String[] astring = list.toArray(new String[0]);
                 return astring;
             }
         }
@@ -674,13 +656,10 @@ public class StrUtils
         {
             int i = str.length();
 
-            for (int j = 0; j < suffixes.length; ++j)
-            {
-                String s = suffixes[j];
+            for (String s : suffixes) {
                 str = removeSuffix(str, s);
 
-                if (str.length() != i)
-                {
+                if (str.length() != i) {
                     break;
                 }
             }
@@ -699,13 +678,10 @@ public class StrUtils
         {
             int i = str.length();
 
-            for (int j = 0; j < prefixes.length; ++j)
-            {
-                String s = prefixes[j];
+            for (String s : prefixes) {
                 str = removePrefix(str, s);
 
-                if (str.length() != i)
-                {
+                if (str.length() != i) {
                     break;
                 }
             }

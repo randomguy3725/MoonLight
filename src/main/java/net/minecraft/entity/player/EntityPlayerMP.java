@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 import io.netty.buffer.Unpooled;
-import java.util.Arrays;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -397,17 +397,8 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 
             for (String s1 : jsonserializableset)
             {
-                Iterator<BiomeGenBase> iterator = set.iterator();
 
-                while (iterator.hasNext())
-                {
-                    BiomeGenBase biomegenbase1 = iterator.next();
-
-                    if (biomegenbase1.biomeName.equals(s1))
-                    {
-                        iterator.remove();
-                    }
-                }
+                set.removeIf(biomegenbase1 -> biomegenbase1.biomeName.equals(s1));
 
                 if (set.isEmpty())
                 {

@@ -10,17 +10,12 @@
  */
 package wtf.moonlight.utils.player;
 
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
-import org.jetbrains.annotations.NotNull;
 import wtf.moonlight.events.impl.player.MoveEvent;
 import wtf.moonlight.events.impl.player.MoveInputEvent;
 import wtf.moonlight.features.modules.impl.combat.TargetStrafe;
@@ -407,9 +402,7 @@ public class MovementUtils implements InstanceAccess {
 
         final int[] down = {0};
 
-        Arrays.stream(gameSettings).forEach(keyBinding -> {
-            down[0] = down[0] + (keyBinding.isKeyDown() ? 1 : 0);
-        });
+        Arrays.stream(gameSettings).forEach(keyBinding -> down[0] = down[0] + (keyBinding.isKeyDown() ? 1 : 0));
 
         boolean active = down[0] == 1;
 

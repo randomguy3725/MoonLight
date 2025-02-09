@@ -374,16 +374,11 @@ public class ConnectedTextures
                     {
                         int j = getSide(facing);
 
-                        for (int k = 0; k < aconnectedproperties.length; ++k)
-                        {
-                            ConnectedProperties connectedproperties = aconnectedproperties[k];
-
-                            if (connectedproperties != null && connectedproperties.matchesBlockId(blockstatebase.getBlockId()))
-                            {
+                        for (ConnectedProperties connectedproperties : aconnectedproperties) {
+                            if (connectedproperties != null && connectedproperties.matchesBlockId(blockstatebase.getBlockId())) {
                                 BakedQuad[] abakedquad = getConnectedTexture(connectedproperties, blockAccess, blockstatebase, blockPos, j, quad, pass, renderEnv);
 
-                                if (abakedquad != null)
-                                {
+                                if (abakedquad != null) {
                                     return abakedquad;
                                 }
                             }
@@ -404,16 +399,11 @@ public class ConnectedTextures
                     {
                         int i1 = getSide(facing);
 
-                        for (int j1 = 0; j1 < aconnectedproperties1.length; ++j1)
-                        {
-                            ConnectedProperties connectedproperties1 = aconnectedproperties1[j1];
-
-                            if (connectedproperties1 != null && connectedproperties1.matchesIcon(textureatlassprite))
-                            {
+                        for (ConnectedProperties connectedproperties1 : aconnectedproperties1) {
+                            if (connectedproperties1 != null && connectedproperties1.matchesIcon(textureatlassprite)) {
                                 BakedQuad[] abakedquad1 = getConnectedTexture(connectedproperties1, blockAccess, blockstatebase, blockPos, i1, quad, pass, renderEnv);
 
-                                if (abakedquad1 != null)
-                                {
+                                if (abakedquad1 != null) {
                                     return abakedquad1;
                                 }
                             }
@@ -434,57 +424,29 @@ public class ConnectedTextures
         }
         else
         {
-            switch (facing)
-            {
-                case DOWN:
-                    return 0;
-
-                case UP:
-                    return 1;
-
-                case EAST:
-                    return 5;
-
-                case WEST:
-                    return 4;
-
-                case NORTH:
-                    return 2;
-
-                case SOUTH:
-                    return 3;
-
-                default:
-                    return -1;
-            }
+            return switch (facing) {
+                case DOWN -> 0;
+                case UP -> 1;
+                case EAST -> 5;
+                case WEST -> 4;
+                case NORTH -> 2;
+                case SOUTH -> 3;
+                default -> -1;
+            };
         }
     }
 
     private static EnumFacing getFacing(int side)
     {
-        switch (side)
-        {
-            case 0:
-                return EnumFacing.DOWN;
-
-            case 1:
-                return EnumFacing.UP;
-
-            case 2:
-                return EnumFacing.NORTH;
-
-            case 3:
-                return EnumFacing.SOUTH;
-
-            case 4:
-                return EnumFacing.WEST;
-
-            case 5:
-                return EnumFacing.EAST;
-
-            default:
-                return EnumFacing.UP;
-        }
+        return switch (side) {
+            case 0 -> EnumFacing.DOWN;
+            case 1 -> EnumFacing.UP;
+            case 2 -> EnumFacing.NORTH;
+            case 3 -> EnumFacing.SOUTH;
+            case 4 -> EnumFacing.WEST;
+            case 5 -> EnumFacing.EAST;
+            default -> EnumFacing.UP;
+        };
     }
 
     private static BakedQuad[] getConnectedTexture(ConnectedProperties cp, IBlockAccess blockAccess, BlockStateBase blockState, BlockPos blockPos, int side, BakedQuad quad, int pass, RenderEnv renderEnv)
@@ -624,86 +586,44 @@ public class ConnectedTextures
 
     private static int fixSideByAxis(int side, int vertAxis)
     {
-        switch (vertAxis)
-        {
-            case 0:
-                return side;
-
-            case 1:
-                switch (side)
-                {
-                    case 0:
-                        return 2;
-
-                    case 1:
-                        return 3;
-
-                    case 2:
-                        return 1;
-
-                    case 3:
-                        return 0;
-
-                    default:
-                        return side;
-                }
-
-            case 2:
-                switch (side)
-                {
-                    case 0:
-                        return 4;
-
-                    case 1:
-                        return 5;
-
-                    case 2:
-                    case 3:
-                    default:
-                        return side;
-
-                    case 4:
-                        return 1;
-
-                    case 5:
-                        return 0;
-                }
-
-            default:
-                return side;
-        }
+        return switch (vertAxis) {
+            case 0 -> side;
+            case 1 -> switch (side) {
+                case 0 -> 2;
+                case 1 -> 3;
+                case 2 -> 1;
+                case 3 -> 0;
+                default -> side;
+            };
+            case 2 -> switch (side) {
+                case 0 -> 4;
+                case 1 -> 5;
+                default -> side;
+                case 4 -> 1;
+                case 5 -> 0;
+            };
+            default -> side;
+        };
     }
 
     private static int getWoodAxis(int side, int metadata)
     {
         int i = (metadata & 12) >> 2;
 
-        switch (i)
-        {
-            case 1:
-                return 2;
-
-            case 2:
-                return 1;
-
-            default:
-                return 0;
-        }
+        return switch (i) {
+            case 1 -> 2;
+            case 2 -> 1;
+            default -> 0;
+        };
     }
 
     private static int getQuartzAxis(int side, int metadata)
     {
-        switch (metadata)
-        {
-            case 3:
-                return 2;
-
-            case 4:
-                return 1;
-
-            default:
-                return 0;
-        }
+        return switch (metadata) {
+            case 3 -> 2;
+            case 4 -> 1;
+            default -> 0;
+        };
     }
 
     private static TextureAtlasSprite getConnectedTextureRandom(ConnectedProperties cp, IBlockAccess blockAccess, BlockStateBase blockState, BlockPos blockPos, int side)
@@ -781,39 +701,33 @@ public class ConnectedTextures
             int j = blockPos.getY();
             int k = blockPos.getZ();
             int l = 0;
-            int i1 = 0;
-
-            switch (side)
-            {
-                case 0:
+            int i1 = switch (side) {
+                case 0 -> {
                     l = i;
-                    i1 = -k - 1;
-                    break;
-
-                case 1:
+                    yield -k - 1;
+                }
+                case 1 -> {
                     l = i;
-                    i1 = k;
-                    break;
-
-                case 2:
+                    yield k;
+                }
+                case 2 -> {
                     l = -i - 1;
-                    i1 = -j;
-                    break;
-
-                case 3:
+                    yield -j;
+                }
+                case 3 -> {
                     l = i;
-                    i1 = -j;
-                    break;
-
-                case 4:
+                    yield -j;
+                }
+                case 4 -> {
                     l = k;
-                    i1 = -j;
-                    break;
-
-                case 5:
+                    yield -j;
+                }
+                case 5 -> {
                     l = -k - 1;
-                    i1 = -j;
-            }
+                    yield -j;
+                }
+                default -> 0;
+            };
 
             l = l % cp.width;
             i1 = i1 % cp.height;
@@ -1162,76 +1076,52 @@ public class ConnectedTextures
 
     private static BlockDir[] getSideDirections(int side, int vertAxis)
     {
-        switch (side)
-        {
-            case 0:
-                return SIDES_Y_NEG_DOWN;
-
-            case 1:
-                return SIDES_Y_POS_UP;
-
-            case 2:
-                if (vertAxis == 1)
-                {
-                    return SIDES_Z_NEG_NORTH_Z_AXIS;
+        return switch (side) {
+            case 0 -> SIDES_Y_NEG_DOWN;
+            case 1 -> SIDES_Y_POS_UP;
+            case 2 -> {
+                if (vertAxis == 1) {
+                    yield SIDES_Z_NEG_NORTH_Z_AXIS;
                 }
 
-                return SIDES_Z_NEG_NORTH;
-
-            case 3:
-                return SIDES_Z_POS_SOUTH;
-
-            case 4:
-                return SIDES_X_NEG_WEST;
-
-            case 5:
-                if (vertAxis == 2)
-                {
-                    return SIDES_X_POS_EAST_X_AXIS;
+                yield SIDES_Z_NEG_NORTH;
+            }
+            case 3 -> SIDES_Z_POS_SOUTH;
+            case 4 -> SIDES_X_NEG_WEST;
+            case 5 -> {
+                if (vertAxis == 2) {
+                    yield SIDES_X_POS_EAST_X_AXIS;
                 }
 
-                return SIDES_X_POS_EAST;
-
-            default:
-                throw new IllegalArgumentException("Unknown side: " + side);
-        }
+                yield SIDES_X_POS_EAST;
+            }
+            default -> throw new IllegalArgumentException("Unknown side: " + side);
+        };
     }
 
     private static BlockDir[] getEdgeDirections(int side, int vertAxis)
     {
-        switch (side)
-        {
-            case 0:
-                return EDGES_Y_NEG_DOWN;
-
-            case 1:
-                return EDGES_Y_POS_UP;
-
-            case 2:
-                if (vertAxis == 1)
-                {
-                    return EDGES_Z_NEG_NORTH_Z_AXIS;
+        return switch (side) {
+            case 0 -> EDGES_Y_NEG_DOWN;
+            case 1 -> EDGES_Y_POS_UP;
+            case 2 -> {
+                if (vertAxis == 1) {
+                    yield EDGES_Z_NEG_NORTH_Z_AXIS;
                 }
 
-                return EDGES_Z_NEG_NORTH;
-
-            case 3:
-                return EDGES_Z_POS_SOUTH;
-
-            case 4:
-                return EDGES_X_NEG_WEST;
-
-            case 5:
-                if (vertAxis == 2)
-                {
-                    return EDGES_X_POS_EAST_X_AXIS;
+                yield EDGES_Z_NEG_NORTH;
+            }
+            case 3 -> EDGES_Z_POS_SOUTH;
+            case 4 -> EDGES_X_NEG_WEST;
+            case 5 -> {
+                if (vertAxis == 2) {
+                    yield EDGES_X_POS_EAST_X_AXIS;
                 }
 
-                return EDGES_X_POS_EAST;
-
-            default:
-                throw new IllegalArgumentException("Unknown side: " + side);
-        }
+                yield EDGES_X_POS_EAST;
+            }
+            default -> throw new IllegalArgumentException("Unknown side: " + side);
+        };
     }
 
     protected static Map[][] getSpriteQuadCompactMaps()
@@ -1838,7 +1728,7 @@ public class ConnectedTextures
                     list = BetterGrass.getFaceQuads(iblockaccess, neighbourState, blockPos, enumfacing, list);
                 }
 
-                if (list.size() > 0)
+                if (!list.isEmpty())
                 {
                     BakedQuad bakedquad1 = (BakedQuad)list.get(0);
                     return bakedquad1.getSprite();
@@ -1853,12 +1743,10 @@ public class ConnectedTextures
                     }
                     else
                     {
-                        for (int i = 0; i < list1.size(); ++i)
-                        {
-                            BakedQuad bakedquad = (BakedQuad)list1.get(i);
+                        for (Object o : list1) {
+                            BakedQuad bakedquad = (BakedQuad) o;
 
-                            if (bakedquad.getFace() == enumfacing)
-                            {
+                            if (bakedquad.getFace() == enumfacing) {
                                 return bakedquad.getSprite();
                             }
                         }
@@ -1953,37 +1841,33 @@ public class ConnectedTextures
                 }
 
             case 2:
-                switch (side)
-                {
-                    case 0:
+                flag1 = switch (side) {
+                    case 0 -> {
                         flag = isNeighbour(cp, blockAccess, blockState, blockPos.south(), side, icon, metadata);
-                        flag1 = isNeighbour(cp, blockAccess, blockState, blockPos.north(), side, icon, metadata);
-                        break;
-
-                    case 1:
+                        yield isNeighbour(cp, blockAccess, blockState, blockPos.north(), side, icon, metadata);
+                    }
+                    case 1 -> {
                         flag = isNeighbour(cp, blockAccess, blockState, blockPos.north(), side, icon, metadata);
-                        flag1 = isNeighbour(cp, blockAccess, blockState, blockPos.south(), side, icon, metadata);
-                        break;
-
-                    case 2:
+                        yield isNeighbour(cp, blockAccess, blockState, blockPos.south(), side, icon, metadata);
+                    }
+                    case 2 -> {
                         flag = isNeighbour(cp, blockAccess, blockState, blockPos.down(), side, icon, metadata);
-                        flag1 = isNeighbour(cp, blockAccess, blockState, blockPos.up(), side, icon, metadata);
-                        break;
-
-                    case 3:
+                        yield isNeighbour(cp, blockAccess, blockState, blockPos.up(), side, icon, metadata);
+                    }
+                    case 3 -> {
                         flag = isNeighbour(cp, blockAccess, blockState, blockPos.up(), side, icon, metadata);
-                        flag1 = isNeighbour(cp, blockAccess, blockState, blockPos.down(), side, icon, metadata);
-                        break;
-
-                    case 4:
+                        yield isNeighbour(cp, blockAccess, blockState, blockPos.down(), side, icon, metadata);
+                    }
+                    case 4 -> {
                         flag = isNeighbour(cp, blockAccess, blockState, blockPos.north(), side, icon, metadata);
-                        flag1 = isNeighbour(cp, blockAccess, blockState, blockPos.south(), side, icon, metadata);
-                        break;
-
-                    case 5:
+                        yield isNeighbour(cp, blockAccess, blockState, blockPos.south(), side, icon, metadata);
+                    }
+                    case 5 -> {
                         flag = isNeighbour(cp, blockAccess, blockState, blockPos.north(), side, icon, metadata);
-                        flag1 = isNeighbour(cp, blockAccess, blockState, blockPos.south(), side, icon, metadata);
-                }
+                        yield isNeighbour(cp, blockAccess, blockState, blockPos.south(), side, icon, metadata);
+                    }
+                    default -> flag1;
+                };
         }
 
         int i = 3;
@@ -2221,41 +2105,30 @@ public class ConnectedTextures
         List list = makePropertyList(tileProperties);
         List list1 = makePropertyList(blockProperties);
 
-        for (int i = 0; i < astring.length; ++i)
-        {
-            String s = astring[i];
+        for (String s : astring) {
             Config.dbg("ConnectedTextures: " + s);
 
-            try
-            {
+            try {
                 ResourceLocation resourcelocation = new ResourceLocation(s);
                 InputStream inputstream = rp.getInputStream(resourcelocation);
 
-                if (inputstream == null)
-                {
+                if (inputstream == null) {
                     Config.warn("ConnectedTextures file not found: " + s);
-                }
-                else
-                {
+                } else {
                     Properties properties = new PropertiesOrdered();
                     properties.load(inputstream);
                     inputstream.close();
                     ConnectedProperties connectedproperties = new ConnectedProperties(properties, s);
 
-                    if (connectedproperties.isValid(s))
-                    {
+                    if (connectedproperties.isValid(s)) {
                         connectedproperties.updateIcons(textureMap);
                         addToTileList(connectedproperties, list);
                         addToBlockList(connectedproperties, list1);
                     }
                 }
-            }
-            catch (FileNotFoundException var11)
-            {
+            } catch (FileNotFoundException var11) {
                 Config.warn("ConnectedTextures file not found: " + s);
-            }
-            catch (Exception exception)
-            {
+            } catch (Exception exception) {
                 exception.printStackTrace();
             }
         }
@@ -2272,13 +2145,10 @@ public class ConnectedTextures
 
         if (propsArr != null)
         {
-            for (int i = 0; i < propsArr.length; ++i)
-            {
-                ConnectedProperties[] aconnectedproperties = propsArr[i];
+            for (ConnectedProperties[] aconnectedproperties : propsArr) {
                 List list1 = null;
 
-                if (aconnectedproperties != null)
-                {
+                if (aconnectedproperties != null) {
                     list1 = new ArrayList(Arrays.asList(aconnectedproperties));
                 }
 
@@ -2293,41 +2163,28 @@ public class ConnectedTextures
     {
         List list = new ArrayList();
 
-        for (int i = 0; i < tileProperties.length; ++i)
-        {
-            ConnectedProperties[] aconnectedproperties = tileProperties[i];
-
-            if (aconnectedproperties != null)
-            {
+        for (ConnectedProperties[] aconnectedproperties : tileProperties) {
+            if (aconnectedproperties != null) {
                 list.addAll(Arrays.asList(aconnectedproperties));
             }
         }
 
-        for (int k = 0; k < blockProperties.length; ++k)
-        {
-            ConnectedProperties[] aconnectedproperties2 = blockProperties[k];
-
-            if (aconnectedproperties2 != null)
-            {
+        for (ConnectedProperties[] aconnectedproperties2 : blockProperties) {
+            if (aconnectedproperties2 != null) {
                 list.addAll(Arrays.asList(aconnectedproperties2));
             }
         }
 
-        ConnectedProperties[] aconnectedproperties1 = (ConnectedProperties[]) list.toArray(new ConnectedProperties[list.size()]);
+        ConnectedProperties[] aconnectedproperties1 = (ConnectedProperties[]) list.toArray(new ConnectedProperties[0]);
         Set set1 = new HashSet();
         Set set = new HashSet();
 
-        for (int j = 0; j < aconnectedproperties1.length; ++j)
-        {
-            ConnectedProperties connectedproperties = aconnectedproperties1[j];
-
-            if (connectedproperties.matchTileIcons != null)
-            {
+        for (ConnectedProperties connectedproperties : aconnectedproperties1) {
+            if (connectedproperties.matchTileIcons != null) {
                 set1.addAll(Arrays.asList(connectedproperties.matchTileIcons));
             }
 
-            if (connectedproperties.tileIcons != null)
-            {
+            if (connectedproperties.tileIcons != null) {
                 set.addAll(Arrays.asList(connectedproperties.tileIcons));
             }
         }
@@ -2346,7 +2203,7 @@ public class ConnectedTextures
 
             if (sublist != null)
             {
-                ConnectedProperties[] aconnectedproperties1 = (ConnectedProperties[]) sublist.toArray(new ConnectedProperties[sublist.size()]);
+                ConnectedProperties[] aconnectedproperties1 = (ConnectedProperties[]) sublist.toArray(new ConnectedProperties[0]);
                 aconnectedproperties[i] = aconnectedproperties1;
             }
         }
@@ -2455,7 +2312,7 @@ public class ConnectedTextures
             }
         }
 
-        String[] astring1 = (String[]) list.toArray(new String[list.size()]);
+        String[] astring1 = (String[]) list.toArray(new String[0]);
         return astring1;
     }
 }

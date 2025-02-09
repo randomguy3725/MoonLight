@@ -26,46 +26,38 @@ public class Blender
         {
             str = str.toLowerCase().trim();
 
-            if (str.equals("alpha"))
-            {
-                return 0;
-            }
-            else if (str.equals("add"))
-            {
-                return 1;
-            }
-            else if (str.equals("subtract"))
-            {
-                return 2;
-            }
-            else if (str.equals("multiply"))
-            {
-                return 3;
-            }
-            else if (str.equals("dodge"))
-            {
-                return 4;
-            }
-            else if (str.equals("burn"))
-            {
-                return 5;
-            }
-            else if (str.equals("screen"))
-            {
-                return 6;
-            }
-            else if (str.equals("overlay"))
-            {
-                return 7;
-            }
-            else if (str.equals("replace"))
-            {
-                return 8;
-            }
-            else
-            {
-                Config.warn("Unknown blend: " + str);
-                return 1;
+            switch (str) {
+                case "alpha" -> {
+                    return 0;
+                }
+                case "add" -> {
+                    return 1;
+                }
+                case "subtract" -> {
+                    return 2;
+                }
+                case "multiply" -> {
+                    return 3;
+                }
+                case "dodge" -> {
+                    return 4;
+                }
+                case "burn" -> {
+                    return 5;
+                }
+                case "screen" -> {
+                    return 6;
+                }
+                case "overlay" -> {
+                    return 7;
+                }
+                case "replace" -> {
+                    return 8;
+                }
+                default -> {
+                    Config.warn("Unknown blend: " + str);
+                    return 1;
+                }
             }
         }
     }

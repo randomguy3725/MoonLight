@@ -96,7 +96,7 @@ public class GuiTextField extends Gui
         int k = this.maxStringLength - this.text.length() - (i - j);
         int l = 0;
 
-        if (this.text.length() > 0)
+        if (!this.text.isEmpty())
         {
             s = s + this.text.substring(0, i);
         }
@@ -112,7 +112,7 @@ public class GuiTextField extends Gui
             l = s1.length();
         }
 
-        if (this.text.length() > 0 && j < this.text.length())
+        if (!this.text.isEmpty() && j < this.text.length())
         {
             s = s + this.text.substring(j);
         }
@@ -131,7 +131,7 @@ public class GuiTextField extends Gui
 
     public void deleteWords(int p_146177_1_)
     {
-        if (this.text.length() != 0)
+        if (!this.text.isEmpty())
         {
             if (this.selectionEnd != this.cursorPosition)
             {
@@ -146,7 +146,7 @@ public class GuiTextField extends Gui
 
     public void deleteFromCursor(int p_146175_1_)
     {
-        if (this.text.length() != 0)
+        if (!this.text.isEmpty())
         {
             if (this.selectionEnd != this.cursorPosition)
             {
@@ -474,7 +474,7 @@ public class GuiTextField extends Gui
                 k = s.length();
             }
 
-            if (s.length() > 0)
+            if (!s.isEmpty())
             {
                 String s1 = flag ? s.substring(0, j) : s;
                 j1 = this.fontRendererInstance.drawStringWithShadow(s1, (float)l, (float)i1, i);
@@ -493,7 +493,7 @@ public class GuiTextField extends Gui
                 --j1;
             }
 
-            if (s.length() > 0 && flag && j < s.length())
+            if (!s.isEmpty() && flag && j < s.length())
             {
                 j1 = this.fontRendererInstance.drawStringWithShadow(s.substring(j), (float)j1, (float)i1, i);
             }

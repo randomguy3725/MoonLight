@@ -4,7 +4,6 @@ import java.util.Random;
 
 import de.florianmichael.vialoadingbase.ViaLoadingBase;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
@@ -120,21 +119,14 @@ public class BlockFarmland extends Block
 
     public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side)
     {
-        switch (side)
-        {
-            case UP:
-                return true;
-
-            case NORTH:
-            case SOUTH:
-            case WEST:
-            case EAST:
+        return switch (side) {
+            case UP -> true;
+            case NORTH, SOUTH, WEST, EAST -> {
                 Block block = worldIn.getBlockState(pos).getBlock();
-                return !block.isOpaqueCube() && block != Blocks.farmland;
-
-            default:
-                return super.shouldSideBeRendered(worldIn, pos, side);
-        }
+                yield !block.isOpaqueCube() && block != Blocks.farmland;
+            }
+            default -> super.shouldSideBeRendered(worldIn, pos, side);
+        };
     }
 
     public Item getItemDropped(IBlockState state, Random rand, int fortune)

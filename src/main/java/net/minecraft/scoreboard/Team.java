@@ -38,7 +38,7 @@ public abstract class Team
 
         public static String[] func_178825_a()
         {
-            return field_178828_g.keySet().toArray(new String[field_178828_g.size()]);
+            return field_178828_g.keySet().toArray(new String[0]);
         }
 
         public static Team.EnumVisible func_178824_a(String p_178824_0_)

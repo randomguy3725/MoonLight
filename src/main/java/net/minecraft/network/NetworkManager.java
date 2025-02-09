@@ -169,7 +169,8 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
         }
     }
 
-    public void sendPacket(Packet packetIn, GenericFutureListener <? extends Future <? super Void >> listener, GenericFutureListener <? extends Future <? super Void >> ... listeners)
+    @SafeVarargs
+    public final void sendPacket(Packet packetIn, GenericFutureListener<? extends Future<? super Void>> listener, GenericFutureListener<? extends Future<? super Void>>... listeners)
     {
         if (this.isChannelOpen())
         {
@@ -220,24 +221,20 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
         }
         else
         {
-            this.channel.eventLoop().execute(new Runnable()
-            {
-                public void run()
+            this.channel.eventLoop().execute(() -> {
+                if (enumconnectionstate != enumconnectionstate1)
                 {
-                    if (enumconnectionstate != enumconnectionstate1)
-                    {
-                        NetworkManager.this.setConnectionState(enumconnectionstate);
-                    }
-
-                    ChannelFuture channelfuture1 = NetworkManager.this.channel.writeAndFlush(inPacket);
-
-                    if (futureListeners != null)
-                    {
-                        channelfuture1.addListeners(futureListeners);
-                    }
-
-                    channelfuture1.addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
+                    NetworkManager.this.setConnectionState(enumconnectionstate);
                 }
+
+                ChannelFuture channelfuture1 = NetworkManager.this.channel.writeAndFlush(inPacket);
+
+                if (futureListeners != null)
+                {
+                    channelfuture1.addListeners(futureListeners);
+                }
+
+                channelfuture1.addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
             });
         }
     }
@@ -336,10 +333,8 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
     public static NetworkManager provideLocalClient(SocketAddress address)
     {
         final NetworkManager networkmanager = new NetworkManager(EnumPacketDirection.CLIENTBOUND);
-        (new Bootstrap()).group(CLIENT_LOCAL_EVENTLOOP.getValue()).handler(new ChannelInitializer<Channel>()
-        {
-            protected void initChannel(Channel p_initChannel_1_) throws Exception
-            {
+        (new Bootstrap()).group(CLIENT_LOCAL_EVENTLOOP.getValue()).handler(new ChannelInitializer<>() {
+            protected void initChannel(Channel p_initChannel_1_) throws Exception {
                 p_initChannel_1_.pipeline().addLast("packet_handler", networkmanager);
             }
         }).channel(LocalChannel.class).connect(address).syncUninterruptibly();
@@ -474,6 +469,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
         private final Packet packet;
         private final GenericFutureListener <? extends Future <? super Void >> [] futureListeners;
 
+        @SafeVarargs
         public InboundHandlerTuplePacketListener(Packet inPacket, GenericFutureListener <? extends Future <? super Void >> ... inFutureListeners)
         {
             this.packet = inPacket;

@@ -59,13 +59,10 @@ public class PlayerItemModel
             texturemanager.bindTexture(this.locationMissing);
         }
 
-        for (int i = 0; i < this.modelRenderers.length; ++i)
-        {
-            PlayerItemRenderer playeritemrenderer = this.modelRenderers[i];
+        for (PlayerItemRenderer playeritemrenderer : this.modelRenderers) {
             GlStateManager.pushMatrix();
 
-            if (player.isSneaking())
-            {
+            if (player.isSneaking()) {
                 GlStateManager.translate(0.0F, 0.2F, 0.0F);
             }
 
@@ -76,29 +73,15 @@ public class PlayerItemModel
 
     public static ModelRenderer getAttachModel(ModelBiped modelBiped, int attachTo)
     {
-        switch (attachTo)
-        {
-            case 0:
-                return modelBiped.bipedBody;
-
-            case 1:
-                return modelBiped.bipedHead;
-
-            case 2:
-                return modelBiped.bipedLeftArm;
-
-            case 3:
-                return modelBiped.bipedRightArm;
-
-            case 4:
-                return modelBiped.bipedLeftLeg;
-
-            case 5:
-                return modelBiped.bipedRightLeg;
-
-            default:
-                return null;
-        }
+        return switch (attachTo) {
+            case 0 -> modelBiped.bipedBody;
+            case 1 -> modelBiped.bipedHead;
+            case 2 -> modelBiped.bipedLeftArm;
+            case 3 -> modelBiped.bipedRightArm;
+            case 4 -> modelBiped.bipedLeftLeg;
+            case 5 -> modelBiped.bipedRightLeg;
+            default -> null;
+        };
     }
 
     public BufferedImage getTextureImage()

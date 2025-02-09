@@ -135,21 +135,16 @@ public class ModelBox
 
         if (p_i46301_11_)
         {
-            for (int i = 0; i < this.quadList.length; ++i)
-            {
-                this.quadList[i].flipFace();
+            for (TexturedQuad texturedQuad : this.quadList) {
+                texturedQuad.flipFace();
             }
         }
     }
 
     public void render(WorldRenderer renderer, float scale)
     {
-        for (int i = 0; i < this.quadList.length; ++i)
-        {
-            TexturedQuad texturedquad = this.quadList[i];
-
-            if (texturedquad != null)
-            {
+        for (TexturedQuad texturedquad : this.quadList) {
+            if (texturedquad != null) {
                 texturedquad.draw(renderer, scale);
             }
         }

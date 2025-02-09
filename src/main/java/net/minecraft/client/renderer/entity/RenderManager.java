@@ -6,7 +6,6 @@ import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelChicken;
@@ -451,7 +450,7 @@ public class RenderManager
                 {
                     if (render instanceof RendererLivingEntity)
                     {
-                        ((RendererLivingEntity)render).setRenderOutlines(this.renderOutlines);
+                        ((RendererLivingEntity<?>)render).setRenderOutlines(this.renderOutlines);
                     }
 
                     if (CustomEntityModels.isActive())

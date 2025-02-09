@@ -25,9 +25,8 @@ public class ModelBlaze extends ModelBase
         this.setRotationAngles(p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, scale, entityIn);
         this.blazeHead.render(scale);
 
-        for (int i = 0; i < this.blazeSticks.length; ++i)
-        {
-            this.blazeSticks[i].render(scale);
+        for (ModelRenderer blazeStick : this.blazeSticks) {
+            blazeStick.render(scale);
         }
     }
 

@@ -391,23 +391,13 @@ public class GlStateManager
     }
     private static GlStateManager.TexGenCoord texGenCoord(GlStateManager.TexGen p_179125_0_)
     {
-        switch (p_179125_0_)
-        {
-            case S:
-                return texGenState.s;
-
-            case T:
-                return texGenState.t;
-
-            case R:
-                return texGenState.r;
-
-            case Q:
-                return texGenState.q;
-
-            default:
-                return texGenState.s;
-        }
+        return switch (p_179125_0_) {
+            case S -> texGenState.s;
+            case T -> texGenState.t;
+            case R -> texGenState.r;
+            case Q -> texGenState.q;
+            default -> texGenState.s;
+        };
     }
 
     public static void setActiveTexture(int texture)

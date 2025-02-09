@@ -13,6 +13,9 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 import javax.imageio.ImageIO;
+
+import io.netty.util.collection.IntObjectHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectIntPair;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneWire;
 import net.minecraft.block.BlockStem;
@@ -48,8 +51,7 @@ import net.optifine.util.PropertiesOrdered;
 import net.optifine.util.ResUtils;
 import net.optifine.util.StrUtils;
 import net.optifine.util.TextureUtils;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
+import org.jetbrains.annotations.Nullable;
 
 public class CustomColors
 {
@@ -230,9 +232,9 @@ public class CustomColors
             stemMelonColors = getCustomColors(s + "melonstem.png", 8, 1);
             String[] astring11 = new String[] {"myceliumparticle.png", "myceliumparticlecolor.png"};
             myceliumParticleColors = getCustomColors(s, astring11, -1, -1);
-            Pair<LightMapPack[], Integer> pair = parseLightMapPacks();
-            lightMapPacks = pair.getLeft();
-            lightmapMinDimensionId = pair.getRight().intValue();
+            var pair = parseLightMapPacks();
+            lightMapPacks = pair.left();
+            lightmapMinDimensionId = pair.rightInt();
             readColorProperties("mcpatcher/color.properties");
             blockColormaps = readBlockColormaps(new String[] {s + "custom/", s + "blocks/"}, colorsBlockColormaps, 256, 256);
             updateUseDefaultGrassFoliageColors();
@@ -290,59 +292,47 @@ public class CustomColors
         }
     }
 
-    private static Pair<LightMapPack[], Integer> parseLightMapPacks()
+    private static ObjectIntPair<@Nullable LightMapPack[]> parseLightMapPacks()
     {
         String s = "mcpatcher/lightmap/world";
         String s1 = ".png";
         String[] astring = ResUtils.collectFiles(s, s1);
-        Map<Integer, String> map = new HashMap();
+        var map = new IntObjectHashMap<String>();
 
-        for (int i = 0; i < astring.length; ++i)
-        {
-            String s2 = astring[i];
+        for (String s2 : astring) {
             String s3 = StrUtils.removePrefixSuffix(s2, s, s1);
             int j = Config.parseInt(s3, Integer.MIN_VALUE);
 
-            if (j == Integer.MIN_VALUE)
-            {
+            if (j == Integer.MIN_VALUE) {
                 warn("Invalid dimension ID: " + s3 + ", path: " + s2);
-            }
-            else
-            {
-                map.put(Integer.valueOf(j), s2);
+            } else {
+                map.put(j, s2);
             }
         }
 
-        Set<Integer> set = map.keySet();
-        Integer[] ainteger = set.toArray(new Integer[set.size()]);
-        Arrays.sort(ainteger);
+        int[] keys = map.keys();
+        Arrays.sort(keys);
 
-        if (ainteger.length <= 0)
+        if (keys.length == 0)
         {
-            return new ImmutablePair(null, Integer.valueOf(0));
+            return ObjectIntPair.of(null, 0);
         }
         else
         {
-            int j1 = ainteger[0].intValue();
-            int k1 = ainteger[ainteger.length - 1].intValue();
+            int j1 = keys[0];
+            int k1 = keys[keys.length - 1];
             int k = k1 - j1 + 1;
             CustomColormap[] acustomcolormap = new CustomColormap[k];
 
-            for (int l = 0; l < ainteger.length; ++l)
-            {
-                Integer integer = ainteger[l];
+            for (int integer : keys) {
                 String s4 = map.get(integer);
                 CustomColormap customcolormap = getCustomColors(s4, -1, -1);
 
-                if (customcolormap != null)
-                {
-                    if (customcolormap.getWidth() < 16)
-                    {
+                if (customcolormap != null) {
+                    if (customcolormap.getWidth() < 16) {
                         warn("Invalid lightmap width: " + customcolormap.getWidth() + ", path: " + s4);
-                    }
-                    else
-                    {
-                        int i1 = integer.intValue() - j1;
+                    } else {
+                        int i1 = integer - j1;
                         acustomcolormap[i1] = customcolormap;
                     }
                 }
@@ -368,7 +358,7 @@ public class CustomColors
                 }
             }
 
-            return new ImmutablePair(alightmappack, Integer.valueOf(j1));
+            return ObjectIntPair.of(alightmappack, j1);
         }
     }
 
@@ -467,11 +457,9 @@ public class CustomColors
             }
         }
 
-        String[] astring = (String[]) map.keySet().toArray(new String[map.size()]);
+        String[] astring = (String[]) map.keySet().toArray(new String[0]);
 
-        for (int j = 0; j < astring.length; ++j)
-        {
-            String s6 = astring[j];
+        for (String s6 : astring) {
             String s3 = props.getProperty(s6);
             dbg("Block palette: " + s6 + " = " + s3);
             String s4 = s6.substring(s.length());
@@ -479,27 +467,19 @@ public class CustomColors
             s4 = TextureUtils.fixResourcePath(s4, s5);
             CustomColormap customcolormap = getCustomColors(s4, 256, 256);
 
-            if (customcolormap == null)
-            {
+            if (customcolormap == null) {
                 warn("Colormap not found: " + s4);
-            }
-            else
-            {
+            } else {
                 ConnectedParser connectedparser = new ConnectedParser("CustomColors");
                 MatchBlock[] amatchblock = connectedparser.parseMatchBlocks(s3);
 
-                if (amatchblock != null && amatchblock.length > 0)
-                {
-                    for (int i = 0; i < amatchblock.length; ++i)
-                    {
-                        MatchBlock matchblock = amatchblock[i];
+                if (amatchblock != null && amatchblock.length > 0) {
+                    for (MatchBlock matchblock : amatchblock) {
                         customcolormap.addMatchBlock(matchblock);
                     }
 
                     list.add(customcolormap);
-                }
-                else
-                {
+                } else {
                     warn("Invalid match blocks: " + s3);
                 }
             }
@@ -511,7 +491,7 @@ public class CustomColors
         }
         else
         {
-            CustomColormap[] acustomcolormap = (CustomColormap[]) list.toArray(new CustomColormap[list.size()]);
+            CustomColormap[] acustomcolormap = (CustomColormap[]) list.toArray(new CustomColormap[0]);
             return acustomcolormap;
         }
     }
@@ -522,48 +502,35 @@ public class CustomColors
         Arrays.sort(astring);
         List list = new ArrayList();
 
-        for (int i = 0; i < astring.length; ++i)
-        {
-            String s = astring[i];
+        for (String s : astring) {
             dbg("Block colormap: " + s);
 
-            try
-            {
+            try {
                 ResourceLocation resourcelocation = new ResourceLocation("minecraft", s);
                 InputStream inputstream = Config.getResourceStream(resourcelocation);
 
-                if (inputstream == null)
-                {
+                if (inputstream == null) {
                     warn("File not found: " + s);
-                }
-                else
-                {
+                } else {
                     Properties properties = new PropertiesOrdered();
                     properties.load(inputstream);
                     inputstream.close();
                     CustomColormap customcolormap = new CustomColormap(properties, s, width, height, paletteFormatDefault);
 
-                    if (customcolormap.isValid(s) && customcolormap.isValidMatchBlocks(s))
-                    {
+                    if (customcolormap.isValid(s) && customcolormap.isValidMatchBlocks(s)) {
                         addToBlockList(customcolormap, list);
                     }
                 }
-            }
-            catch (FileNotFoundException var12)
-            {
+            } catch (FileNotFoundException var12) {
                 warn("File not found: " + s);
-            }
-            catch (Exception exception)
-            {
+            } catch (Exception exception) {
                 exception.printStackTrace();
             }
         }
 
         if (basePalettes != null)
         {
-            for (int j = 0; j < basePalettes.length; ++j)
-            {
-                CustomColormap customcolormap1 = basePalettes[j];
+            for (CustomColormap customcolormap1 : basePalettes) {
                 addToBlockList(customcolormap1, list);
             }
         }
@@ -585,16 +552,10 @@ public class CustomColors
 
         if (aint != null && aint.length > 0)
         {
-            for (int i = 0; i < aint.length; ++i)
-            {
-                int j = aint[i];
-
-                if (j < 0)
-                {
+            for (int j : aint) {
+                if (j < 0) {
                     warn("Invalid block ID: " + j);
-                }
-                else
-                {
+                } else {
                     addToList(cm, blockList, j);
                 }
             }
@@ -633,7 +594,7 @@ public class CustomColors
 
             if (list != null)
             {
-                CustomColormap[] acustomcolormap1 = (CustomColormap[]) list.toArray(new CustomColormap[list.size()]);
+                CustomColormap[] acustomcolormap1 = (CustomColormap[]) list.toArray(new CustomColormap[0]);
                 acustomcolormap[i] = acustomcolormap1;
             }
         }
@@ -643,13 +604,10 @@ public class CustomColors
 
     private static int readColor(Properties props, String[] names)
     {
-        for (int i = 0; i < names.length; ++i)
-        {
-            String s = names[i];
+        for (String s : names) {
             int j = readColor(props, s);
 
-            if (j >= 0)
-            {
+            if (j >= 0) {
                 return j;
             }
         }
@@ -727,14 +685,12 @@ public class CustomColors
 
     private static CustomColormap getCustomColors(String basePath, String[] paths, int width, int height)
     {
-        for (int i = 0; i < paths.length; ++i)
-        {
-            String s = paths[i];
+        for (String path : paths) {
+            String s = path;
             s = basePath + s;
             CustomColormap customcolormap = getCustomColors(s, width, height);
 
-            if (customcolormap != null)
-            {
+            if (customcolormap != null) {
                 return customcolormap;
             }
         }
@@ -866,23 +822,12 @@ public class CustomColors
                 }
                 else if (block == Blocks.leaves)
                 {
-                    switch (i & 3)
-                    {
-                        case 0:
-                            customcolors$icolorizer = COLORIZER_FOLIAGE;
-                            break;
-
-                        case 1:
-                            customcolors$icolorizer = COLORIZER_FOLIAGE_PINE;
-                            break;
-
-                        case 2:
-                            customcolors$icolorizer = COLORIZER_FOLIAGE_BIRCH;
-                            break;
-
-                        default:
-                            customcolors$icolorizer = COLORIZER_FOLIAGE;
-                    }
+                    customcolors$icolorizer = switch (i & 3) {
+                        case 0 -> COLORIZER_FOLIAGE;
+                        case 1 -> COLORIZER_FOLIAGE_PINE;
+                        case 2 -> COLORIZER_FOLIAGE_BIRCH;
+                        default -> COLORIZER_FOLIAGE;
+                    };
                 }
                 else if (block == Blocks.leaves2)
                 {
@@ -943,12 +888,8 @@ public class CustomColors
                 }
                 else
                 {
-                    for (int j = 0; j < acustomcolormap.length; ++j)
-                    {
-                        CustomColormap customcolormap = acustomcolormap[j];
-
-                        if (customcolormap.matchesBlock(blockstatebase))
-                        {
+                    for (CustomColormap customcolormap : acustomcolormap) {
+                        if (customcolormap.matchesBlock(blockstatebase)) {
                             return customcolormap;
                         }
                     }
@@ -1353,7 +1294,7 @@ public class CustomColors
 
     private static int[] readSpawnEggColors(Properties props, String fileName, String prefix, String logName)
     {
-        List<Integer> list = new ArrayList();
+        List<Integer> list = new ArrayList<>();
         Set set = props.keySet();
         int i = 0;
 
@@ -1447,11 +1388,9 @@ public class CustomColors
     private static float[][] readDyeColors(Properties props, String fileName, String prefix, String logName)
     {
         EnumDyeColor[] aenumdyecolor = EnumDyeColor.values();
-        Map<String, EnumDyeColor> map = new HashMap();
+        Map<String, EnumDyeColor> map = new HashMap<>();
 
-        for (int i = 0; i < aenumdyecolor.length; ++i)
-        {
-            EnumDyeColor enumdyecolor = aenumdyecolor[i];
+        for (EnumDyeColor enumdyecolor : aenumdyecolor) {
             map.put(enumdyecolor.getName(), enumdyecolor);
         }
 
@@ -1672,12 +1611,8 @@ public class CustomColors
         {
             Potion[] apotion = Potion.potionTypes;
 
-            for (int i = 0; i < apotion.length; ++i)
-            {
-                Potion potion = apotion[i];
-
-                if (potion != null && potion.getName().equals(name))
-                {
+            for (Potion potion : apotion) {
+                if (potion != null && potion.getName().equals(name)) {
                     return potion.getId();
                 }
             }

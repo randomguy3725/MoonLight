@@ -5,7 +5,7 @@ import java.util.Deque;
 
 public class ProgramStack
 {
-    private final Deque<Program> stack = new ArrayDeque();
+    private final Deque<Program> stack = new ArrayDeque<>();
 
     public void push(Program p)
     {

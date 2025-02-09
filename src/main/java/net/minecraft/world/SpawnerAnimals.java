@@ -31,7 +31,7 @@ public final class SpawnerAnimals
 {
     private static final int MOB_COUNT_DIV = (int)Math.pow(17.0D, 2.0D);
     private final Set<ChunkCoordIntPair> eligibleChunksForSpawning = Sets.newHashSet();
-    private final Map<Class, EntityLiving> mapSampleEntitiesByClass = new HashMap();
+    private final Map<Class, EntityLiving> mapSampleEntitiesByClass = new HashMap<>();
     private int lastPlayerChunkX = Integer.MAX_VALUE;
     private int lastPlayerChunkZ = Integer.MAX_VALUE;
     private int countChunkPos;
@@ -51,7 +51,7 @@ public final class SpawnerAnimals
             {
                 entityplayer = worldServerIn.playerEntities.get(0);
 
-                if (this.eligibleChunksForSpawning.size() > 0 && entityplayer != null && entityplayer.chunkCoordX == this.lastPlayerChunkX && entityplayer.chunkCoordZ == this.lastPlayerChunkZ)
+                if (!this.eligibleChunksForSpawning.isEmpty() && entityplayer != null && entityplayer.chunkCoordX == this.lastPlayerChunkX && entityplayer.chunkCoordZ == this.lastPlayerChunkZ)
                 {
                     flag = false;
                 }

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.src.Config;
 import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.optifine.reflect.Reflector;
 import net.optifine.reflect.ReflectorClass;
@@ -58,12 +57,8 @@ public class ChunkUtils
             List list1 = new ArrayList();
             Field[] afield = Chunk.class.getDeclaredFields();
 
-            for (int i = 0; i < afield.length; ++i)
-            {
-                Field field = afield[i];
-
-                if (field.getType() == Boolean.TYPE)
-                {
+            for (Field field : afield) {
+                if (field.getType() == Boolean.TYPE) {
                     field.setAccessible(true);
                     list.add(field);
                     list1.add(field.get(chunk));

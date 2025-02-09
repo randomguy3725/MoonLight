@@ -38,12 +38,8 @@ public class BlockAliases
             }
             else
             {
-                for (int i = 0; i < ablockalias.length; ++i)
-                {
-                    BlockAlias blockalias = ablockalias[i];
-
-                    if (blockalias.matches(blockId, metadata))
-                    {
+                for (BlockAlias blockalias : ablockalias) {
+                    if (blockalias.matches(blockId, metadata)) {
                         return blockalias.getBlockAliasId();
                     }
                 }
@@ -79,7 +75,7 @@ public class BlockAliases
             }
             else
             {
-                List<List<BlockAlias>> list = new ArrayList();
+                List<List<BlockAlias>> list = new ArrayList<>();
                 String s = "/shaders/block.properties";
                 InputStream inputstream = shaderPack.getResourceAsStream(s);
 
@@ -90,7 +86,7 @@ public class BlockAliases
 
                 loadModBlockAliases(list);
 
-                if (list.size() > 0)
+                if (!list.isEmpty())
                 {
                     blockAliases = toArrays(list);
                 }
@@ -102,18 +98,12 @@ public class BlockAliases
     {
         String[] astring = ReflectorForge.getForgeModIds();
 
-        for (int i = 0; i < astring.length; ++i)
-        {
-            String s = astring[i];
-
-            try
-            {
+        for (String s : astring) {
+            try {
                 ResourceLocation resourcelocation = new ResourceLocation(s, "shaders/block.properties");
                 InputStream inputstream = Config.getResourceStream(resourcelocation);
                 loadBlockAliases(inputstream, resourcelocation.toString(), listBlockAliases);
-            }
-            catch (IOException var6)
-            {
+            } catch (IOException var6) {
             }
         }
     }
@@ -191,20 +181,15 @@ public class BlockAliases
     {
         int[] aint = ba.getMatchBlockIds();
 
-        for (int i = 0; i < aint.length; ++i)
-        {
-            int j = aint[i];
-
-            while (j >= blocksAliases.size())
-            {
+        for (int j : aint) {
+            while (j >= blocksAliases.size()) {
                 blocksAliases.add(null);
             }
 
             List<BlockAlias> list = blocksAliases.get(j);
 
-            if (list == null)
-            {
-                list = new ArrayList();
+            if (list == null) {
+                list = new ArrayList<>();
                 blocksAliases.set(j, list);
             }
 
@@ -223,7 +208,7 @@ public class BlockAliases
 
             if (list != null)
             {
-                ablockalias[i] = list.toArray(new BlockAlias[list.size()]);
+                ablockalias[i] = list.toArray(new BlockAlias[0]);
             }
         }
 

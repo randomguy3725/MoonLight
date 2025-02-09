@@ -3,7 +3,6 @@ package net.minecraft.block;
 import com.google.common.base.Predicate;
 import java.util.Random;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
@@ -21,13 +20,7 @@ import net.minecraft.world.World;
 
 public class BlockTorch extends Block
 {
-    public static final PropertyDirection FACING = PropertyDirection.create("facing", new Predicate<EnumFacing>()
-    {
-        public boolean apply(EnumFacing p_apply_1_)
-        {
-            return p_apply_1_ != EnumFacing.DOWN;
-        }
-    });
+    public static final PropertyDirection FACING = PropertyDirection.create("facing", p_apply_1_ -> p_apply_1_ != EnumFacing.DOWN);
 
     protected BlockTorch()
     {
@@ -229,28 +222,13 @@ public class BlockTorch extends Block
     {
         IBlockState iblockstate = this.getDefaultState();
 
-        switch (meta)
-        {
-            case 1:
-                iblockstate = iblockstate.withProperty(FACING, EnumFacing.EAST);
-                break;
-
-            case 2:
-                iblockstate = iblockstate.withProperty(FACING, EnumFacing.WEST);
-                break;
-
-            case 3:
-                iblockstate = iblockstate.withProperty(FACING, EnumFacing.SOUTH);
-                break;
-
-            case 4:
-                iblockstate = iblockstate.withProperty(FACING, EnumFacing.NORTH);
-                break;
-
-            case 5:
-            default:
-                iblockstate = iblockstate.withProperty(FACING, EnumFacing.UP);
-        }
+        iblockstate = switch (meta) {
+            case 1 -> iblockstate.withProperty(FACING, EnumFacing.EAST);
+            case 2 -> iblockstate.withProperty(FACING, EnumFacing.WEST);
+            case 3 -> iblockstate.withProperty(FACING, EnumFacing.SOUTH);
+            case 4 -> iblockstate.withProperty(FACING, EnumFacing.NORTH);
+            default -> iblockstate.withProperty(FACING, EnumFacing.UP);
+        };
 
         return iblockstate;
     }
@@ -259,29 +237,13 @@ public class BlockTorch extends Block
     {
         int i = 0;
 
-        switch (state.getValue(FACING))
-        {
-            case EAST:
-                i = i | 1;
-                break;
-
-            case WEST:
-                i = i | 2;
-                break;
-
-            case SOUTH:
-                i = i | 3;
-                break;
-
-            case NORTH:
-                i = i | 4;
-                break;
-
-            case DOWN:
-            case UP:
-            default:
-                i = i | 5;
-        }
+        i = switch (state.getValue(FACING)) {
+            case EAST -> i | 1;
+            case WEST -> i | 2;
+            case SOUTH -> i | 3;
+            case NORTH -> i | 4;
+            default -> i | 5;
+        };
 
         return i;
     }

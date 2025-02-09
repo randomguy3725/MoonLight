@@ -52,49 +52,35 @@ public class NaturalTextures
 
                 TextureMap texturemap = TextureUtils.getTextureMapBlocks();
 
-                for (int i = 0; i < astring.length; ++i)
-                {
-                    String s2 = astring[i].trim();
+                for (String string : astring) {
+                    String s2 = string.trim();
 
-                    if (!s2.startsWith("#"))
-                    {
+                    if (!s2.startsWith("#")) {
                         String[] astring1 = Config.tokenize(s2, "=");
 
-                        if (astring1.length != 2)
-                        {
+                        if (astring1.length != 2) {
                             Config.warn("Natural Textures: Invalid \"" + s + "\" line: " + s2);
-                        }
-                        else
-                        {
+                        } else {
                             String s3 = astring1[0].trim();
                             String s4 = astring1[1].trim();
                             TextureAtlasSprite textureatlassprite = texturemap.getSpriteSafe("minecraft:blocks/" + s3);
 
-                            if (textureatlassprite == null)
-                            {
+                            if (textureatlassprite == null) {
                                 Config.warn("Natural Textures: Texture not found: \"" + s + "\" line: " + s2);
-                            }
-                            else
-                            {
+                            } else {
                                 int j = textureatlassprite.getIndexInMap();
 
-                                if (j < 0)
-                                {
+                                if (j < 0) {
                                     Config.warn("Natural Textures: Invalid \"" + s + "\" line: " + s2);
-                                }
-                                else
-                                {
-                                    if (flag && !Config.isFromDefaultResourcePack(new ResourceLocation("textures/blocks/" + s3 + ".png")))
-                                    {
+                                } else {
+                                    if (flag && !Config.isFromDefaultResourcePack(new ResourceLocation("textures/blocks/" + s3 + ".png"))) {
                                         return;
                                     }
 
                                     NaturalProperties naturalproperties = new NaturalProperties(s4);
 
-                                    if (naturalproperties.isValid())
-                                    {
-                                        while (arraylist.size() <= j)
-                                        {
+                                    if (naturalproperties.isValid()) {
+                                        while (arraylist.size() <= j) {
                                             arraylist.add(null);
                                         }
 
@@ -107,7 +93,7 @@ public class NaturalTextures
                     }
                 }
 
-                propertiesByIndex = (NaturalProperties[]) arraylist.toArray(new NaturalProperties[arraylist.size()]);
+                propertiesByIndex = (NaturalProperties[]) arraylist.toArray(new NaturalProperties[0]);
             }
             catch (FileNotFoundException var17)
             {

@@ -120,7 +120,7 @@ public class CommandTrigger extends CommandBase
                 }
             }
 
-            return getListOfStringsMatchingLastWord(args, list.toArray(new String[list.size()]));
+            return getListOfStringsMatchingLastWord(args, list.toArray(new String[0]));
         }
         else
         {

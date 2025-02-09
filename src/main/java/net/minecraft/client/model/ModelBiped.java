@@ -9,8 +9,6 @@ import wtf.moonlight.Moonlight;
 import wtf.moonlight.features.modules.impl.combat.KillAura;
 import wtf.moonlight.features.modules.impl.visual.Animations;
 
-import java.util.Objects;
-
 public class ModelBiped extends ModelBase
 {
     public ModelRenderer bipedHead;

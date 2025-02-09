@@ -14,19 +14,12 @@ import net.minecraft.util.ResourceLocation;
 public abstract class BlockStateBase implements IBlockState
 {
     private static final Joiner COMMA_JOINER = Joiner.on(',');
-    private static final Function<Entry<IProperty, Comparable>, String> MAP_ENTRY_TO_STRING = new Function<Entry<IProperty, Comparable>, String>()
-    {
-        public String apply(Entry<IProperty, Comparable> p_apply_1_)
-        {
-            if (p_apply_1_ == null)
-            {
-                return "<NULL>";
-            }
-            else
-            {
-                IProperty iproperty = p_apply_1_.getKey();
-                return iproperty.getName() + "=" + iproperty.getName(p_apply_1_.getValue());
-            }
+    private static final Function<Entry<IProperty, Comparable>, String> MAP_ENTRY_TO_STRING = p_apply_1_ -> {
+        if (p_apply_1_ == null) {
+            return "<NULL>";
+        } else {
+            IProperty iproperty = p_apply_1_.getKey();
+            return iproperty.getName() + "=" + iproperty.getName(p_apply_1_.getValue());
         }
     };
     private int blockId = -1;

@@ -123,17 +123,13 @@ class GuiSlotShaders extends GuiSlot
                         String s3 = ("HD_U_" + s1).replace('_', ' ');
                         String s4 = I18n.format("of.message.shaders.nv1", s3);
                         String s5 = I18n.format("of.message.shaders.nv2");
-                        GuiYesNoCallback guiyesnocallback = new GuiYesNoCallback()
-                        {
-                            public void confirmClicked(boolean result, int id)
+                        GuiYesNoCallback guiyesnocallback = (result, id) -> {
+                            if (result)
                             {
-                                if (result)
-                                {
-                                    GuiSlotShaders.this.selectIndex(index);
-                                }
-
-                                GuiSlotShaders.this.mc.displayGuiScreen(GuiSlotShaders.this.shadersGui);
+                                GuiSlotShaders.this.selectIndex(index);
                             }
+
+                            GuiSlotShaders.this.mc.displayGuiScreen(GuiSlotShaders.this.shadersGui);
                         };
                         GuiYesNo guiyesno = new GuiYesNo(guiyesnocallback, s4, s5, 0);
                         this.mc.displayGuiScreen(guiyesno);

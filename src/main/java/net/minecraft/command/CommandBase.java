@@ -562,7 +562,7 @@ public abstract class CommandBase implements ICommand
 
     public static String joinNiceStringFromCollection(Collection<String> strings)
     {
-        return joinNiceString(strings.toArray(new String[strings.size()]));
+        return joinNiceString(strings.toArray(new String[0]));
     }
 
     public static List<String> func_175771_a(String[] p_175771_0_, int p_175771_1_, BlockPos p_175771_2_)

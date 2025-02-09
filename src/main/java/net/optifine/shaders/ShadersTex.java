@@ -38,7 +38,7 @@ public class ShadersTex
     public static final int defBaseTexColor = 0;
     public static final int defNormTexColor = -8421377;
     public static final int defSpecTexColor = 0;
-    public static Map<Integer, MultiTexID> multiTexMap = new HashMap();
+    public static Map<Integer, MultiTexID> multiTexMap = new HashMap<>();
 
     public static IntBuffer getIntBuffer(int size)
     {

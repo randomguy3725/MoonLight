@@ -401,7 +401,7 @@ public class GuiCreateWorld extends GuiScreen
             this.actionPerformed(this.buttonList.get(0));
         }
 
-        this.buttonList.get(0).enabled = this.worldNameField.getText().length() > 0;
+        this.buttonList.get(0).enabled = !this.worldNameField.getText().isEmpty();
         this.calcSaveDirName();
     }
 

@@ -71,24 +71,17 @@ public class ShaderPackZip implements IShaderPack
 
     private String resolveRelative(String name)
     {
-        Deque<String> deque = new ArrayDeque();
+        Deque<String> deque = new ArrayDeque<>();
         String[] astring = Config.tokenize(name, "/");
 
-        for (int i = 0; i < astring.length; ++i)
-        {
-            String s = astring[i];
-
-            if (s.equals(".."))
-            {
-                if (deque.isEmpty())
-                {
+        for (String s : astring) {
+            if (s.equals("..")) {
+                if (deque.isEmpty()) {
                     return "";
                 }
 
                 deque.removeLast();
-            }
-            else
-            {
+            } else {
                 deque.add(s);
             }
         }

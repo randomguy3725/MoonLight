@@ -45,28 +45,10 @@ public abstract class MapGenStructure extends MapGenBase
             {
                 CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Exception preparing structure feature");
                 CrashReportCategory crashreportcategory = crashreport.makeCategory("Feature being prepared");
-                crashreportcategory.addCrashSectionCallable("Is feature chunk", new Callable<String>()
-                {
-                    public String call() throws Exception
-                    {
-                        return MapGenStructure.this.canSpawnStructureAtCoords(chunkX, chunkZ) ? "True" : "False";
-                    }
-                });
+                crashreportcategory.addCrashSectionCallable("Is feature chunk", () -> MapGenStructure.this.canSpawnStructureAtCoords(chunkX, chunkZ) ? "True" : "False");
                 crashreportcategory.addCrashSection("Chunk location", String.format("%d,%d", Integer.valueOf(chunkX), Integer.valueOf(chunkZ)));
-                crashreportcategory.addCrashSectionCallable("Chunk pos hash", new Callable<String>()
-                {
-                    public String call() throws Exception
-                    {
-                        return String.valueOf(ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ));
-                    }
-                });
-                crashreportcategory.addCrashSectionCallable("Structure type", new Callable<String>()
-                {
-                    public String call() throws Exception
-                    {
-                        return MapGenStructure.this.getClass().getCanonicalName();
-                    }
-                });
+                crashreportcategory.addCrashSectionCallable("Chunk pos hash", () -> String.valueOf(ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ)));
+                crashreportcategory.addCrashSectionCallable("Structure type", () -> MapGenStructure.this.getClass().getCanonicalName());
                 throw new ReportedException(crashreport);
             }
         }

@@ -1,7 +1,7 @@
 package net.minecraft.command.server;
 
 import com.mojang.authlib.GameProfile;
-import java.util.Date;
+
 import java.util.List;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -36,7 +36,7 @@ public class CommandBanPlayer extends CommandBase
 
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
-        if (args.length >= 1 && args[0].length() > 0)
+        if (args.length >= 1 && !args[0].isEmpty())
         {
             MinecraftServer minecraftserver = MinecraftServer.getServer();
             GameProfile gameprofile = minecraftserver.getPlayerProfileCache().getGameProfileForUsername(args[0]);

@@ -77,22 +77,20 @@ public class CustomColormap implements CustomColors.IColorizer
         {
             str = str.trim();
 
-            if (str.equals("vanilla"))
-            {
-                return 0;
-            }
-            else if (str.equals("grid"))
-            {
-                return 1;
-            }
-            else if (str.equals("fixed"))
-            {
-                return 2;
-            }
-            else
-            {
-                warn("Unknown format: " + str);
-                return -1;
+            switch (str) {
+                case "vanilla" -> {
+                    return 0;
+                }
+                case "grid" -> {
+                    return 1;
+                }
+                case "fixed" -> {
+                    return 2;
+                }
+                default -> {
+                    warn("Unknown format: " + str);
+                    return -1;
+                }
             }
         }
     }
@@ -515,12 +513,8 @@ public class CustomColormap implements CustomColors.IColorizer
         }
         else
         {
-            for (int i = 0; i < this.matchBlocks.length; ++i)
-            {
-                MatchBlock matchblock = this.matchBlocks[i];
-
-                if (matchblock.getBlockId() == blockId)
-                {
+            for (MatchBlock matchblock : this.matchBlocks) {
+                if (matchblock.getBlockId() == blockId) {
                     return matchblock;
                 }
             }
@@ -539,17 +533,13 @@ public class CustomColormap implements CustomColors.IColorizer
         {
             Set set = new HashSet();
 
-            for (int i = 0; i < this.matchBlocks.length; ++i)
-            {
-                MatchBlock matchblock = this.matchBlocks[i];
-
-                if (matchblock.getBlockId() >= 0)
-                {
+            for (MatchBlock matchblock : this.matchBlocks) {
+                if (matchblock.getBlockId() >= 0) {
                     set.add(Integer.valueOf(matchblock.getBlockId()));
                 }
             }
 
-            Integer[] ainteger = (Integer[]) set.toArray(new Integer[set.size()]);
+            Integer[] ainteger = (Integer[]) set.toArray(new Integer[0]);
             int[] aint = new int[ainteger.length];
 
             for (int j = 0; j < ainteger.length; ++j)

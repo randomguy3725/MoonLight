@@ -93,9 +93,9 @@ public class CustomSky
                 }
             }
 
-            if (list.size() > 0)
+            if (!list.isEmpty())
             {
-                CustomSkyLayer[] acustomskylayer2 = (CustomSkyLayer[]) list.toArray(new CustomSkyLayer[list.size()]);
+                CustomSkyLayer[] acustomskylayer2 = (CustomSkyLayer[]) list.toArray(new CustomSkyLayer[0]);
                 acustomskylayer[j] = acustomskylayer2;
                 i = j;
             }
@@ -139,12 +139,8 @@ public class CustomSky
                         f2 /= f1;
                     }
 
-                    for (int l = 0; l < acustomskylayer.length; ++l)
-                    {
-                        CustomSkyLayer customskylayer = acustomskylayer[l];
-
-                        if (customskylayer.isActive(world, k))
-                        {
+                    for (CustomSkyLayer customskylayer : acustomskylayer) {
+                        if (customskylayer.isActive(world, k)) {
                             customskylayer.render(world, k, f, f1, f2);
                         }
                     }

@@ -34,12 +34,8 @@ public class RandomEntityProperties
     {
         if (this.rules != null)
         {
-            for (int i = 0; i < this.rules.length; ++i)
-            {
-                RandomEntityRule randomentityrule = this.rules[i];
-
-                if (randomentityrule.matches(randomEntity))
-                {
+            for (RandomEntityRule randomentityrule : this.rules) {
+                if (randomentityrule.matches(randomEntity)) {
                     return randomentityrule.getTextureLocation(loc, randomEntity.getId());
                 }
             }
@@ -83,7 +79,7 @@ public class RandomEntityProperties
             }
         }
 
-        RandomEntityRule[] arandomentityrule = (RandomEntityRule[]) list.toArray(new RandomEntityRule[list.size()]);
+        RandomEntityRule[] arandomentityrule = (RandomEntityRule[]) list.toArray(new RandomEntityRule[0]);
         return arandomentityrule;
     }
 
@@ -98,12 +94,8 @@ public class RandomEntityProperties
         {
             if (this.rules != null)
             {
-                for (int i = 0; i < this.rules.length; ++i)
-                {
-                    RandomEntityRule randomentityrule = this.rules[i];
-
-                    if (!randomentityrule.isValid(path))
-                    {
+                for (RandomEntityRule randomentityrule : this.rules) {
+                    if (!randomentityrule.isValid(path)) {
                         return false;
                     }
                 }
@@ -111,12 +103,8 @@ public class RandomEntityProperties
 
             if (this.resourceLocations != null)
             {
-                for (int j = 0; j < this.resourceLocations.length; ++j)
-                {
-                    ResourceLocation resourcelocation = this.resourceLocations[j];
-
-                    if (!Config.hasResource(resourcelocation))
-                    {
+                for (ResourceLocation resourcelocation : this.resourceLocations) {
+                    if (!Config.hasResource(resourcelocation)) {
                         Config.warn("Texture not found: " + resourcelocation.getResourcePath());
                         return false;
                     }

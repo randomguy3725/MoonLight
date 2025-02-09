@@ -143,8 +143,7 @@ public abstract class TabComponent extends Component
     public void onMouseClick(int mouseX, int mouseY, int button) {
         for (Component groupBox : getChildren()) {
             for (Component child : groupBox.getChildren()) {
-                if (child instanceof ExpandableComponent) {
-                    ExpandableComponent expandable = (ExpandableComponent) child;
+                if (child instanceof ExpandableComponent expandable) {
 
                     if (expandable.isExpanded()) {
                         final float x = expandable.getExpandedX();
@@ -174,8 +173,7 @@ public abstract class TabComponent extends Component
     @Override
     public boolean isHovered(int mouseX, int mouseY) {
         for (Component child : getChildren()) {
-            if (child instanceof GroupBoxComponent) {
-                final GroupBoxComponent groupBox = (GroupBoxComponent) child;
+            if (child instanceof GroupBoxComponent groupBox) {
 
                 if (groupBox.isHoveredEntire(mouseX, mouseY)) {
                     return true;

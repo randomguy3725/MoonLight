@@ -10,6 +10,8 @@
  */
 package wtf.moonlight.features.modules.impl.player;
 
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
@@ -31,7 +33,6 @@ import wtf.moonlight.features.values.impl.SliderValue;
 import wtf.moonlight.utils.math.MathUtils;
 import wtf.moonlight.utils.math.TimerUtils;
 import wtf.moonlight.utils.player.InventoryUtils;
-import wtf.moonlight.utils.player.PlayerUtils;
 
 import java.util.*;
 
@@ -48,10 +49,10 @@ public class InvManager extends Module {
     private final BoolValue lobbyCheck = new BoolValue("Lobby Check", true, this);
     private final TimerUtils timer = new TimerUtils();
     private final int[] bestArmorPieces = new int[4];
-    private final List<Integer> trash = new ArrayList<>();
+    private final IntList trash = new IntArrayList();
     private final int[] bestToolSlots = new int[3];
-    private final List<Integer> gappleStackSlots = new ArrayList<>();
-    private final List<Integer> blockSlot = new ArrayList<>();
+    private final IntList gappleStackSlots = new IntArrayList();
+    private final IntList blockSlot = new IntArrayList();
     private int bestSwordSlot;
     private int bestBowSlot;
     public boolean serverOpen;
@@ -85,10 +86,10 @@ public class InvManager extends Module {
         }
     }
 
-    private boolean dropItem(final List<Integer> listOfSlots) {
+    private boolean dropItem(final IntList listOfSlots) {
         if (this.dropItems.get()) {
             if (!listOfSlots.isEmpty()) {
-                int slot = listOfSlots.remove(0);
+                int slot = listOfSlots.removeInt(0);
                 windowClick(slot, 1, 4);
                 return true;
             }

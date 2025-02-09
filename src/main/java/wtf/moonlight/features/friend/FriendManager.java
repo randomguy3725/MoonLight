@@ -41,7 +41,7 @@ public final class FriendManager {
     }
 
     public String getFriendsName() {
-        final ArrayList<String> list = new ArrayList<String>();
+        final ArrayList<String> list = new ArrayList<>();
         for (final Friend friend : this.friends) {
             list.add(friend.getUsername());
         }

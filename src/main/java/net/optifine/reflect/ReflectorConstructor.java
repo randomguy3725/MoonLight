@@ -63,13 +63,10 @@ public class ReflectorConstructor implements IResolvable
     {
         Constructor[] aconstructor = cls.getDeclaredConstructors();
 
-        for (int i = 0; i < aconstructor.length; ++i)
-        {
-            Constructor constructor = aconstructor[i];
+        for (Constructor constructor : aconstructor) {
             Class[] aclass = constructor.getParameterTypes();
 
-            if (Reflector.matchesTypes(paramTypes, aclass))
-            {
+            if (Reflector.matchesTypes(paramTypes, aclass)) {
                 return constructor;
             }
         }

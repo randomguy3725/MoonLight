@@ -67,14 +67,14 @@ public class ShaderOptionVariable extends ShaderOption
             String s2 = matcher.group(3);
             String s3 = StrUtils.getSegment(s2, "[", "]");
 
-            if (s3 != null && s3.length() > 0)
+            if (s3 != null && !s3.isEmpty())
             {
                 s2 = s2.replace(s3, "").trim();
             }
 
             String[] astring = parseValues(s1, s3);
 
-            if (s != null && s.length() > 0)
+            if (s != null && !s.isEmpty())
             {
                 path = StrUtils.removePrefix(path, "/shaders/");
                 ShaderOption shaderoption = new ShaderOptionVariable(s, s2, s1, astring, path);

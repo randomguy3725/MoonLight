@@ -187,7 +187,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
     private final List renderInfosTileEntitiesShadow = new ArrayList(1024);
     private int renderDistance = 0;
     private int renderDistanceSq = 0;
-    private static final Set SET_ALL_FACINGS = Collections.unmodifiableSet(new HashSet(Arrays.asList(EnumFacing.VALUES)));
+    private static final Set SET_ALL_FACINGS = Set.of(EnumFacing.VALUES);
     private int countTileEntitiesRendered;
     private IChunkProvider worldChunkProvider = null;
     private LongHashMap worldChunkProviderMap = null;
@@ -261,15 +261,9 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                 this.entityOutlineShader.createBindFramebuffers(this.mc.displayWidth, this.mc.displayHeight);
                 this.entityOutlineFramebuffer = this.entityOutlineShader.getFramebufferRaw("final");
             }
-            catch (IOException ioexception)
+            catch (IOException | JsonSyntaxException ioexception)
             {
                 logger.warn("Failed to load shader: " + resourcelocation, ioexception);
-                this.entityOutlineShader = null;
-                this.entityOutlineFramebuffer = null;
-            }
-            catch (JsonSyntaxException jsonsyntaxexception)
-            {
-                logger.warn("Failed to load shader: " + resourcelocation, jsonsyntaxexception);
                 this.entityOutlineShader = null;
                 this.entityOutlineFramebuffer = null;
             }
@@ -694,14 +688,11 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                 RenderHelper.disableStandardItemLighting();
                 this.renderManager.setRenderOutlines(true);
 
-                for (int k = 0; k < list.size(); ++k)
-                {
-                    Entity entity3 = list.get(k);
-                    boolean flag2 = this.mc.getRenderViewEntity() instanceof EntityLivingBase && ((EntityLivingBase)this.mc.getRenderViewEntity()).isPlayerSleeping();
+                for (Entity entity3 : list) {
+                    boolean flag2 = this.mc.getRenderViewEntity() instanceof EntityLivingBase && ((EntityLivingBase) this.mc.getRenderViewEntity()).isPlayerSleeping();
                     boolean flag3 = entity3.isInRangeToRender3d(d0, d1, d2) && (entity3.ignoreFrustumCheck || camera.isBoundingBoxInFrustum(entity3.getEntityBoundingBox()) || entity3.riddenByEntity == this.mc.thePlayer) && entity3 instanceof EntityPlayer;
 
-                    if ((entity3 != this.mc.getRenderViewEntity() || this.mc.gameSettings.thirdPersonView != 0 || flag2) && flag3)
-                    {
+                    if ((entity3 != this.mc.getRenderViewEntity() || this.mc.gameSettings.thirdPersonView != 0 || flag2) && flag3) {
                         this.renderManager.renderEntitySimple(entity3, partialTicks);
                     }
                 }
@@ -1097,7 +1088,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                             this.renderInfosEntities.add(renderglobal$containerlocalrenderinformation);
                         }
 
-                        if (renderchunk2.getCompiledChunk().getTileEntities().size() > 0)
+                        if (!renderchunk2.getCompiledChunk().getTileEntities().isEmpty())
                         {
                             this.renderInfosTileEntities.add(renderglobal$containerlocalrenderinformation);
                         }
@@ -1199,7 +1190,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                     this.renderInfosEntities.add(renderglobal$containerlocalrenderinformation5);
                 }
 
-                if (compiledchunk.getTileEntities().size() > 0)
+                if (!compiledchunk.getTileEntities().isEmpty())
                 {
                     this.renderInfosTileEntities.add(renderglobal$containerlocalrenderinformation5);
                 }
@@ -2244,7 +2235,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
         finishTimeNano = (long)((double)finishTimeNano + 1.0E8D);
         this.displayListEntitiesDirty |= this.renderDispatcher.runChunkUploads(finishTimeNano);
 
-        if (this.chunksToUpdateForced.size() > 0)
+        if (!this.chunksToUpdateForced.isEmpty())
         {
             Iterator iterator = this.chunksToUpdateForced.iterator();
 
@@ -2264,7 +2255,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
             }
         }
 
-        if (this.chunksToResortTransparency.size() > 0)
+        if (!this.chunksToResortTransparency.isEmpty())
         {
             Iterator iterator2 = this.chunksToResortTransparency.iterator();
 
@@ -2743,13 +2734,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                 crashreportcategory.addCrashSection("Parameters", parameters);
             }
 
-            crashreportcategory.addCrashSectionCallable("Position", new Callable<String>()
-            {
-                public String call() throws Exception
-                {
-                    return CrashReportCategory.getCoordinateInfo(xCoord, yCoord, zCoord);
-                }
-            });
+            crashreportcategory.addCrashSectionCallable("Position", () -> CrashReportCategory.getCoordinateInfo(xCoord, yCoord, zCoord));
             throw new ReportedException(crashreport);
         }
     }
@@ -3274,7 +3259,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
     {
         if (renderEntitiesCounter > 0)
         {
-            this.renderInfos = new ArrayList(this.renderInfos.size() + 16);
+            this.renderInfos = new ArrayList<>(this.renderInfos.size() + 16);
             this.renderInfosEntities = new ArrayList(this.renderInfosEntities.size() + 16);
             this.renderInfosTileEntities = new ArrayList(this.renderInfosTileEntities.size() + 16);
         }

@@ -2,7 +2,7 @@ package net.minecraft.item;
 
 import com.mojang.authlib.GameProfile;
 import java.util.List;
-import java.util.UUID;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSkull;
 import net.minecraft.block.state.IBlockState;
@@ -89,7 +89,7 @@ public class ItemSkull extends Item
                                 {
                                     gameprofile = NBTUtil.readGameProfileFromNBT(nbttagcompound.getCompoundTag("SkullOwner"));
                                 }
-                                else if (nbttagcompound.hasKey("SkullOwner", 8) && nbttagcompound.getString("SkullOwner").length() > 0)
+                                else if (nbttagcompound.hasKey("SkullOwner", 8) && !nbttagcompound.getString("SkullOwner").isEmpty())
                                 {
                                     gameprofile = new GameProfile(null, nbttagcompound.getString("SkullOwner"));
                                 }
@@ -166,7 +166,7 @@ public class ItemSkull extends Item
     {
         super.updateItemStackNBT(nbt);
 
-        if (nbt.hasKey("SkullOwner", 8) && nbt.getString("SkullOwner").length() > 0)
+        if (nbt.hasKey("SkullOwner", 8) && !nbt.getString("SkullOwner").isEmpty())
         {
             GameProfile gameprofile = new GameProfile(null, nbt.getString("SkullOwner"));
             gameprofile = TileEntitySkull.updateGameprofile(gameprofile);

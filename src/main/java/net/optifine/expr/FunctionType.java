@@ -1,8 +1,5 @@
 package net.optifine.expr;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.optifine.shaders.uniform.Smoother;
 import net.optifine.util.MathUtils;
 
@@ -70,7 +67,6 @@ public enum FunctionType
     private final String name;
     private final IParameters parameters;
     public static FunctionType[] VALUES = values();
-    private static final Map<Integer, Float> mapSmooth = new HashMap();
 
     FunctionType(ExpressionType expressionType, String name, ExpressionType[] parameterTypes)
     {
@@ -397,28 +393,21 @@ public enum FunctionType
 
     public float[] evalFloatArray(IExpression[] args)
     {
-        switch (this)
-        {
-            case VEC2:
-                return new float[] {evalFloat(args, 0), evalFloat(args, 1)};
-            case VEC3:
-                return new float[] {evalFloat(args, 0), evalFloat(args, 1), evalFloat(args, 2)};
-            case VEC4:
-                return new float[] {evalFloat(args, 0), evalFloat(args, 1), evalFloat(args, 2), evalFloat(args, 3)};
-            default:
+        return switch (this) {
+            case VEC2 -> new float[]{evalFloat(args, 0), evalFloat(args, 1)};
+            case VEC3 -> new float[]{evalFloat(args, 0), evalFloat(args, 1), evalFloat(args, 2)};
+            case VEC4 -> new float[]{evalFloat(args, 0), evalFloat(args, 1), evalFloat(args, 2), evalFloat(args, 3)};
+            default -> {
                 Config.warn("Unknown function type: " + this);
-                return null;
-        }
+                yield null;
+            }
+        };
     }
 
     public static FunctionType parse(String str)
     {
-        for (int i = 0; i < VALUES.length; ++i)
-        {
-            FunctionType functiontype = VALUES[i];
-
-            if (functiontype.getName().equals(str))
-            {
+        for (FunctionType functiontype : VALUES) {
+            if (functiontype.getName().equals(str)) {
                 return functiontype;
             }
         }

@@ -37,11 +37,9 @@ public class BlockModelUtils
     {
         List list = new ArrayList();
         EnumFacing[] aenumfacing = EnumFacing.VALUES;
-        List<List<BakedQuad>> list1 = new ArrayList();
+        List<List<BakedQuad>> list1 = new ArrayList<>();
 
-        for (int i = 0; i < aenumfacing.length; ++i)
-        {
-            EnumFacing enumfacing = aenumfacing[i];
+        for (EnumFacing enumfacing : aenumfacing) {
             List list2 = new ArrayList();
             list2.add(makeBakedQuad(enumfacing, sprite, tintIndex));
             list1.add(list2);
@@ -53,15 +51,13 @@ public class BlockModelUtils
 
     public static IBakedModel joinModelsCube(IBakedModel modelBase, IBakedModel modelAdd)
     {
-        List<BakedQuad> list = new ArrayList();
+        List<BakedQuad> list = new ArrayList<>();
         list.addAll(modelBase.getGeneralQuads());
         list.addAll(modelAdd.getGeneralQuads());
         EnumFacing[] aenumfacing = EnumFacing.VALUES;
         List list1 = new ArrayList();
 
-        for (int i = 0; i < aenumfacing.length; ++i)
-        {
-            EnumFacing enumfacing = aenumfacing[i];
+        for (EnumFacing enumfacing : aenumfacing) {
             List list2 = new ArrayList();
             list2.addAll(modelBase.getFaceQuads(enumfacing));
             list2.addAll(modelAdd.getFaceQuads(enumfacing));
@@ -119,9 +115,7 @@ public class BlockModelUtils
                     IBakedModel ibakedmodel1 = ModelUtils.duplicateModel(ibakedmodel);
                     EnumFacing[] aenumfacing = EnumFacing.VALUES;
 
-                    for (int i = 0; i < aenumfacing.length; ++i)
-                    {
-                        EnumFacing enumfacing = aenumfacing[i];
+                    for (EnumFacing enumfacing : aenumfacing) {
                         List<BakedQuad> list = ibakedmodel1.getFaceQuads(enumfacing);
                         replaceTexture(list, spriteOld, spriteNew);
                     }
@@ -144,7 +138,7 @@ public class BlockModelUtils
 
     private static void replaceTexture(List<BakedQuad> quads, TextureAtlasSprite spriteOld, TextureAtlasSprite spriteNew)
     {
-        List<BakedQuad> list = new ArrayList();
+        List<BakedQuad> list = new ArrayList<>();
 
         for (BakedQuad bakedquad : quads)
         {

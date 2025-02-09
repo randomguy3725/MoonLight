@@ -54,7 +54,6 @@ import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
 
 public class BlockModelShapes
 {
@@ -218,24 +217,13 @@ public class BlockModelShapes
             {
                 BlockQuartz.EnumType blockquartz$enumtype = state.getValue(BlockQuartz.VARIANT);
 
-                switch (blockquartz$enumtype)
-                {
-                    case DEFAULT:
-                    default:
-                        return new ModelResourceLocation("quartz_block", "normal");
-
-                    case CHISELED:
-                        return new ModelResourceLocation("chiseled_quartz_block", "normal");
-
-                    case LINES_Y:
-                        return new ModelResourceLocation("quartz_column", "axis=y");
-
-                    case LINES_X:
-                        return new ModelResourceLocation("quartz_column", "axis=x");
-
-                    case LINES_Z:
-                        return new ModelResourceLocation("quartz_column", "axis=z");
-                }
+                return switch (blockquartz$enumtype) {
+                    default -> new ModelResourceLocation("quartz_block", "normal");
+                    case CHISELED -> new ModelResourceLocation("chiseled_quartz_block", "normal");
+                    case LINES_Y -> new ModelResourceLocation("quartz_column", "axis=y");
+                    case LINES_X -> new ModelResourceLocation("quartz_column", "axis=x");
+                    case LINES_Z -> new ModelResourceLocation("quartz_column", "axis=z");
+                };
             }
         });
         this.registerBlockWithStateMapper(Blocks.deadbush, new StateMapperBase()

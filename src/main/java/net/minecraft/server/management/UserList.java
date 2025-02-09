@@ -16,7 +16,6 @@ import com.google.gson.JsonSerializer;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
-import java.io.Writer;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
@@ -103,7 +102,7 @@ public class UserList<K, V extends UserListEntry<K>>
 
     public String[] getKeys()
     {
-        return this.values.keySet().toArray(new String[this.values.size()]);
+        return this.values.keySet().toArray(new String[0]);
     }
 
     protected String getObjectKey(K obj)
@@ -136,7 +135,7 @@ public class UserList<K, V extends UserListEntry<K>>
 
     protected UserListEntry<K> createEntry(JsonObject entryData)
     {
-        return new UserListEntry(null, entryData);
+        return new UserListEntry<>(null, entryData);
     }
 
     protected Map<String, V> getValues()

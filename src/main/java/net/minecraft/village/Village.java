@@ -34,7 +34,7 @@ public class Village
     private int tickCounter;
     private int numVillagers;
     private int noBreedTicks;
-    private final TreeMap<String, Integer> playerReputation = new TreeMap();
+    private final TreeMap<String, Integer> playerReputation = new TreeMap<>();
     private final List<Village.VillageAggressor> villageAgressors = Lists.newArrayList();
     private int numIronGolems;
 
@@ -279,13 +279,10 @@ public class Village
         double d0 = Double.MAX_VALUE;
         Village.VillageAggressor village$villageaggressor = null;
 
-        for (int i = 0; i < this.villageAgressors.size(); ++i)
-        {
-            Village.VillageAggressor village$villageaggressor1 = this.villageAgressors.get(i);
+        for (VillageAggressor village$villageaggressor1 : this.villageAgressors) {
             double d1 = village$villageaggressor1.agressor.getDistanceSqToEntity(entitylivingbaseIn);
 
-            if (d1 <= d0)
-            {
+            if (d1 <= d0) {
                 village$villageaggressor = village$villageaggressor1;
                 d0 = d1;
             }
@@ -323,17 +320,8 @@ public class Village
 
     private void removeDeadAndOldAgressors()
     {
-        Iterator<Village.VillageAggressor> iterator = this.villageAgressors.iterator();
 
-        while (iterator.hasNext())
-        {
-            Village.VillageAggressor village$villageaggressor = iterator.next();
-
-            if (!village$villageaggressor.agressor.isEntityAlive() || Math.abs(this.tickCounter - village$villageaggressor.agressionTime) > 300)
-            {
-                iterator.remove();
-            }
-        }
+        this.villageAgressors.removeIf(village$villageaggressor -> !village$villageaggressor.agressor.isEntityAlive() || Math.abs(this.tickCounter - village$villageaggressor.agressionTime) > 300);
     }
 
     private void removeDeadAndOutOfRangeDoors()

@@ -62,7 +62,7 @@ public class HttpPipelineReceiver extends Thread
             String s1 = astring[0];
             int i = Config.parseInt(astring[1], 0);
             String s2 = astring[2];
-            Map<String, String> map = new LinkedHashMap();
+            Map<String, String> map = new LinkedHashMap<>();
 
             while (true)
             {

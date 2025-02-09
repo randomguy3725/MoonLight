@@ -32,7 +32,7 @@ import static wtf.moonlight.features.modules.impl.visual.finalkills.FkCounter.MW
 public class FinalKills extends Module {
     public static FkCounter killCounter = new FkCounter();
     public void finals() {
-        ArrayList<String> messages = new ArrayList<String>();
+        ArrayList<String> messages = new ArrayList<>();
         if (mc.ingameGUI.getChatGUI().getChatOpen()) {
             messages.add(EnumChatFormatting.RED + "RED" + EnumChatFormatting.WHITE + ": " + killCounter.getPlayers(0).entrySet().stream().map((entry) -> entry.getKey() + " (" + entry.getValue() + ")").collect(Collectors.joining(", ")));
             messages.add(EnumChatFormatting.GREEN + "GREEN" + EnumChatFormatting.WHITE + ": " + killCounter.getPlayers(1).entrySet().stream().map((entry) -> entry.getKey() + " (" + entry.getValue() + ")").collect(Collectors.joining(", ")));

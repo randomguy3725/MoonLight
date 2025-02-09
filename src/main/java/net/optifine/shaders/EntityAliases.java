@@ -2,9 +2,10 @@ package net.optifine.shaders;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
+
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.src.Config;
 import net.minecraft.util.ResourceLocation;
 import net.optifine.config.ConnectedParser;
@@ -58,7 +59,7 @@ public class EntityAliases
             }
             else
             {
-                List<Integer> list = new ArrayList();
+                IntList list = new IntArrayList();
                 String s = "/shaders/entity.properties";
                 InputStream inputstream = shaderPack.getResourceAsStream(s);
 
@@ -69,35 +70,29 @@ public class EntityAliases
 
                 loadModEntityAliases(list);
 
-                if (list.size() > 0)
+                if (!list.isEmpty())
                 {
-                    entityAliases = toArray(list);
+                    entityAliases = list.toIntArray();
                 }
             }
         }
     }
 
-    private static void loadModEntityAliases(List<Integer> listEntityAliases)
+    private static void loadModEntityAliases(IntList listEntityAliases)
     {
         String[] astring = ReflectorForge.getForgeModIds();
 
-        for (int i = 0; i < astring.length; ++i)
-        {
-            String s = astring[i];
-
-            try
-            {
+        for (String s : astring) {
+            try {
                 ResourceLocation resourcelocation = new ResourceLocation(s, "shaders/entity.properties");
                 InputStream inputstream = Config.getResourceStream(resourcelocation);
                 loadEntityAliases(inputstream, resourcelocation.toString(), listEntityAliases);
-            }
-            catch (IOException var6)
-            {
+            } catch (IOException var6) {
             }
         }
     }
 
-    private static void loadEntityAliases(InputStream in, String path, List<Integer> listEntityAliases)
+    private static void loadEntityAliases(InputStream in, String path, IntList listEntityAliases)
     {
         if (in != null)
         {
@@ -135,9 +130,7 @@ public class EntityAliases
 
                             if (aint != null && aint.length >= 1)
                             {
-                                for (int j = 0; j < aint.length; ++j)
-                                {
-                                    int k = aint[j];
+                                for (int k : aint) {
                                     addToList(listEntityAliases, k, i);
                                 }
                             }
@@ -156,27 +149,16 @@ public class EntityAliases
         }
     }
 
-    private static void addToList(List<Integer> list, int index, int val)
+    private static void addToList(IntList list, int index, int val)
     {
         while (list.size() <= index)
         {
-            list.add(Integer.valueOf(-1));
+            list.add(-1);
         }
 
-        list.set(index, Integer.valueOf(val));
+        list.set(index, val);
     }
 
-    private static int[] toArray(List<Integer> list)
-    {
-        int[] aint = new int[list.size()];
-
-        for (int i = 0; i < aint.length; ++i)
-        {
-            aint[i] = list.get(i).intValue();
-        }
-
-        return aint;
-    }
 
     public static void reset()
     {

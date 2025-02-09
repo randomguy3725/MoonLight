@@ -46,7 +46,7 @@ public class ServerAddress
                     String s = p_78860_0_.substring(1, i);
                     String s1 = p_78860_0_.substring(i + 1).trim();
 
-                    if (s1.startsWith(":") && s1.length() > 0)
+                    if (s1.startsWith(":") && !s1.isEmpty())
                     {
                         s1 = s1.substring(1);
                         astring = new String[] {s, s1};

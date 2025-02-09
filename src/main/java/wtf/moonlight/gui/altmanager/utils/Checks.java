@@ -19,7 +19,7 @@ public final class Checks {
     }
 
     public static boolean isEmpty(final CharSequence seq) {
-        return seq == null || seq.length() == 0;
+        return seq == null || seq.isEmpty();
     }
 
     public static boolean containsWhitespace(final CharSequence seq) {

@@ -32,7 +32,7 @@ import wtf.moonlight.events.impl.misc.WorldEvent;
 
 public class RandomEntities
 {
-    private static final Map<String, RandomEntityProperties> mapProperties = new HashMap();
+    private static final Map<String, RandomEntityProperties> mapProperties = new HashMap<>();
     private static boolean active = false;
     private static RenderGlobal renderGlobal;
     private static final RandomEntity randomEntity = new RandomEntity();
@@ -352,12 +352,8 @@ public class RandomEntities
 
     private static String getParentTexturePath(String path)
     {
-        for (int i = 0; i < DEPENDANT_SUFFIXES.length; ++i)
-        {
-            String s = DEPENDANT_SUFFIXES[i];
-
-            if (path.endsWith(s))
-            {
+        for (String s : DEPENDANT_SUFFIXES) {
+            if (path.endsWith(s)) {
                 String s1 = StrUtils.removeSuffix(path, s);
                 return s1;
             }
@@ -395,7 +391,7 @@ public class RandomEntities
             }
             else
             {
-                ResourceLocation[] aresourcelocation = (ResourceLocation[]) list.toArray(new ResourceLocation[list.size()]);
+                ResourceLocation[] aresourcelocation = (ResourceLocation[]) list.toArray(new ResourceLocation[0]);
                 dbg(loc.getResourcePath() + ", variants: " + aresourcelocation.length);
                 return aresourcelocation;
             }
@@ -422,34 +418,28 @@ public class RandomEntities
         String[] astring2 = ResUtils.collectFiles(astring, astring1);
         Set set = new HashSet();
 
-        for (int i = 0; i < astring2.length; ++i)
-        {
-            String s = astring2[i];
+        for (String string : astring2) {
+            String s = string;
             s = StrUtils.removeSuffix(s, astring1);
             s = StrUtils.trimTrailing(s, "0123456789");
             s = s + ".png";
             String s1 = getPathBase(s);
 
-            if (!set.contains(s1))
-            {
+            if (!set.contains(s1)) {
                 set.add(s1);
                 ResourceLocation resourcelocation = new ResourceLocation(s1);
 
-                if (Config.hasResource(resourcelocation))
-                {
+                if (Config.hasResource(resourcelocation)) {
                     RandomEntityProperties randomentityproperties = mapProperties.get(s1);
 
-                    if (randomentityproperties == null)
-                    {
+                    if (randomentityproperties == null) {
                         randomentityproperties = makeProperties(resourcelocation, false);
 
-                        if (randomentityproperties == null)
-                        {
+                        if (randomentityproperties == null) {
                             randomentityproperties = makeProperties(resourcelocation, true);
                         }
 
-                        if (randomentityproperties != null)
-                        {
+                        if (randomentityproperties != null) {
                             mapProperties.put(s1, randomentityproperties);
                         }
                     }

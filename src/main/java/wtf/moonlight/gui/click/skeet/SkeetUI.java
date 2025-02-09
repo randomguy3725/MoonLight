@@ -86,8 +86,8 @@ public final class SkeetUI extends GuiScreen {
             @Override
             public void drawComponent(final LockedResolution lockedResolution, final int mouseX, final int mouseY) {
                 if (dragging) {
-                    this.setX(Math.max(1.5f, Math.min(lockedResolution.getWidth() - 1.5f - this.getWidth(), mouseX - prevX)));
-                    this.setY(Math.max(1.5f, Math.min(lockedResolution.getHeight() - 1.5f - this.getHeight(), mouseY - prevY)));
+                    this.setX(Math.max(1.5f, Math.min(lockedResolution.width() - 1.5f - this.getWidth(), mouseX - prevX)));
+                    this.setY(Math.max(1.5f, Math.min(lockedResolution.height() - 1.5f - this.getHeight(), mouseY - prevY)));
                 }
 
                 final float borderX = this.getX();
@@ -223,8 +223,7 @@ public final class SkeetUI extends GuiScreen {
                             if (selectedTab != tabOrSideBar)
                                 continue;
                             for (Component groupBox : tabOrSideBar.getChildren()) {
-                                if (groupBox instanceof GroupBoxComponent) {
-                                    GroupBoxComponent groupBoxComponent = (GroupBoxComponent) groupBox;
+                                if (groupBox instanceof GroupBoxComponent groupBoxComponent) {
 
                                     if (groupBoxComponent.isHoveredEntire(mouseX, mouseY)) {
                                         return;

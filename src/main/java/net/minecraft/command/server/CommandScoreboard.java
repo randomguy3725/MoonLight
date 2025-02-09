@@ -319,7 +319,7 @@ public class CommandScoreboard extends CommandBase
             p_175780_2_[i] = s;
             p_175780_1_.setCommandStat(CommandResultStats.Type.AFFECTED_ENTITIES, list.size());
 
-            if (list.size() == 0)
+            if (list.isEmpty())
             {
                 throw new WrongUsageException("commands.scoreboard.allMatchesFailed");
             }
@@ -388,7 +388,7 @@ public class CommandScoreboard extends CommandBase
         {
             throw new SyntaxErrorException("commands.scoreboard.objectives.add.tooLong", s, Integer.valueOf(16));
         }
-        else if (s.length() == 0)
+        else if (s.isEmpty())
         {
             throw new WrongUsageException("commands.scoreboard.objectives.add.usage");
         }
@@ -403,7 +403,7 @@ public class CommandScoreboard extends CommandBase
                     throw new SyntaxErrorException("commands.scoreboard.objectives.add.displayTooLong", s2, Integer.valueOf(32));
                 }
 
-                if (s2.length() > 0)
+                if (!s2.isEmpty())
                 {
                     scoreboard.addScoreObjective(s, iscoreobjectivecriteria).setDisplayName(s2);
                 }
@@ -434,7 +434,7 @@ public class CommandScoreboard extends CommandBase
         {
             throw new SyntaxErrorException("commands.scoreboard.teams.add.tooLong", s, Integer.valueOf(16));
         }
-        else if (s.length() == 0)
+        else if (s.isEmpty())
         {
             throw new WrongUsageException("commands.scoreboard.teams.add.usage");
         }
@@ -449,7 +449,7 @@ public class CommandScoreboard extends CommandBase
                     throw new SyntaxErrorException("commands.scoreboard.teams.add.displayTooLong", s1, Integer.valueOf(32));
                 }
 
-                if (s1.length() > 0)
+                if (!s1.isEmpty())
                 {
                     scoreboard.createTeam(s).setTeamName(s1);
                 }
@@ -684,12 +684,12 @@ public class CommandScoreboard extends CommandBase
         if (!set.isEmpty())
         {
             p_147190_1_.setCommandStat(CommandResultStats.Type.AFFECTED_ENTITIES, set.size());
-            notifyOperators(p_147190_1_, this, "commands.scoreboard.teams.join.success", Integer.valueOf(set.size()), s, joinNiceString(set.toArray(new String[set.size()])));
+            notifyOperators(p_147190_1_, this, "commands.scoreboard.teams.join.success", Integer.valueOf(set.size()), s, joinNiceString(set.toArray(new String[0])));
         }
 
         if (!set1.isEmpty())
         {
-            throw new CommandException("commands.scoreboard.teams.join.failure", Integer.valueOf(set1.size()), s, joinNiceString(set1.toArray(new String[set1.size()])));
+            throw new CommandException("commands.scoreboard.teams.join.failure", Integer.valueOf(set1.size()), s, joinNiceString(set1.toArray(new String[0])));
         }
     }
 
@@ -753,12 +753,12 @@ public class CommandScoreboard extends CommandBase
         if (!set.isEmpty())
         {
             p_147199_1_.setCommandStat(CommandResultStats.Type.AFFECTED_ENTITIES, set.size());
-            notifyOperators(p_147199_1_, this, "commands.scoreboard.teams.leave.success", Integer.valueOf(set.size()), joinNiceString(set.toArray(new String[set.size()])));
+            notifyOperators(p_147199_1_, this, "commands.scoreboard.teams.leave.success", Integer.valueOf(set.size()), joinNiceString(set.toArray(new String[0])));
         }
 
         if (!set1.isEmpty())
         {
-            throw new CommandException("commands.scoreboard.teams.leave.failure", Integer.valueOf(set1.size()), joinNiceString(set1.toArray(new String[set1.size()])));
+            throw new CommandException("commands.scoreboard.teams.leave.failure", Integer.valueOf(set1.size()), joinNiceString(set1.toArray(new String[0])));
         }
     }
 
@@ -1055,54 +1055,32 @@ public class CommandScoreboard extends CommandBase
             {
                 Score score1 = scoreboard.getValueFromObjective(s2, scoreobjective1);
 
-                if (s1.equals("+="))
-                {
-                    score.setScorePoints(score.getScorePoints() + score1.getScorePoints());
-                }
-                else if (s1.equals("-="))
-                {
-                    score.setScorePoints(score.getScorePoints() - score1.getScorePoints());
-                }
-                else if (s1.equals("*="))
-                {
-                    score.setScorePoints(score.getScorePoints() * score1.getScorePoints());
-                }
-                else if (s1.equals("/="))
-                {
-                    if (score1.getScorePoints() != 0)
-                    {
-                        score.setScorePoints(score.getScorePoints() / score1.getScorePoints());
+                switch (s1) {
+                    case "+=" -> score.setScorePoints(score.getScorePoints() + score1.getScorePoints());
+                    case "-=" -> score.setScorePoints(score.getScorePoints() - score1.getScorePoints());
+                    case "*=" -> score.setScorePoints(score.getScorePoints() * score1.getScorePoints());
+                    case "/=" -> {
+                        if (score1.getScorePoints() != 0) {
+                            score.setScorePoints(score.getScorePoints() / score1.getScorePoints());
+                        }
                     }
-                }
-                else if (s1.equals("%="))
-                {
-                    if (score1.getScorePoints() != 0)
-                    {
-                        score.setScorePoints(score.getScorePoints() % score1.getScorePoints());
+                    case "%=" -> {
+                        if (score1.getScorePoints() != 0) {
+                            score.setScorePoints(score.getScorePoints() % score1.getScorePoints());
+                        }
                     }
-                }
-                else if (s1.equals("="))
-                {
-                    score.setScorePoints(score1.getScorePoints());
-                }
-                else if (s1.equals("<"))
-                {
-                    score.setScorePoints(Math.min(score.getScorePoints(), score1.getScorePoints()));
-                }
-                else if (s1.equals(">"))
-                {
-                    score.setScorePoints(Math.max(score.getScorePoints(), score1.getScorePoints()));
-                }
-                else
-                {
-                    if (!s1.equals("><"))
-                    {
-                        throw new CommandException("commands.scoreboard.players.operation.invalidOperation", s1);
-                    }
+                    case "=" -> score.setScorePoints(score1.getScorePoints());
+                    case "<" -> score.setScorePoints(Math.min(score.getScorePoints(), score1.getScorePoints()));
+                    case ">" -> score.setScorePoints(Math.max(score.getScorePoints(), score1.getScorePoints()));
+                    default -> {
+                        if (!s1.equals("><")) {
+                            throw new CommandException("commands.scoreboard.players.operation.invalidOperation", s1);
+                        }
 
-                    int i = score.getScorePoints();
-                    score.setScorePoints(score1.getScorePoints());
-                    score1.setScorePoints(i);
+                        int i = score.getScorePoints();
+                        score.setScorePoints(score1.getScorePoints());
+                        score1.setScorePoints(i);
+                    }
                 }
 
                 notifyOperators(p_175778_1_, this, "commands.scoreboard.players.operation.success");

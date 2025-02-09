@@ -60,7 +60,7 @@ public class ModelAdapterOcelot extends ModelAdapter
         }
         else
         {
-            mapPartFields = new HashMap();
+            mapPartFields = new HashMap<>();
             mapPartFields.put("back_left_leg", Integer.valueOf(0));
             mapPartFields.put("back_right_leg", Integer.valueOf(1));
             mapPartFields.put("front_left_leg", Integer.valueOf(2));

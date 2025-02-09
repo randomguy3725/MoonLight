@@ -43,7 +43,7 @@ public class CustomBlockLayers
     {
         renderLayers = null;
         active = false;
-        List<EnumWorldBlockLayer> list = new ArrayList();
+        List<EnumWorldBlockLayer> list = new ArrayList<>();
         String s = "optifine/block.properties";
         Properties properties = ResUtils.readProperties(s, "CustomBlockLayers");
 
@@ -65,7 +65,7 @@ public class CustomBlockLayers
 
         if (!list.isEmpty())
         {
-            renderLayers = list.toArray(new EnumWorldBlockLayer[list.size()]);
+            renderLayers = list.toArray(new EnumWorldBlockLayer[0]);
             active = true;
         }
     }
@@ -91,20 +91,15 @@ public class CustomBlockLayers
 
             if (amatchblock != null)
             {
-                for (int i = 0; i < amatchblock.length; ++i)
-                {
-                    MatchBlock matchblock = amatchblock[i];
+                for (MatchBlock matchblock : amatchblock) {
                     int j = matchblock.getBlockId();
 
-                    if (j > 0)
-                    {
-                        while (listLayers.size() < j + 1)
-                        {
+                    if (j > 0) {
+                        while (listLayers.size() < j + 1) {
                             listLayers.add(null);
                         }
 
-                        if (listLayers.get(j) != null)
-                        {
+                        if (listLayers.get(j) != null) {
                             Config.warn("CustomBlockLayers: Block layer is already set, block: " + j + ", layer: " + name);
                         }
 

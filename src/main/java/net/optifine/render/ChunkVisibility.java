@@ -168,7 +168,7 @@ public class ChunkVisibility
 
         for (int j = 0; j < i; ++j)
         {
-            List<EnumFacing> list = new ArrayList();
+            List<EnumFacing> list = new ArrayList<>();
 
             for (int k = 0; k < EnumFacing.VALUES.length; ++k)
             {
@@ -182,7 +182,7 @@ public class ChunkVisibility
                 }
             }
 
-            EnumFacing[] aenumfacing1 = list.toArray(new EnumFacing[list.size()]);
+            EnumFacing[] aenumfacing1 = list.toArray(new EnumFacing[0]);
             aenumfacing[j] = aenumfacing1;
         }
 

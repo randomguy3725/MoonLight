@@ -101,39 +101,31 @@ public class BlockBeacon extends BlockContainer
 
     public static void updateColorAsync(final World worldIn, final BlockPos glassPos)
     {
-        HttpUtil.field_180193_a.submit(new Runnable()
-        {
-            public void run()
+        HttpUtil.field_180193_a.submit(() -> {
+            Chunk chunk = worldIn.getChunkFromBlockCoords(glassPos);
+
+            for (int i = glassPos.getY() - 1; i >= 0; --i)
             {
-                Chunk chunk = worldIn.getChunkFromBlockCoords(glassPos);
+                final BlockPos blockpos = new BlockPos(glassPos.getX(), i, glassPos.getZ());
 
-                for (int i = glassPos.getY() - 1; i >= 0; --i)
+                if (!chunk.canSeeSky(blockpos))
                 {
-                    final BlockPos blockpos = new BlockPos(glassPos.getX(), i, glassPos.getZ());
+                    break;
+                }
 
-                    if (!chunk.canSeeSky(blockpos))
-                    {
-                        break;
-                    }
+                IBlockState iblockstate = worldIn.getBlockState(blockpos);
 
-                    IBlockState iblockstate = worldIn.getBlockState(blockpos);
+                if (iblockstate.getBlock() == Blocks.beacon)
+                {
+                    ((WorldServer)worldIn).addScheduledTask(() -> {
+                        TileEntity tileentity = worldIn.getTileEntity(blockpos);
 
-                    if (iblockstate.getBlock() == Blocks.beacon)
-                    {
-                        ((WorldServer)worldIn).addScheduledTask(new Runnable()
+                        if (tileentity instanceof TileEntityBeacon)
                         {
-                            public void run()
-                            {
-                                TileEntity tileentity = worldIn.getTileEntity(blockpos);
-
-                                if (tileentity instanceof TileEntityBeacon)
-                                {
-                                    ((TileEntityBeacon)tileentity).updateBeacon();
-                                    worldIn.addBlockEvent(blockpos, Blocks.beacon, 1, 0);
-                                }
-                            }
-                        });
-                    }
+                            ((TileEntityBeacon)tileentity).updateBeacon();
+                            worldIn.addBlockEvent(blockpos, Blocks.beacon, 1, 0);
+                        }
+                    });
                 }
             }
         });

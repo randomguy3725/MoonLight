@@ -4,7 +4,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-import java.util.Iterator;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -238,7 +238,7 @@ public class ItemPotion extends Item
                     Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
                     Map<IAttribute, AttributeModifier> map = potion.getAttributeModifierMap();
 
-                    if (map != null && map.size() > 0)
+                    if (map != null && !map.isEmpty())
                     {
                         for (Entry<IAttribute, AttributeModifier> entry : map.entrySet())
                         {
@@ -362,11 +362,8 @@ public class ItemPotion extends Item
             }
         }
 
-        Iterator iterator = SUB_ITEMS_CACHE.values().iterator();
-
-        while (iterator.hasNext())
-        {
-            int j1 = ((Integer)iterator.next()).intValue();
+        for (Integer integer : SUB_ITEMS_CACHE.values()) {
+            int j1 = integer.intValue();
             subItems.add(new ItemStack(itemIn, 1, j1));
         }
     }

@@ -18,7 +18,6 @@ import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.Proxy;
 import java.security.KeyPair;
 import java.text.SimpleDateFormat;
@@ -41,7 +40,6 @@ import net.minecraft.command.ServerCommandManager;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetworkSystem;
 import net.minecraft.network.ServerStatusResponse;
 import net.minecraft.network.play.server.S03PacketTimeUpdate;
@@ -412,9 +410,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
                 logger.info("Saving worlds");
                 this.saveAllWorlds(false);
 
-                for (int i = 0; i < this.worldServers.length; ++i)
-                {
-                    WorldServer worldserver = this.worldServers[i];
+                for (WorldServer worldserver : this.worldServers) {
                     worldserver.flush();
                 }
             }
@@ -711,9 +707,8 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
         this.serverConfigManager.onTick();
         this.theProfiler.endStartSection("tickables");
 
-        for (int k = 0; k < this.playersOnline.size(); ++k)
-        {
-            this.playersOnline.get(k).update();
+        for (ITickable iTickable : this.playersOnline) {
+            iTickable.update();
         }
 
         this.theProfiler.endSection();
@@ -777,23 +772,11 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
     public CrashReport addServerInfoToCrashReport(CrashReport report)
     {
-        report.getCategory().addCrashSectionCallable("Profiler Position", new Callable<String>()
-        {
-            public String call() throws Exception
-            {
-                return MinecraftServer.this.theProfiler.profilingEnabled ? MinecraftServer.this.theProfiler.getNameOfLastSection() : "N/A (disabled)";
-            }
-        });
+        report.getCategory().addCrashSectionCallable("Profiler Position", () -> MinecraftServer.this.theProfiler.profilingEnabled ? MinecraftServer.this.theProfiler.getNameOfLastSection() : "N/A (disabled)");
 
         if (this.serverConfigManager != null)
         {
-            report.getCategory().addCrashSectionCallable("Player Count", new Callable<String>()
-            {
-                public String call()
-                {
-                    return MinecraftServer.this.serverConfigManager.getCurrentPlayerCount() + " / " + MinecraftServer.this.serverConfigManager.getMaxPlayers() + "; " + MinecraftServer.this.serverConfigManager.getPlayerList();
-                }
-            });
+            report.getCategory().addCrashSectionCallable("Player Count", () -> MinecraftServer.this.serverConfigManager.getCurrentPlayerCount() + " / " + MinecraftServer.this.serverConfigManager.getMaxPlayers() + "; " + MinecraftServer.this.serverConfigManager.getPlayerList());
         }
 
         return report;
@@ -920,24 +903,15 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
     public void setDifficultyForAllWorlds(EnumDifficulty difficulty)
     {
-        for (int i = 0; i < this.worldServers.length; ++i)
-        {
-            World world = this.worldServers[i];
-
-            if (world != null)
-            {
-                if (world.getWorldInfo().isHardcoreModeEnabled())
-                {
+        for (World world : this.worldServers) {
+            if (world != null) {
+                if (world.getWorldInfo().isHardcoreModeEnabled()) {
                     world.getWorldInfo().setDifficulty(EnumDifficulty.HARD);
                     world.setAllowedSpawnTypes(true, true);
-                }
-                else if (this.isSinglePlayer())
-                {
+                } else if (this.isSinglePlayer()) {
                     world.getWorldInfo().setDifficulty(difficulty);
                     world.setAllowedSpawnTypes(world.getDifficulty() != EnumDifficulty.PEACEFUL, true);
-                }
-                else
-                {
+                } else {
                     world.getWorldInfo().setDifficulty(difficulty);
                     world.setAllowedSpawnTypes(this.allowSpawnMonsters(), this.canSpawnAnimals);
                 }
@@ -975,12 +949,8 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
         this.worldIsBeingDeleted = true;
         this.getActiveAnvilConverter().flushCache();
 
-        for (int i = 0; i < this.worldServers.length; ++i)
-        {
-            WorldServer worldserver = this.worldServers[i];
-
-            if (worldserver != null)
-            {
+        for (WorldServer worldserver : this.worldServers) {
+            if (worldserver != null) {
                 worldserver.flush();
             }
         }
@@ -1025,11 +995,9 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
         if (this.worldServers != null)
         {
-            for (int j = 0; j < this.worldServers.length; ++j)
-            {
-                if (this.worldServers[j] != null)
-                {
-                    WorldServer worldserver = this.worldServers[j];
+            for (WorldServer worldServer : this.worldServers) {
+                if (worldServer != null) {
+                    WorldServer worldserver = worldServer;
                     WorldInfo worldinfo = worldserver.getWorldInfo();
                     playerSnooper.addClientStat("world[" + i + "][dimension]", Integer.valueOf(worldserver.provider.getDimensionId()));
                     playerSnooper.addClientStat("world[" + i + "][mode]", worldinfo.getGameType());

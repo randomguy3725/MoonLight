@@ -36,12 +36,8 @@ public enum TokenType
 
     public static TokenType getTypeByFirstChar(char ch)
     {
-        for (int i = 0; i < VALUES.length; ++i)
-        {
-            TokenType tokentype = VALUES[i];
-
-            if (tokentype.getCharsFirst().indexOf(ch) >= 0)
-            {
+        for (TokenType tokentype : VALUES) {
+            if (tokentype.getCharsFirst().indexOf(ch) >= 0) {
                 return tokentype;
             }
         }

@@ -76,7 +76,7 @@ public class SourceLWJGL3OpenAL extends Source {
             return false;
         } else {
             synchronized (this.soundSequenceLock) {
-                if (this.soundSequenceQueue != null && this.soundSequenceQueue.size() > 0) {
+                if (this.soundSequenceQueue != null && !this.soundSequenceQueue.isEmpty()) {
                     this.filenameURL = this.soundSequenceQueue.remove(0);
                     if (this.codec != null) {
                         this.codec.cleanup();
@@ -358,7 +358,7 @@ public class SourceLWJGL3OpenAL extends Source {
             return false;
         } else {
             this.codec.initialize(this.filenameURL.getURL());
-            LinkedList<byte[]> preLoadBuffers = new LinkedList();
+            LinkedList<byte[]> preLoadBuffers = new LinkedList<>();
 
             for (int i = 0; i < SoundSystemConfig.getNumberStreamingBuffers(); ++i) {
                 this.soundBuffer = this.codec.read();
@@ -418,27 +418,32 @@ public class SourceLWJGL3OpenAL extends Source {
     }
 
     private boolean checkALError() {
-        switch (AL10.alGetError()) {
-            case 0:
-                return false;
-            case 40961:
+        return switch (AL10.alGetError()) {
+            case 0 -> false;
+            case 40961 -> {
                 this.errorMessage("Invalid name parameter.");
-                return true;
-            case 40962:
+                yield true;
+            }
+            case 40962 -> {
                 this.errorMessage("Invalid parameter.");
-                return true;
-            case 40963:
+                yield true;
+            }
+            case 40963 -> {
                 this.errorMessage("Invalid enumerated parameter value.");
-                return true;
-            case 40964:
+                yield true;
+            }
+            case 40964 -> {
                 this.errorMessage("Illegal call.");
-                return true;
-            case 40965:
+                yield true;
+            }
+            case 40965 -> {
                 this.errorMessage("Unable to allocate memory.");
-                return true;
-            default:
+                yield true;
+            }
+            default -> {
                 this.errorMessage("An unrecognized error occurred.");
-                return true;
-        }
+                yield true;
+            }
+        };
     }
 }

@@ -6,7 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class GameRules
 {
-    private final TreeMap<String, GameRules.Value> theGameRules = new TreeMap();
+    private final TreeMap<String, GameRules.Value> theGameRules = new TreeMap<>();
 
     public GameRules()
     {
@@ -89,7 +89,7 @@ public class GameRules
     public String[] getRules()
     {
         Set<String> set = this.theGameRules.keySet();
-        return set.toArray(new String[set.size()]);
+        return set.toArray(new String[0]);
     }
 
     public boolean hasRule(String name)

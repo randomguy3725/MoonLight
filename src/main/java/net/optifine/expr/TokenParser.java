@@ -13,7 +13,7 @@ public class TokenParser
     {
         Reader reader = new StringReader(str);
         PushbackReader pushbackreader = new PushbackReader(reader);
-        List<Token> list = new ArrayList();
+        List<Token> list = new ArrayList<>();
 
         while (true)
         {
@@ -21,7 +21,7 @@ public class TokenParser
 
             if (i < 0)
             {
-                Token[] atoken = list.toArray(new Token[list.size()]);
+                Token[] atoken = list.toArray(new Token[0]);
                 return atoken;
             }
 

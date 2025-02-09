@@ -10,7 +10,6 @@
  */
 package wtf.moonlight.gui.widget.impl;
 
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import wtf.moonlight.events.impl.render.Shader2DEvent;

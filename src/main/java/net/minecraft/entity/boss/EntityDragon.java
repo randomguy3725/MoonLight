@@ -24,7 +24,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
 public class EntityDragon extends EntityLiving implements IBossDisplayData, IEntityMultiPart, IMob
@@ -400,12 +399,8 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
 
     private void attackEntitiesInList(List<Entity> p_70971_1_)
     {
-        for (int i = 0; i < p_70971_1_.size(); ++i)
-        {
-            Entity entity = p_70971_1_.get(i);
-
-            if (entity instanceof EntityLivingBase)
-            {
+        for (Entity entity : p_70971_1_) {
+            if (entity instanceof EntityLivingBase) {
                 entity.attackEntityFrom(DamageSource.causeMobDamage(this), 10.0F);
                 this.applyEnchantments(this, entity);
             }
@@ -416,15 +411,8 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
     {
         this.forceNewTarget = false;
         List<EntityPlayer> list = Lists.newArrayList(this.worldObj.playerEntities);
-        Iterator<EntityPlayer> iterator = list.iterator();
 
-        while (iterator.hasNext())
-        {
-            if (iterator.next().isSpectator())
-            {
-                iterator.remove();
-            }
-        }
+        list.removeIf(EntityPlayer::isSpectator);
 
         if (this.rand.nextInt(2) == 0 && !list.isEmpty())
         {

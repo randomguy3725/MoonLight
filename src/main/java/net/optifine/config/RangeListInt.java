@@ -22,12 +22,8 @@ public class RangeListInt
 
     public boolean isInRange(int val)
     {
-        for (int i = 0; i < this.ranges.length; ++i)
-        {
-            RangeInt rangeint = this.ranges[i];
-
-            if (rangeint.isInRange(val))
-            {
+        for (RangeInt rangeint : this.ranges) {
+            if (rangeint.isInRange(val)) {
                 return true;
             }
         }

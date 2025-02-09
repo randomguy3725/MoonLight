@@ -20,7 +20,7 @@ public class ScoreHealthCriteria extends ScoreDummyCriteria
             f += entityplayer.getHealth() + entityplayer.getAbsorptionAmount();
         }
 
-        if (p_96635_1_.size() > 0)
+        if (!p_96635_1_.isEmpty())
         {
             f /= (float)p_96635_1_.size();
         }

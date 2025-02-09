@@ -118,7 +118,7 @@ public class BlockModelRenderer
 
         List<BakedQuad> list1 = p_renderModelSmooth_2_.getGeneralQuads();
 
-        if (list1.size() > 0)
+        if (!list1.isEmpty())
         {
             list1 = BlockModelCustomizer.getRenderQuads(list1, p_renderModelSmooth_1_, p_renderModelSmooth_3_, p_renderModelSmooth_4_, null, enumworldblocklayer, 0L, renderenv);
             this.renderQuadsSmooth(p_renderModelSmooth_1_, p_renderModelSmooth_3_, p_renderModelSmooth_4_, p_renderModelSmooth_5_, list1, renderenv);
@@ -161,7 +161,7 @@ public class BlockModelRenderer
 
         List<BakedQuad> list1 = p_renderModelFlat_2_.getGeneralQuads();
 
-        if (list1.size() > 0)
+        if (!list1.isEmpty())
         {
             list1 = BlockModelCustomizer.getRenderQuads(list1, p_renderModelFlat_1_, p_renderModelFlat_3_, p_renderModelFlat_4_, null, enumworldblocklayer, 0L, renderenv);
             this.renderQuadsFlat(p_renderModelFlat_1_, p_renderModelFlat_3_, p_renderModelFlat_4_, null, -1, true, p_renderModelFlat_5_, list1, renderenv);
@@ -508,44 +508,34 @@ public class BlockModelRenderer
     {
         if (p_renderOverlayModels_9_.isOverlaysRendered())
         {
-            for (int i = 0; i < OVERLAY_LAYERS.length; ++i)
-            {
-                EnumWorldBlockLayer enumworldblocklayer = OVERLAY_LAYERS[i];
+            for (EnumWorldBlockLayer enumworldblocklayer : OVERLAY_LAYERS) {
                 ListQuadsOverlay listquadsoverlay = p_renderOverlayModels_9_.getListQuadsOverlay(enumworldblocklayer);
 
-                if (listquadsoverlay.size() > 0)
-                {
+                if (listquadsoverlay.size() > 0) {
                     RegionRenderCacheBuilder regionrendercachebuilder = p_renderOverlayModels_9_.getRegionRenderCacheBuilder();
 
-                    if (regionrendercachebuilder != null)
-                    {
+                    if (regionrendercachebuilder != null) {
                         WorldRenderer worldrenderer = regionrendercachebuilder.getWorldRendererByLayer(enumworldblocklayer);
 
-                        if (!worldrenderer.isDrawing())
-                        {
+                        if (!worldrenderer.isDrawing()) {
                             worldrenderer.begin(7, DefaultVertexFormats.BLOCK);
                             worldrenderer.setTranslation(p_renderOverlayModels_5_.getXOffset(), p_renderOverlayModels_5_.getYOffset(), p_renderOverlayModels_5_.getZOffset());
                         }
 
-                        for (int j = 0; j < listquadsoverlay.size(); ++j)
-                        {
+                        for (int j = 0; j < listquadsoverlay.size(); ++j) {
                             BakedQuad bakedquad = listquadsoverlay.getQuad(j);
                             List<BakedQuad> list = listquadsoverlay.getListQuadsSingle(bakedquad);
                             IBlockState iblockstate = listquadsoverlay.getBlockState(j);
 
-                            if (bakedquad.getQuadEmissive() != null)
-                            {
+                            if (bakedquad.getQuadEmissive() != null) {
                                 listquadsoverlay.addQuad(bakedquad.getQuadEmissive(), iblockstate);
                             }
 
                             p_renderOverlayModels_9_.reset(iblockstate, p_renderOverlayModels_4_);
 
-                            if (p_renderOverlayModels_10_)
-                            {
+                            if (p_renderOverlayModels_10_) {
                                 this.renderQuadsSmooth(p_renderOverlayModels_1_, iblockstate, p_renderOverlayModels_4_, worldrenderer, list, p_renderOverlayModels_9_);
-                            }
-                            else
-                            {
+                            } else {
                                 int k = iblockstate.getBlock().getMixedBrightnessForBlock(p_renderOverlayModels_1_, p_renderOverlayModels_4_.offset(bakedquad.getFace()));
                                 this.renderQuadsFlat(p_renderOverlayModels_1_, iblockstate, p_renderOverlayModels_4_, bakedquad.getFace(), k, false, worldrenderer, list, p_renderOverlayModels_9_);
                             }

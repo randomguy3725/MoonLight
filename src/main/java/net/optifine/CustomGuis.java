@@ -164,12 +164,8 @@ public class CustomGuis
         }
         else
         {
-            for (int i = 0; i < acustomguiproperties.length; ++i)
-            {
-                CustomGuiProperties customguiproperties = acustomguiproperties[i];
-
-                if (customguiproperties.matchesPos(container, pos, blockAccess, screen))
-                {
+            for (CustomGuiProperties customguiproperties : acustomguiproperties) {
+                if (customguiproperties.matchesPos(container, pos, blockAccess, screen)) {
                     return customguiproperties.getTextureLocation(loc);
                 }
             }
@@ -188,12 +184,8 @@ public class CustomGuis
         }
         else
         {
-            for (int i = 0; i < acustomguiproperties.length; ++i)
-            {
-                CustomGuiProperties customguiproperties = acustomguiproperties[i];
-
-                if (customguiproperties.matchesEntity(container, entity, blockAccess))
-                {
+            for (CustomGuiProperties customguiproperties : acustomguiproperties) {
+                if (customguiproperties.matchesEntity(container, entity, blockAccess)) {
                     return customguiproperties.getTextureLocation(loc);
                 }
             }
@@ -208,7 +200,7 @@ public class CustomGuis
 
         if (Config.isCustomGuis())
         {
-            List<List<CustomGuiProperties>> list = new ArrayList();
+            List<List<CustomGuiProperties>> list = new ArrayList<>();
             IResourcePack[] airesourcepack = Config.getResourcePacks();
 
             for (int i = airesourcepack.length - 1; i >= 0; --i)
@@ -239,7 +231,7 @@ public class CustomGuis
 
                     if (list != null)
                     {
-                        CustomGuiProperties[] acustomguiproperties1 = list.toArray(new CustomGuiProperties[list.size()]);
+                        CustomGuiProperties[] acustomguiproperties1 = list.toArray(new CustomGuiProperties[0]);
                         acustomguiproperties[i] = acustomguiproperties1;
                     }
                 }
@@ -254,39 +246,28 @@ public class CustomGuis
         String[] astring = ResUtils.collectFiles(rp, "optifine/gui/container/", ".properties", null);
         Arrays.sort(astring);
 
-        for (int i = 0; i < astring.length; ++i)
-        {
-            String s = astring[i];
+        for (String s : astring) {
             Config.dbg("CustomGuis: " + s);
 
-            try
-            {
+            try {
                 ResourceLocation resourcelocation = new ResourceLocation(s);
                 InputStream inputstream = rp.getInputStream(resourcelocation);
 
-                if (inputstream == null)
-                {
+                if (inputstream == null) {
                     Config.warn("CustomGuis file not found: " + s);
-                }
-                else
-                {
+                } else {
                     Properties properties = new PropertiesOrdered();
                     properties.load(inputstream);
                     inputstream.close();
                     CustomGuiProperties customguiproperties = new CustomGuiProperties(properties, s);
 
-                    if (customguiproperties.isValid(s))
-                    {
+                    if (customguiproperties.isValid(s)) {
                         addToList(customguiproperties, listProps);
                     }
                 }
-            }
-            catch (FileNotFoundException var9)
-            {
+            } catch (FileNotFoundException var9) {
                 Config.warn("CustomGuis file not found: " + s);
-            }
-            catch (Exception exception)
-            {
+            } catch (Exception exception) {
                 exception.printStackTrace();
             }
         }
@@ -311,7 +292,7 @@ public class CustomGuis
 
             if (list == null)
             {
-                list = new ArrayList();
+                list = new ArrayList<>();
                 listProps.set(i, list);
             }
 

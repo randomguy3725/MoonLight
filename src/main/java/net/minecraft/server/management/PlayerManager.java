@@ -34,13 +34,13 @@ public class PlayerManager
     private static final Logger pmLogger = LogManager.getLogger();
     private final WorldServer theWorldServer;
     private final List<EntityPlayerMP> players = Lists.newArrayList();
-    private final LongHashMap<PlayerManager.PlayerInstance> playerInstances = new LongHashMap();
+    private final LongHashMap<PlayerManager.PlayerInstance> playerInstances = new LongHashMap<>();
     private final List<PlayerManager.PlayerInstance> playerInstancesToUpdate = Lists.newArrayList();
     private final List<PlayerManager.PlayerInstance> playerInstanceList = Lists.newArrayList();
     private int playerViewRadius;
     private long previousTotalWorldTime;
     private final int[][] xzDirectionsConst = new int[][] {{1, 0}, {0, 1}, { -1, 0}, {0, -1}};
-    private final Map<EntityPlayerMP, Set<ChunkCoordIntPair>> mapPlayerPendingEntries = new HashMap();
+    private final Map<EntityPlayerMP, Set<ChunkCoordIntPair>> mapPlayerPendingEntries = new HashMap<>();
 
     public PlayerManager(WorldServer serverWorld)
     {
@@ -96,18 +96,14 @@ public class PlayerManager
         {
             this.previousTotalWorldTime = j;
 
-            for (int k = 0; k < this.playerInstanceList.size(); ++k)
-            {
-                PlayerManager.PlayerInstance playermanager$playerinstance1 = this.playerInstanceList.get(k);
+            for (PlayerInstance playermanager$playerinstance1 : this.playerInstanceList) {
                 playermanager$playerinstance1.onUpdate();
                 playermanager$playerinstance1.processChunk();
             }
         }
         else
         {
-            for (int l = 0; l < this.playerInstancesToUpdate.size(); ++l)
-            {
-                PlayerManager.PlayerInstance playermanager$playerinstance2 = this.playerInstancesToUpdate.get(l);
+            for (PlayerInstance playermanager$playerinstance2 : this.playerInstancesToUpdate) {
                 playermanager$playerinstance2.onUpdate();
             }
         }
@@ -417,7 +413,7 @@ public class PlayerManager
         double d2 = d1 * 0.017453292519943295D;
         ChunkPosComparator chunkposcomparator = new ChunkPosComparator(p_getNearest_2_.chunkCoordX, p_getNearest_2_.chunkCoordZ, d0, d2);
         Comparator<ChunkCoordIntPair> comparator = Collections.reverseOrder(chunkposcomparator);
-        PriorityQueue<ChunkCoordIntPair> priorityqueue = new PriorityQueue(p_getNearest_3_, comparator);
+        PriorityQueue<ChunkCoordIntPair> priorityqueue = new PriorityQueue<>(p_getNearest_3_, comparator);
 
         for (ChunkCoordIntPair chunkcoordintpair : p_getNearest_1_)
         {
@@ -563,12 +559,8 @@ public class PlayerManager
 
         public void sendToAllPlayersWatchingChunk(Packet thePacket)
         {
-            for (int i = 0; i < this.playersWatchingChunk.size(); ++i)
-            {
-                EntityPlayerMP entityplayermp = this.playersWatchingChunk.get(i);
-
-                if (!entityplayermp.loadedChunks.contains(this.chunkCoords))
-                {
+            for (EntityPlayerMP entityplayermp : this.playersWatchingChunk) {
+                if (!entityplayermp.loadedChunks.contains(this.chunkCoords)) {
                     entityplayermp.playerNetServerHandler.sendPacket(thePacket);
                 }
             }
@@ -621,9 +613,8 @@ public class PlayerManager
                             int l = k << 4;
                             List<TileEntity> list = PlayerManager.this.theWorldServer.getTileEntitiesIn(i, l, j, i + 16, l + 16, j + 16);
 
-                            for (int i1 = 0; i1 < list.size(); ++i1)
-                            {
-                                this.sendTileToAllPlayersWatchingChunk(list.get(i1));
+                            for (TileEntity tileEntity : list) {
+                                this.sendTileToAllPlayersWatchingChunk(tileEntity);
                             }
                         }
                     }

@@ -1,6 +1,8 @@
 package net.minecraft.entity.projectile;
 
 import java.util.List;
+import java.util.Objects;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -230,22 +232,16 @@ public class EntityArrow extends Entity implements IProjectile
             List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
             double d0 = 0.0D;
 
-            for (int i = 0; i < list.size(); ++i)
-            {
-                Entity entity1 = list.get(i);
-
-                if (entity1.canBeCollidedWith() && (entity1 != this.shootingEntity || this.ticksInAir >= 5))
-                {
+            for (Entity entity1 : list) {
+                if (entity1.canBeCollidedWith() && (entity1 != this.shootingEntity || this.ticksInAir >= 5)) {
                     float f1 = 0.3F;
                     AxisAlignedBB axisalignedbb1 = entity1.getEntityBoundingBox().expand(f1, f1, f1);
                     MovingObjectPosition movingobjectposition1 = axisalignedbb1.calculateIntercept(vec31, vec3);
 
-                    if (movingobjectposition1 != null)
-                    {
+                    if (movingobjectposition1 != null) {
                         double d1 = vec31.squareDistanceTo(movingobjectposition1.hitVec);
 
-                        if (d1 < d0 || d0 == 0.0D)
-                        {
+                        if (d1 < d0 || d0 == 0.0D) {
                             entity = entity1;
                             d0 = d1;
                         }
@@ -281,14 +277,7 @@ public class EntityArrow extends Entity implements IProjectile
 
                     DamageSource damagesource;
 
-                    if (this.shootingEntity == null)
-                    {
-                        damagesource = DamageSource.causeArrowDamage(this, this);
-                    }
-                    else
-                    {
-                        damagesource = DamageSource.causeArrowDamage(this, this.shootingEntity);
-                    }
+                    damagesource = DamageSource.causeArrowDamage(this, Objects.requireNonNullElse(this.shootingEntity, this));
 
                     if (this.isBurning() && !(movingobjectposition.entityHit instanceof EntityEnderman))
                     {

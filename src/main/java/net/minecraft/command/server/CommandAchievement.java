@@ -107,13 +107,7 @@ public class CommandAchievement extends CommandBase
                                     throw new CommandException("commands.achievement.dontHave", entityplayermp.getName(), statbase.createChatComponent());
                                 }
 
-                                List<Achievement> list1 = Lists.newArrayList(Iterators.filter(AchievementList.achievementList.iterator(), new Predicate<Achievement>()
-                                {
-                                    public boolean apply(Achievement p_apply_1_)
-                                    {
-                                        return entityplayermp.getStatFile().hasAchievementUnlocked(p_apply_1_) && p_apply_1_ != statbase;
-                                    }
-                                }));
+                                List<Achievement> list1 = Lists.newArrayList(Iterators.filter(AchievementList.achievementList.iterator(), p_apply_1_ -> entityplayermp.getStatFile().hasAchievementUnlocked(p_apply_1_) && p_apply_1_ != statbase));
                                 List<Achievement> list2 = Lists.newArrayList(list1);
 
                                 for (Achievement achievement2 : list1)

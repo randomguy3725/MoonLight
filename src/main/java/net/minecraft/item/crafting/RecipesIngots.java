@@ -12,10 +12,9 @@ public class RecipesIngots
 
     public void addRecipes(CraftingManager p_77590_1_)
     {
-        for (int i = 0; i < this.recipeItems.length; ++i)
-        {
-            Block block = (Block)this.recipeItems[i][0];
-            ItemStack itemstack = (ItemStack)this.recipeItems[i][1];
+        for (Object[] recipeItem : this.recipeItems) {
+            Block block = (Block) recipeItem[0];
+            ItemStack itemstack = (ItemStack) recipeItem[1];
             p_77590_1_.addRecipe(new ItemStack(block), "###", "###", "###", '#', itemstack);
             p_77590_1_.addRecipe(itemstack, "#", '#', block);
         }

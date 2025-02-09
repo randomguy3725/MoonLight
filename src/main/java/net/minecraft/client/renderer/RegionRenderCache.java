@@ -19,8 +19,8 @@ public class RegionRenderCache extends ChunkCache
     private final BlockPos position;
     private final int[] combinedLights;
     private final IBlockState[] blockStates;
-    private static final ArrayDeque<int[]> cacheLights = new ArrayDeque();
-    private static final ArrayDeque<IBlockState[]> cacheStates = new ArrayDeque();
+    private static final ArrayDeque<int[]> cacheLights = new ArrayDeque<>();
+    private static final ArrayDeque<IBlockState[]> cacheStates = new ArrayDeque<>();
     private static final int maxCacheSize = Config.limit(Runtime.getRuntime().availableProcessors(), 1, 32);
 
     public RegionRenderCache(World worldIn, BlockPos posFromIn, BlockPos posToIn, int subIn)

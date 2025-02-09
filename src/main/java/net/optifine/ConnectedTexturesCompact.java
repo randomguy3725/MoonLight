@@ -26,149 +26,55 @@ public class ConnectedTexturesCompact
             }
         }
 
-        switch (ctmIndex)
-        {
-            case 1:
-                return getQuadsCompactH(0, 3, cp.tileIcons, side, quad, renderEnv);
-
-            case 2:
-                return getQuadsCompact(3, cp.tileIcons, quad, renderEnv);
-
-            case 3:
-                return getQuadsCompactH(3, 0, cp.tileIcons, side, quad, renderEnv);
-
-            case 4:
-                return getQuadsCompact4(0, 3, 2, 4, cp.tileIcons, side, quad, renderEnv);
-
-            case 5:
-                return getQuadsCompact4(3, 0, 4, 2, cp.tileIcons, side, quad, renderEnv);
-
-            case 6:
-                return getQuadsCompact4(2, 4, 2, 4, cp.tileIcons, side, quad, renderEnv);
-
-            case 7:
-                return getQuadsCompact4(3, 3, 4, 4, cp.tileIcons, side, quad, renderEnv);
-
-            case 8:
-                return getQuadsCompact4(4, 1, 4, 4, cp.tileIcons, side, quad, renderEnv);
-
-            case 9:
-                return getQuadsCompact4(4, 4, 4, 1, cp.tileIcons, side, quad, renderEnv);
-
-            case 10:
-                return getQuadsCompact4(1, 4, 1, 4, cp.tileIcons, side, quad, renderEnv);
-
-            case 11:
-                return getQuadsCompact4(1, 1, 4, 4, cp.tileIcons, side, quad, renderEnv);
-
-            case 12:
-                return getQuadsCompactV(0, 2, cp.tileIcons, side, quad, renderEnv);
-
-            case 13:
-                return getQuadsCompact4(0, 3, 2, 1, cp.tileIcons, side, quad, renderEnv);
-
-            case 14:
-                return getQuadsCompactV(3, 1, cp.tileIcons, side, quad, renderEnv);
-
-            case 15:
-                return getQuadsCompact4(3, 0, 1, 2, cp.tileIcons, side, quad, renderEnv);
-
-            case 16:
-                return getQuadsCompact4(2, 4, 0, 3, cp.tileIcons, side, quad, renderEnv);
-
-            case 17:
-                return getQuadsCompact4(4, 2, 3, 0, cp.tileIcons, side, quad, renderEnv);
-
-            case 18:
-                return getQuadsCompact4(4, 4, 3, 3, cp.tileIcons, side, quad, renderEnv);
-
-            case 19:
-                return getQuadsCompact4(4, 2, 4, 2, cp.tileIcons, side, quad, renderEnv);
-
-            case 20:
-                return getQuadsCompact4(1, 4, 4, 4, cp.tileIcons, side, quad, renderEnv);
-
-            case 21:
-                return getQuadsCompact4(4, 4, 1, 4, cp.tileIcons, side, quad, renderEnv);
-
-            case 22:
-                return getQuadsCompact4(4, 4, 1, 1, cp.tileIcons, side, quad, renderEnv);
-
-            case 23:
-                return getQuadsCompact4(4, 1, 4, 1, cp.tileIcons, side, quad, renderEnv);
-
-            case 24:
-                return getQuadsCompact(2, cp.tileIcons, quad, renderEnv);
-
-            case 25:
-                return getQuadsCompactH(2, 1, cp.tileIcons, side, quad, renderEnv);
-
-            case 26:
-                return getQuadsCompact(1, cp.tileIcons, quad, renderEnv);
-
-            case 27:
-                return getQuadsCompactH(1, 2, cp.tileIcons, side, quad, renderEnv);
-
-            case 28:
-                return getQuadsCompact4(2, 4, 2, 1, cp.tileIcons, side, quad, renderEnv);
-
-            case 29:
-                return getQuadsCompact4(3, 3, 1, 4, cp.tileIcons, side, quad, renderEnv);
-
-            case 30:
-                return getQuadsCompact4(2, 1, 2, 4, cp.tileIcons, side, quad, renderEnv);
-
-            case 31:
-                return getQuadsCompact4(3, 3, 4, 1, cp.tileIcons, side, quad, renderEnv);
-
-            case 32:
-                return getQuadsCompact4(1, 1, 1, 4, cp.tileIcons, side, quad, renderEnv);
-
-            case 33:
-                return getQuadsCompact4(1, 1, 4, 1, cp.tileIcons, side, quad, renderEnv);
-
-            case 34:
-                return getQuadsCompact4(4, 1, 1, 4, cp.tileIcons, side, quad, renderEnv);
-
-            case 35:
-                return getQuadsCompact4(1, 4, 4, 1, cp.tileIcons, side, quad, renderEnv);
-
-            case 36:
-                return getQuadsCompactV(2, 0, cp.tileIcons, side, quad, renderEnv);
-
-            case 37:
-                return getQuadsCompact4(2, 1, 0, 3, cp.tileIcons, side, quad, renderEnv);
-
-            case 38:
-                return getQuadsCompactV(1, 3, cp.tileIcons, side, quad, renderEnv);
-
-            case 39:
-                return getQuadsCompact4(1, 2, 3, 0, cp.tileIcons, side, quad, renderEnv);
-
-            case 40:
-                return getQuadsCompact4(4, 1, 3, 3, cp.tileIcons, side, quad, renderEnv);
-
-            case 41:
-                return getQuadsCompact4(1, 2, 4, 2, cp.tileIcons, side, quad, renderEnv);
-
-            case 42:
-                return getQuadsCompact4(1, 4, 3, 3, cp.tileIcons, side, quad, renderEnv);
-
-            case 43:
-                return getQuadsCompact4(4, 2, 1, 2, cp.tileIcons, side, quad, renderEnv);
-
-            case 44:
-                return getQuadsCompact4(1, 4, 1, 1, cp.tileIcons, side, quad, renderEnv);
-
-            case 45:
-                return getQuadsCompact4(4, 1, 1, 1, cp.tileIcons, side, quad, renderEnv);
-
-            case 46:
-                return getQuadsCompact(4, cp.tileIcons, quad, renderEnv);
-
-            default:
-                return getQuadsCompact(0, cp.tileIcons, quad, renderEnv);
-        }
+        return switch (ctmIndex) {
+            case 1 -> getQuadsCompactH(0, 3, cp.tileIcons, side, quad, renderEnv);
+            case 2 -> getQuadsCompact(3, cp.tileIcons, quad, renderEnv);
+            case 3 -> getQuadsCompactH(3, 0, cp.tileIcons, side, quad, renderEnv);
+            case 4 -> getQuadsCompact4(0, 3, 2, 4, cp.tileIcons, side, quad, renderEnv);
+            case 5 -> getQuadsCompact4(3, 0, 4, 2, cp.tileIcons, side, quad, renderEnv);
+            case 6 -> getQuadsCompact4(2, 4, 2, 4, cp.tileIcons, side, quad, renderEnv);
+            case 7 -> getQuadsCompact4(3, 3, 4, 4, cp.tileIcons, side, quad, renderEnv);
+            case 8 -> getQuadsCompact4(4, 1, 4, 4, cp.tileIcons, side, quad, renderEnv);
+            case 9 -> getQuadsCompact4(4, 4, 4, 1, cp.tileIcons, side, quad, renderEnv);
+            case 10 -> getQuadsCompact4(1, 4, 1, 4, cp.tileIcons, side, quad, renderEnv);
+            case 11 -> getQuadsCompact4(1, 1, 4, 4, cp.tileIcons, side, quad, renderEnv);
+            case 12 -> getQuadsCompactV(0, 2, cp.tileIcons, side, quad, renderEnv);
+            case 13 -> getQuadsCompact4(0, 3, 2, 1, cp.tileIcons, side, quad, renderEnv);
+            case 14 -> getQuadsCompactV(3, 1, cp.tileIcons, side, quad, renderEnv);
+            case 15 -> getQuadsCompact4(3, 0, 1, 2, cp.tileIcons, side, quad, renderEnv);
+            case 16 -> getQuadsCompact4(2, 4, 0, 3, cp.tileIcons, side, quad, renderEnv);
+            case 17 -> getQuadsCompact4(4, 2, 3, 0, cp.tileIcons, side, quad, renderEnv);
+            case 18 -> getQuadsCompact4(4, 4, 3, 3, cp.tileIcons, side, quad, renderEnv);
+            case 19 -> getQuadsCompact4(4, 2, 4, 2, cp.tileIcons, side, quad, renderEnv);
+            case 20 -> getQuadsCompact4(1, 4, 4, 4, cp.tileIcons, side, quad, renderEnv);
+            case 21 -> getQuadsCompact4(4, 4, 1, 4, cp.tileIcons, side, quad, renderEnv);
+            case 22 -> getQuadsCompact4(4, 4, 1, 1, cp.tileIcons, side, quad, renderEnv);
+            case 23 -> getQuadsCompact4(4, 1, 4, 1, cp.tileIcons, side, quad, renderEnv);
+            case 24 -> getQuadsCompact(2, cp.tileIcons, quad, renderEnv);
+            case 25 -> getQuadsCompactH(2, 1, cp.tileIcons, side, quad, renderEnv);
+            case 26 -> getQuadsCompact(1, cp.tileIcons, quad, renderEnv);
+            case 27 -> getQuadsCompactH(1, 2, cp.tileIcons, side, quad, renderEnv);
+            case 28 -> getQuadsCompact4(2, 4, 2, 1, cp.tileIcons, side, quad, renderEnv);
+            case 29 -> getQuadsCompact4(3, 3, 1, 4, cp.tileIcons, side, quad, renderEnv);
+            case 30 -> getQuadsCompact4(2, 1, 2, 4, cp.tileIcons, side, quad, renderEnv);
+            case 31 -> getQuadsCompact4(3, 3, 4, 1, cp.tileIcons, side, quad, renderEnv);
+            case 32 -> getQuadsCompact4(1, 1, 1, 4, cp.tileIcons, side, quad, renderEnv);
+            case 33 -> getQuadsCompact4(1, 1, 4, 1, cp.tileIcons, side, quad, renderEnv);
+            case 34 -> getQuadsCompact4(4, 1, 1, 4, cp.tileIcons, side, quad, renderEnv);
+            case 35 -> getQuadsCompact4(1, 4, 4, 1, cp.tileIcons, side, quad, renderEnv);
+            case 36 -> getQuadsCompactV(2, 0, cp.tileIcons, side, quad, renderEnv);
+            case 37 -> getQuadsCompact4(2, 1, 0, 3, cp.tileIcons, side, quad, renderEnv);
+            case 38 -> getQuadsCompactV(1, 3, cp.tileIcons, side, quad, renderEnv);
+            case 39 -> getQuadsCompact4(1, 2, 3, 0, cp.tileIcons, side, quad, renderEnv);
+            case 40 -> getQuadsCompact4(4, 1, 3, 3, cp.tileIcons, side, quad, renderEnv);
+            case 41 -> getQuadsCompact4(1, 2, 4, 2, cp.tileIcons, side, quad, renderEnv);
+            case 42 -> getQuadsCompact4(1, 4, 3, 3, cp.tileIcons, side, quad, renderEnv);
+            case 43 -> getQuadsCompact4(4, 2, 1, 2, cp.tileIcons, side, quad, renderEnv);
+            case 44 -> getQuadsCompact4(1, 4, 1, 1, cp.tileIcons, side, quad, renderEnv);
+            case 45 -> getQuadsCompact4(4, 1, 1, 1, cp.tileIcons, side, quad, renderEnv);
+            case 46 -> getQuadsCompact(4, cp.tileIcons, quad, renderEnv);
+            default -> getQuadsCompact(0, cp.tileIcons, quad, renderEnv);
+        };
     }
 
     private static BakedQuad[] getQuadsCompactH(int indexLeft, int indexRight, TextureAtlasSprite[] sprites, int side, BakedQuad quad, RenderEnv renderEnv)
@@ -218,35 +124,17 @@ public class ConnectedTexturesCompact
 
     private static BakedQuad getQuadCompact(TextureAtlasSprite sprite, ConnectedTexturesCompact.Dir dir, int side, BakedQuad quad, RenderEnv renderEnv)
     {
-        switch (dir)
-        {
-            case UP:
-                return getQuadCompact(sprite, dir, 0, 0, 16, 8, side, quad, renderEnv);
-
-            case UP_RIGHT:
-                return getQuadCompact(sprite, dir, 8, 0, 16, 8, side, quad, renderEnv);
-
-            case RIGHT:
-                return getQuadCompact(sprite, dir, 8, 0, 16, 16, side, quad, renderEnv);
-
-            case DOWN_RIGHT:
-                return getQuadCompact(sprite, dir, 8, 8, 16, 16, side, quad, renderEnv);
-
-            case DOWN:
-                return getQuadCompact(sprite, dir, 0, 8, 16, 16, side, quad, renderEnv);
-
-            case DOWN_LEFT:
-                return getQuadCompact(sprite, dir, 0, 8, 8, 16, side, quad, renderEnv);
-
-            case LEFT:
-                return getQuadCompact(sprite, dir, 0, 0, 8, 16, side, quad, renderEnv);
-
-            case UP_LEFT:
-                return getQuadCompact(sprite, dir, 0, 0, 8, 8, side, quad, renderEnv);
-
-            default:
-                return quad;
-        }
+        return switch (dir) {
+            case UP -> getQuadCompact(sprite, dir, 0, 0, 16, 8, side, quad, renderEnv);
+            case UP_RIGHT -> getQuadCompact(sprite, dir, 8, 0, 16, 8, side, quad, renderEnv);
+            case RIGHT -> getQuadCompact(sprite, dir, 8, 0, 16, 16, side, quad, renderEnv);
+            case DOWN_RIGHT -> getQuadCompact(sprite, dir, 8, 8, 16, 16, side, quad, renderEnv);
+            case DOWN -> getQuadCompact(sprite, dir, 0, 8, 16, 16, side, quad, renderEnv);
+            case DOWN_LEFT -> getQuadCompact(sprite, dir, 0, 8, 8, 16, side, quad, renderEnv);
+            case LEFT -> getQuadCompact(sprite, dir, 0, 0, 8, 16, side, quad, renderEnv);
+            case UP_LEFT -> getQuadCompact(sprite, dir, 0, 0, 8, 8, side, quad, renderEnv);
+            default -> quad;
+        };
     }
 
     private static BakedQuad getQuadCompact(TextureAtlasSprite sprite, ConnectedTexturesCompact.Dir dir, int x1, int y1, int x2, int y2, int side, BakedQuad quadIn, RenderEnv renderEnv)
@@ -275,7 +163,7 @@ public class ConnectedTexturesCompact
 
                 if (map == null)
                 {
-                    map = new IdentityHashMap(1);
+                    map = new IdentityHashMap<>(1);
                     amap1[dir.ordinal()] = map;
                 }
 

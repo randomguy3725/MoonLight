@@ -28,12 +28,12 @@ import org.apache.logging.log4j.Logger;
 public class ChunkProviderServer implements IChunkProvider
 {
     private static final Logger logger = LogManager.getLogger();
-    private final Set<Long> droppedChunksSet = Collections.<Long>newSetFromMap(new ConcurrentHashMap());
+    private final Set<Long> droppedChunksSet = Collections.<Long>newSetFromMap(new ConcurrentHashMap<>());
     private final Chunk dummyChunk;
     private final IChunkProvider serverChunkGenerator;
     private final IChunkLoader chunkLoader;
     public boolean chunkLoadOverride = true;
-    private final LongHashMap<Chunk> id2ChunkMap = new LongHashMap();
+    private final LongHashMap<Chunk> id2ChunkMap = new LongHashMap<>();
     private final List<Chunk> loadedChunks = Lists.newArrayList();
     private final WorldServer worldObj;
 
@@ -229,23 +229,17 @@ public class ChunkProviderServer implements IChunkProvider
         int i = 0;
         List<Chunk> list = Lists.newArrayList(this.loadedChunks);
 
-        for (int j = 0; j < list.size(); ++j)
-        {
-            Chunk chunk = list.get(j);
-
-            if (saveAllChunks)
-            {
+        for (Chunk chunk : list) {
+            if (saveAllChunks) {
                 this.saveChunkExtraData(chunk);
             }
 
-            if (chunk.needsSaving(saveAllChunks))
-            {
+            if (chunk.needsSaving(saveAllChunks)) {
                 this.saveChunkData(chunk);
                 chunk.setModified(false);
                 ++i;
 
-                if (i == 24 && !saveAllChunks)
-                {
+                if (i == 24 && !saveAllChunks) {
                     return false;
                 }
             }

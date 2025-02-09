@@ -30,13 +30,7 @@ public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase
 
     public EntityAIAvoidEntity(EntityCreature theEntityIn, Class<T> classToAvoidIn, Predicate <? super T > avoidTargetSelectorIn, float avoidDistanceIn, double farSpeedIn, double nearSpeedIn)
     {
-        this.canBeSeenSelector = new Predicate<Entity>()
-        {
-            public boolean apply(Entity p_apply_1_)
-            {
-                return p_apply_1_.isEntityAlive() && EntityAIAvoidEntity.this.theEntity.getEntitySenses().canSee(p_apply_1_);
-            }
-        };
+        this.canBeSeenSelector = p_apply_1_ -> p_apply_1_.isEntityAlive() && EntityAIAvoidEntity.this.theEntity.getEntitySenses().canSee(p_apply_1_);
         this.theEntity = theEntityIn;
         this.classToAvoid = classToAvoidIn;
         this.avoidTargetSelector = avoidTargetSelectorIn;

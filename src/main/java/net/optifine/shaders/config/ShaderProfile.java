@@ -9,8 +9,8 @@ import java.util.Set;
 public class ShaderProfile
 {
     private String name = null;
-    private final Map<String, String> mapOptionValues = new LinkedHashMap();
-    private final Set<String> disabledPrograms = new LinkedHashSet();
+    private final Map<String, String> mapOptionValues = new LinkedHashMap<>();
+    private final Set<String> disabledPrograms = new LinkedHashSet<>();
 
     public ShaderProfile(String name)
     {
@@ -37,14 +37,11 @@ public class ShaderProfile
 
     public void applyOptionValues(ShaderOption[] options)
     {
-        for (int i = 0; i < options.length; ++i)
-        {
-            ShaderOption shaderoption = options[i];
+        for (ShaderOption shaderoption : options) {
             String s = shaderoption.getName();
             String s1 = this.mapOptionValues.get(s);
 
-            if (s1 != null)
-            {
+            if (s1 != null) {
                 shaderoption.setValue(s1);
             }
         }
@@ -53,7 +50,7 @@ public class ShaderProfile
     public String[] getOptions()
     {
         Set<String> set = this.mapOptionValues.keySet();
-        String[] astring = set.toArray(new String[set.size()]);
+        String[] astring = set.toArray(new String[0]);
         return astring;
     }
 
@@ -74,7 +71,7 @@ public class ShaderProfile
 
     public Collection<String> getDisabledPrograms()
     {
-        return new LinkedHashSet(this.disabledPrograms);
+        return new LinkedHashSet<>(this.disabledPrograms);
     }
 
     public void addDisabledPrograms(Collection<String> programs)

@@ -10,9 +10,7 @@
  */
 package wtf.moonlight.features.modules.impl.visual;
 
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.shader.Framebuffer;
-import wtf.moonlight.Moonlight;
 import wtf.moonlight.events.impl.render.Shader2DEvent;
 import wtf.moonlight.events.impl.render.Shader3DEvent;
 import wtf.moonlight.features.modules.Module;
@@ -24,8 +22,6 @@ import wtf.moonlight.utils.render.RenderUtils;
 import wtf.moonlight.utils.render.shader.impl.Bloom;
 import wtf.moonlight.utils.render.shader.impl.Blur;
 import wtf.moonlight.utils.render.shader.impl.Shadow;
-
-import java.util.Objects;
 
 @ModuleInfo(name = "Shaders", category = ModuleCategory.Visual)
 public class Shaders extends Module {

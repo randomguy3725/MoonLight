@@ -4,7 +4,6 @@ import com.google.common.base.Predicate;
 import java.util.List;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockState;
@@ -28,13 +27,7 @@ import net.minecraft.world.World;
 
 public class BlockHopper extends BlockContainer
 {
-    public static final PropertyDirection FACING = PropertyDirection.create("facing", new Predicate<EnumFacing>()
-    {
-        public boolean apply(EnumFacing p_apply_1_)
-        {
-            return p_apply_1_ != EnumFacing.UP;
-        }
-    });
+    public static final PropertyDirection FACING = PropertyDirection.create("facing", p_apply_1_ -> p_apply_1_ != EnumFacing.UP);
     public static final PropertyBool ENABLED = PropertyBool.create("enabled");
 
     public BlockHopper()

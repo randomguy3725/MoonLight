@@ -11,9 +11,6 @@
 package wtf.moonlight.features.modules.impl.visual;
 
 import net.minecraft.block.BlockAir;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.tileentity.TileEntityEnderChest;
 import wtf.moonlight.events.annotations.EventTarget;
 import wtf.moonlight.events.impl.render.Render3DEvent;
 import wtf.moonlight.features.modules.Module;

@@ -48,13 +48,7 @@ public abstract class BlockFlower extends BlockBush
     {
         if (this.type == null)
         {
-            this.type = PropertyEnum.create("type", BlockFlower.EnumFlowerType.class, new Predicate<BlockFlower.EnumFlowerType>()
-            {
-                public boolean apply(BlockFlower.EnumFlowerType p_apply_1_)
-                {
-                    return p_apply_1_.getBlockType() == BlockFlower.this.getBlockType();
-                }
-            });
+            this.type = PropertyEnum.create("type", BlockFlower.EnumFlowerType.class, p_apply_1_ -> p_apply_1_.getBlockType() == BlockFlower.this.getBlockType());
         }
 
         return this.type;
@@ -163,14 +157,8 @@ public abstract class BlockFlower extends BlockBush
         static {
             for (final BlockFlower.EnumFlowerColor blockflower$enumflowercolor : BlockFlower.EnumFlowerColor.values())
             {
-                Collection<BlockFlower.EnumFlowerType> collection = Collections2.filter(Lists.newArrayList(values()), new Predicate<BlockFlower.EnumFlowerType>()
-                {
-                    public boolean apply(BlockFlower.EnumFlowerType p_apply_1_)
-                    {
-                        return p_apply_1_.getBlockType() == blockflower$enumflowercolor;
-                    }
-                });
-                TYPES_FOR_BLOCK[blockflower$enumflowercolor.ordinal()] = collection.toArray(new EnumFlowerType[collection.size()]);
+                Collection<BlockFlower.EnumFlowerType> collection = Collections2.filter(Lists.newArrayList(values()), p_apply_1_ -> p_apply_1_.getBlockType() == blockflower$enumflowercolor);
+                TYPES_FOR_BLOCK[blockflower$enumflowercolor.ordinal()] = collection.toArray(new EnumFlowerType[0]);
             }
         }
     }

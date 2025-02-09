@@ -14,12 +14,8 @@ public class ReflectorRaw
         {
             Field[] afield = cls.getDeclaredFields();
 
-            for (int i = 0; i < afield.length; ++i)
-            {
-                Field field = afield[i];
-
-                if (field.getType() == fieldType)
-                {
+            for (Field field : afield) {
+                if (field.getType() == fieldType) {
                     field.setAccessible(true);
                     return field;
                 }
@@ -52,18 +48,14 @@ public class ReflectorRaw
         {
             List list = new ArrayList();
 
-            for (int i = 0; i < fields.length; ++i)
-            {
-                Field field = fields[i];
-
-                if (field.getType() == fieldType)
-                {
+            for (Field field : fields) {
+                if (field.getType() == fieldType) {
                     field.setAccessible(true);
                     list.add(field);
                 }
             }
 
-            Field[] afield = (Field[]) list.toArray(new Field[list.size()]);
+            Field[] afield = (Field[]) list.toArray(new Field[0]);
             return afield;
         }
         catch (Exception var5)
@@ -87,7 +79,7 @@ public class ReflectorRaw
             else
             {
                 List<Field> list1 = list.subList(i + 1, list.size());
-                Field[] afield1 = list1.toArray(new Field[list1.size()]);
+                Field[] afield1 = list1.toArray(new Field[0]);
                 return getFields(afield1, fieldType);
             }
         }
@@ -101,34 +93,26 @@ public class ReflectorRaw
     {
         try
         {
-            List<Field> list = new ArrayList();
+            List<Field> list = new ArrayList<>();
 
-            for (int i = 0; i < fields.length; ++i)
-            {
-                Field field = fields[i];
-
-                if (field.getType() == fieldType)
-                {
+            for (Field field : fields) {
+                if (field.getType() == fieldType) {
                     boolean flag = Modifier.isStatic(field.getModifiers());
 
-                    if ((obj != null || flag) && (obj == null || !flag))
-                    {
+                    if ((obj != null || flag) && (obj == null || !flag)) {
                         field.setAccessible(true);
                         Object object = field.get(obj);
 
-                        if (object == value)
-                        {
+                        if (object == value) {
                             list.add(field);
-                        }
-                        else if (object != null && object.equals(value))
-                        {
+                        } else if (object != null && object.equals(value)) {
                             list.add(field);
                         }
                     }
                 }
             }
 
-            Field[] afield = list.toArray(new Field[list.size()]);
+            Field[] afield = list.toArray(new Field[0]);
             return afield;
         }
         catch (Exception var9)

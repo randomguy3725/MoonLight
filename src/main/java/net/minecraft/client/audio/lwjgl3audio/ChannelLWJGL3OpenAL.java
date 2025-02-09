@@ -256,20 +256,13 @@ public class ChannelLWJGL3OpenAL extends Channel {
 
     public float millisecondsPlayed() {
         float offset = (float)AL10.alGetSourcei(this.ALSource.get(0), 4134);
-        float bytesPerFrame = 1.0F;
-        switch(this.ALformat) {
-            case 4352:
-                bytesPerFrame = 1.0F;
-                break;
-            case 4353:
-                bytesPerFrame = 2.0F;
-                break;
-            case 4354:
-                bytesPerFrame = 2.0F;
-                break;
-            case 4355:
-                bytesPerFrame = 4.0F;
-        }
+        float bytesPerFrame = switch (this.ALformat) {
+            case 4352 -> 1.0F;
+            case 4353 -> 2.0F;
+            case 4354 -> 2.0F;
+            case 4355 -> 4.0F;
+            default -> 1.0F;
+        };
 
         offset = offset / bytesPerFrame / (float)this.sampleRate * 1000.0F;
         if (this.channelType == 1) {
@@ -360,27 +353,32 @@ public class ChannelLWJGL3OpenAL extends Channel {
     }
 
     private boolean checkALError() {
-        switch(AL10.alGetError()) {
-            case 0:
-                return false;
-            case 40961:
+        return switch (AL10.alGetError()) {
+            case 0 -> false;
+            case 40961 -> {
                 this.errorMessage("Invalid name parameter.");
-                return true;
-            case 40962:
+                yield true;
+            }
+            case 40962 -> {
                 this.errorMessage("Invalid parameter.");
-                return true;
-            case 40963:
+                yield true;
+            }
+            case 40963 -> {
                 this.errorMessage("Invalid enumerated parameter value.");
-                return true;
-            case 40964:
+                yield true;
+            }
+            case 40964 -> {
                 this.errorMessage("Illegal call.");
-                return true;
-            case 40965:
+                yield true;
+            }
+            case 40965 -> {
                 this.errorMessage("Unable to allocate memory.");
-                return true;
-            default:
+                yield true;
+            }
+            default -> {
                 this.errorMessage("An unrecognized error occurred.");
-                return true;
-        }
+                yield true;
+            }
+        };
     }
 }

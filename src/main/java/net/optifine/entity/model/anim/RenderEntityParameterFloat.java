@@ -140,12 +140,8 @@ public enum RenderEntityParameterFloat implements IExpressionFloat
         }
         else
         {
-            for (int i = 0; i < VALUES.length; ++i)
-            {
-                RenderEntityParameterFloat renderentityparameterfloat = VALUES[i];
-
-                if (renderentityparameterfloat.getName().equals(str))
-                {
+            for (RenderEntityParameterFloat renderentityparameterfloat : VALUES) {
+                if (renderentityparameterfloat.getName().equals(str)) {
                     return renderentityparameterfloat;
                 }
             }

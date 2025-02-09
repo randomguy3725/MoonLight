@@ -24,7 +24,7 @@ public class Lang
     public static void resourcesReloaded()
     {
         Map map = I18n.getLocaleProperties();
-        List<String> list = new ArrayList();
+        List<String> list = new ArrayList<>();
         String s = "optifine/lang/";
         String s1 = "en_US";
         String s2 = ".lang";
@@ -35,13 +35,11 @@ public class Lang
             list.add(s + Config.getGameSettings().language + s2);
         }
 
-        String[] astring = list.toArray(new String[list.size()]);
+        String[] astring = list.toArray(new String[0]);
         loadResources(Config.getDefaultResourcePack(), astring, map);
         IResourcePack[] airesourcepack = Config.getResourcePacks();
 
-        for (int i = 0; i < airesourcepack.length; ++i)
-        {
-            IResourcePack iresourcepack = airesourcepack[i];
+        for (IResourcePack iresourcepack : airesourcepack) {
             loadResources(iresourcepack, astring, map);
         }
     }
@@ -50,17 +48,13 @@ public class Lang
     {
         try
         {
-            for (int i = 0; i < files.length; ++i)
-            {
-                String s = files[i];
+            for (String s : files) {
                 ResourceLocation resourcelocation = new ResourceLocation(s);
 
-                if (rp.resourceExists(resourcelocation))
-                {
+                if (rp.resourceExists(resourcelocation)) {
                     InputStream inputstream = rp.getInputStream(resourcelocation);
 
-                    if (inputstream != null)
-                    {
+                    if (inputstream != null) {
                         loadLocaleData(inputstream, localeProperties);
                     }
                 }

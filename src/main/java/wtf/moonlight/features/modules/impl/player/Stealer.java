@@ -165,9 +165,7 @@ public final class Stealer extends Module {
     @EventTarget
     public void onRender3D(Render3DEvent event) {
         if (!posList.isEmpty()) {
-            posList.forEach(blockPos -> {
-                RenderUtils.renderBlock(blockPos, getModule(Interface.class).color(), true, true);
-            });
+            posList.forEach(blockPos -> RenderUtils.renderBlock(blockPos, getModule(Interface.class).color(), true, true));
         }
     }
 

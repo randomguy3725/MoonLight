@@ -202,7 +202,7 @@ public class FlatGeneratorInfo
 
     private static List<FlatLayerInfo> func_180716_a(int p_180716_0_, String p_180716_1_)
     {
-        if (p_180716_1_ != null && p_180716_1_.length() >= 1)
+        if (p_180716_1_ != null && !p_180716_1_.isEmpty())
         {
             List<FlatLayerInfo> list = Lists.newArrayList();
             String[] astring = p_180716_1_.split(",");
@@ -268,7 +268,7 @@ public class FlatGeneratorInfo
                             String[] astring2 = s.split("\\(", 2);
                             Map<String, String> map = Maps.newHashMap();
 
-                            if (astring2[0].length() > 0)
+                            if (!astring2[0].isEmpty())
                             {
                                 flatgeneratorinfo.getWorldFeatures().put(astring2[0], map);
 
@@ -276,12 +276,10 @@ public class FlatGeneratorInfo
                                 {
                                     String[] astring3 = astring2[1].substring(0, astring2[1].length() - 1).split(" ");
 
-                                    for (int l = 0; l < astring3.length; ++l)
-                                    {
-                                        String[] astring4 = astring3[l].split("=", 2);
+                                    for (String string : astring3) {
+                                        String[] astring4 = string.split("=", 2);
 
-                                        if (astring4.length == 2)
-                                        {
+                                        if (astring4.length == 2) {
                                             map.put(astring4[0], astring4[1]);
                                         }
                                     }

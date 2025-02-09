@@ -14,12 +14,8 @@ public class Matches
         }
         else
         {
-            for (int i = 0; i < matchBlocks.length; ++i)
-            {
-                MatchBlock matchblock = matchBlocks[i];
-
-                if (matchblock.matches(blockStateBase))
-                {
+            for (MatchBlock matchblock : matchBlocks) {
+                if (matchblock.matches(blockStateBase)) {
                     return true;
                 }
             }
@@ -36,12 +32,8 @@ public class Matches
         }
         else
         {
-            for (int i = 0; i < matchBlocks.length; ++i)
-            {
-                MatchBlock matchblock = matchBlocks[i];
-
-                if (matchblock.matches(blockId, metadata))
-                {
+            for (MatchBlock matchblock : matchBlocks) {
+                if (matchblock.matches(blockId, metadata)) {
                     return true;
                 }
             }
@@ -58,12 +50,8 @@ public class Matches
         }
         else
         {
-            for (int i = 0; i < matchBlocks.length; ++i)
-            {
-                MatchBlock matchblock = matchBlocks[i];
-
-                if (matchblock.getBlockId() == blockId)
-                {
+            for (MatchBlock matchblock : matchBlocks) {
+                if (matchblock.getBlockId() == blockId) {
                     return true;
                 }
             }
@@ -80,10 +68,8 @@ public class Matches
         }
         else
         {
-            for (int i = 0; i < metadatas.length; ++i)
-            {
-                if (metadatas[i] == metadata)
-                {
+            for (int j : metadatas) {
+                if (j == metadata) {
                     return true;
                 }
             }
@@ -100,10 +86,8 @@ public class Matches
         }
         else
         {
-            for (int i = 0; i < sprites.length; ++i)
-            {
-                if (sprites[i] == sprite)
-                {
+            for (TextureAtlasSprite textureAtlasSprite : sprites) {
+                if (textureAtlasSprite == sprite) {
                     return true;
                 }
             }
@@ -120,10 +104,8 @@ public class Matches
         }
         else
         {
-            for (int i = 0; i < biomes.length; ++i)
-            {
-                if (biomes[i] == biome)
-                {
+            for (BiomeGenBase biomeGenBase : biomes) {
+                if (biomeGenBase == biome) {
                     return true;
                 }
             }

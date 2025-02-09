@@ -30,18 +30,12 @@ public class ClickGUI extends Module {
 
     @Override
     public void onEnable() {
-        GuiScreen guiScreen = null;
-        switch (mode.get()) {
-            case "NeverLose":
-                guiScreen = INSTANCE.getNeverLose();
-                break;
-            case "DropDown":
-                guiScreen = INSTANCE.getDropdownGUI();
-                break;
-            case "Exhi":
-                guiScreen = INSTANCE.getSkeetGUI();
-                break;
-        }
+        GuiScreen guiScreen = switch (mode.get()) {
+            case "NeverLose" -> INSTANCE.getNeverLose();
+            case "DropDown" -> INSTANCE.getDropdownGUI();
+            case "Exhi" -> INSTANCE.getSkeetGUI();
+            default -> null;
+        };
         mc.displayGuiScreen(guiScreen);
         if(mode.is("Exhi")){
             INSTANCE.getSkeetGUI().alpha = 0.0;

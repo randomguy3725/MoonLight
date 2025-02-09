@@ -359,7 +359,7 @@ public class LWJGLUtil {
         }
 
         // create needed string array
-        return possible_paths.toArray(new String[possible_paths.size()]);
+        return possible_paths.toArray(new String[0]);
     }
 
     private static String getPrivilegedProperty(String property_name) {

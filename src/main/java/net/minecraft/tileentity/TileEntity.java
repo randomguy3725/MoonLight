@@ -193,49 +193,29 @@ public abstract class TileEntity
 
     public void addInfoToCrashReport(CrashReportCategory reportCategory)
     {
-        reportCategory.addCrashSectionCallable("Name", new Callable<String>()
-        {
-            public String call() throws Exception
-            {
-                return TileEntity.classToNameMap.get(TileEntity.this.getClass()) + " // " + TileEntity.this.getClass().getCanonicalName();
-            }
-        });
+        reportCategory.addCrashSectionCallable("Name", () -> TileEntity.classToNameMap.get(TileEntity.this.getClass()) + " // " + TileEntity.this.getClass().getCanonicalName());
 
         if (this.worldObj != null)
         {
             CrashReportCategory.addBlockInfo(reportCategory, this.pos, this.getBlockType(), this.getBlockMetadata());
-            reportCategory.addCrashSectionCallable("Actual block type", new Callable<String>()
-            {
-                public String call() throws Exception
-                {
-                    int i = Block.getIdFromBlock(TileEntity.this.worldObj.getBlockState(TileEntity.this.pos).getBlock());
+            reportCategory.addCrashSectionCallable("Actual block type", () -> {
+                int i = Block.getIdFromBlock(TileEntity.this.worldObj.getBlockState(TileEntity.this.pos).getBlock());
 
-                    try
-                    {
-                        return String.format("ID #%d (%s // %s)", Integer.valueOf(i), Block.getBlockById(i).getUnlocalizedName(), Block.getBlockById(i).getClass().getCanonicalName());
-                    }
-                    catch (Throwable var3)
-                    {
-                        return "ID #" + i;
-                    }
+                try {
+                    return String.format("ID #%d (%s // %s)", Integer.valueOf(i), Block.getBlockById(i).getUnlocalizedName(), Block.getBlockById(i).getClass().getCanonicalName());
+                } catch (Throwable var3) {
+                    return "ID #" + i;
                 }
             });
-            reportCategory.addCrashSectionCallable("Actual block data value", new Callable<String>()
-            {
-                public String call() throws Exception
-                {
-                    IBlockState iblockstate = TileEntity.this.worldObj.getBlockState(TileEntity.this.pos);
-                    int i = iblockstate.getBlock().getMetaFromState(iblockstate);
+            reportCategory.addCrashSectionCallable("Actual block data value", () -> {
+                IBlockState iblockstate = TileEntity.this.worldObj.getBlockState(TileEntity.this.pos);
+                int i = iblockstate.getBlock().getMetaFromState(iblockstate);
 
-                    if (i < 0)
-                    {
-                        return "Unknown? (Got " + i + ")";
-                    }
-                    else
-                    {
-                        String s = String.format("%4s", new Object[] {Integer.toBinaryString(i)}).replace(" ", "0");
-                        return String.format("%1$d / 0x%1$X / 0b%2$s", Integer.valueOf(i), s);
-                    }
+                if (i < 0) {
+                    return "Unknown? (Got " + i + ")";
+                } else {
+                    String s = String.format("%4s", new Object[]{Integer.toBinaryString(i)}).replace(" ", "0");
+                    return String.format("%1$d / 0x%1$X / 0b%2$s", Integer.valueOf(i), s);
                 }
             });
         }

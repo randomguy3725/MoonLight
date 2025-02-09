@@ -5,7 +5,6 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockNewLeaf;
 import net.minecraft.block.BlockOldLeaf;
-import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.IBakedModel;
@@ -86,7 +85,7 @@ public class SmartLeaves
         modelLeavesDoubleOak = getModelDoubleFace(modelLeavesCullOak);
         modelLeavesDoubleSpruce = getModelDoubleFace(modelLeavesCullSpruce);
 
-        if (list.size() > 0)
+        if (!list.isEmpty())
         {
             Config.dbg("Enable face culling: " + Config.arrayToString(list.toArray()));
         }
@@ -130,7 +129,7 @@ public class SmartLeaves
                     {
                         List list = ibakedmodel.getGeneralQuads();
 
-                        if (list.size() == 0)
+                        if (list.isEmpty())
                         {
                             return ibakedmodel;
                         }
@@ -145,7 +144,7 @@ public class SmartLeaves
                                 BakedQuad bakedquad = (BakedQuad) o;
                                 List list1 = ibakedmodel.getFaceQuads(bakedquad.getFace());
 
-                                if (list1.size() > 0)
+                                if (!list1.isEmpty())
                                 {
                                     return null;
                                 }
@@ -173,7 +172,7 @@ public class SmartLeaves
         {
             return null;
         }
-        else if (model.getGeneralQuads().size() > 0)
+        else if (!model.getGeneralQuads().isEmpty())
         {
             Config.warn("SmartLeaves: Model is not cube, general quads: " + model.getGeneralQuads().size() + ", model: " + model);
             return model;
@@ -182,13 +181,10 @@ public class SmartLeaves
         {
             EnumFacing[] aenumfacing = EnumFacing.VALUES;
 
-            for (int i = 0; i < aenumfacing.length; ++i)
-            {
-                EnumFacing enumfacing = aenumfacing[i];
+            for (EnumFacing enumfacing : aenumfacing) {
                 List<BakedQuad> list = model.getFaceQuads(enumfacing);
 
-                if (list.size() != 1)
-                {
+                if (list.size() != 1) {
                     Config.warn("SmartLeaves: Model is not cube, side: " + enumfacing + ", quads: " + list.size() + ", model: " + model);
                     return model;
                 }
@@ -197,9 +193,7 @@ public class SmartLeaves
             IBakedModel ibakedmodel = ModelUtils.duplicateModel(model);
             List[] alist = new List[aenumfacing.length];
 
-            for (int k = 0; k < aenumfacing.length; ++k)
-            {
-                EnumFacing enumfacing1 = aenumfacing[k];
+            for (EnumFacing enumfacing1 : aenumfacing) {
                 List<BakedQuad> list1 = ibakedmodel.getFaceQuads(enumfacing1);
                 BakedQuad bakedquad = list1.get(0);
                 BakedQuad bakedquad1 = new BakedQuad(bakedquad.getVertexData().clone(), bakedquad.getTintIndex(), bakedquad.getFace(), bakedquad.getSprite());

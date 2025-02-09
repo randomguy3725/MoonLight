@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
@@ -36,16 +35,11 @@ public class BlockRedstoneTorch extends BlockTorch
 
         int i = 0;
 
-        for (int j = 0; j < list.size(); ++j)
-        {
-            BlockRedstoneTorch.Toggle blockredstonetorch$toggle = list.get(j);
-
-            if (blockredstonetorch$toggle.pos.equals(pos))
-            {
+        for (Toggle blockredstonetorch$toggle : list) {
+            if (blockredstonetorch$toggle.pos.equals(pos)) {
                 ++i;
 
-                if (i >= 8)
-                {
+                if (i >= 8) {
                     return true;
                 }
             }

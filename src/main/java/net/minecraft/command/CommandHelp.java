@@ -1,6 +1,5 @@
 package net.minecraft.command;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -102,7 +101,7 @@ public class CommandHelp extends CommandBase
         if (args.length == 1)
         {
             Set<String> set = this.getCommands().keySet();
-            return getListOfStringsMatchingLastWord(args, set.toArray(new String[set.size()]));
+            return getListOfStringsMatchingLastWord(args, set.toArray(new String[0]));
         }
         else
         {

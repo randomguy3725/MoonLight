@@ -3,7 +3,6 @@ package net.minecraft.block;
 import java.util.List;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
@@ -31,18 +30,11 @@ public class BlockQuartz extends Block
     {
         if (meta == BlockQuartz.EnumType.LINES_Y.getMetadata())
         {
-            switch (facing.getAxis())
-            {
-                case Z:
-                    return this.getDefaultState().withProperty(VARIANT, BlockQuartz.EnumType.LINES_Z);
-
-                case X:
-                    return this.getDefaultState().withProperty(VARIANT, BlockQuartz.EnumType.LINES_X);
-
-                case Y:
-                default:
-                    return this.getDefaultState().withProperty(VARIANT, BlockQuartz.EnumType.LINES_Y);
-            }
+            return switch (facing.getAxis()) {
+                case Z -> this.getDefaultState().withProperty(VARIANT, EnumType.LINES_Z);
+                case X -> this.getDefaultState().withProperty(VARIANT, EnumType.LINES_X);
+                default -> this.getDefaultState().withProperty(VARIANT, EnumType.LINES_Y);
+            };
         }
         else
         {

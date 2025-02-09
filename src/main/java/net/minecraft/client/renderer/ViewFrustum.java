@@ -21,7 +21,7 @@ public class ViewFrustum
     protected int countChunksX;
     protected int countChunksZ;
     public RenderChunk[] renderChunks;
-    private final Map<ChunkCoordIntPair, VboRegion[]> mapVboRegions = new HashMap();
+    private final Map<ChunkCoordIntPair, VboRegion[]> mapVboRegions = new HashMap<>();
 
     public ViewFrustum(World worldIn, int renderDistanceChunks, RenderGlobal p_i46246_3_, IRenderChunkFactory renderChunkFactory)
     {
@@ -55,12 +55,8 @@ public class ViewFrustum
             }
         }
 
-        for (int k1 = 0; k1 < this.renderChunks.length; ++k1)
-        {
-            RenderChunk renderchunk1 = this.renderChunks[k1];
-
-            for (int l1 = 0; l1 < EnumFacing.VALUES.length; ++l1)
-            {
+        for (RenderChunk renderchunk1 : this.renderChunks) {
+            for (int l1 = 0; l1 < EnumFacing.VALUES.length; ++l1) {
                 EnumFacing enumfacing = EnumFacing.VALUES[l1];
                 BlockPos blockpos1 = renderchunk1.getBlockPosOffset16(enumfacing);
                 RenderChunk renderchunk = this.getRenderChunk(blockpos1);

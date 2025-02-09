@@ -60,122 +60,74 @@ public enum EnumFacing implements IStringSerializable
 
     public EnumFacing rotateAround(EnumFacing.Axis axis)
     {
-        switch (axis)
-        {
-            case X:
-                if (this != WEST && this != EAST)
-                {
-                    return this.rotateX();
+        return switch (axis) {
+            case X -> {
+                if (this != WEST && this != EAST) {
+                    yield this.rotateX();
                 }
 
-                return this;
-
-            case Y:
-                if (this != UP && this != DOWN)
-                {
-                    return this.rotateY();
+                yield this;
+            }
+            case Y -> {
+                if (this != UP && this != DOWN) {
+                    yield this.rotateY();
                 }
 
-                return this;
-
-            case Z:
-                if (this != NORTH && this != SOUTH)
-                {
-                    return this.rotateZ();
+                yield this;
+            }
+            case Z -> {
+                if (this != NORTH && this != SOUTH) {
+                    yield this.rotateZ();
                 }
 
-                return this;
-
-            default:
-                throw new IllegalStateException("Unable to get CW facing for axis " + axis);
-        }
+                yield this;
+            }
+            default -> throw new IllegalStateException("Unable to get CW facing for axis " + axis);
+        };
     }
 
     public EnumFacing rotateY()
     {
-        switch (this)
-        {
-            case NORTH:
-                return EAST;
-
-            case EAST:
-                return SOUTH;
-
-            case SOUTH:
-                return WEST;
-
-            case WEST:
-                return NORTH;
-
-            default:
-                throw new IllegalStateException("Unable to get Y-rotated facing of " + this);
-        }
+        return switch (this) {
+            case NORTH -> EAST;
+            case EAST -> SOUTH;
+            case SOUTH -> WEST;
+            case WEST -> NORTH;
+            default -> throw new IllegalStateException("Unable to get Y-rotated facing of " + this);
+        };
     }
 
     private EnumFacing rotateX()
     {
-        switch (this)
-        {
-            case NORTH:
-                return DOWN;
-
-            case EAST:
-            case WEST:
-            default:
-                throw new IllegalStateException("Unable to get X-rotated facing of " + this);
-
-            case SOUTH:
-                return UP;
-
-            case UP:
-                return NORTH;
-
-            case DOWN:
-                return SOUTH;
-        }
+        return switch (this) {
+            case NORTH -> DOWN;
+            default -> throw new IllegalStateException("Unable to get X-rotated facing of " + this);
+            case SOUTH -> UP;
+            case UP -> NORTH;
+            case DOWN -> SOUTH;
+        };
     }
 
     private EnumFacing rotateZ()
     {
-        switch (this)
-        {
-            case EAST:
-                return DOWN;
-
-            case SOUTH:
-            default:
-                throw new IllegalStateException("Unable to get Z-rotated facing of " + this);
-
-            case WEST:
-                return UP;
-
-            case UP:
-                return EAST;
-
-            case DOWN:
-                return WEST;
-        }
+        return switch (this) {
+            case EAST -> DOWN;
+            default -> throw new IllegalStateException("Unable to get Z-rotated facing of " + this);
+            case WEST -> UP;
+            case UP -> EAST;
+            case DOWN -> WEST;
+        };
     }
 
     public EnumFacing rotateYCCW()
     {
-        switch (this)
-        {
-            case NORTH:
-                return WEST;
-
-            case EAST:
-                return NORTH;
-
-            case SOUTH:
-                return EAST;
-
-            case WEST:
-                return SOUTH;
-
-            default:
-                throw new IllegalStateException("Unable to get CCW facing of " + this);
-        }
+        return switch (this) {
+            case NORTH -> WEST;
+            case EAST -> NORTH;
+            case SOUTH -> EAST;
+            case WEST -> SOUTH;
+            default -> throw new IllegalStateException("Unable to get CCW facing of " + this);
+        };
     }
 
     public int getFrontOffsetX()
@@ -382,15 +334,12 @@ public enum EnumFacing implements IStringSerializable
 
         public EnumFacing[] facings()
         {
-            switch (this)
-            {
-                case HORIZONTAL:
-                    return new EnumFacing[] {EnumFacing.NORTH, EnumFacing.EAST, EnumFacing.SOUTH, EnumFacing.WEST};
-                case VERTICAL:
-                    return new EnumFacing[] {EnumFacing.UP, EnumFacing.DOWN};
-                default:
-                    throw new Error("Someone's been tampering with the universe!");
-            }
+            return switch (this) {
+                case HORIZONTAL ->
+                        new EnumFacing[]{EnumFacing.NORTH, EnumFacing.EAST, EnumFacing.SOUTH, EnumFacing.WEST};
+                case VERTICAL -> new EnumFacing[]{EnumFacing.UP, EnumFacing.DOWN};
+                default -> throw new Error("Someone's been tampering with the universe!");
+            };
         }
 
         public EnumFacing random(Random rand)

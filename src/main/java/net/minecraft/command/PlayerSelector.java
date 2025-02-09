@@ -170,25 +170,13 @@ public class PlayerSelector
         {
             if (flag1)
             {
-                list.add(new Predicate<Entity>()
-                {
-                    public boolean apply(Entity p_apply_1_)
-                    {
-                        return p_apply_1_ instanceof EntityPlayer;
-                    }
-                });
+                list.add(p_apply_1_ -> p_apply_1_ instanceof EntityPlayer);
             }
         }
         else
         {
             final String s_f = s;
-            list.add(new Predicate<Entity>()
-            {
-                public boolean apply(Entity p_apply_1_)
-                {
-                    return EntityList.isStringEntityName(p_apply_1_, s_f) != flag;
-                }
-            });
+            list.add(p_apply_1_ -> EntityList.isStringEntityName(p_apply_1_, s_f) != flag);
         }
 
         return list;
@@ -202,18 +190,11 @@ public class PlayerSelector
 
         if (i > -1 || j > -1)
         {
-            list.add(new Predicate<Entity>()
-            {
-                public boolean apply(Entity p_apply_1_)
-                {
-                    if (!(p_apply_1_ instanceof EntityPlayerMP entityplayermp))
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return (i <= -1 || entityplayermp.experienceLevel >= i) && (j <= -1 || entityplayermp.experienceLevel <= j);
-                    }
+            list.add(p_apply_1_ -> {
+                if (!(p_apply_1_ instanceof EntityPlayerMP entityplayermp)) {
+                    return false;
+                } else {
+                    return (i <= -1 || entityplayermp.experienceLevel >= i) && (j <= -1 || entityplayermp.experienceLevel <= j);
                 }
             });
         }
@@ -228,18 +209,11 @@ public class PlayerSelector
 
         if (i != WorldSettings.GameType.NOT_SET.getID())
         {
-            list.add(new Predicate<Entity>()
-            {
-                public boolean apply(Entity p_apply_1_)
-                {
-                    if (!(p_apply_1_ instanceof EntityPlayerMP entityplayermp))
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return entityplayermp.theItemInWorldManager.getGameType().getID() == i;
-                    }
+            list.add(p_apply_1_ -> {
+                if (!(p_apply_1_ instanceof EntityPlayerMP entityplayermp)) {
+                    return false;
+                } else {
+                    return entityplayermp.theItemInWorldManager.getGameType().getID() == i;
                 }
             });
         }
@@ -261,20 +235,13 @@ public class PlayerSelector
         if (s != null)
         {
             final String s_f = s;
-            list.add(new Predicate<Entity>()
-            {
-                public boolean apply(Entity p_apply_1_)
-                {
-                    if (!(p_apply_1_ instanceof EntityLivingBase entitylivingbase))
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        Team team = entitylivingbase.getTeam();
-                        String s1 = team == null ? "" : team.getRegisteredName();
-                        return s1.equals(s_f) != flag;
-                    }
+            list.add(p_apply_1_ -> {
+                if (!(p_apply_1_ instanceof EntityLivingBase entitylivingbase)) {
+                    return false;
+                } else {
+                    Team team = entitylivingbase.getTeam();
+                    String s1 = team == null ? "" : team.getRegisteredName();
+                    return s1.equals(s_f) != flag;
                 }
             });
         }
@@ -287,55 +254,45 @@ public class PlayerSelector
         List<Predicate<Entity>> list = Lists.newArrayList();
         final Map<String, Integer> map = func_96560_a(p_179657_0_);
 
-        if (map != null && map.size() > 0)
+        if (map != null && !map.isEmpty())
         {
-            list.add(new Predicate<Entity>()
-            {
-                public boolean apply(Entity p_apply_1_)
-                {
-                    Scoreboard scoreboard = MinecraftServer.getServer().worldServerForDimension(0).getScoreboard();
+            list.add(p_apply_1_ -> {
+                Scoreboard scoreboard = MinecraftServer.getServer().worldServerForDimension(0).getScoreboard();
 
-                    for (Entry<String, Integer> entry : map.entrySet())
-                    {
-                        String s = entry.getKey();
-                        boolean flag = false;
+                for (Entry<String, Integer> entry : map.entrySet()) {
+                    String s = entry.getKey();
+                    boolean flag = false;
 
-                        if (s.endsWith("_min") && s.length() > 4)
-                        {
-                            flag = true;
-                            s = s.substring(0, s.length() - 4);
-                        }
-
-                        ScoreObjective scoreobjective = scoreboard.getObjective(s);
-
-                        if (scoreobjective == null)
-                        {
-                            return false;
-                        }
-
-                        String s1 = p_apply_1_ instanceof EntityPlayerMP ? p_apply_1_.getName() : p_apply_1_.getUniqueID().toString();
-
-                        if (!scoreboard.entityHasObjective(s1, scoreobjective))
-                        {
-                            return false;
-                        }
-
-                        Score score = scoreboard.getValueFromObjective(s1, scoreobjective);
-                        int i = score.getScorePoints();
-
-                        if (i < entry.getValue().intValue() && flag)
-                        {
-                            return false;
-                        }
-
-                        if (i > entry.getValue().intValue() && !flag)
-                        {
-                            return false;
-                        }
+                    if (s.endsWith("_min") && s.length() > 4) {
+                        flag = true;
+                        s = s.substring(0, s.length() - 4);
                     }
 
-                    return true;
+                    ScoreObjective scoreobjective = scoreboard.getObjective(s);
+
+                    if (scoreobjective == null) {
+                        return false;
+                    }
+
+                    String s1 = p_apply_1_ instanceof EntityPlayerMP ? p_apply_1_.getName() : p_apply_1_.getUniqueID().toString();
+
+                    if (!scoreboard.entityHasObjective(s1, scoreobjective)) {
+                        return false;
+                    }
+
+                    Score score = scoreboard.getValueFromObjective(s1, scoreobjective);
+                    int i = score.getScorePoints();
+
+                    if (i < entry.getValue().intValue() && flag) {
+                        return false;
+                    }
+
+                    if (i > entry.getValue().intValue() && !flag) {
+                        return false;
+                    }
                 }
+
+                return true;
             });
         }
 
@@ -356,13 +313,7 @@ public class PlayerSelector
         if (s != null)
         {
             final String s_f = s;
-            list.add(new Predicate<Entity>()
-            {
-                public boolean apply(Entity p_apply_1_)
-                {
-                    return p_apply_1_.getName().equals(s_f) != flag;
-                }
-            });
+            list.add(p_apply_1_ -> p_apply_1_.getName().equals(s_f) != flag);
         }
 
         return list;
@@ -378,13 +329,9 @@ public class PlayerSelector
         {
             final int k = i * i;
             final int l = j * j;
-            list.add(new Predicate<Entity>()
-            {
-                public boolean apply(Entity p_apply_1_)
-                {
-                    int i1 = (int)p_apply_1_.getDistanceSqToCenter(p_180698_1_);
-                    return (i < 0 || i1 >= k) && (j < 0 || i1 <= l);
-                }
+            list.add(p_apply_1_ -> {
+                int i1 = (int) p_apply_1_.getDistanceSqToCenter(p_180698_1_);
+                return (i < 0 || i1 >= k) && (j < 0 || i1 <= l);
             });
         }
 
@@ -399,13 +346,9 @@ public class PlayerSelector
         {
             final int i = func_179650_a(parseIntWithDefault(p_179662_0_, "rym", 0));
             final int j = func_179650_a(parseIntWithDefault(p_179662_0_, "ry", 359));
-            list.add(new Predicate<Entity>()
-            {
-                public boolean apply(Entity p_apply_1_)
-                {
-                    int i1 = PlayerSelector.func_179650_a((int)Math.floor(p_apply_1_.rotationYaw));
-                    return i > j ? i1 >= i || i1 <= j : i1 >= i && i1 <= j;
-                }
+            list.add(p_apply_1_ -> {
+                int i1 = PlayerSelector.func_179650_a((int) Math.floor(p_apply_1_.rotationYaw));
+                return i > j ? i1 >= i || i1 <= j : i1 >= i && i1 <= j;
             });
         }
 
@@ -413,13 +356,9 @@ public class PlayerSelector
         {
             final int k = func_179650_a(parseIntWithDefault(p_179662_0_, "rxm", 0));
             final int l = func_179650_a(parseIntWithDefault(p_179662_0_, "rx", 359));
-            list.add(new Predicate<Entity>()
-            {
-                public boolean apply(Entity p_apply_1_)
-                {
-                    int i1 = PlayerSelector.func_179650_a((int)Math.floor(p_apply_1_.rotationPitch));
-                    return k > l ? i1 >= k || i1 <= l : i1 >= k && i1 <= l;
-                }
+            list.add(p_apply_1_ -> {
+                int i1 = PlayerSelector.func_179650_a((int) Math.floor(p_apply_1_.rotationPitch));
+                return k > l ? i1 >= k || i1 <= l : i1 >= k && i1 <= l;
             });
         }
 
@@ -480,13 +419,7 @@ public class PlayerSelector
 
                 if (flag && flag2 && !flag1)
                 {
-                    Predicate<Entity> predicate2 = new Predicate<Entity>()
-                    {
-                        public boolean apply(Entity p_apply_1_)
-                        {
-                            return p_apply_1_.posX >= axisalignedbb.minX && p_apply_1_.posY >= axisalignedbb.minY && p_apply_1_.posZ >= axisalignedbb.minZ && p_apply_1_.posX < axisalignedbb.maxX && p_apply_1_.posY < axisalignedbb.maxY && p_apply_1_.posZ < axisalignedbb.maxZ;
-                        }
-                    };
+                    Predicate<Entity> predicate2 = p_apply_1_ -> p_apply_1_.posX >= axisalignedbb.minX && p_apply_1_.posY >= axisalignedbb.minY && p_apply_1_.posZ >= axisalignedbb.minZ && p_apply_1_.posX < axisalignedbb.maxX && p_apply_1_.posY < axisalignedbb.maxY && p_apply_1_.posZ < axisalignedbb.maxZ;
                     list.addAll(worldIn.<T>getPlayers(entityClass, Predicates.and (predicate1, predicate2)));
                 }
                 else
@@ -524,13 +457,7 @@ public class PlayerSelector
         }
         else if (p_179658_5_ != null)
         {
-            Collections.sort(p_179658_0_, new Comparator<Entity>()
-            {
-                public int compare(Entity p_compare_1_, Entity p_compare_2_)
-                {
-                    return ComparisonChain.start().compare(p_compare_1_.getDistanceSq(p_179658_5_), p_compare_2_.getDistanceSq(p_179658_5_)).result();
-                }
-            });
+            p_179658_0_.sort((Comparator<Entity>) (p_compare_1_, p_compare_2_) -> ComparisonChain.start().compare(p_compare_1_.getDistanceSq(p_179658_5_), p_compare_2_.getDistanceSq(p_179658_5_)).result());
         }
 
         Entity entity = p_179658_2_.getCommandSenderEntity();
@@ -664,27 +591,15 @@ public class PlayerSelector
 
             for (Matcher matcher = intListPattern.matcher(argumentString); matcher.find(); j = matcher.end())
             {
-                String s = null;
+                String s = switch (i++) {
+                    case 0 -> "x";
+                    case 1 -> "y";
+                    case 2 -> "z";
+                    case 3 -> "r";
+                    default -> null;
+                };
 
-                switch (i++)
-                {
-                    case 0:
-                        s = "x";
-                        break;
-
-                    case 1:
-                        s = "y";
-                        break;
-
-                    case 2:
-                        s = "z";
-                        break;
-
-                    case 3:
-                        s = "r";
-                }
-
-                if (s != null && matcher.group(1).length() > 0)
+                if (s != null && !matcher.group(1).isEmpty())
                 {
                     map.put(s, matcher.group(1));
                 }

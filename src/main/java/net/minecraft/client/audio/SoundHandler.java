@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -160,16 +159,15 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable
                     break;
 
                 case SOUND_EVENT:
-                    isoundeventaccessor = new ISoundEventAccessor<SoundPoolEntry>()
-                    {
+                    isoundeventaccessor = new ISoundEventAccessor<>() {
                         final ResourceLocation field_148726_a = new ResourceLocation(s1, soundlist$soundentry.getSoundEntryName());
-                        public int getWeight()
-                        {
+
+                        public int getWeight() {
                             SoundEventAccessorComposite soundeventaccessorcomposite1 = SoundHandler.this.sndRegistry.getObject(this.field_148726_a);
                             return soundeventaccessorcomposite1 == null ? 0 : soundeventaccessorcomposite1.getWeight();
                         }
-                        public SoundPoolEntry cloneEntry()
-                        {
+
+                        public SoundPoolEntry cloneEntry() {
                             SoundEventAccessorComposite soundeventaccessorcomposite1 = SoundHandler.this.sndRegistry.getObject(this.field_148726_a);
                             return soundeventaccessorcomposite1 == null ? SoundHandler.missing_sound : soundeventaccessorcomposite1.cloneEntry();
                         }
