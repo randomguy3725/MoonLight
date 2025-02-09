@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.glPopAttrib;
 
 @ModuleInfo(name = "DeadEffect", category = ModuleCategory.Visual)
 public class DeadEffect extends Module {

@@ -15,7 +15,6 @@ import lombok.Getter;
 import wtf.moonlight.Moonlight;
 
 import java.io.File;
-import java.io.IOException;
 
 @Getter
 public class Config {

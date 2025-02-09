@@ -10,19 +10,13 @@
  */
 package wtf.moonlight.gui.widget;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import wtf.moonlight.Moonlight;
 import wtf.moonlight.events.annotations.EventTarget;
 import wtf.moonlight.events.impl.render.ChatGUIEvent;
 import wtf.moonlight.events.impl.render.Render2DEvent;
 import wtf.moonlight.events.impl.render.Shader2DEvent;
-import wtf.moonlight.features.modules.impl.visual.Interface;
-import wtf.moonlight.features.values.impl.BoolValue;
 import wtf.moonlight.gui.widget.impl.*;
 import wtf.moonlight.utils.InstanceAccess;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

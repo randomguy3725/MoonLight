@@ -1,7 +1,6 @@
 package net.minecraft.network.play.server;
 
 import java.io.IOException;
-import java.io.Serial;
 import java.util.EnumSet;
 import java.util.Set;
 
