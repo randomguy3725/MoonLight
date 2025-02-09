@@ -4,6 +4,9 @@ import com.google.common.collect.Lists;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
+import it.unimi.dsi.fastutil.longs.LongArrayList;
+import it.unimi.dsi.fastutil.longs.LongList;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockPattern;
@@ -19,7 +22,7 @@ public class Teleporter
     private final WorldServer worldServerInstance;
     private final Random random;
     private final LongHashMap<Teleporter.PortalPosition> destinationCoordinateCache = new LongHashMap<>();
-    private final List<Long> destinationCoordinateKeys = Lists.newArrayList();
+    private final LongList destinationCoordinateKeys = new LongArrayList();
 
     public Teleporter(WorldServer worldIn)
     {
@@ -121,7 +124,7 @@ public class Teleporter
         {
             if (flag)
             {
-                this.destinationCoordinateCache.add(l, new Teleporter.PortalPosition(blockpos, this.worldServerInstance.getTotalWorldTime()));
+                this.destinationCoordinateCache.add(l, new PortalPosition(blockpos, this.worldServerInstance.getTotalWorldTime()));
                 this.destinationCoordinateKeys.add(l);
             }
 
@@ -394,12 +397,12 @@ public class Teleporter
     {
         if (worldTime % 100L == 0L)
         {
-            Iterator<Long> iterator = this.destinationCoordinateKeys.iterator();
+            var iterator = this.destinationCoordinateKeys.longIterator();
             long i = worldTime - 300L;
 
             while (iterator.hasNext())
             {
-                Long olong = iterator.next();
+                long olong = iterator.nextLong();
                 Teleporter.PortalPosition teleporter$portalposition = this.destinationCoordinateCache.getValueByKey(olong);
 
                 if (teleporter$portalposition == null || teleporter$portalposition.lastUpdateTime < i)
@@ -411,7 +414,7 @@ public class Teleporter
         }
     }
 
-    public class PortalPosition extends BlockPos
+    public static class PortalPosition extends BlockPos
     {
         public long lastUpdateTime;
 

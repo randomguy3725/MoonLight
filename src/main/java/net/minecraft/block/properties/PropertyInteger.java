@@ -1,13 +1,13 @@
 package net.minecraft.block.properties;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
-import java.util.Collection;
-import java.util.Set;
+import it.unimi.dsi.fastutil.ints.IntCollection;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSet;
+import it.unimi.dsi.fastutil.ints.IntSets;
 
 public class PropertyInteger extends PropertyHelper<Integer>
 {
-    private final ImmutableSet<Integer> allowedValues;
+    private final IntSet allowedValues;
 
     protected PropertyInteger(String name, int min, int max)
     {
@@ -23,18 +23,18 @@ public class PropertyInteger extends PropertyHelper<Integer>
         }
         else
         {
-            Set<Integer> set = Sets.newHashSet();
+            IntSet set = new IntOpenHashSet(max - min + 1);
 
             for (int i = min; i <= max; ++i)
             {
                 set.add(i);
             }
 
-            this.allowedValues = ImmutableSet.copyOf(set);
+            this.allowedValues = IntSets.unmodifiable(set);
         }
     }
 
-    public Collection<Integer> getAllowedValues()
+    public IntCollection getAllowedValues()
     {
         return this.allowedValues;
     }

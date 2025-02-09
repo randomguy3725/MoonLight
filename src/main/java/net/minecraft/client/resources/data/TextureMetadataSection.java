@@ -1,15 +1,15 @@
 package net.minecraft.client.resources.data;
 
-import java.util.Collections;
-import java.util.List;
+import it.unimi.dsi.fastutil.ints.IntList;
+import it.unimi.dsi.fastutil.ints.IntLists;
 
 public class TextureMetadataSection implements IMetadataSection
 {
     private final boolean textureBlur;
     private final boolean textureClamp;
-    private final List<Integer> listMipmaps;
+    private final IntList listMipmaps;
 
-    public TextureMetadataSection(boolean p_i45102_1_, boolean p_i45102_2_, List<Integer> p_i45102_3_)
+    public TextureMetadataSection(boolean p_i45102_1_, boolean p_i45102_2_, IntList p_i45102_3_)
     {
         this.textureBlur = p_i45102_1_;
         this.textureClamp = p_i45102_2_;
@@ -26,8 +26,8 @@ public class TextureMetadataSection implements IMetadataSection
         return this.textureClamp;
     }
 
-    public List<Integer> getListMipmaps()
+    public IntList getListMipmaps()
     {
-        return Collections.unmodifiableList(this.listMipmaps);
+        return IntLists.unmodifiable(this.listMipmaps);
     }
 }

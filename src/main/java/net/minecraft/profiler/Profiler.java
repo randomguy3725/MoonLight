@@ -1,10 +1,13 @@
 package net.minecraft.profiler;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+
+import it.unimi.dsi.fastutil.longs.LongArrayList;
+import it.unimi.dsi.fastutil.longs.LongList;
+import it.unimi.dsi.fastutil.objects.Object2LongMap;
+import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.src.Config;
 import net.optifine.Lagometer;
@@ -15,10 +18,10 @@ public class Profiler
 {
     private static final Logger logger = LogManager.getLogger();
     private final List<String> sectionList = Lists.newArrayList();
-    private final List<Long> timestampList = Lists.newArrayList();
+    private final LongList timestampList = new LongArrayList();
     public boolean profilingEnabled;
     private String profilingSection = "";
-    private final Map<String, Long> profilingMap = Maps.newHashMap();
+    private final Object2LongMap<String> profilingMap = new Object2LongOpenHashMap<>();
     public boolean profilerGlobalEnabled = true;
     private boolean profilerLocalEnabled;
     private static final String SCHEDULED_EXECUTABLES = "scheduledExecutables";
@@ -103,13 +106,13 @@ public class Profiler
             if (this.profilingEnabled)
             {
                 long i = System.nanoTime();
-                long j = this.timestampList.remove(this.timestampList.size() - 1);
+                long j = this.timestampList.removeLong(this.timestampList.size() - 1);
                 this.sectionList.remove(this.sectionList.size() - 1);
                 long k = i - j;
 
                 if (this.profilingMap.containsKey(this.profilingSection))
                 {
-                    this.profilingMap.put(this.profilingSection, this.profilingMap.get(this.profilingSection) + k);
+                    this.profilingMap.put(this.profilingSection, this.profilingMap.getLong(this.profilingSection) + k);
                 }
                 else
                 {
@@ -177,7 +180,7 @@ public class Profiler
                 }
             }
 
-            this.profilingMap.replaceAll((s, v) -> this.profilingMap.get(s) * 950L / 1000L);
+            this.profilingMap.replaceAll((s, v) -> this.profilingMap.getLong(s) * 950L / 1000L);
 
             if ((float)k > f)
             {

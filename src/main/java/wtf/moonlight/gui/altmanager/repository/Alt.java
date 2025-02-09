@@ -10,6 +10,7 @@
  */
 package wtf.moonlight.gui.altmanager.repository;
 
+import com.google.gson.JsonParser;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import lombok.Getter;
@@ -30,7 +31,6 @@ import net.minecraft.util.Session;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.json.JSONObject;
 import org.lwjgl.opengl.GL11;
 import wtf.moonlight.Moonlight;
 import wtf.moonlight.gui.altmanager.login.AltLoginThread;
@@ -499,30 +499,32 @@ public class Alt {
     }
 
     public static boolean accountCheck(String token) {
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Authorization", "Bearer "+token);
-        headers.put("User-Agent", "MojangSharp/0.1");
-        headers.put("Charset", "UTF-8");
-        headers.put("connection", "keep-alive");
+        Map<String, String> headers = Map.of(
+                "Authorization", "Bearer "+token,
+                "User-Agent", "MojangSharp/0.1",
+                "Charset", "UTF-8",
+                "connection", "keep-alive"
+        );
 
         try {
             String attributesRaw = HttpUtil.get(new URL("https://api.minecraftservices.com/player/attributes"), headers);
-            JSONObject attributes = new JSONObject(attributesRaw);
-            
-            JSONObject privileges = attributes.getJSONObject("privileges");
-            JSONObject multiPlayerServerPrivilege = privileges.getJSONObject("multiplayerServer");
-            if (!multiPlayerServerPrivilege.getBoolean("enabled")) {
+
+            var attributes =  new JsonParser().parse(attributesRaw).getAsJsonObject();
+
+            var privileges = attributes.getAsJsonObject("privileges");
+            var multiPlayerServerPrivilege = privileges.getAsJsonObject("multiplayerServer");
+            if (!multiPlayerServerPrivilege.get("enabled").getAsBoolean()) {
                 Moonlight.INSTANCE.getNotificationManager().post(NotificationType.NOTIFY,"Oops, this player don't have privilege to play online server.");
                 return false;
             }
             
             if (attributes.has("banStatus")) {
-                JSONObject bannedScopes = attributes.getJSONObject("banStatus").getJSONObject("bannedScopes");
+                var bannedScopes = attributes.getAsJsonObject("banStatus").getAsJsonObject("bannedScopes");
                 if (bannedScopes.has("MULTIPLAYER")) {
-                    JSONObject multiplayerBan = bannedScopes.getJSONObject("MULTIPLAYER");
+                    var multiplayerBan = bannedScopes.getAsJsonObject("MULTIPLAYER");
                     if (!bannedScopes.has("expires") ||
                             multiplayerBan.get("expires") == null ||
-                            multiplayerBan.getLong("expires") >= System.currentTimeMillis()) {
+                            multiplayerBan.get("expires").getAsLong() >= System.currentTimeMillis()) {
                         Moonlight.INSTANCE.getNotificationManager().post(NotificationType.NOTIFY,"Oops, this player got banned from mojang.");
                         return false;
                     }

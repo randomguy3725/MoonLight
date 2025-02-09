@@ -6,13 +6,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
-import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.*;
 import net.optifine.ConnectedProperties;
 import net.optifine.util.EntityUtils;
 
@@ -77,7 +74,7 @@ public class ConnectedParser
         }
         else
         {
-            List list = new ArrayList();
+            List<MatchBlock> list = new ArrayList<>();
             String[] astring = Config.tokenize(propMatchBlocks, " ");
 
             for (String s : astring) {
@@ -88,7 +85,7 @@ public class ConnectedParser
                 }
             }
 
-            MatchBlock[] amatchblock1 = (MatchBlock[]) list.toArray(new MatchBlock[0]);
+            MatchBlock[] amatchblock1 = list.toArray(new MatchBlock[0]);
             return amatchblock1;
         }
     }
@@ -484,7 +481,7 @@ public class ConnectedParser
             }
 
             String[] astring = Config.tokenize(str, " ");
-            List list = new ArrayList();
+            List<BiomeGenBase> list = new ArrayList<>();
 
             for (String s : astring) {
                 BiomeGenBase biomegenbase = this.findBiome(s);
@@ -503,7 +500,7 @@ public class ConnectedParser
                 list = list1;
             }
 
-            BiomeGenBase[] abiomegenbase = (BiomeGenBase[]) list.toArray(new BiomeGenBase[0]);
+            BiomeGenBase[] abiomegenbase = list.toArray(new BiomeGenBase[0]);
             return abiomegenbase;
         }
     }
@@ -565,7 +562,7 @@ public class ConnectedParser
         }
         else
         {
-            List<Integer> list = new ArrayList<>();
+            IntList list = new IntArrayList();
             String[] astring = Config.tokenize(str, " ,");
 
             for (String s : astring) {
@@ -597,14 +594,7 @@ public class ConnectedParser
                 }
             }
 
-            int[] aint = new int[list.size()];
-
-            for (int j1 = 0; j1 < aint.length; ++j1)
-            {
-                aint[j1] = list.get(j1);
-            }
-
-            return aint;
+            return list.toIntArray();
         }
     }
 
@@ -1047,7 +1037,7 @@ public class ConnectedParser
 
     private static int[] parseCareerIds(int prof, String str)
     {
-        Set<Integer> set = new HashSet<>();
+        IntSet set = new IntOpenHashSet();
         String[] astring = Config.tokenize(str, ",");
 
         for (String s : astring) {
@@ -1060,15 +1050,7 @@ public class ConnectedParser
             set.add(j);
         }
 
-        Integer[] ainteger = set.toArray(new Integer[0]);
-        int[] aint = new int[ainteger.length];
-
-        for (int k = 0; k < aint.length; ++k)
-        {
-            aint[k] = ainteger[k];
-        }
-
-        return aint;
+        return set.toIntArray();
     }
 
     private static int parseCareerId(int prof, String str)
@@ -1156,7 +1138,7 @@ public class ConnectedParser
     public int[] parseItems(String str)
     {
         str = str.trim();
-        Set<Integer> set = new TreeSet<>();
+        IntSet set = new IntRBTreeSet();
         String[] astring = Config.tokenize(str, " ");
 
         for (String s : astring) {
@@ -1176,15 +1158,13 @@ public class ConnectedParser
             }
         }
 
-        Integer[] ainteger = set.toArray(new Integer[0]);
-        int[] aint = Config.toPrimitive(ainteger);
-        return aint;
+        return set.toIntArray();
     }
 
     public int[] parseEntities(String str)
     {
         str = str.trim();
-        Set<Integer> set = new TreeSet<>();
+        IntSet set = new IntRBTreeSet();
         String[] astring = Config.tokenize(str, " ");
 
         for (String s : astring) {
@@ -1197,8 +1177,6 @@ public class ConnectedParser
             }
         }
 
-        Integer[] ainteger = set.toArray(new Integer[0]);
-        int[] aint = Config.toPrimitive(ainteger);
-        return aint;
+        return set.toIntArray();
     }
 }

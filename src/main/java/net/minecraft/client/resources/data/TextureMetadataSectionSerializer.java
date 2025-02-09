@@ -1,13 +1,14 @@
 package net.minecraft.client.resources.data;
 
-import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import java.lang.reflect.Type;
-import java.util.List;
+
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.util.JsonUtils;
 
 public class TextureMetadataSectionSerializer extends BaseMetadataSectionSerializer<TextureMetadataSection>
@@ -17,7 +18,7 @@ public class TextureMetadataSectionSerializer extends BaseMetadataSectionSeriali
         JsonObject jsonobject = p_deserialize_1_.getAsJsonObject();
         boolean flag = JsonUtils.getBoolean(jsonobject, "blur", false);
         boolean flag1 = JsonUtils.getBoolean(jsonobject, "clamp", false);
-        List<Integer> list = Lists.newArrayList();
+        IntList list = new IntArrayList();
 
         if (jsonobject.has("mipmaps"))
         {

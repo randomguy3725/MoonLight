@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map.Entry;
 
+import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.StitcherException;
 import net.minecraft.client.resources.IResource;
@@ -232,7 +233,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
                         if (texturemetadatasection != null)
                         {
-                            List<Integer> list1 = texturemetadatasection.getListMipmaps();
+                            IntList list1 = texturemetadatasection.getListMipmaps();
 
                             if (!list1.isEmpty())
                             {

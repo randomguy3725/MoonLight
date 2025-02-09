@@ -2,7 +2,6 @@ package net.minecraft.world.gen;
 
 import com.google.common.collect.Lists;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -28,7 +27,7 @@ import org.apache.logging.log4j.Logger;
 public class ChunkProviderServer implements IChunkProvider
 {
     private static final Logger logger = LogManager.getLogger();
-    private final Set<Long> droppedChunksSet = Collections.<Long>newSetFromMap(new ConcurrentHashMap<>());
+    private final Set<Long> droppedChunksSet = ConcurrentHashMap.newKeySet();
     private final Chunk dummyChunk;
     private final IChunkProvider serverChunkGenerator;
     private final IChunkLoader chunkLoader;

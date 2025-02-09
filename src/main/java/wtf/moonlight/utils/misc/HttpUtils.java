@@ -10,9 +10,10 @@
  */
 package wtf.moonlight.utils.misc;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.json.JSONObject;
 import wtf.moonlight.Moonlight;
 
 import java.io.*;
@@ -71,21 +72,6 @@ public class HttpUtils {
 
     public static void download(String url, File file) throws IOException {
         FileUtils.copyInputStreamToFile(make(url, "GET").getInputStream(), file);
-    }
-
-
-    public static JSONObject obtainJson(String url){
-        try{
-            URL u = new URL(url);
-            HttpURLConnection connection = (HttpURLConnection) u.openConnection();
-            connection.setRequestMethod("GET");
-            connection.addRequestProperty("User-Agent","Mozilla/4.76 (Sk1er-UHCStars V1.0)");
-            InputStream is = connection.getInputStream();
-            return new JSONObject(IOUtils.toString(is, Charset.defaultCharset()));
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return new JSONObject().put("succcess",false).put("cause","API_DOWN");
     }
 
     public static HttpResponse postFormData(String urlStr, Map<String, File> filePathMap, Map<String, Object> keyValues, Map<String, Object> headers) throws IOException {

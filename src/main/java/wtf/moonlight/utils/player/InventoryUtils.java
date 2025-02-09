@@ -12,6 +12,7 @@ package wtf.moonlight.utils.player;
 
 import com.google.common.collect.Multimap;
 import com.google.common.util.concurrent.AtomicDouble;
+import it.unimi.dsi.fastutil.ints.IntSet;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockFalling;
@@ -32,7 +33,6 @@ import wtf.moonlight.features.modules.impl.combat.AutoProjectile;
 import wtf.moonlight.features.modules.impl.combat.AutoRod;
 import wtf.moonlight.utils.InstanceAccess;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -98,10 +98,13 @@ public class InventoryUtils implements InstanceAccess {
         }
     }
 
+    private static final IntSet BAD_EFFECTS_IDS = IntSet.of(
+            Potion.poison.id, Potion.weakness.id, Potion.wither.id, Potion.blindness.id, Potion.digSlowdown.id, Potion.harm.id
+    );
+
     public static boolean isBuffPotion(final ItemStack stack) {
         final ItemPotion potion = (ItemPotion) stack.getItem();
         final List<PotionEffect> effects = potion.getEffects(stack);
-        final List<Integer> BAD_EFFECTS_IDS = Arrays.asList(Potion.poison.id, Potion.weakness.id, Potion.wither.id, Potion.blindness.id, Potion.digSlowdown.id, Potion.harm.id);
         if (effects.isEmpty()) {
             return false;
         }

@@ -22,6 +22,8 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.src.Config;
 import net.optifine.expr.ExpressionFloatArrayCached;
 import net.optifine.expr.ExpressionFloatCached;
@@ -53,7 +55,7 @@ public class ShaderPackParser
     private static final Map<String, Integer> mapAlphaFuncs = makeMapAlphaFuncs();
     private static final Map<String, Integer> mapBlendFactors = makeMapBlendFactors();
 
-    public static ShaderOption[] parseShaderPackOptions(IShaderPack shaderPack, String[] programNames, List<Integer> listDimensions)
+    public static ShaderOption[] parseShaderPackOptions(IShaderPack shaderPack, String[] programNames, IntList listDimensions)
     {
         if (shaderPack == null)
         {
@@ -193,44 +195,44 @@ public class ShaderPackParser
 
     private static Set<String> makeSetConstNames()
     {
-        Set<String> set = new HashSet<>();
-        set.add("shadowMapResolution");
-        set.add("shadowMapFov");
-        set.add("shadowDistance");
-        set.add("shadowDistanceRenderMul");
-        set.add("shadowIntervalSize");
-        set.add("generateShadowMipmap");
-        set.add("generateShadowColorMipmap");
-        set.add("shadowHardwareFiltering");
-        set.add("shadowHardwareFiltering0");
-        set.add("shadowHardwareFiltering1");
-        set.add("shadowtex0Mipmap");
-        set.add("shadowtexMipmap");
-        set.add("shadowtex1Mipmap");
-        set.add("shadowcolor0Mipmap");
-        set.add("shadowColor0Mipmap");
-        set.add("shadowcolor1Mipmap");
-        set.add("shadowColor1Mipmap");
-        set.add("shadowtex0Nearest");
-        set.add("shadowtexNearest");
-        set.add("shadow0MinMagNearest");
-        set.add("shadowtex1Nearest");
-        set.add("shadow1MinMagNearest");
-        set.add("shadowcolor0Nearest");
-        set.add("shadowColor0Nearest");
-        set.add("shadowColor0MinMagNearest");
-        set.add("shadowcolor1Nearest");
-        set.add("shadowColor1Nearest");
-        set.add("shadowColor1MinMagNearest");
-        set.add("wetnessHalflife");
-        set.add("drynessHalflife");
-        set.add("eyeBrightnessHalflife");
-        set.add("centerDepthHalflife");
-        set.add("sunPathRotation");
-        set.add("ambientOcclusionLevel");
-        set.add("superSamplingLevel");
-        set.add("noiseTextureResolution");
-        return set;
+        return Set.of(
+            "shadowMapResolution",
+            "shadowMapFov",
+            "shadowDistance",
+            "shadowDistanceRenderMul",
+            "shadowIntervalSize",
+            "generateShadowMipmap",
+            "generateShadowColorMipmap",
+            "shadowHardwareFiltering",
+            "shadowHardwareFiltering0",
+            "shadowHardwareFiltering1",
+            "shadowtex0Mipmap",
+            "shadowtexMipmap",
+            "shadowtex1Mipmap",
+            "shadowcolor0Mipmap",
+            "shadowColor0Mipmap",
+            "shadowcolor1Mipmap",
+            "shadowColor1Mipmap",
+            "shadowtex0Nearest",
+            "shadowtexNearest",
+            "shadow0MinMagNearest",
+            "shadowtex1Nearest",
+            "shadow1MinMagNearest",
+            "shadowcolor0Nearest",
+            "shadowColor0Nearest",
+            "shadowColor0MinMagNearest",
+            "shadowcolor1Nearest",
+            "shadowColor1Nearest",
+            "shadowColor1MinMagNearest",
+            "wetnessHalflife",
+            "drynessHalflife",
+            "eyeBrightnessHalflife",
+            "centerDepthHalflife",
+            "sunPathRotation",
+            "ambientOcclusionLevel",
+            "superSamplingLevel",
+            "noiseTextureResolution"
+        );
     }
 
     public static ShaderProfile[] parseProfiles(Properties props, ShaderOption[] shaderOptions)

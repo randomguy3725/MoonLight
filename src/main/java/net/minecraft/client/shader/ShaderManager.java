@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.texture.ITextureObject;
@@ -32,16 +35,16 @@ public class ShaderManager
     private static boolean field_148000_e = true;
     private final Map<String, Object> shaderSamplers = Maps.newHashMap();
     private final List<String> samplerNames = Lists.newArrayList();
-    private final List<Integer> shaderSamplerLocations = Lists.newArrayList();
+    private final IntList shaderSamplerLocations = new IntArrayList();
     private final List<ShaderUniform> shaderUniforms = Lists.newArrayList();
-    private final List<Integer> shaderUniformLocations = Lists.newArrayList();
+    private final IntList shaderUniformLocations = new IntArrayList();
     private final Map<String, ShaderUniform> mappedShaderUniforms = Maps.newHashMap();
     private final int program;
     private final String programFilename;
     private final boolean useFaceCulling;
     private boolean isDirty;
     private final JsonBlendingMode field_148016_p;
-    private final List<Integer> attribLocations;
+    private final IntList attribLocations;
     private final List<String> attributes;
     private final ShaderLoader vertexShaderLoader;
     private final ShaderLoader fragmentShaderLoader;
@@ -87,7 +90,7 @@ public class ShaderManager
             if (jsonarray1 != null)
             {
                 int j = 0;
-                this.attribLocations = Lists.newArrayListWithCapacity(jsonarray1.size());
+                this.attribLocations = new IntArrayList(jsonarray1.size());
                 this.attributes = Lists.newArrayListWithCapacity(jsonarray1.size());
 
                 for (JsonElement jsonelement1 : jsonarray1)

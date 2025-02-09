@@ -129,8 +129,7 @@ dependencies {
 
     implementation "com.mojang:authlib:1.5.21"
 
-    implementation 'it.unimi.dsi:fastutil:8.5.13'
-    implementation 'org.json:json:20240303'
+    implementation 'it.unimi.dsi:fastutil:8.5.15'
     implementation 'org.joml:joml:1.10.7'
     implementation 'org.jetbrains:annotations:24.1.0'
 

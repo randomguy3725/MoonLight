@@ -15,6 +15,8 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 
 import io.netty.util.collection.IntObjectHashMap;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.objects.ObjectIntPair;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneWire;
@@ -1294,7 +1296,7 @@ public class CustomColors
 
     private static int[] readSpawnEggColors(Properties props, String fileName, String prefix, String logName)
     {
-        List<Integer> list = new ArrayList<>();
+        IntList list = new IntArrayList();
         Set set = props.keySet();
         int i = 0;
 
@@ -1341,14 +1343,7 @@ public class CustomColors
         else
         {
             dbg(logName + " colors: " + i);
-            int[] aint = new int[list.size()];
-
-            for (int l = 0; l < aint.length; ++l)
-            {
-                aint[l] = list.get(l);
-            }
-
-            return aint;
+            return list.toIntArray();
         }
     }
 

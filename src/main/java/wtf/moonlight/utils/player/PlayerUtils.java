@@ -10,6 +10,8 @@
  */
 package wtf.moonlight.utils.player;
 
+import it.unimi.dsi.fastutil.ints.Int2IntMap;
+import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.material.Material;
@@ -43,7 +45,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PlayerUtils implements InstanceAccess {
-    private static final HashMap<Integer, Integer> GOOD_POTIONS = new HashMap<>() {{
+    private static final Int2IntMap GOOD_POTIONS = new Int2IntOpenHashMap() {{
         put(6, 1); // Instant Health
         put(10, 2); // Regeneration
         put(11, 3); // Resistance

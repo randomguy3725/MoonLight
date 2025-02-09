@@ -1205,7 +1205,7 @@ public class Shaders
                 ByteBuffer bytebuffer = GLAllocation.createDirectByteBuffer(abyte.length);
                 bytebuffer.put(abyte);
                 bytebuffer.flip();
-                TextureMetadataSection texturemetadatasection = SimpleShaderTexture.loadTextureMetadataSection(s, new TextureMetadataSection(true, true, new ArrayList<>()));
+                TextureMetadataSection texturemetadatasection = SimpleShaderTexture.loadTextureMetadataSection(s, new TextureMetadataSection(true, true, IntList.of()));
                 CustomTextureRaw customtextureraw = new CustomTextureRaw(type, internalFormat, width, height, depth, pixelFormat, pixelType, bytebuffer, textureUnit, texturemetadatasection.getTextureBlur(), texturemetadatasection.getTextureClamp());
                 return customtextureraw;
             }

@@ -1,7 +1,7 @@
 package net.minecraft.client.player.inventory;
 
-import com.google.common.collect.Maps;
-import java.util.Map;
+import it.unimi.dsi.fastutil.ints.Int2IntMap;
+import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -13,7 +13,7 @@ import net.minecraft.world.LockCode;
 public class ContainerLocalMenu extends InventoryBasic implements ILockableContainer
 {
     private final String guiID;
-    private final Map<Integer, Integer> field_174895_b = Maps.newHashMap();
+    private final Int2IntMap field_174895_b = new Int2IntOpenHashMap();
 
     public ContainerLocalMenu(String id, IChatComponent title, int slotCount)
     {

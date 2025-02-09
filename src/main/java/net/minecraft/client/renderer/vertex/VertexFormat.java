@@ -2,6 +2,9 @@ package net.minecraft.client.renderer.vertex;
 
 import com.google.common.collect.Lists;
 import java.util.List;
+
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,10 +12,10 @@ public class VertexFormat
 {
     private static final Logger LOGGER = LogManager.getLogger();
     private final List<VertexFormatElement> elements;
-    private final List<Integer> offsets;
+    private final IntList offsets;
     private int nextOffset;
     private int colorElementOffset;
-    private final List<Integer> uvOffsetsById;
+    private final IntList uvOffsetsById;
     private int normalElementOffset;
 
     public VertexFormat(VertexFormat vertexFormatIn)
@@ -30,10 +33,10 @@ public class VertexFormat
     public VertexFormat()
     {
         this.elements = Lists.newArrayList();
-        this.offsets = Lists.newArrayList();
+        this.offsets = new IntArrayList();
         this.nextOffset = 0;
         this.colorElementOffset = -1;
-        this.uvOffsetsById = Lists.newArrayList();
+        this.uvOffsetsById = new IntArrayList();
         this.normalElementOffset = -1;
     }
 
