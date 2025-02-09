@@ -200,10 +200,7 @@ public class StatisticsFile extends StatFileWriter
 
     public void func_150877_d()
     {
-        for (StatBase statbase : this.statsData.keySet())
-        {
-            this.field_150888_e.add(statbase);
-        }
+        this.field_150888_e.addAll(this.statsData.keySet());
     }
 
     public void func_150876_a(EntityPlayerMP p_150876_1_)
