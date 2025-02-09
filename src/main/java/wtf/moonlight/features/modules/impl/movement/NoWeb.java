@@ -18,7 +18,7 @@ import java.util.Map;
 @ModuleInfo(name = "NoWeb",category = ModuleCategory.Movement)
 public class NoWeb extends Module {
 
-    private final ModeValue mode = new ModeValue("Mode", new String[]{"Vanilla", "Grim"}, "Vanilla",this);
+    private final ModeValue mode = new ModeValue("Mode", new String[]{"Vanilla", "GrimAC"}, "Vanilla",this);
     @EventTarget
     public void onMotion(MotionEvent event) {
         setTag(mode.get());

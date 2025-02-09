@@ -19,7 +19,7 @@ import java.util.Map;
 @ModuleInfo(name = "NoFluid",category = ModuleCategory.Movement)
 public class NoFluid extends Module {
 
-    private final ModeValue mode = new ModeValue("Mode", new String[]{"Vanilla", "Grim"}, "Vanilla",this);
+    private final ModeValue mode = new ModeValue("Mode", new String[]{"Vanilla", "GrimAC"}, "Vanilla",this);
 
     public boolean shouldCancel;
 
