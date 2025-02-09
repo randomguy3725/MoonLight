@@ -102,11 +102,11 @@ public class InvManager extends Module {
         final long delay = (MathUtils.nextInt((int) minDelay.get(), (int) maxDelay.get()) * 50L);
         if ((this.clientOpen || (mc.currentScreen == null && !Objects.equals(this.mode.get(), "Open Inventory"))) && !isEnabled(Scaffold.class) &&
                 (lobbyCheck.get() &&
-                        InventoryUtils.findItem(InventoryUtils.EXCLUDE_ARMOR_BEGIN,InventoryUtils.END, Items.compass) == -1
-                        && InventoryUtils.findItem(InventoryUtils.EXCLUDE_ARMOR_BEGIN,InventoryUtils.END, Items.bed) == -1
+                        InventoryUtils.findItem(InventoryUtils.EXCLUDE_ARMOR_BEGIN,InventoryUtils.END, Items.compass) > 0
+                        && InventoryUtils.findItem(InventoryUtils.EXCLUDE_ARMOR_BEGIN,InventoryUtils.END, Items.bed) > 0
                  || !lobbyCheck.get())
         ) {
-            if ((this.timer.hasTimeElapsed(delay) || MathUtils.nextInt((int) minDelay.get(), (int) maxDelay.get()) == 0)) {
+            if ((this.timer.hasTimeElapsed(delay) || delay == 0)) {
                 this.clear();
 
                 for (int slot = InventoryUtils.INCLUDE_ARMOR_BEGIN; slot < InventoryUtils.END; slot++) {

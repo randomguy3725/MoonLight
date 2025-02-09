@@ -3,7 +3,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
-group = 'net.example'
+group = 'wtf.moonlight'
 version = '1.8.9'
 
 // Centralized version declarations
