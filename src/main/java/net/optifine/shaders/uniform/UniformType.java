@@ -1,10 +1,6 @@
 package net.optifine.shaders.uniform;
 
-import net.optifine.expr.ExpressionType;
-import net.optifine.expr.IExpression;
-import net.optifine.expr.IExpressionBool;
-import net.optifine.expr.IExpressionFloat;
-import net.optifine.expr.IExpressionFloatArray;
+import net.optifine.expr.*;
 
 public enum UniformType
 {

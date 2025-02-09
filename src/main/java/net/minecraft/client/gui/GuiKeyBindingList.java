@@ -1,12 +1,13 @@
 package net.minecraft.client.gui;
 
-import java.util.Arrays;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.EnumChatFormatting;
 import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.Arrays;
 
 public class GuiKeyBindingList extends GuiListExtended
 {

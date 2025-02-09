@@ -10,11 +10,11 @@
  */
 package wtf.moonlight.gui.click.skeet.component.impl.sub.key;
 
+import org.lwjglx.input.Keyboard;
+import wtf.moonlight.gui.click.skeet.LockedResolution;
 import wtf.moonlight.gui.click.skeet.SkeetUI;
 import wtf.moonlight.gui.click.skeet.component.ButtonComponent;
 import wtf.moonlight.gui.click.skeet.component.Component;
-import wtf.moonlight.gui.click.skeet.LockedResolution;
-import org.lwjglx.input.Keyboard;
 import wtf.moonlight.gui.font.FontRenderer;
 
 import java.awt.*;

@@ -12,8 +12,8 @@ package wtf.moonlight.utils.render;
 
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
-import org.lwjglx.opengl.Display;
 import org.lwjgl.opengl.GL11;
+import org.lwjglx.opengl.Display;
 import org.lwjglx.util.glu.GLU;
 
 import java.nio.FloatBuffer;

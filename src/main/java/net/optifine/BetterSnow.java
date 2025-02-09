@@ -1,22 +1,6 @@
 package net.optifine;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockBush;
-import net.minecraft.block.BlockDoublePlant;
-import net.minecraft.block.BlockFence;
-import net.minecraft.block.BlockFenceGate;
-import net.minecraft.block.BlockFlower;
-import net.minecraft.block.BlockFlowerPot;
-import net.minecraft.block.BlockLever;
-import net.minecraft.block.BlockMushroom;
-import net.minecraft.block.BlockPane;
-import net.minecraft.block.BlockRedstoneTorch;
-import net.minecraft.block.BlockReed;
-import net.minecraft.block.BlockSapling;
-import net.minecraft.block.BlockSnow;
-import net.minecraft.block.BlockTallGrass;
-import net.minecraft.block.BlockTorch;
-import net.minecraft.block.BlockWall;
+import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.init.Blocks;

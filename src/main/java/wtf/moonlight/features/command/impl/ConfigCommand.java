@@ -15,7 +15,7 @@ import wtf.moonlight.features.command.Command;
 import wtf.moonlight.features.config.impl.ModuleConfig;
 import wtf.moonlight.utils.misc.DebugUtils;
 
-import java.awt.Desktop;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;

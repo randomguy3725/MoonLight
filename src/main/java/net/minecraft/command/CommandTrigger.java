@@ -1,7 +1,6 @@
 package net.minecraft.command;
 
 import com.google.common.collect.Lists;
-import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.scoreboard.IScoreObjectiveCriteria;
@@ -10,6 +9,8 @@ import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
+
+import java.util.List;
 
 public class CommandTrigger extends CommandBase
 {

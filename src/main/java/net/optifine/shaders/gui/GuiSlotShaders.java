@@ -1,8 +1,5 @@
 package net.optifine.shaders.gui;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Properties;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.client.gui.GuiYesNoCallback;
@@ -12,6 +9,10 @@ import net.optifine.Lang;
 import net.optifine.shaders.IShaderPack;
 import net.optifine.shaders.Shaders;
 import net.optifine.util.ResUtils;
+
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Properties;
 
 class GuiSlotShaders extends GuiSlot
 {

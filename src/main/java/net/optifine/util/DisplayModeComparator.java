@@ -1,7 +1,8 @@
 package net.optifine.util;
 
-import java.util.Comparator;
 import org.lwjglx.opengl.DisplayMode;
+
+import java.util.Comparator;
 
 public class DisplayModeComparator implements Comparator
 {

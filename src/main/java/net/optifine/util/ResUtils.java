@@ -1,5 +1,11 @@
 package net.optifine.util;
 
+import net.minecraft.client.resources.AbstractResourcePack;
+import net.minecraft.client.resources.DefaultResourcePack;
+import net.minecraft.client.resources.IResourcePack;
+import net.minecraft.src.Config;
+import net.minecraft.util.ResourceLocation;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -7,11 +13,6 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import net.minecraft.client.resources.AbstractResourcePack;
-import net.minecraft.client.resources.DefaultResourcePack;
-import net.minecraft.client.resources.IResourcePack;
-import net.minecraft.src.Config;
-import net.minecraft.util.ResourceLocation;
 
 public class ResUtils
 {

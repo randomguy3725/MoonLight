@@ -10,18 +10,18 @@
  */
 package wtf.moonlight.gui.click.skeet.component.impl.sub.color;
 
-import wtf.moonlight.gui.click.skeet.SkeetUI;
-import wtf.moonlight.gui.click.skeet.component.ButtonComponent;
-import wtf.moonlight.gui.click.skeet.component.Component;
-import wtf.moonlight.gui.click.skeet.component.ExpandableComponent;
-import wtf.moonlight.gui.click.skeet.component.PredicateComponent;
-import wtf.moonlight.gui.click.skeet.LockedResolution;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.opengl.GL11;
+import wtf.moonlight.gui.click.skeet.LockedResolution;
+import wtf.moonlight.gui.click.skeet.SkeetUI;
+import wtf.moonlight.gui.click.skeet.component.ButtonComponent;
+import wtf.moonlight.gui.click.skeet.component.Component;
+import wtf.moonlight.gui.click.skeet.component.ExpandableComponent;
+import wtf.moonlight.gui.click.skeet.component.PredicateComponent;
 import wtf.moonlight.utils.render.ColorUtils;
 import wtf.moonlight.utils.render.RenderUtils;
 

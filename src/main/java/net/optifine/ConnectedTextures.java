@@ -1,23 +1,6 @@
 package net.optifine;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.HashSet;
-import java.util.IdentityHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockGlass;
-import net.minecraft.block.BlockPane;
-import net.minecraft.block.BlockQuartz;
-import net.minecraft.block.BlockRotatedPillar;
-import net.minecraft.block.BlockStainedGlass;
-import net.minecraft.block.BlockStainedGlassPane;
+import net.minecraft.block.*;
 import net.minecraft.block.state.BlockStateBase;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -41,6 +24,10 @@ import net.optifine.render.RenderEnv;
 import net.optifine.util.PropertiesOrdered;
 import net.optifine.util.ResUtils;
 import net.optifine.util.TileEntityUtils;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.*;
 
 public class ConnectedTextures
 {

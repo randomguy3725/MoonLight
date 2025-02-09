@@ -1,9 +1,10 @@
 package net.minecraft.util;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.OutputStream;
+import java.io.PrintStream;
 
 public class LoggingPrintStream extends PrintStream
 {

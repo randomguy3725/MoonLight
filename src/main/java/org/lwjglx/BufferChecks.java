@@ -15,7 +15,6 @@
  */
 package org.lwjglx;
 
-import org.lwjglx.LWJGLUtil;
 import org.lwjgl.PointerBuffer;
 
 import java.nio.*;

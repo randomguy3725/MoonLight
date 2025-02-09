@@ -1,10 +1,6 @@
 package net.optifine.shaders.config;
 
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class ShaderProfile
 {

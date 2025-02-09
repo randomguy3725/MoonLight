@@ -1,9 +1,10 @@
 package net.optifine.reflect;
 
+import net.optifine.Log;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import net.optifine.Log;
 
 public class ReflectorMethod implements IResolvable
 {

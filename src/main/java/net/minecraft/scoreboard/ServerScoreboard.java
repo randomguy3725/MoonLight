@@ -2,10 +2,6 @@ package net.minecraft.scoreboard;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S3BPacketScoreboardObjective;
@@ -13,6 +9,10 @@ import net.minecraft.network.play.server.S3CPacketUpdateScore;
 import net.minecraft.network.play.server.S3DPacketDisplayScoreboard;
 import net.minecraft.network.play.server.S3EPacketTeams;
 import net.minecraft.server.MinecraftServer;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 public class ServerScoreboard extends Scoreboard
 {

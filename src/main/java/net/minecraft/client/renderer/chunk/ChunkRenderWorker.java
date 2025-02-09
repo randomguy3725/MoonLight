@@ -4,9 +4,6 @@ import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CancellationException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RegionRenderCacheBuilder;
 import net.minecraft.crash.CrashReport;
@@ -14,6 +11,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumWorldBlockLayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CancellationException;
 
 public class ChunkRenderWorker implements Runnable
 {

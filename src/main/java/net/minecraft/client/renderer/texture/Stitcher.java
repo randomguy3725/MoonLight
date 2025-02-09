@@ -2,11 +2,12 @@ package net.minecraft.client.renderer.texture;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import net.minecraft.client.renderer.StitcherException;
+import net.minecraft.util.MathHelper;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-import net.minecraft.client.renderer.StitcherException;
-import net.minecraft.util.MathHelper;
 
 public class Stitcher
 {

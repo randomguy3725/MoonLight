@@ -1,11 +1,12 @@
 package net.minecraft.network.login.server;
 
-import java.io.IOException;
-import java.security.PublicKey;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.login.INetHandlerLoginClient;
 import net.minecraft.util.CryptManager;
+
+import java.io.IOException;
+import java.security.PublicKey;
 
 public class S01PacketEncryptionRequest implements Packet<INetHandlerLoginClient>
 {

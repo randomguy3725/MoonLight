@@ -2,11 +2,12 @@ package net.minecraft.client.model;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 
 public abstract class ModelBase
 {

@@ -1,7 +1,6 @@
 package net.minecraft.realms;
 
 import com.mojang.util.UUIDTypeAdapter;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.Gui;
@@ -10,6 +9,8 @@ import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.List;
 
 public class RealmsScreen
 {

@@ -1,11 +1,11 @@
 package net.minecraft.client.gui;
 
-import java.io.IOException;
-
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.EnumChatFormatting;
 import wtf.moonlight.gui.mainmenu.GuiMainMenu;
+
+import java.io.IOException;
 
 public class GuiGameOver extends GuiScreen implements GuiYesNoCallback
 {

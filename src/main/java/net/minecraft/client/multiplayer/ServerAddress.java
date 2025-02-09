@@ -1,10 +1,10 @@
 package net.minecraft.client.multiplayer;
 
-import java.net.IDN;
-import java.util.Hashtable;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
+import java.net.IDN;
+import java.util.Hashtable;
 
 public class ServerAddress
 {

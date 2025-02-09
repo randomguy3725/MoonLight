@@ -1,16 +1,13 @@
 package net.optifine.http;
 
-import java.io.BufferedOutputStream;
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import net.minecraft.src.Config;
+
+import java.io.*;
 import java.net.Proxy;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-import net.minecraft.src.Config;
 
 public class HttpPipelineConnection
 {

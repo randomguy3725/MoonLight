@@ -1,19 +1,5 @@
 package net.optifine;
 
-import java.awt.image.BufferedImage;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Random;
-import java.util.Set;
-import javax.imageio.ImageIO;
-
 import io.netty.util.collection.IntObjectHashMap;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
@@ -48,12 +34,15 @@ import net.optifine.config.ConnectedParser;
 import net.optifine.config.MatchBlock;
 import net.optifine.reflect.Reflector;
 import net.optifine.render.RenderEnv;
-import net.optifine.util.EntityUtils;
-import net.optifine.util.PropertiesOrdered;
-import net.optifine.util.ResUtils;
-import net.optifine.util.StrUtils;
-import net.optifine.util.TextureUtils;
+import net.optifine.util.*;
 import org.jetbrains.annotations.Nullable;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 public class CustomColors
 {

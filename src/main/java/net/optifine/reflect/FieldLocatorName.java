@@ -1,7 +1,8 @@
 package net.optifine.reflect;
 
-import java.lang.reflect.Field;
 import net.optifine.Log;
+
+import java.lang.reflect.Field;
 
 public class FieldLocatorName implements IFieldLocator
 {

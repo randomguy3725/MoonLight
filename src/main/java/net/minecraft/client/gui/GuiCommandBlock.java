@@ -1,7 +1,6 @@
 package net.minecraft.client.gui;
 
 import io.netty.buffer.Unpooled;
-import java.io.IOException;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.network.PacketBuffer;
@@ -9,6 +8,8 @@ import net.minecraft.network.play.client.C17PacketCustomPayload;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjglx.input.Keyboard;
+
+import java.io.IOException;
 
 public class GuiCommandBlock extends GuiScreen
 {

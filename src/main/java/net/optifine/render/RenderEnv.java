@@ -1,9 +1,5 @@
 package net.optifine.render;
 
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Collections;
-import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.state.BlockStateBase;
@@ -18,6 +14,11 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.optifine.BlockPosM;
 import net.optifine.model.ListQuadsOverlay;
+
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.Collections;
+import java.util.List;
 
 public class RenderEnv
 {

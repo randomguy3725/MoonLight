@@ -2,9 +2,9 @@ package org.lwjglx.input;
 
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
+import org.lwjgl.glfw.GLFW;
 import org.lwjglx.LWJGLException;
 import org.lwjglx.Sys;
-import org.lwjgl.glfw.GLFW;
 import org.lwjglx.opengl.Display;
 
 import java.lang.reflect.Field;

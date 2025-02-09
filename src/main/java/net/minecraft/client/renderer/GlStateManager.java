@@ -1,8 +1,5 @@
 package net.minecraft.client.renderer;
 
-import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import net.minecraft.src.Config;
 import net.optifine.SmartAnimations;
 import net.optifine.render.GlAlphaState;
@@ -12,6 +9,10 @@ import net.optifine.util.LockCounter;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL14;
+
+import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
 public class GlStateManager
 {

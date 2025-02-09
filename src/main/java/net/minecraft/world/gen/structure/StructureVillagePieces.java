@@ -1,9 +1,6 @@
 package net.minecraft.world.gen.structure;
 
 import com.google.common.collect.Lists;
-
-import java.util.List;
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSandStone;
 import net.minecraft.block.BlockStairs;
@@ -23,6 +20,9 @@ import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.WorldChunkManager;
+
+import java.util.List;
+import java.util.Random;
 
 @SuppressWarnings("incomplete-switch")
 public class StructureVillagePieces

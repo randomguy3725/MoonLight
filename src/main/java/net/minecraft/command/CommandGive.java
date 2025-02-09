@@ -1,6 +1,5 @@
 package net.minecraft.command;
 
-import java.util.List;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -9,6 +8,8 @@ import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
+
+import java.util.List;
 
 public class CommandGive extends CommandBase
 {

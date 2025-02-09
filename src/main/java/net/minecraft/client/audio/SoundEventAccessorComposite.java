@@ -1,9 +1,10 @@
 package net.minecraft.client.audio;
 
 import com.google.common.collect.Lists;
+import net.minecraft.util.ResourceLocation;
+
 import java.util.List;
 import java.util.Random;
-import net.minecraft.util.ResourceLocation;
 
 public class SoundEventAccessorComposite implements ISoundEventAccessor<SoundPoolEntry>
 {

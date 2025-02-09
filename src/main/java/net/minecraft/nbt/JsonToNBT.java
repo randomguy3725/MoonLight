@@ -3,10 +3,11 @@ package net.minecraft.nbt;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import java.util.Stack;
-import java.util.regex.Pattern;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Stack;
+import java.util.regex.Pattern;
 
 public class JsonToNBT
 {

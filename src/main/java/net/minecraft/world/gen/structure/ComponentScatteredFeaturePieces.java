@@ -1,16 +1,7 @@
 package net.minecraft.world.gen.structure;
 
 import com.google.common.collect.Lists;
-import java.util.List;
-import java.util.Random;
-import net.minecraft.block.BlockFlowerPot;
-import net.minecraft.block.BlockLever;
-import net.minecraft.block.BlockPlanks;
-import net.minecraft.block.BlockSandStone;
-import net.minecraft.block.BlockStoneBrick;
-import net.minecraft.block.BlockStoneSlab;
-import net.minecraft.block.BlockTripWire;
-import net.minecraft.block.BlockTripWireHook;
+import net.minecraft.block.*;
 import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -20,6 +11,9 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
+
+import java.util.List;
+import java.util.Random;
 
 public class ComponentScatteredFeaturePieces
 {

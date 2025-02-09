@@ -2,6 +2,7 @@ package net.minecraft.util;
 
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
+
 import java.util.Arrays;
 import java.util.IllegalFormatException;
 import java.util.Iterator;

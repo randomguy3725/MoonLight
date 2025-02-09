@@ -2,19 +2,20 @@ package net.optifine;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
+import kotlin.io.TextStreamsKt;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.src.Config;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.Charsets;
-import org.apache.commons.io.IOUtils;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 public class Lang
 {
@@ -68,13 +69,10 @@ public class Lang
 
     public static void loadLocaleData(InputStream is, Map localeProperties) throws IOException
     {
-        Iterator iterator = IOUtils.readLines(is, Charsets.UTF_8).iterator();
+        var lines = TextStreamsKt.readLines(new InputStreamReader(is, Charsets.UTF_8));
         is.close();
 
-        while (iterator.hasNext())
-        {
-            String s = (String)iterator.next();
-
+        for (String s : lines) {
             if (!s.isEmpty() && s.charAt(0) != 35)
             {
                 String[] astring = Iterables.toArray(splitter.split(s), String.class);

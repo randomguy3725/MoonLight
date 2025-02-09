@@ -1,14 +1,14 @@
 package net.optifine;
 
-import java.util.Arrays;
-import java.util.Properties;
-
 import io.netty.util.collection.IntObjectHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectIntPair;
 import net.minecraft.network.PacketThreadUtil;
 import net.minecraft.src.Config;
 import net.optifine.util.ResUtils;
 import net.optifine.util.StrUtils;
+
+import java.util.Arrays;
+import java.util.Properties;
 
 public class CustomLoadingScreens
 {

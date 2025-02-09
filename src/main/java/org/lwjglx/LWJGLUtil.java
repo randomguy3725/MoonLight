@@ -15,15 +15,15 @@
  */
 package org.lwjglx;
 
+import org.lwjgl.BufferUtils;
+import org.lwjgl.system.Platform;
+
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.nio.ByteBuffer;
 import java.util.*;
-
-import org.lwjgl.BufferUtils;
-import org.lwjgl.system.Platform;
 
 /**
  * <p>

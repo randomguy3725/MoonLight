@@ -1,18 +1,15 @@
 package net.minecraft.item;
 
-import java.util.List;
-import java.util.Random;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Rotations;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
+
+import java.util.List;
+import java.util.Random;
 
 public class ItemArmorStand extends Item
 {

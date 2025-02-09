@@ -1,8 +1,9 @@
 package net.minecraft.util;
 
+import net.optifine.util.MathUtils;
+
 import java.util.Random;
 import java.util.UUID;
-import net.optifine.util.MathUtils;
 
 public class MathHelper
 {

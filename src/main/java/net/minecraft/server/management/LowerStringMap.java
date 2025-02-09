@@ -1,10 +1,10 @@
 package net.minecraft.server.management;
 
 import com.google.common.collect.Maps;
+
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 
 public class LowerStringMap<V> implements Map<String, V>
 {

@@ -1,9 +1,10 @@
 package net.minecraft.client.renderer.culling;
 
-import java.nio.FloatBuffer;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.MathHelper;
+
+import java.nio.FloatBuffer;
 
 public class ClippingHelperImpl extends ClippingHelper
 {

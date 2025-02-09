@@ -10,16 +10,12 @@
  */
 package wtf.moonlight.utils.misc;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
+import kotlin.io.ByteStreamsKt;
 import wtf.moonlight.Moonlight;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Map;
 
@@ -71,7 +67,9 @@ public class HttpUtils {
     }
 
     public static void download(String url, File file) throws IOException {
-        FileUtils.copyInputStreamToFile(make(url, "GET").getInputStream(), file);
+        try (var outputStream = new FileOutputStream(file)) {
+            ByteStreamsKt.copyTo(make(url, "GET").getInputStream(), outputStream, 8192);
+        }
     }
 
     public static HttpResponse postFormData(String urlStr, Map<String, File> filePathMap, Map<String, Object> keyValues, Map<String, Object> headers) throws IOException {

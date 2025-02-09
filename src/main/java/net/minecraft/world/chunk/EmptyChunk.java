@@ -1,8 +1,6 @@
 package net.minecraft.world.chunk;
 
 import com.google.common.base.Predicate;
-import java.util.List;
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -11,6 +9,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
+
+import java.util.List;
+import java.util.Random;
 
 public class EmptyChunk extends Chunk
 {

@@ -1,37 +1,6 @@
 package net.minecraft.init;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockBeacon;
-import net.minecraft.block.BlockBush;
-import net.minecraft.block.BlockCactus;
-import net.minecraft.block.BlockCauldron;
-import net.minecraft.block.BlockChest;
-import net.minecraft.block.BlockDaylightDetector;
-import net.minecraft.block.BlockDeadBush;
-import net.minecraft.block.BlockDoublePlant;
-import net.minecraft.block.BlockDynamicLiquid;
-import net.minecraft.block.BlockFire;
-import net.minecraft.block.BlockFlower;
-import net.minecraft.block.BlockGrass;
-import net.minecraft.block.BlockHopper;
-import net.minecraft.block.BlockLeaves;
-import net.minecraft.block.BlockMycelium;
-import net.minecraft.block.BlockPistonBase;
-import net.minecraft.block.BlockPistonExtension;
-import net.minecraft.block.BlockPistonMoving;
-import net.minecraft.block.BlockPortal;
-import net.minecraft.block.BlockRedstoneComparator;
-import net.minecraft.block.BlockRedstoneRepeater;
-import net.minecraft.block.BlockRedstoneWire;
-import net.minecraft.block.BlockReed;
-import net.minecraft.block.BlockSand;
-import net.minecraft.block.BlockSkull;
-import net.minecraft.block.BlockSlab;
-import net.minecraft.block.BlockStainedGlass;
-import net.minecraft.block.BlockStainedGlassPane;
-import net.minecraft.block.BlockStaticLiquid;
-import net.minecraft.block.BlockTallGrass;
-import net.minecraft.block.BlockTripWireHook;
+import net.minecraft.block.*;
 import net.minecraft.util.ResourceLocation;
 
 public class Blocks

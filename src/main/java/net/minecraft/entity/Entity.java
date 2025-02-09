@@ -1,15 +1,7 @@
 package net.minecraft.entity;
 
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
-
 import de.florianmichael.vialoadingbase.ViaLoadingBase;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockFence;
-import net.minecraft.block.BlockFenceGate;
-import net.minecraft.block.BlockLiquid;
-import net.minecraft.block.BlockWall;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockPattern;
@@ -34,18 +26,7 @@ import net.minecraft.nbt.NBTTagDouble;
 import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.ReportedException;
-import net.minecraft.util.StatCollector;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -53,6 +34,10 @@ import org.lwjglx.input.Mouse;
 import wtf.moonlight.Moonlight;
 import wtf.moonlight.events.impl.player.*;
 import wtf.moonlight.features.modules.impl.visual.FreeLook;
+
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 public abstract class Entity implements ICommandSender
 {

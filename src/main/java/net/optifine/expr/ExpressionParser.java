@@ -1,13 +1,9 @@
 package net.optifine.expr;
 
-import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.src.Config;
+
+import java.io.IOException;
+import java.util.*;
 
 public class ExpressionParser
 {

@@ -1,12 +1,13 @@
 package net.optifine.shaders.uniform;
 
-import java.util.HashMap;
-import java.util.Map;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.optifine.expr.ConstantFloat;
 import net.optifine.expr.IExpression;
 import net.optifine.expr.IExpressionResolver;
 import net.optifine.shaders.SMCLog;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ShaderExpressionResolver implements IExpressionResolver
 {

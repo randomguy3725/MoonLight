@@ -1,6 +1,5 @@
 package net.minecraft.client.renderer.tileentity;
 
-import java.util.List;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -11,6 +10,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.optifine.shaders.Shaders;
 import org.lwjgl.opengl.GL11;
+
+import java.util.List;
 
 public class TileEntityBeaconRenderer extends TileEntitySpecialRenderer<TileEntityBeacon>
 {

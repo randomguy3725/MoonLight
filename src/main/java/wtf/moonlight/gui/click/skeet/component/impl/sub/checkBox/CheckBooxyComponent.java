@@ -10,10 +10,10 @@
  */
 package wtf.moonlight.gui.click.skeet.component.impl.sub.checkBox;
 
+import wtf.moonlight.gui.click.skeet.LockedResolution;
 import wtf.moonlight.gui.click.skeet.component.ButtonComponent;
 import wtf.moonlight.gui.click.skeet.component.Component;
 import wtf.moonlight.gui.click.skeet.component.PredicateComponent;
-import wtf.moonlight.gui.click.skeet.LockedResolution;
 
 public abstract class CheckBooxyComponent extends ButtonComponent implements PredicateComponent
 {

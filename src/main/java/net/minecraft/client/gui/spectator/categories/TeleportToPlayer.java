@@ -3,8 +3,6 @@ package net.minecraft.client.gui.spectator.categories;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
-import java.util.Collection;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiSpectator;
@@ -16,6 +14,9 @@ import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.WorldSettings;
+
+import java.util.Collection;
+import java.util.List;
 
 public class TeleportToPlayer implements ISpectatorMenuView, ISpectatorMenuObject
 {

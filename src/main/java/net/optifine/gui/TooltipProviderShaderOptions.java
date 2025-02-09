@@ -1,8 +1,5 @@
 package net.optifine.gui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.settings.GameSettings;
@@ -11,6 +8,10 @@ import net.optifine.Lang;
 import net.optifine.shaders.config.ShaderOption;
 import net.optifine.shaders.gui.GuiButtonShaderOption;
 import net.optifine.util.StrUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class TooltipProviderShaderOptions extends TooltipProviderOptions
 {

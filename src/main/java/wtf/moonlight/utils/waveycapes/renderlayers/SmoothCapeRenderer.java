@@ -10,19 +10,15 @@
  */
 package wtf.moonlight.utils.waveycapes.renderlayers;
 
-import wtf.moonlight.utils.waveycapes.CapeMovement;
-import wtf.moonlight.utils.waveycapes.config.Config;
-import wtf.moonlight.utils.waveycapes.sim.StickSimulation;
-import wtf.moonlight.utils.waveycapes.util.Matrix4f;
-import wtf.moonlight.utils.waveycapes.util.Mth;
-import wtf.moonlight.utils.waveycapes.util.PoseStack;
-import wtf.moonlight.utils.waveycapes.util.Vector3f;
-import wtf.moonlight.utils.waveycapes.util.Vector4f;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.MathHelper;
+import wtf.moonlight.utils.waveycapes.CapeMovement;
+import wtf.moonlight.utils.waveycapes.config.Config;
+import wtf.moonlight.utils.waveycapes.sim.StickSimulation;
+import wtf.moonlight.utils.waveycapes.util.*;
 
 public class SmoothCapeRenderer {
 

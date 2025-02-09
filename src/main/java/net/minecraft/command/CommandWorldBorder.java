@@ -1,11 +1,12 @@
 package net.minecraft.command;
 
-import java.util.List;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.border.WorldBorder;
+
+import java.util.List;
 
 public class CommandWorldBorder extends CommandBase
 {

@@ -1,7 +1,6 @@
 package net.optifine.model;
 
 import com.google.common.collect.ImmutableList;
-import java.util.List;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.IBakedModel;
@@ -15,6 +14,8 @@ import net.optifine.ConnectedTextures;
 import net.optifine.NaturalTextures;
 import net.optifine.SmartLeaves;
 import net.optifine.render.RenderEnv;
+
+import java.util.List;
 
 public class BlockModelCustomizer
 {

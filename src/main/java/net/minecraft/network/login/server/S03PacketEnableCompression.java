@@ -1,9 +1,10 @@
 package net.minecraft.network.login.server;
 
-import java.io.IOException;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.login.INetHandlerLoginClient;
+
+import java.io.IOException;
 
 public class S03PacketEnableCompression implements Packet<INetHandlerLoginClient>
 {

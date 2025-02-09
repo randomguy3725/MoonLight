@@ -1,11 +1,12 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.BlockPos;
+
+import java.io.IOException;
 
 public class S35PacketUpdateTileEntity implements Packet<INetHandlerPlayClient>
 {

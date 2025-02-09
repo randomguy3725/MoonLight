@@ -10,7 +10,7 @@
  */
 package wtf.moonlight.features.friend;
 
-import joptsimple.internal.Strings;
+import kotlin.collections.CollectionsKt;
 import lombok.Getter;
 import net.minecraft.entity.player.EntityPlayer;
 import wtf.moonlight.utils.misc.DebugUtils;
@@ -41,11 +41,7 @@ public final class FriendManager {
     }
 
     public String getFriendsName() {
-        final ArrayList<String> list = new ArrayList<>();
-        for (final Friend friend : this.friends) {
-            list.add(friend.getUsername());
-        }
-        return Strings.join(list.toArray(new String[0]), "");
+        return String.join("", CollectionsKt.map(this.friends, Friend::getUsername));
     }
 
     public boolean isFriend(final String name) {

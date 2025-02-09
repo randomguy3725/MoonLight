@@ -1,9 +1,10 @@
 package net.minecraft.nbt;
 
+import net.minecraft.util.MathHelper;
+
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import net.minecraft.util.MathHelper;
 
 public class NBTTagFloat extends NBTBase.NBTPrimitive
 {

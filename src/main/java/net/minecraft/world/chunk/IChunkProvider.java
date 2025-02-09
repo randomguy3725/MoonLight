@@ -1,11 +1,12 @@
 package net.minecraft.world.chunk;
 
-import java.util.List;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+
+import java.util.List;
 
 public interface IChunkProvider
 {

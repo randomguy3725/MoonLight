@@ -1,9 +1,10 @@
 package net.minecraft.client.gui;
 
-import java.io.IOException;
-import java.util.List;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.IChatComponent;
+
+import java.io.IOException;
+import java.util.List;
 
 public class GuiDisconnected extends GuiScreen
 {

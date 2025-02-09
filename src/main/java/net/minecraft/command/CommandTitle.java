@@ -1,7 +1,6 @@
 package net.minecraft.command;
 
 import com.google.gson.JsonParseException;
-import java.util.List;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.S45PacketTitle;
 import net.minecraft.server.MinecraftServer;
@@ -11,6 +10,8 @@ import net.minecraft.util.IChatComponent;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.List;
 
 public class CommandTitle extends CommandBase
 {

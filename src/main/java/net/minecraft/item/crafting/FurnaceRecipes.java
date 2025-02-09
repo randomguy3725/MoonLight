@@ -1,8 +1,6 @@
 package net.minecraft.item.crafting;
 
 import com.google.common.collect.Maps;
-import java.util.Map;
-import java.util.Map.Entry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStoneBrick;
 import net.minecraft.init.Blocks;
@@ -11,6 +9,9 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFishFood;
 import net.minecraft.item.ItemStack;
+
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class FurnaceRecipes
 {

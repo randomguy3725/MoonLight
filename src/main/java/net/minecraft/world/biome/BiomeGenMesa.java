@@ -1,7 +1,5 @@
 package net.minecraft.world.biome;
 
-import java.util.Arrays;
-import java.util.Random;
 import net.minecraft.block.BlockColored;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockSand;
@@ -14,6 +12,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
+
+import java.util.Arrays;
+import java.util.Random;
 
 public class BiomeGenMesa extends BiomeGenBase
 {

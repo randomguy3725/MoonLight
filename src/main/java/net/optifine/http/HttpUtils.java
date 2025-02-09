@@ -1,18 +1,14 @@
 package net.optifine.http;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import kotlin.io.TextStreamsKt;
+import net.minecraft.client.Minecraft;
+import net.minecraft.src.Config;
+
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
-
-import kotlin.io.TextStreamsKt;
-import net.minecraft.client.Minecraft;
-import net.minecraft.src.Config;
 
 public class HttpUtils
 {

@@ -2,12 +2,13 @@ package net.minecraft.potion;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 import net.minecraft.src.Config;
 import net.minecraft.util.IntegerCache;
 import net.optifine.CustomColors;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public class PotionHelper
 {

@@ -1,6 +1,7 @@
 package net.minecraft.client.audio;
 
 import com.google.common.collect.Maps;
+
 import java.util.Map;
 
 public enum SoundCategory

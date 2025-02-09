@@ -1,12 +1,12 @@
 package net.minecraft.network.play.client;
 
-import java.io.IOException;
-
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import de.florianmichael.vialoadingbase.ViaLoadingBase;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
+
+import java.io.IOException;
 
 public class C0FPacketConfirmTransaction implements Packet<INetHandlerPlayServer>
 {

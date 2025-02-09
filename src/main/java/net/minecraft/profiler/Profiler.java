@@ -1,9 +1,6 @@
 package net.minecraft.profiler;
 
 import com.google.common.collect.Lists;
-import java.util.Collections;
-import java.util.List;
-
 import it.unimi.dsi.fastutil.longs.LongArrayList;
 import it.unimi.dsi.fastutil.longs.LongList;
 import it.unimi.dsi.fastutil.objects.Object2LongMap;
@@ -13,6 +10,9 @@ import net.minecraft.src.Config;
 import net.optifine.Lagometer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Collections;
+import java.util.List;
 
 public class Profiler
 {

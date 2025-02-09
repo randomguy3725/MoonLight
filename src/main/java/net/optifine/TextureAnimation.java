@@ -1,7 +1,5 @@
 package net.optifine;
 
-import java.nio.ByteBuffer;
-import java.util.Properties;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.ITextureObject;
@@ -9,6 +7,9 @@ import net.minecraft.src.Config;
 import net.minecraft.util.ResourceLocation;
 import net.optifine.util.TextureUtils;
 import org.lwjgl.opengl.GL11;
+
+import java.nio.ByteBuffer;
+import java.util.Properties;
 
 public class TextureAnimation
 {

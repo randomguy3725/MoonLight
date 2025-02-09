@@ -10,16 +10,16 @@
  */
 package wtf.moonlight.gui.click.skeet.component.impl.sub.text.box;
 
-import wtf.moonlight.gui.click.skeet.SkeetUI;
-import wtf.moonlight.gui.click.skeet.component.ButtonComponent;
-import wtf.moonlight.gui.click.skeet.component.Component;
-import wtf.moonlight.gui.click.skeet.component.PredicateComponent;
-import wtf.moonlight.gui.click.skeet.LockedResolution;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ChatAllowedCharacters;
 import org.lwjglx.input.Keyboard;
+import wtf.moonlight.gui.click.skeet.LockedResolution;
+import wtf.moonlight.gui.click.skeet.SkeetUI;
+import wtf.moonlight.gui.click.skeet.component.ButtonComponent;
+import wtf.moonlight.gui.click.skeet.component.Component;
+import wtf.moonlight.gui.click.skeet.component.PredicateComponent;
 import wtf.moonlight.utils.math.TimerUtils;
 import wtf.moonlight.utils.render.RenderUtils;
 

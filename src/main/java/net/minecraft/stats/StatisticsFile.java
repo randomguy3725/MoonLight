@@ -6,12 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
+import kotlin.io.FilesKt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.S37PacketStatistics;
@@ -19,9 +14,16 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IJsonSerializable;
 import net.minecraft.util.TupleIntJsonSerializable;
-import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public class StatisticsFile extends StatFileWriter
 {
@@ -45,12 +47,12 @@ public class StatisticsFile extends StatFileWriter
             try
             {
                 this.statsData.clear();
-                this.statsData.putAll(this.parseJson(FileUtils.readFileToString(this.statsFile)));
+                this.statsData.putAll(this.parseJson(FilesKt.readText(this.statsFile, StandardCharsets.UTF_8)));
             }
-            catch (IOException ioexception)
-            {
-                logger.error("Couldn't read statistics file " + this.statsFile, ioexception);
-            }
+//            catch (IOException ioexception)
+//            {
+//                logger.error("Couldn't read statistics file " + this.statsFile, ioexception);
+//            }
             catch (JsonParseException jsonparseexception)
             {
                 logger.error("Couldn't parse statistics file " + this.statsFile, jsonparseexception);
@@ -62,11 +64,11 @@ public class StatisticsFile extends StatFileWriter
     {
         try
         {
-            FileUtils.writeStringToFile(this.statsFile, dumpJson(this.statsData));
+            FilesKt.writeText(this.statsFile, dumpJson(this.statsData), StandardCharsets.UTF_8);
         }
-        catch (IOException ioexception)
+        catch (Exception ex)
         {
-            logger.error("Couldn't save stats", ioexception);
+            logger.error("Couldn't save stats", ex);
         }
     }
 

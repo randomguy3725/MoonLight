@@ -3,6 +3,17 @@ package net.minecraft.client.audio;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.minecraft.client.resources.IResource;
+import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.client.resources.IResourceManagerReloadListener;
+import net.minecraft.client.settings.GameSettings;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.ResourceLocation;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,19 +22,8 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Map.Entry;
-import net.minecraft.client.resources.IResource;
-import net.minecraft.client.resources.IResourceManager;
-import net.minecraft.client.resources.IResourceManagerReloadListener;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ITickable;
-import net.minecraft.util.ResourceLocation;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.Random;
 
 public class SoundHandler implements IResourceManagerReloadListener, ITickable
 {
@@ -87,17 +87,12 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable
         }
     }
 
-    protected Map<String, SoundList> getSoundMap(InputStream stream)
-    {
+    protected Map<String, SoundList> getSoundMap(InputStream stream) throws IOException {
         Map map;
 
-        try
+        try (stream)
         {
             map = GSON.fromJson(new InputStreamReader(stream), TYPE);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(stream);
         }
 
         return map;
@@ -134,11 +129,9 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable
             {
                 case FILE:
                     ResourceLocation resourcelocation1 = new ResourceLocation(s1, "sounds/" + resourcelocation.getResourcePath() + ".ogg");
-                    InputStream inputstream = null;
 
-                    try
+                    try (var inputstream = this.mcResourceManager.getResource(resourcelocation1).getInputStream())
                     {
-                        inputstream = this.mcResourceManager.getResource(resourcelocation1).getInputStream();
                     }
                     catch (FileNotFoundException var18)
                     {
@@ -149,10 +142,6 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable
                     {
                         logger.warn("Could not load sound file " + resourcelocation1 + ", cannot add it to event " + location, ioexception);
                         continue;
-                    }
-                    finally
-                    {
-                        IOUtils.closeQuietly(inputstream);
                     }
 
                     isoundeventaccessor = new SoundEventAccessor(new SoundPoolEntry(resourcelocation1, soundlist$soundentry.getSoundEntryPitch(), soundlist$soundentry.getSoundEntryVolume(), soundlist$soundentry.isStreaming()), soundlist$soundentry.getSoundEntryWeight());

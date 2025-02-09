@@ -1,6 +1,6 @@
 package net.minecraft.client.renderer;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 

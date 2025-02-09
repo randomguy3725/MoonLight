@@ -3,11 +3,7 @@ package net.minecraft.stats;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.IJsonSerializable;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.*;
 
 public class Achievement extends StatBase
 {

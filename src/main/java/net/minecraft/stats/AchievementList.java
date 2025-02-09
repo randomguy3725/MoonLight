@@ -1,11 +1,12 @@
 package net.minecraft.stats;
 
 import com.google.common.collect.Lists;
-import java.util.List;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.JsonSerializableSet;
+
+import java.util.List;
 
 public class AchievementList
 {

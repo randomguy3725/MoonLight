@@ -1,13 +1,13 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-import java.util.EnumSet;
-import java.util.Set;
-
 import lombok.Setter;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
+import java.util.EnumSet;
+import java.util.Set;
 
 public class S08PacketPlayerPosLook implements Packet<INetHandlerPlayClient>
 {

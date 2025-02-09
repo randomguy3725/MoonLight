@@ -3,12 +3,13 @@ package net.minecraft.realms;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.mojang.authlib.GameProfile;
 import com.mojang.util.UUIDTypeAdapter;
-import java.net.Proxy;
 import net.minecraft.client.Minecraft;
-import wtf.moonlight.gui.mainmenu.GuiMainMenu;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.Session;
 import net.minecraft.world.WorldSettings;
+import wtf.moonlight.gui.mainmenu.GuiMainMenu;
+
+import java.net.Proxy;
 
 public class Realms
 {
