@@ -58,7 +58,7 @@ public class Moonlight {
 
     // Client information
     public final String clientName = "Moonlight";
-    public final String version = "Alpha";
+    public final String version = "Latest Build";
     public final String clientCloud = "https://randomguy3725.github.io/MoonLightCloud/";
 
     // Directory for configuration files and other data

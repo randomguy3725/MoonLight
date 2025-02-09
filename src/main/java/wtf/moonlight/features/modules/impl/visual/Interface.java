@@ -332,7 +332,7 @@ public class Interface extends Module {
                 case "Default":
                      float textY = (event.scaledResolution().getScaledHeight() - 9) + (mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f);
 
-                    Fonts.interMedium.get(17).drawStringWithShadow(EnumChatFormatting.WHITE + Moonlight.INSTANCE.getVersion() + " §7- " + EnumChatFormatting.WHITE + Moonlight.INSTANCE.getDiscordRP().getName() + " §7- " + EnumChatFormatting.WHITE + Sys.getVersion(), (float) event.scaledResolution().getScaledWidth() - Fonts.interMedium.get(17).getStringWidth(Moonlight.INSTANCE.getVersion() + " - "  + Moonlight.INSTANCE.getDiscordRP().getName() + " §7- " + EnumChatFormatting.WHITE + Sys.getVersion()) - 2.0f, textY + 3.5, color (0));
+                    Fonts.interMedium.get(17).drawStringWithShadow(EnumChatFormatting.WHITE + Moonlight.INSTANCE.getVersion() + " §7- " + EnumChatFormatting.WHITE + Moonlight.INSTANCE.getDiscordRP().getName() + " §7- " + EnumChatFormatting.WHITE + "1.0", (float) event.scaledResolution().getScaledWidth() - Fonts.interMedium.get(17).getStringWidth(Moonlight.INSTANCE.getVersion() + " - "  + Moonlight.INSTANCE.getDiscordRP().getName() + " §7- " + EnumChatFormatting.WHITE + "1.0") - 2.0f, textY + 3.5, color (0));
                     break;
             }
         }
@@ -493,7 +493,7 @@ public class Interface extends Module {
                                 }
 
                                 if (i == size - 1) {
-                                    RenderUtils.drawRect(lastModuleLeftSide, y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth, 1.5f, color(count));
+                                    RenderUtils.drawRect(x, y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth, 1.5f, color(count));
                                 }
                             } else {
                                 if (lastModuleWidth - moduleWidth > 0) {
@@ -840,7 +840,7 @@ public class Interface extends Module {
                                     }
 
                                     if (i == size - 1) {
-                                        RenderUtils.drawRect(lastModuleLeftSide, y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth, 1.5f, color(count));
+                                        RenderUtils.drawRect(x, y + (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get(), moduleWidth, 1.5f, color(count));
                                     }
                                 } else {
                                     if (lastModuleWidth - moduleWidth > 0) {

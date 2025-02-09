@@ -10,7 +10,6 @@
  */
 package wtf.moonlight.gui.altmanager.repository;
 
-
 import com.google.common.base.Strings;
 import com.mojang.authlib.GameProfile;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
