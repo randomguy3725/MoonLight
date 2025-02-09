@@ -1,7 +1,6 @@
 plugins {
     id 'java'
     id 'com.github.johnrengelman.shadow' version '8.1.1'
-    id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
 group = 'net.example'
@@ -71,19 +70,6 @@ repositories {
     }
 }
 
-javafx {
-    modules = [
-            'javafx.controls',
-            'javafx.media',
-            'javafx.base',
-            'javafx.graphics',
-            'javafx.swing'
-    ]
-    version = '22'
-    platform = 'windows'
-    configurations = [ 'implementation', 'testImplementation' ]
-}
-
 shadowJar {
     archiveClassifier.set('all')
     configurations = [project.configurations.runtimeClasspath]
@@ -139,13 +125,11 @@ dependencies {
     implementation "com.paulscode.sound:soundsystem:20120107"
     implementation "com.paulscode.sound:codecjorbis:20101023"
 
-
     implementation "com.mojang:authlib:1.5.21"
 
     implementation 'it.unimi.dsi:fastutil:8.5.13'
     implementation 'org.json:json:20240303'
     implementation 'org.joml:joml:1.10.7'
-    implementation 'com.alibaba:fastjson:2.0.52'
     implementation 'org.jetbrains:annotations:24.1.0'
 
     implementation 'com.madgag:animated-gif-lib:1.4'
