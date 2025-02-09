@@ -1050,7 +1050,7 @@ public class Shaders
         }
         else
         {
-            ICustomTexture[] aicustomtexture = list.toArray(new ICustomTexture[list.size()]);
+            ICustomTexture[] aicustomtexture = list.toArray(new ICustomTexture[0]);
             return aicustomtexture;
         }
     }
@@ -1453,7 +1453,7 @@ public class Shaders
                     }
                 }
 
-                ShaderOption[] ashaderoption3 = list.toArray(new ShaderOption[list.size()]);
+                ShaderOption[] ashaderoption3 = list.toArray(new ShaderOption[0]);
                 return ashaderoption3;
             }
         }
@@ -1502,7 +1502,7 @@ public class Shaders
             }
         }
 
-        ShaderOption[] ashaderoption1 = list.toArray(new ShaderOption[list.size()]);
+        ShaderOption[] ashaderoption1 = list.toArray(new ShaderOption[0]);
         return ashaderoption1;
     }
 
@@ -1531,7 +1531,7 @@ public class Shaders
             }
         }
 
-        ShaderOption[] ashaderoption = list.toArray(new ShaderOption[list.size()]);
+        ShaderOption[] ashaderoption = list.toArray(new ShaderOption[0]);
         return ashaderoption;
     }
 
@@ -1641,7 +1641,7 @@ public class Shaders
             }
         }
 
-        ShaderOption[] ashaderoption = list.toArray(new ShaderOption[list.size()]);
+        ShaderOption[] ashaderoption = list.toArray(new ShaderOption[0]);
         return ashaderoption;
     }
 

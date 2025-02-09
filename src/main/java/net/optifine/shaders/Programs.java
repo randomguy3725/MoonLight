@@ -119,7 +119,7 @@ public class Programs
 
     public Program[] getPrograms()
     {
-        Program[] aprogram = this.programs.toArray(new Program[this.programs.size()]);
+        Program[] aprogram = this.programs.toArray(new Program[0]);
         return aprogram;
     }
 

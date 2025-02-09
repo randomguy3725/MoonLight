@@ -35,7 +35,7 @@ public class Lang
             list.add(s + Config.getGameSettings().language + s2);
         }
 
-        String[] astring = list.toArray(new String[list.size()]);
+        String[] astring = list.toArray(new String[0]);
         loadResources(Config.getDefaultResourcePack(), astring, map);
         IResourcePack[] airesourcepack = Config.getResourcePacks();
 

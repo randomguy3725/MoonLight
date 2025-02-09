@@ -208,7 +208,7 @@ public class BlockAliases
 
             if (list != null)
             {
-                ablockalias[i] = list.toArray(new BlockAlias[list.size()]);
+                ablockalias[i] = list.toArray(new BlockAlias[0]);
             }
         }
 

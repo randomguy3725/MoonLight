@@ -21,7 +21,7 @@ public class TokenParser
 
             if (i < 0)
             {
-                Token[] atoken = list.toArray(new Token[list.size()]);
+                Token[] atoken = list.toArray(new Token[0]);
                 return atoken;
             }
 

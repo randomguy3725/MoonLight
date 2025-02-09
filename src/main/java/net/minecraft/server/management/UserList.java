@@ -103,7 +103,7 @@ public class UserList<K, V extends UserListEntry<K>>
 
     public String[] getKeys()
     {
-        return this.values.keySet().toArray(new String[this.values.size()]);
+        return this.values.keySet().toArray(new String[0]);
     }
 
     protected String getObjectKey(K obj)

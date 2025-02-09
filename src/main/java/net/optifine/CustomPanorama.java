@@ -66,7 +66,7 @@ public class CustomPanorama
             }
         }
 
-        String[] astring = list.toArray(new String[list.size()]);
+        String[] astring = list.toArray(new String[0]);
         return astring;
     }
 

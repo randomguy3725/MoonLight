@@ -129,7 +129,7 @@ public class CustomItems
         if (map.size() > 0)
         {
             Set set = map.keySet();
-            String[] astring1 = (String[]) set.toArray(new String[set.size()]);
+            String[] astring1 = (String[]) set.toArray(new String[0]);
             astring = (String[]) Config.addObjectsToArray(astring, astring1);
         }
 
@@ -461,7 +461,7 @@ public class CustomItems
 
             if (list != null)
             {
-                CustomItemProperties[] acustomitemproperties1 = (CustomItemProperties[]) list.toArray(new CustomItemProperties[list.size()]);
+                CustomItemProperties[] acustomitemproperties1 = (CustomItemProperties[]) list.toArray(new CustomItemProperties[0]);
                 Arrays.sort(acustomitemproperties1, new CustomItemsComparator());
                 acustomitemproperties[i] = acustomitemproperties1;
             }

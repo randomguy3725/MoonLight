@@ -26,7 +26,7 @@ public class CustomUniforms
             }
         }
 
-        this.expressionsCached = list.toArray(new IExpressionCached[list.size()]);
+        this.expressionsCached = list.toArray(new IExpressionCached[0]);
     }
 
     public void setProgram(int program)

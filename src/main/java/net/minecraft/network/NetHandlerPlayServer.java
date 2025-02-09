@@ -1128,7 +1128,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable
             list.add(s);
         }
 
-        this.playerEntity.playerNetServerHandler.sendPacket(new S3APacketTabComplete(list.toArray(new String[list.size()])));
+        this.playerEntity.playerNetServerHandler.sendPacket(new S3APacketTabComplete(list.toArray(new String[0])));
     }
 
     public void processClientSettings(C15PacketClientSettings packetIn)
