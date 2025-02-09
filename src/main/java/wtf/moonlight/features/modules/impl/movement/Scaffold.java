@@ -377,16 +377,16 @@ public class Scaffold extends Module {
             case "Hypixel": {
                 rotation = RotationUtils.getRotations(getVec3(data));
                 if (MovementUtils.isMovingStraight()) {
-                    if (Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(getVec3(data))[0] - MovementUtils.getRawDirection() - 135)) < Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(getVec3(data))[0] - MovementUtils.getRawDirection() + 135))) {
-                        rotation[0] = MovementUtils.getRawDirection() + 110;
+                    if (Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(getVec3(data))[0] - MovementUtils.getRawDirection() - 127.50f)) < Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(getVec3(data))[0] - MovementUtils.getRawDirection() + 123))) {
+                        rotation[0] = MovementUtils.getRawDirection() + 115.5f;
                     } else {
-                        rotation[0] = MovementUtils.getRawDirection() - 110;
+                        rotation[0] = MovementUtils.getRawDirection() - 115.5f;
                     }
                 } else {
-                    if (Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(getVec3(data))[0] - MovementUtils.getRawDirection() - 145)) < Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(getVec3(data))[0] - MovementUtils.getRawDirection() + 145))) {
-                        rotation[0] = MovementUtils.getRawDirection() + 121;
+                    if (Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(getVec3(data))[0] - MovementUtils.getRawDirection() - 128)) < Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(getVec3(data))[0] - MovementUtils.getRawDirection() + 128))) {
+                        rotation[0] = MovementUtils.getRawDirection() + 123.5f;
                     } else {
-                        rotation[0] = MovementUtils.getRawDirection() - 121;
+                        rotation[0] = MovementUtils.getRawDirection() - 123.5f;
                     }
                 }
             }
