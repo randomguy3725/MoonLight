@@ -39,9 +39,7 @@ public class BlockModelUtils
         EnumFacing[] aenumfacing = EnumFacing.VALUES;
         List<List<BakedQuad>> list1 = new ArrayList();
 
-        for (int i = 0; i < aenumfacing.length; ++i)
-        {
-            EnumFacing enumfacing = aenumfacing[i];
+        for (EnumFacing enumfacing : aenumfacing) {
             List list2 = new ArrayList();
             list2.add(makeBakedQuad(enumfacing, sprite, tintIndex));
             list1.add(list2);
@@ -59,9 +57,7 @@ public class BlockModelUtils
         EnumFacing[] aenumfacing = EnumFacing.VALUES;
         List list1 = new ArrayList();
 
-        for (int i = 0; i < aenumfacing.length; ++i)
-        {
-            EnumFacing enumfacing = aenumfacing[i];
+        for (EnumFacing enumfacing : aenumfacing) {
             List list2 = new ArrayList();
             list2.addAll(modelBase.getFaceQuads(enumfacing));
             list2.addAll(modelAdd.getFaceQuads(enumfacing));
@@ -119,9 +115,7 @@ public class BlockModelUtils
                     IBakedModel ibakedmodel1 = ModelUtils.duplicateModel(ibakedmodel);
                     EnumFacing[] aenumfacing = EnumFacing.VALUES;
 
-                    for (int i = 0; i < aenumfacing.length; ++i)
-                    {
-                        EnumFacing enumfacing = aenumfacing[i];
+                    for (EnumFacing enumfacing : aenumfacing) {
                         List<BakedQuad> list = ibakedmodel1.getFaceQuads(enumfacing);
                         replaceTexture(list, spriteOld, spriteNew);
                     }

@@ -1417,11 +1417,9 @@ public class GameSettings
             int[] aint = new int[] {0, 2, 4, 6, 8, 12, 16};
             this.ofAaLevel = 0;
 
-            for (int j = 0; j < aint.length; ++j)
-            {
-                if (i >= aint[j])
-                {
-                    this.ofAaLevel = aint[j];
+            for (int k : aint) {
+                if (i >= k) {
+                    this.ofAaLevel = k;
                 }
             }
 

@@ -46,13 +46,10 @@ public class TextureAnimations
         {
             int i = 0;
 
-            for (int j = 0; j < textureAnimations.length; ++j)
-            {
-                TextureAnimation textureanimation = textureAnimations[j];
+            for (TextureAnimation textureanimation : textureAnimations) {
                 textureanimation.updateTexture();
 
-                if (textureanimation.isActive())
-                {
+                if (textureanimation.isActive()) {
                     ++i;
                 }
             }
@@ -80,13 +77,10 @@ public class TextureAnimations
     {
         List list = new ArrayList();
 
-        for (int i = 0; i < rps.length; ++i)
-        {
-            IResourcePack iresourcepack = rps[i];
+        for (IResourcePack iresourcepack : rps) {
             TextureAnimation[] atextureanimation = getTextureAnimations(iresourcepack);
 
-            if (atextureanimation != null)
-            {
+            if (atextureanimation != null) {
                 list.addAll(Arrays.asList(atextureanimation));
             }
         }
@@ -107,13 +101,10 @@ public class TextureAnimations
         {
             List list = new ArrayList();
 
-            for (int i = 0; i < astring.length; ++i)
-            {
-                String s = astring[i];
+            for (String s : astring) {
                 Config.dbg("Texture animation: " + s);
 
-                try
-                {
+                try {
                     ResourceLocation resourcelocation = new ResourceLocation(s);
                     InputStream inputstream = rp.getInputStream(resourcelocation);
                     Properties properties = new PropertiesOrdered();
@@ -121,26 +112,18 @@ public class TextureAnimations
                     inputstream.close();
                     TextureAnimation textureanimation = makeTextureAnimation(properties, resourcelocation);
 
-                    if (textureanimation != null)
-                    {
+                    if (textureanimation != null) {
                         ResourceLocation resourcelocation1 = new ResourceLocation(textureanimation.getDstTex());
 
-                        if (Config.getDefiningResourcePack(resourcelocation1) != rp)
-                        {
+                        if (Config.getDefiningResourcePack(resourcelocation1) != rp) {
                             Config.dbg("Skipped: " + s + ", target texture not loaded from same resource pack");
-                        }
-                        else
-                        {
+                        } else {
                             list.add(textureanimation);
                         }
                     }
-                }
-                catch (FileNotFoundException filenotfoundexception)
-                {
+                } catch (FileNotFoundException filenotfoundexception) {
                     Config.warn("File not found: " + filenotfoundexception.getMessage());
-                }
-                catch (IOException ioexception)
-                {
+                } catch (IOException ioexception) {
                     ioexception.printStackTrace();
                 }
             }

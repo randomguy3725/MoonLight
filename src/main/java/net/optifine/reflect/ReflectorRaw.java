@@ -14,12 +14,8 @@ public class ReflectorRaw
         {
             Field[] afield = cls.getDeclaredFields();
 
-            for (int i = 0; i < afield.length; ++i)
-            {
-                Field field = afield[i];
-
-                if (field.getType() == fieldType)
-                {
+            for (Field field : afield) {
+                if (field.getType() == fieldType) {
                     field.setAccessible(true);
                     return field;
                 }
@@ -52,12 +48,8 @@ public class ReflectorRaw
         {
             List list = new ArrayList();
 
-            for (int i = 0; i < fields.length; ++i)
-            {
-                Field field = fields[i];
-
-                if (field.getType() == fieldType)
-                {
+            for (Field field : fields) {
+                if (field.getType() == fieldType) {
                     field.setAccessible(true);
                     list.add(field);
                 }
@@ -103,25 +95,17 @@ public class ReflectorRaw
         {
             List<Field> list = new ArrayList();
 
-            for (int i = 0; i < fields.length; ++i)
-            {
-                Field field = fields[i];
-
-                if (field.getType() == fieldType)
-                {
+            for (Field field : fields) {
+                if (field.getType() == fieldType) {
                     boolean flag = Modifier.isStatic(field.getModifiers());
 
-                    if ((obj != null || flag) && (obj == null || !flag))
-                    {
+                    if ((obj != null || flag) && (obj == null || !flag)) {
                         field.setAccessible(true);
                         Object object = field.get(obj);
 
-                        if (object == value)
-                        {
+                        if (object == value) {
                             list.add(field);
-                        }
-                        else if (object != null && object.equals(value))
-                        {
+                        } else if (object != null && object.equals(value)) {
                             list.add(field);
                         }
                     }

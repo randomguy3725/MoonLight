@@ -900,14 +900,12 @@ public class Chunk
         this.isChunkLoaded = true;
         this.worldObj.addTileEntities(this.chunkTileEntityMap.values());
 
-        for (int i = 0; i < this.entityLists.length; ++i)
-        {
-            for (Entity entity : this.entityLists[i])
-            {
+        for (ClassInheritanceMultiMap<Entity> entityList : this.entityLists) {
+            for (Entity entity : entityList) {
                 entity.onChunkLoad();
             }
 
-            this.worldObj.loadEntities(this.entityLists[i]);
+            this.worldObj.loadEntities(entityList);
         }
     }
 
@@ -920,9 +918,8 @@ public class Chunk
             this.worldObj.markTileEntityForRemoval(tileentity);
         }
 
-        for (int i = 0; i < this.entityLists.length; ++i)
-        {
-            this.worldObj.unloadEntities(this.entityLists[i]);
+        for (ClassInheritanceMultiMap<Entity> entityList : this.entityLists) {
+            this.worldObj.unloadEntities(entityList);
         }
     }
 
@@ -955,12 +952,10 @@ public class Chunk
 
                         if (aentity != null)
                         {
-                            for (int l = 0; l < aentity.length; ++l)
-                            {
-                                entity = aentity[l];
+                            for (Entity value : aentity) {
+                                entity = value;
 
-                                if (entity != entityIn && entity.getEntityBoundingBox().intersectsWith(aabb) && (p_177414_4_ == null || p_177414_4_.apply(entity)))
-                                {
+                                if (entity != entityIn && entity.getEntityBoundingBox().intersectsWith(aabb) && (p_177414_4_ == null || p_177414_4_.apply(entity))) {
                                     listToFill.add(entity);
                                 }
                             }

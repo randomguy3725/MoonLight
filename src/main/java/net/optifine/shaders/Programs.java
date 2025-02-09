@@ -93,13 +93,10 @@ public class Programs
         }
         else
         {
-            for (int i = 0; i < this.programs.size(); ++i)
-            {
-                Program program = this.programs.get(i);
+            for (Program program : this.programs) {
                 String s = program.getName();
 
-                if (s.equals(name))
-                {
+                if (s.equals(name)) {
                     return program;
                 }
             }

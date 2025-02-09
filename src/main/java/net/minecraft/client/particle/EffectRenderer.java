@@ -188,20 +188,16 @@ public class EffectRenderer
         long i = System.currentTimeMillis();
         int j = entitiesFX.size();
 
-        for (int k = 0; k < entitiesFX.size(); ++k)
-        {
-            EntityFX entityfx = entitiesFX.get(k);
+        for (EntityFX entityfx : entitiesFX) {
             this.tickParticle(entityfx);
 
-            if (entityfx.isDead)
-            {
+            if (entityfx.isDead) {
                 list.add(entityfx);
             }
 
             --j;
 
-            if (System.currentTimeMillis() > i + 20L)
-            {
+            if (System.currentTimeMillis() > i + 20L) {
                 break;
             }
         }
@@ -361,9 +357,7 @@ public class EffectRenderer
                 Tessellator tessellator = Tessellator.getInstance();
                 WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 
-                for (int j = 0; j < list.size(); ++j)
-                {
-                    EntityFX entityfx = list.get(j);
+                for (EntityFX entityfx : list) {
                     entityfx.renderParticle(worldrenderer, entityIn, partialTick, f1, f5, f2, f3, f4);
                 }
             }

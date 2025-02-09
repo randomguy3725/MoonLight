@@ -459,9 +459,7 @@ public class CustomColors
 
         String[] astring = (String[]) map.keySet().toArray(new String[map.size()]);
 
-        for (int j = 0; j < astring.length; ++j)
-        {
-            String s6 = astring[j];
+        for (String s6 : astring) {
             String s3 = props.getProperty(s6);
             dbg("Block palette: " + s6 + " = " + s3);
             String s4 = s6.substring(s.length());
@@ -469,27 +467,19 @@ public class CustomColors
             s4 = TextureUtils.fixResourcePath(s4, s5);
             CustomColormap customcolormap = getCustomColors(s4, 256, 256);
 
-            if (customcolormap == null)
-            {
+            if (customcolormap == null) {
                 warn("Colormap not found: " + s4);
-            }
-            else
-            {
+            } else {
                 ConnectedParser connectedparser = new ConnectedParser("CustomColors");
                 MatchBlock[] amatchblock = connectedparser.parseMatchBlocks(s3);
 
-                if (amatchblock != null && amatchblock.length > 0)
-                {
-                    for (int i = 0; i < amatchblock.length; ++i)
-                    {
-                        MatchBlock matchblock = amatchblock[i];
+                if (amatchblock != null && amatchblock.length > 0) {
+                    for (MatchBlock matchblock : amatchblock) {
                         customcolormap.addMatchBlock(matchblock);
                     }
 
                     list.add(customcolormap);
-                }
-                else
-                {
+                } else {
                     warn("Invalid match blocks: " + s3);
                 }
             }
@@ -512,48 +502,35 @@ public class CustomColors
         Arrays.sort(astring);
         List list = new ArrayList();
 
-        for (int i = 0; i < astring.length; ++i)
-        {
-            String s = astring[i];
+        for (String s : astring) {
             dbg("Block colormap: " + s);
 
-            try
-            {
+            try {
                 ResourceLocation resourcelocation = new ResourceLocation("minecraft", s);
                 InputStream inputstream = Config.getResourceStream(resourcelocation);
 
-                if (inputstream == null)
-                {
+                if (inputstream == null) {
                     warn("File not found: " + s);
-                }
-                else
-                {
+                } else {
                     Properties properties = new PropertiesOrdered();
                     properties.load(inputstream);
                     inputstream.close();
                     CustomColormap customcolormap = new CustomColormap(properties, s, width, height, paletteFormatDefault);
 
-                    if (customcolormap.isValid(s) && customcolormap.isValidMatchBlocks(s))
-                    {
+                    if (customcolormap.isValid(s) && customcolormap.isValidMatchBlocks(s)) {
                         addToBlockList(customcolormap, list);
                     }
                 }
-            }
-            catch (FileNotFoundException var12)
-            {
+            } catch (FileNotFoundException var12) {
                 warn("File not found: " + s);
-            }
-            catch (Exception exception)
-            {
+            } catch (Exception exception) {
                 exception.printStackTrace();
             }
         }
 
         if (basePalettes != null)
         {
-            for (int j = 0; j < basePalettes.length; ++j)
-            {
-                CustomColormap customcolormap1 = basePalettes[j];
+            for (CustomColormap customcolormap1 : basePalettes) {
                 addToBlockList(customcolormap1, list);
             }
         }
@@ -575,16 +552,10 @@ public class CustomColors
 
         if (aint != null && aint.length > 0)
         {
-            for (int i = 0; i < aint.length; ++i)
-            {
-                int j = aint[i];
-
-                if (j < 0)
-                {
+            for (int j : aint) {
+                if (j < 0) {
                     warn("Invalid block ID: " + j);
-                }
-                else
-                {
+                } else {
                     addToList(cm, blockList, j);
                 }
             }
@@ -633,13 +604,10 @@ public class CustomColors
 
     private static int readColor(Properties props, String[] names)
     {
-        for (int i = 0; i < names.length; ++i)
-        {
-            String s = names[i];
+        for (String s : names) {
             int j = readColor(props, s);
 
-            if (j >= 0)
-            {
+            if (j >= 0) {
                 return j;
             }
         }
@@ -717,14 +685,12 @@ public class CustomColors
 
     private static CustomColormap getCustomColors(String basePath, String[] paths, int width, int height)
     {
-        for (int i = 0; i < paths.length; ++i)
-        {
-            String s = paths[i];
+        for (String path : paths) {
+            String s = path;
             s = basePath + s;
             CustomColormap customcolormap = getCustomColors(s, width, height);
 
-            if (customcolormap != null)
-            {
+            if (customcolormap != null) {
                 return customcolormap;
             }
         }
@@ -933,12 +899,8 @@ public class CustomColors
                 }
                 else
                 {
-                    for (int j = 0; j < acustomcolormap.length; ++j)
-                    {
-                        CustomColormap customcolormap = acustomcolormap[j];
-
-                        if (customcolormap.matchesBlock(blockstatebase))
-                        {
+                    for (CustomColormap customcolormap : acustomcolormap) {
+                        if (customcolormap.matchesBlock(blockstatebase)) {
                             return customcolormap;
                         }
                     }
@@ -1439,9 +1401,7 @@ public class CustomColors
         EnumDyeColor[] aenumdyecolor = EnumDyeColor.values();
         Map<String, EnumDyeColor> map = new HashMap();
 
-        for (int i = 0; i < aenumdyecolor.length; ++i)
-        {
-            EnumDyeColor enumdyecolor = aenumdyecolor[i];
+        for (EnumDyeColor enumdyecolor : aenumdyecolor) {
             map.put(enumdyecolor.getName(), enumdyecolor);
         }
 
@@ -1662,12 +1622,8 @@ public class CustomColors
         {
             Potion[] apotion = Potion.potionTypes;
 
-            for (int i = 0; i < apotion.length; ++i)
-            {
-                Potion potion = apotion[i];
-
-                if (potion != null && potion.getName().equals(name))
-                {
+            for (Potion potion : apotion) {
+                if (potion != null && potion.getName().equals(name)) {
                     return potion.getId();
                 }
             }

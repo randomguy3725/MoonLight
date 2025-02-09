@@ -51,16 +51,13 @@ public class MerchantRecipeList extends ArrayList<MerchantRecipe>
     {
         buffer.writeByte((byte)(this.size() & 255));
 
-        for (int i = 0; i < this.size(); ++i)
-        {
-            MerchantRecipe merchantrecipe = this.get(i);
+        for (MerchantRecipe merchantrecipe : this) {
             buffer.writeItemStackToBuffer(merchantrecipe.getItemToBuy());
             buffer.writeItemStackToBuffer(merchantrecipe.getItemToSell());
             ItemStack itemstack = merchantrecipe.getSecondItemToBuy();
             buffer.writeBoolean(itemstack != null);
 
-            if (itemstack != null)
-            {
+            if (itemstack != null) {
                 buffer.writeItemStackToBuffer(itemstack);
             }
 
@@ -118,9 +115,7 @@ public class MerchantRecipeList extends ArrayList<MerchantRecipe>
         NBTTagCompound nbttagcompound = new NBTTagCompound();
         NBTTagList nbttaglist = new NBTTagList();
 
-        for (int i = 0; i < this.size(); ++i)
-        {
-            MerchantRecipe merchantrecipe = this.get(i);
+        for (MerchantRecipe merchantrecipe : this) {
             nbttaglist.appendTag(merchantrecipe.writeToTags());
         }
 

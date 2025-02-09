@@ -72,9 +72,7 @@ public class CustomModelRegistry
 
         if (astring != null)
         {
-            for (int i = 0; i < astring.length; ++i)
-            {
-                String s = astring[i];
+            for (String s : astring) {
                 addModelAdapter(map, modelAdapter, s);
             }
         }
@@ -82,13 +80,10 @@ public class CustomModelRegistry
         ModelBase modelbase = modelAdapter.makeModel();
         String[] astring1 = modelAdapter.getModelRendererNames();
 
-        for (int j = 0; j < astring1.length; ++j)
-        {
-            String s1 = astring1[j];
+        for (String s1 : astring1) {
             ModelRenderer modelrenderer = modelAdapter.getModelRenderer(modelbase, s1);
 
-            if (modelrenderer == null)
-            {
+            if (modelrenderer == null) {
                 Config.warn("Model renderer not found, model: " + modelAdapter.getName() + ", name: " + s1);
             }
         }

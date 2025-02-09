@@ -431,12 +431,8 @@ public class EntityBoat extends Entity
 
                 if (list != null && !list.isEmpty())
                 {
-                    for (int k2 = 0; k2 < list.size(); ++k2)
-                    {
-                        Entity entity = list.get(k2);
-
-                        if (entity != this.riddenByEntity && entity.canBePushed() && entity instanceof EntityBoat)
-                        {
+                    for (Entity entity : list) {
+                        if (entity != this.riddenByEntity && entity.canBePushed() && entity instanceof EntityBoat) {
                             entity.applyEntityCollision(this);
                         }
                     }

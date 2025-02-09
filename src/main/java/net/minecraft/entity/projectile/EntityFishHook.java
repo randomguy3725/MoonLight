@@ -252,22 +252,16 @@ public class EntityFishHook extends Entity
             List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
             double d0 = 0.0D;
 
-            for (int i = 0; i < list.size(); ++i)
-            {
-                Entity entity1 = list.get(i);
-
-                if (entity1.canBeCollidedWith() && (entity1 != this.angler || this.ticksInAir >= 5))
-                {
+            for (Entity entity1 : list) {
+                if (entity1.canBeCollidedWith() && (entity1 != this.angler || this.ticksInAir >= 5)) {
                     float f = 0.3F;
                     AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand(f, f, f);
                     MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec31, vec3);
 
-                    if (movingobjectposition1 != null)
-                    {
+                    if (movingobjectposition1 != null) {
                         double d2 = vec31.squareDistanceTo(movingobjectposition1.hitVec);
 
-                        if (d2 < d0 || d0 == 0.0D)
-                        {
+                        if (d2 < d0 || d0 == 0.0D) {
                             entity = entity1;
                             d0 = d2;
                         }

@@ -1211,9 +1211,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             GlStateManager.disableBlend();
             double d0 = 0.0D;
 
-            for (int l = 0; l < list.size(); ++l)
-            {
-                Profiler.Result profiler$result1 = list.get(l);
+            for (Profiler.Result profiler$result1 : list) {
                 int i1 = MathHelper.floor_double(profiler$result1.field_76332_a / 4.0D) + 1;
                 worldrenderer.begin(6, DefaultVertexFormats.POSITION_COLOR);
                 int j1 = profiler$result1.getColor();
@@ -1222,24 +1220,22 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                 int i2 = j1 & 255;
                 worldrenderer.pos(j, k, 0.0D).color(k1, l1, i2, 255).endVertex();
 
-                for (int j2 = i1; j2 >= 0; --j2)
-                {
-                    float f = (float)((d0 + profiler$result1.field_76332_a * (double)j2 / (double)i1) * Math.PI * 2.0D / 100.0D);
-                    float f1 = MathHelper.sin(f) * (float)i;
-                    float f2 = MathHelper.cos(f) * (float)i * 0.5F;
-                    worldrenderer.pos((float)j + f1, (float)k - f2, 0.0D).color(k1, l1, i2, 255).endVertex();
+                for (int j2 = i1; j2 >= 0; --j2) {
+                    float f = (float) ((d0 + profiler$result1.field_76332_a * (double) j2 / (double) i1) * Math.PI * 2.0D / 100.0D);
+                    float f1 = MathHelper.sin(f) * (float) i;
+                    float f2 = MathHelper.cos(f) * (float) i * 0.5F;
+                    worldrenderer.pos((float) j + f1, (float) k - f2, 0.0D).color(k1, l1, i2, 255).endVertex();
                 }
 
                 tessellator.draw();
                 worldrenderer.begin(5, DefaultVertexFormats.POSITION_COLOR);
 
-                for (int i3 = i1; i3 >= 0; --i3)
-                {
-                    float f3 = (float)((d0 + profiler$result1.field_76332_a * (double)i3 / (double)i1) * Math.PI * 2.0D / 100.0D);
-                    float f4 = MathHelper.sin(f3) * (float)i;
-                    float f5 = MathHelper.cos(f3) * (float)i * 0.5F;
-                    worldrenderer.pos((float)j + f4, (float)k - f5, 0.0D).color(k1 >> 1, l1 >> 1, i2 >> 1, 255).endVertex();
-                    worldrenderer.pos((float)j + f4, (float)k - f5 + 10.0F, 0.0D).color(k1 >> 1, l1 >> 1, i2 >> 1, 255).endVertex();
+                for (int i3 = i1; i3 >= 0; --i3) {
+                    float f3 = (float) ((d0 + profiler$result1.field_76332_a * (double) i3 / (double) i1) * Math.PI * 2.0D / 100.0D);
+                    float f4 = MathHelper.sin(f3) * (float) i;
+                    float f5 = MathHelper.cos(f3) * (float) i * 0.5F;
+                    worldrenderer.pos((float) j + f4, (float) k - f5, 0.0D).color(k1 >> 1, l1 >> 1, i2 >> 1, 255).endVertex();
+                    worldrenderer.pos((float) j + f4, (float) k - f5 + 10.0F, 0.0D).color(k1 >> 1, l1 >> 1, i2 >> 1, 255).endVertex();
                 }
 
                 tessellator.draw();

@@ -52,17 +52,12 @@ public class ItemBoat extends Item
             float f9 = 1.0F;
             List<Entity> list = worldIn.getEntitiesWithinAABBExcludingEntity(playerIn, playerIn.getEntityBoundingBox().addCoord(vec32.xCoord * d3, vec32.yCoord * d3, vec32.zCoord * d3).expand(f9, f9, f9));
 
-            for (int i = 0; i < list.size(); ++i)
-            {
-                Entity entity = list.get(i);
-
-                if (entity.canBeCollidedWith())
-                {
+            for (Entity entity : list) {
+                if (entity.canBeCollidedWith()) {
                     float f10 = entity.getCollisionBorderSize();
                     AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox().expand(f10, f10, f10);
 
-                    if (axisalignedbb.isVecInside(vec3))
-                    {
+                    if (axisalignedbb.isVecInside(vec3)) {
                         flag = true;
                     }
                 }

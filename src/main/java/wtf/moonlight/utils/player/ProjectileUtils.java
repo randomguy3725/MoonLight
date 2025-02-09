@@ -39,8 +39,7 @@ public class ProjectileUtils implements InstanceAccess {
             }
             final AxisAlignedBB arrowBox = new AxisAlignedBB(posX - size, posY - size, posZ - size, posX + size, posY + size, posZ + size);
             final List<Entity> entityList = mc.theWorld.getEntitiesWithinAABB(Entity.class, arrowBox.addCoord(motionX, motionY, motionZ).expand(1.0, 1.0, 1.0));
-            for (int i = 0; i < entityList.size(); ++i) {
-                final Entity var18 = entityList.get(i);
+            for (final Entity var18 : entityList) {
                 if (var18.canBeCollidedWith() && var18 != mc.thePlayer) {
                     final AxisAlignedBB var19 = var18.getEntityBoundingBox().expand(size, size, size);
                     final MovingObjectPosition possibleEntityLanding = var19.calculateIntercept(posBefore, posAfter);

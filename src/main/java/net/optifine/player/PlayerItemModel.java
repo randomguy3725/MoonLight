@@ -59,13 +59,10 @@ public class PlayerItemModel
             texturemanager.bindTexture(this.locationMissing);
         }
 
-        for (int i = 0; i < this.modelRenderers.length; ++i)
-        {
-            PlayerItemRenderer playeritemrenderer = this.modelRenderers[i];
+        for (PlayerItemRenderer playeritemrenderer : this.modelRenderers) {
             GlStateManager.pushMatrix();
 
-            if (player.isSneaking())
-            {
+            if (player.isSneaking()) {
                 GlStateManager.translate(0.0F, 0.2F, 0.0F);
             }
 

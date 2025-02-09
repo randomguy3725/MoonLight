@@ -41,12 +41,8 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T>
         field_181158_a.add(clazz);
         int i = this.values.size();
 
-        for (int j = 0; j < i; ++j)
-        {
-            T t = this.values.get(j);
-
-            if (clazz.isAssignableFrom(t.getClass()))
-            {
+        for (T t : this.values) {
+            if (clazz.isAssignableFrom(t.getClass())) {
                 this.addForClass(t, clazz);
             }
         }

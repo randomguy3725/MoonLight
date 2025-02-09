@@ -105,12 +105,8 @@ public enum ShaderParameterBool implements IExpressionBool
         }
         else
         {
-            for (int i = 0; i < VALUES.length; ++i)
-            {
-                ShaderParameterBool shaderparameterbool = VALUES[i];
-
-                if (shaderparameterbool.getName().equals(str))
-                {
+            for (ShaderParameterBool shaderparameterbool : VALUES) {
+                if (shaderparameterbool.getName().equals(str)) {
                     return shaderparameterbool;
                 }
             }

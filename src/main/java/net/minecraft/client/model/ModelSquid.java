@@ -42,9 +42,8 @@ public class ModelSquid extends ModelBase
         this.setRotationAngles(p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, scale, entityIn);
         this.squidBody.render(scale);
 
-        for (int i = 0; i < this.squidTentacles.length; ++i)
-        {
-            this.squidTentacles[i].render(scale);
+        for (ModelRenderer squidTentacle : this.squidTentacles) {
+            squidTentacle.render(scale);
         }
     }
 }

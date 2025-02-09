@@ -26,12 +26,8 @@ public class BlockAlias
 
     public boolean matches(int id, int metadata)
     {
-        for (int i = 0; i < this.matchBlocks.length; ++i)
-        {
-            MatchBlock matchblock = this.matchBlocks[i];
-
-            if (matchblock.matches(id, metadata))
-            {
+        for (MatchBlock matchblock : this.matchBlocks) {
+            if (matchblock.matches(id, metadata)) {
                 return true;
             }
         }

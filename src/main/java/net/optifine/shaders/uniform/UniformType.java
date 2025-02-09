@@ -163,12 +163,8 @@ public enum UniformType
     {
         UniformType[] auniformtype = values();
 
-        for (int i = 0; i < auniformtype.length; ++i)
-        {
-            UniformType uniformtype = auniformtype[i];
-
-            if (uniformtype.name().toLowerCase().equals(type))
-            {
+        for (UniformType uniformtype : auniformtype) {
+            if (uniformtype.name().toLowerCase().equals(type)) {
                 return uniformtype;
             }
         }

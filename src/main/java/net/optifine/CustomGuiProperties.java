@@ -139,17 +139,12 @@ public class CustomGuiProperties
         {
             EnumDyeColor[] aenumdyecolor = EnumDyeColor.values();
 
-            for (int i = 0; i < aenumdyecolor.length; ++i)
-            {
-                EnumDyeColor enumdyecolor = aenumdyecolor[i];
-
-                if (enumdyecolor.getName().equals(str))
-                {
+            for (EnumDyeColor enumdyecolor : aenumdyecolor) {
+                if (enumdyecolor.getName().equals(str)) {
                     return enumdyecolor;
                 }
 
-                if (enumdyecolor.getUnlocalizedName().equals(str))
-                {
+                if (enumdyecolor.getUnlocalizedName().equals(str)) {
                     return enumdyecolor;
                 }
             }
@@ -539,12 +534,8 @@ public class CustomGuiProperties
 
                 boolean flag = false;
 
-                for (int k = 0; k < this.professions.length; ++k)
-                {
-                    VillagerProfession villagerprofession = this.professions[k];
-
-                    if (villagerprofession.matches(i, j))
-                    {
+                for (VillagerProfession villagerprofession : this.professions) {
+                    if (villagerprofession.matches(i, j)) {
                         flag = true;
                         break;
                     }

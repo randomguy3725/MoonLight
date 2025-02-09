@@ -314,9 +314,7 @@ public class AltRepositoryGUI extends GuiScreen {
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-        for (int i = 0; i < this.buttonList.size(); ++i) {
-            GuiButton button = this.buttonList.get(i);
-
+        for (GuiButton button : this.buttonList) {
             if (button.mousePressed(this.mc, mouseX, mouseY)) {
                 this.selectedButton = button;
 

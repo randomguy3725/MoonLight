@@ -200,9 +200,7 @@ public class CraftingManager
         {
             String[] astring = (String[]) recipeComponents[i++];
 
-            for (int l = 0; l < astring.length; ++l)
-            {
-                String s2 = astring[l];
+            for (String s2 : astring) {
                 ++k;
                 j = s2.length();
                 s = s + s2;

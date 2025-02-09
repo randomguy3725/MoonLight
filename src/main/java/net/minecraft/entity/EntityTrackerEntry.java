@@ -447,9 +447,8 @@ public class EntityTrackerEntry
 
     public void updatePlayerEntities(List<EntityPlayer> players)
     {
-        for (int i = 0; i < players.size(); ++i)
-        {
-            this.updatePlayerEntity((EntityPlayerMP)players.get(i));
+        for (EntityPlayer player : players) {
+            this.updatePlayerEntity((EntityPlayerMP) player);
         }
     }
 

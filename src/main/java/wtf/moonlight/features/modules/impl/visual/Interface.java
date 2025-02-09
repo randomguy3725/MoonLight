@@ -375,8 +375,7 @@ public class Interface extends Module {
             if (animation.is("Slide In")) {
                 enabledMods.sort(sort);
 
-                for (int i = 0, size = enabledMods.size(); i < size; i++) {
-                    final Module module = enabledMods.get(i);
+                for (final Module module : enabledMods) {
                     if (module.isHidden())
                         continue;
                     Translate translate = module.getTranslate();
@@ -409,8 +408,8 @@ public class Interface extends Module {
                         RenderUtils.drawRect(leftSide - 1, (float) translate.getY(), 1, bottom, color(count));
                     }
 
-                    if(line.is("Right")){
-                        RenderUtils.drawRect((float) (translate.getX() + moduleWidth), (float) translate.getY(), 1, bottom,  color(count));
+                    if (line.is("Right")) {
+                        RenderUtils.drawRect((float) (translate.getX() + moduleWidth), (float) translate.getY(), 1, bottom, color(count));
                     }
 
                     /*if (!line.is("None")) {
@@ -713,8 +712,7 @@ public class Interface extends Module {
 
             if (animation.is("Slide In")) {
                 enabledMods.sort(sort);
-                for (int i = 0, size = enabledMods.size(); i < size; i++) {
-                    final Module module = enabledMods.get(i);
+                for (final Module module : enabledMods) {
                     if (module.isHidden())
                         continue;
                     Translate translate = module.getTranslate();
@@ -746,13 +744,13 @@ public class Interface extends Module {
                         }
                     }
 
-                    if(event.getShaderType() == Shader2DEvent.ShaderType.GLOW) {
+                    if (event.getShaderType() == Shader2DEvent.ShaderType.GLOW) {
 
                         if (line.is("Left")) {
                             RenderUtils.drawRect(leftSide - 1, (float) translate.getY(), 1, bottom, color(count));
                         }
 
-                        if(line.is("Right")) {
+                        if (line.is("Right")) {
                             RenderUtils.drawRect((float) (translate.getX() + moduleWidth), (float) translate.getY(), 1, bottom, color(count));
                         }
 

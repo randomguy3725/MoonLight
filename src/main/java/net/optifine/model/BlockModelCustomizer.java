@@ -58,13 +58,10 @@ public class BlockModelCustomizer
                 return quads;
             }
 
-            for (int j = 0; j < abakedquad.length; ++j)
-            {
-                BakedQuad bakedquad1 = abakedquad[j];
+            for (BakedQuad bakedquad1 : abakedquad) {
                 list.add(bakedquad1);
 
-                if (bakedquad1.getQuadEmissive() != null)
-                {
+                if (bakedquad1.getQuadEmissive() != null) {
                     renderEnv.getListQuadsOverlay(getEmissiveLayer(layer)).addQuad(bakedquad1.getQuadEmissive(), stateIn);
                     renderEnv.setOverlaysRendered(true);
                 }

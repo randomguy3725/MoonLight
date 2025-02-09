@@ -16,9 +16,7 @@ public class FieldLocatorTypes implements IFieldLocator
         Field[] afield = cls.getDeclaredFields();
         List<Class> list = new ArrayList();
 
-        for (int i = 0; i < afield.length; ++i)
-        {
-            Field field = afield[i];
+        for (Field field : afield) {
             list.add(field.getType());
         }
 

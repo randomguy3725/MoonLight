@@ -17,9 +17,7 @@ public class ModelUtils
             Config.dbg("Model: " + model + ", ao: " + model.isAmbientOcclusion() + ", gui3d: " + model.isGui3d() + ", builtIn: " + model.isBuiltInRenderer() + ", particle: " + model.getParticleTexture());
             EnumFacing[] aenumfacing = EnumFacing.VALUES;
 
-            for (int i = 0; i < aenumfacing.length; ++i)
-            {
-                EnumFacing enumfacing = aenumfacing[i];
+            for (EnumFacing enumfacing : aenumfacing) {
                 List list = model.getFaceQuads(enumfacing);
                 dbgQuads(enumfacing.getName(), list, "  ");
             }
@@ -68,9 +66,7 @@ public class ModelUtils
         EnumFacing[] aenumfacing = EnumFacing.VALUES;
         List list1 = new ArrayList();
 
-        for (int i = 0; i < aenumfacing.length; ++i)
-        {
-            EnumFacing enumfacing = aenumfacing[i];
+        for (EnumFacing enumfacing : aenumfacing) {
             List list2 = model.getFaceQuads(enumfacing);
             List list3 = duplicateQuadList(list2);
             list1.add(list3);

@@ -45,27 +45,20 @@ public class ContainerFurnace extends Container
     {
         super.detectAndSendChanges();
 
-        for (int i = 0; i < this.crafters.size(); ++i)
-        {
-            ICrafting icrafting = this.crafters.get(i);
-
-            if (this.cookTime != this.tileFurnace.getField(2))
-            {
+        for (ICrafting icrafting : this.crafters) {
+            if (this.cookTime != this.tileFurnace.getField(2)) {
                 icrafting.sendProgressBarUpdate(this, 2, this.tileFurnace.getField(2));
             }
 
-            if (this.furnaceBurnTime != this.tileFurnace.getField(0))
-            {
+            if (this.furnaceBurnTime != this.tileFurnace.getField(0)) {
                 icrafting.sendProgressBarUpdate(this, 0, this.tileFurnace.getField(0));
             }
 
-            if (this.currentItemBurnTime != this.tileFurnace.getField(1))
-            {
+            if (this.currentItemBurnTime != this.tileFurnace.getField(1)) {
                 icrafting.sendProgressBarUpdate(this, 1, this.tileFurnace.getField(1));
             }
 
-            if (this.totalCookTime != this.tileFurnace.getField(3))
-            {
+            if (this.totalCookTime != this.tileFurnace.getField(3)) {
                 icrafting.sendProgressBarUpdate(this, 3, this.tileFurnace.getField(3));
             }
         }

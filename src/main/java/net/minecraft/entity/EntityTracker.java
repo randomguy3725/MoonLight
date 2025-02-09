@@ -262,14 +262,9 @@ public class EntityTracker
             }
         }
 
-        for (int i = 0; i < list.size(); ++i)
-        {
-            EntityPlayerMP entityplayermp = list.get(i);
-
-            for (EntityTrackerEntry entitytrackerentry1 : this.trackedEntities)
-            {
-                if (entitytrackerentry1.trackedEntity != entityplayermp)
-                {
+        for (EntityPlayerMP entityplayermp : list) {
+            for (EntityTrackerEntry entitytrackerentry1 : this.trackedEntities) {
+                if (entitytrackerentry1.trackedEntity != entityplayermp) {
                     entitytrackerentry1.updatePlayerEntity(entityplayermp);
                 }
             }

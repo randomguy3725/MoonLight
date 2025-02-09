@@ -41,9 +41,8 @@ public class IntArray
     {
         int i = ints.length;
 
-        for (int j = 0; j < i; ++j)
-        {
-            this.array[this.position] = ints[j];
+        for (int anInt : ints) {
+            this.array[this.position] = anInt;
             ++this.position;
         }
 

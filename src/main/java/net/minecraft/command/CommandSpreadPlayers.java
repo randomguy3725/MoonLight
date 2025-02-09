@@ -218,35 +218,27 @@ public class CommandSpreadPlayers extends CommandBase
         int i = 0;
         Map<Team, CommandSpreadPlayers.Position> map = Maps.newHashMap();
 
-        for (int j = 0; j < p_110671_1_.size(); ++j)
-        {
-            Entity entity = p_110671_1_.get(j);
-            CommandSpreadPlayers.Position commandspreadplayers$position;
+        for (Entity entity : p_110671_1_) {
+            Position commandspreadplayers$position;
 
-            if (p_110671_4_)
-            {
-                Team team = entity instanceof EntityPlayer ? ((EntityPlayer)entity).getTeam() : null;
+            if (p_110671_4_) {
+                Team team = entity instanceof EntityPlayer ? ((EntityPlayer) entity).getTeam() : null;
 
-                if (!map.containsKey(team))
-                {
+                if (!map.containsKey(team)) {
                     map.put(team, p_110671_3_[i++]);
                 }
 
                 commandspreadplayers$position = map.get(team);
-            }
-            else
-            {
+            } else {
                 commandspreadplayers$position = p_110671_3_[i++];
             }
 
-            entity.setPositionAndUpdate((float)MathHelper.floor_double(commandspreadplayers$position.field_111101_a) + 0.5F, commandspreadplayers$position.func_111092_a(worldIn), (double)MathHelper.floor_double(commandspreadplayers$position.field_111100_b) + 0.5D);
+            entity.setPositionAndUpdate((float) MathHelper.floor_double(commandspreadplayers$position.field_111101_a) + 0.5F, commandspreadplayers$position.func_111092_a(worldIn), (double) MathHelper.floor_double(commandspreadplayers$position.field_111100_b) + 0.5D);
             double d2 = Double.MAX_VALUE;
 
-            for (int k = 0; k < p_110671_3_.length; ++k)
-            {
-                if (commandspreadplayers$position != p_110671_3_[k])
-                {
-                    double d1 = commandspreadplayers$position.func_111099_a(p_110671_3_[k]);
+            for (Position position : p_110671_3_) {
+                if (commandspreadplayers$position != position) {
+                    double d1 = commandspreadplayers$position.func_111099_a(position);
                     d2 = Math.min(d1, d2);
                 }
             }

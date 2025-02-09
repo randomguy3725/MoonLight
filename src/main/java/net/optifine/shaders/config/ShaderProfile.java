@@ -37,14 +37,11 @@ public class ShaderProfile
 
     public void applyOptionValues(ShaderOption[] options)
     {
-        for (int i = 0; i < options.length; ++i)
-        {
-            ShaderOption shaderoption = options[i];
+        for (ShaderOption shaderoption : options) {
             String s = shaderoption.getName();
             String s1 = this.mapOptionValues.get(s);
 
-            if (s1 != null)
-            {
+            if (s1 != null) {
                 shaderoption.setValue(s1);
             }
         }

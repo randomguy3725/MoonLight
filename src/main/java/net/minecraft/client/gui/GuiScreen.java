@@ -423,12 +423,8 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback
     {
         if (mouseButton == 0)
         {
-            for (int i = 0; i < this.buttonList.size(); ++i)
-            {
-                GuiButton guibutton = this.buttonList.get(i);
-
-                if (guibutton.mousePressed(this.mc, mouseX, mouseY))
-                {
+            for (GuiButton guibutton : this.buttonList) {
+                if (guibutton.mousePressed(this.mc, mouseX, mouseY)) {
                     this.selectedButton = guibutton;
                     guibutton.playPressSound(this.mc.getSoundHandler());
                     this.actionPerformed(guibutton);
