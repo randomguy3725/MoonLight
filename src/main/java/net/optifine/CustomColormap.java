@@ -77,22 +77,20 @@ public class CustomColormap implements CustomColors.IColorizer
         {
             str = str.trim();
 
-            if (str.equals("vanilla"))
-            {
-                return 0;
-            }
-            else if (str.equals("grid"))
-            {
-                return 1;
-            }
-            else if (str.equals("fixed"))
-            {
-                return 2;
-            }
-            else
-            {
-                warn("Unknown format: " + str);
-                return -1;
+            switch (str) {
+                case "vanilla" -> {
+                    return 0;
+                }
+                case "grid" -> {
+                    return 1;
+                }
+                case "fixed" -> {
+                    return 2;
+                }
+                default -> {
+                    warn("Unknown format: " + str);
+                    return -1;
+                }
             }
         }
     }

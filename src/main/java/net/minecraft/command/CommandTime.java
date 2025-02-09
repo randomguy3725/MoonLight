@@ -26,54 +26,45 @@ public class CommandTime extends CommandBase
     {
         if (args.length > 1)
         {
-            if (args[0].equals("set"))
-            {
-                int l;
+            switch (args[0]) {
+                case "set" -> {
+                    int l;
 
-                if (args[1].equals("day"))
-                {
-                    l = 1000;
-                }
-                else if (args[1].equals("night"))
-                {
-                    l = 13000;
-                }
-                else
-                {
-                    l = parseInt(args[1], 0);
-                }
+                    if (args[1].equals("day")) {
+                        l = 1000;
+                    } else if (args[1].equals("night")) {
+                        l = 13000;
+                    } else {
+                        l = parseInt(args[1], 0);
+                    }
 
-                this.setTime(sender, l);
-                notifyOperators(sender, this, "commands.time.set", Integer.valueOf(l));
-                return;
-            }
-
-            if (args[0].equals("add"))
-            {
-                int k = parseInt(args[1], 0);
-                this.addTime(sender, k);
-                notifyOperators(sender, this, "commands.time.added", Integer.valueOf(k));
-                return;
-            }
-
-            if (args[0].equals("query"))
-            {
-                if (args[1].equals("daytime"))
-                {
-                    int j = (int)(sender.getEntityWorld().getWorldTime() % 2147483647L);
-                    sender.setCommandStat(CommandResultStats.Type.QUERY_RESULT, j);
-                    notifyOperators(sender, this, "commands.time.query", Integer.valueOf(j));
+                    this.setTime(sender, l);
+                    notifyOperators(sender, this, "commands.time.set", Integer.valueOf(l));
                     return;
                 }
-
-                if (args[1].equals("gametime"))
-                {
-                    int i = (int)(sender.getEntityWorld().getTotalWorldTime() % 2147483647L);
-                    sender.setCommandStat(CommandResultStats.Type.QUERY_RESULT, i);
-                    notifyOperators(sender, this, "commands.time.query", Integer.valueOf(i));
+                case "add" -> {
+                    int k = parseInt(args[1], 0);
+                    this.addTime(sender, k);
+                    notifyOperators(sender, this, "commands.time.added", Integer.valueOf(k));
                     return;
                 }
+                case "query" -> {
+                    if (args[1].equals("daytime")) {
+                        int j = (int) (sender.getEntityWorld().getWorldTime() % 2147483647L);
+                        sender.setCommandStat(CommandResultStats.Type.QUERY_RESULT, j);
+                        notifyOperators(sender, this, "commands.time.query", Integer.valueOf(j));
+                        return;
+                    }
+
+                    if (args[1].equals("gametime")) {
+                        int i = (int) (sender.getEntityWorld().getTotalWorldTime() % 2147483647L);
+                        sender.setCommandStat(CommandResultStats.Type.QUERY_RESULT, i);
+                        notifyOperators(sender, this, "commands.time.query", Integer.valueOf(i));
+                        return;
+                    }
+                }
             }
+
         }
 
         throw new WrongUsageException("commands.time.usage");

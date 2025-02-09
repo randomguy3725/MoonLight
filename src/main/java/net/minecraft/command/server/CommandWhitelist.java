@@ -38,60 +38,52 @@ public class CommandWhitelist extends CommandBase
         {
             MinecraftServer minecraftserver = MinecraftServer.getServer();
 
-            if (args[0].equals("on"))
-            {
-                minecraftserver.getConfigurationManager().setWhiteListEnabled(true);
-                notifyOperators(sender, this, "commands.whitelist.enabled");
-            }
-            else if (args[0].equals("off"))
-            {
-                minecraftserver.getConfigurationManager().setWhiteListEnabled(false);
-                notifyOperators(sender, this, "commands.whitelist.disabled");
-            }
-            else if (args[0].equals("list"))
-            {
-                sender.addChatMessage(new ChatComponentTranslation("commands.whitelist.list", Integer.valueOf(minecraftserver.getConfigurationManager().getWhitelistedPlayerNames().length), Integer.valueOf(minecraftserver.getConfigurationManager().getAvailablePlayerDat().length)));
-                String[] astring = minecraftserver.getConfigurationManager().getWhitelistedPlayerNames();
-                sender.addChatMessage(new ChatComponentText(joinNiceString(astring)));
-            }
-            else if (args[0].equals("add"))
-            {
-                if (args.length < 2)
-                {
-                    throw new WrongUsageException("commands.whitelist.add.usage");
+            switch (args[0]) {
+                case "on" -> {
+                    minecraftserver.getConfigurationManager().setWhiteListEnabled(true);
+                    notifyOperators(sender, this, "commands.whitelist.enabled");
                 }
-
-                GameProfile gameprofile = minecraftserver.getPlayerProfileCache().getGameProfileForUsername(args[1]);
-
-                if (gameprofile == null)
-                {
-                    throw new CommandException("commands.whitelist.add.failed", args[1]);
+                case "off" -> {
+                    minecraftserver.getConfigurationManager().setWhiteListEnabled(false);
+                    notifyOperators(sender, this, "commands.whitelist.disabled");
                 }
-
-                minecraftserver.getConfigurationManager().addWhitelistedPlayer(gameprofile);
-                notifyOperators(sender, this, "commands.whitelist.add.success", args[1]);
-            }
-            else if (args[0].equals("remove"))
-            {
-                if (args.length < 2)
-                {
-                    throw new WrongUsageException("commands.whitelist.remove.usage");
+                case "list" -> {
+                    sender.addChatMessage(new ChatComponentTranslation("commands.whitelist.list", Integer.valueOf(minecraftserver.getConfigurationManager().getWhitelistedPlayerNames().length), Integer.valueOf(minecraftserver.getConfigurationManager().getAvailablePlayerDat().length)));
+                    String[] astring = minecraftserver.getConfigurationManager().getWhitelistedPlayerNames();
+                    sender.addChatMessage(new ChatComponentText(joinNiceString(astring)));
                 }
+                case "add" -> {
+                    if (args.length < 2) {
+                        throw new WrongUsageException("commands.whitelist.add.usage");
+                    }
 
-                GameProfile gameprofile1 = minecraftserver.getConfigurationManager().getWhitelistedPlayers().getBannedProfile(args[1]);
+                    GameProfile gameprofile = minecraftserver.getPlayerProfileCache().getGameProfileForUsername(args[1]);
 
-                if (gameprofile1 == null)
-                {
-                    throw new CommandException("commands.whitelist.remove.failed", args[1]);
+                    if (gameprofile == null) {
+                        throw new CommandException("commands.whitelist.add.failed", args[1]);
+                    }
+
+                    minecraftserver.getConfigurationManager().addWhitelistedPlayer(gameprofile);
+                    notifyOperators(sender, this, "commands.whitelist.add.success", args[1]);
                 }
+                case "remove" -> {
+                    if (args.length < 2) {
+                        throw new WrongUsageException("commands.whitelist.remove.usage");
+                    }
 
-                minecraftserver.getConfigurationManager().removePlayerFromWhitelist(gameprofile1);
-                notifyOperators(sender, this, "commands.whitelist.remove.success", args[1]);
-            }
-            else if (args[0].equals("reload"))
-            {
-                minecraftserver.getConfigurationManager().loadWhiteList();
-                notifyOperators(sender, this, "commands.whitelist.reloaded");
+                    GameProfile gameprofile1 = minecraftserver.getConfigurationManager().getWhitelistedPlayers().getBannedProfile(args[1]);
+
+                    if (gameprofile1 == null) {
+                        throw new CommandException("commands.whitelist.remove.failed", args[1]);
+                    }
+
+                    minecraftserver.getConfigurationManager().removePlayerFromWhitelist(gameprofile1);
+                    notifyOperators(sender, this, "commands.whitelist.remove.success", args[1]);
+                }
+                case "reload" -> {
+                    minecraftserver.getConfigurationManager().loadWhiteList();
+                    notifyOperators(sender, this, "commands.whitelist.reloaded");
+                }
             }
         }
     }

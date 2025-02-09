@@ -1055,54 +1055,32 @@ public class CommandScoreboard extends CommandBase
             {
                 Score score1 = scoreboard.getValueFromObjective(s2, scoreobjective1);
 
-                if (s1.equals("+="))
-                {
-                    score.setScorePoints(score.getScorePoints() + score1.getScorePoints());
-                }
-                else if (s1.equals("-="))
-                {
-                    score.setScorePoints(score.getScorePoints() - score1.getScorePoints());
-                }
-                else if (s1.equals("*="))
-                {
-                    score.setScorePoints(score.getScorePoints() * score1.getScorePoints());
-                }
-                else if (s1.equals("/="))
-                {
-                    if (score1.getScorePoints() != 0)
-                    {
-                        score.setScorePoints(score.getScorePoints() / score1.getScorePoints());
+                switch (s1) {
+                    case "+=" -> score.setScorePoints(score.getScorePoints() + score1.getScorePoints());
+                    case "-=" -> score.setScorePoints(score.getScorePoints() - score1.getScorePoints());
+                    case "*=" -> score.setScorePoints(score.getScorePoints() * score1.getScorePoints());
+                    case "/=" -> {
+                        if (score1.getScorePoints() != 0) {
+                            score.setScorePoints(score.getScorePoints() / score1.getScorePoints());
+                        }
                     }
-                }
-                else if (s1.equals("%="))
-                {
-                    if (score1.getScorePoints() != 0)
-                    {
-                        score.setScorePoints(score.getScorePoints() % score1.getScorePoints());
+                    case "%=" -> {
+                        if (score1.getScorePoints() != 0) {
+                            score.setScorePoints(score.getScorePoints() % score1.getScorePoints());
+                        }
                     }
-                }
-                else if (s1.equals("="))
-                {
-                    score.setScorePoints(score1.getScorePoints());
-                }
-                else if (s1.equals("<"))
-                {
-                    score.setScorePoints(Math.min(score.getScorePoints(), score1.getScorePoints()));
-                }
-                else if (s1.equals(">"))
-                {
-                    score.setScorePoints(Math.max(score.getScorePoints(), score1.getScorePoints()));
-                }
-                else
-                {
-                    if (!s1.equals("><"))
-                    {
-                        throw new CommandException("commands.scoreboard.players.operation.invalidOperation", s1);
-                    }
+                    case "=" -> score.setScorePoints(score1.getScorePoints());
+                    case "<" -> score.setScorePoints(Math.min(score.getScorePoints(), score1.getScorePoints()));
+                    case ">" -> score.setScorePoints(Math.max(score.getScorePoints(), score1.getScorePoints()));
+                    default -> {
+                        if (!s1.equals("><")) {
+                            throw new CommandException("commands.scoreboard.players.operation.invalidOperation", s1);
+                        }
 
-                    int i = score.getScorePoints();
-                    score.setScorePoints(score1.getScorePoints());
-                    score1.setScorePoints(i);
+                        int i = score.getScorePoints();
+                        score.setScorePoints(score1.getScorePoints());
+                        score1.setScorePoints(i);
+                    }
                 }
 
                 notifyOperators(p_175778_1_, this, "commands.scoreboard.players.operation.success");
