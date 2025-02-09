@@ -35,8 +35,8 @@ public class ConnectedParser
     private String context = null;
     public static final VillagerProfession[] PROFESSIONS_INVALID = new VillagerProfession[0];
     public static final EnumDyeColor[] DYE_COLORS_INVALID = new EnumDyeColor[0];
-    private static final INameGetter<Enum> NAME_GETTER_ENUM = en -> en.name();
-    private static final INameGetter<EnumDyeColor> NAME_GETTER_DYE_COLOR = col -> col.getName();
+    private static final INameGetter<Enum> NAME_GETTER_ENUM = Enum::name;
+    private static final INameGetter<EnumDyeColor> NAME_GETTER_DYE_COLOR = EnumDyeColor::getName;
 
     public ConnectedParser(String context)
     {

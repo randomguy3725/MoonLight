@@ -1,6 +1,5 @@
 package net.minecraft.util;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import java.util.Iterator;
@@ -88,7 +87,7 @@ public abstract class ChatComponentStyle implements IChatComponent
 
     public static Iterator<IChatComponent> createDeepCopyIterator(Iterable<IChatComponent> components)
     {
-        Iterator<IChatComponent> iterator = Iterators.concat(Iterators.transform(components.iterator(), p_apply_1_ -> p_apply_1_.iterator()));
+        Iterator<IChatComponent> iterator = Iterators.concat(Iterators.transform(components.iterator(), Iterable::iterator));
         iterator = Iterators.transform(iterator, p_apply_1_ -> {
             IChatComponent ichatcomponent = p_apply_1_.createCopy();
             ichatcomponent.setChatStyle(ichatcomponent.getChatStyle().createDeepCopy());

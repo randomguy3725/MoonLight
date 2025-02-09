@@ -1,6 +1,5 @@
 package net.minecraft.client.gui;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import net.minecraft.block.material.Material;

@@ -6,14 +6,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Deque;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Joiner;
@@ -485,7 +479,7 @@ public class ModelBakery
     {
         Set<ResourceLocation> set = Sets.newHashSet();
         List<ModelResourceLocation> list = Lists.newArrayList(this.variants.keySet());
-        list.sort((p_compare_1_, p_compare_2_) -> p_compare_1_.toString().compareTo(p_compare_2_.toString()));
+        list.sort(Comparator.comparing(ModelResourceLocation::toString));
 
         for (ModelResourceLocation modelresourcelocation : list)
         {

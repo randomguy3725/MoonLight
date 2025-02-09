@@ -60,7 +60,6 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.DecimalFormat;
@@ -120,7 +119,7 @@ public class AltRepositoryGUI extends GuiScreen {
         return s.toLowerCase().startsWith(this.searchField.getText().trim().toLowerCase()) ? alt : null;
     }, () -> this.sortType.getComparator());
 
-    private DynamicTexture viewportTexture = new DynamicTexture(256, 256);
+    private final DynamicTexture viewportTexture = new DynamicTexture(256, 256);
     @Getter
     private String tokenContent = "";
 

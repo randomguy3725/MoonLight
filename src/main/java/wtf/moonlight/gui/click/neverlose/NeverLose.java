@@ -40,7 +40,17 @@ public class NeverLose extends GuiScreen {
     private final List<Panel> panels = new ArrayList<>();
     private boolean dragging = false;
     @Getter
-    private int posX = 40,posY = 40,dragX,dragY,width = 520,height = 420;
+    private int posX = 40;
+    @Getter
+    private int posY = 40;
+    @Getter
+    private int dragX;
+    @Getter
+    private int dragY;
+    @Getter
+    private final int width = 520;
+    @Getter
+    private final int height = 420;
     //Search
     private final Animation hover = new DecelerateAnimation(250,1);
     public final ESPPreviewComponent espPreviewComponent = new ESPPreviewComponent();

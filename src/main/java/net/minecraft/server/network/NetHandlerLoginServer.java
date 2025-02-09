@@ -3,7 +3,6 @@ package net.minecraft.server.network;
 import com.google.common.base.Charsets;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.exceptions.AuthenticationUnavailableException;
-import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import java.math.BigInteger;
 import java.security.PrivateKey;

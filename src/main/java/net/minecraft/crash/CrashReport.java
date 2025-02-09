@@ -10,7 +10,7 @@ import java.lang.management.RuntimeMXBean;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Callable;
+
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.gen.layer.IntCache;
 import net.optifine.CrashReporter;
@@ -73,7 +73,7 @@ public class CrashReport
 
             return String.format("%d total; %s", Integer.valueOf(i), stringbuilder);
         });
-        this.theReportCategory.addCrashSectionCallable("IntCache", () -> IntCache.getCacheSizes());
+        this.theReportCategory.addCrashSectionCallable("IntCache", IntCache::getCacheSizes);
 
         if (Reflector.FMLCommonHandler_enhanceCrashReport.exists())
         {

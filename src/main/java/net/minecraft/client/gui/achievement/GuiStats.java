@@ -2,7 +2,6 @@ package net.minecraft.client.gui.achievement;
 
 import com.google.common.collect.Lists;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import net.minecraft.client.Minecraft;

@@ -2,7 +2,7 @@ package net.minecraft.tileentity;
 
 import com.google.common.collect.Maps;
 import java.util.Map;
-import java.util.concurrent.Callable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockJukebox;
 import net.minecraft.block.state.IBlockState;

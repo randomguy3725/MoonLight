@@ -1,6 +1,5 @@
 package net.minecraft.server.management;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.mojang.authlib.Agent;

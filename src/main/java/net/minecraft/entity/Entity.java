@@ -3,7 +3,6 @@ package net.minecraft.entity;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
-import java.util.concurrent.Callable;
 
 import de.florianmichael.vialoadingbase.ViaLoadingBase;
 import net.minecraft.block.Block;
@@ -2205,7 +2204,7 @@ public abstract class Entity implements ICommandSender
     {
         category.addCrashSectionCallable("Entity Type", () -> EntityList.getEntityString(Entity.this) + " (" + Entity.this.getClass().getCanonicalName() + ")");
         category.addCrashSection("Entity ID", Integer.valueOf(this.entityId));
-        category.addCrashSectionCallable("Entity Name", () -> Entity.this.getName());
+        category.addCrashSectionCallable("Entity Name", Entity.this::getName);
         category.addCrashSection("Entity's Exact location", String.format("%.2f, %.2f, %.2f", Double.valueOf(this.posX), Double.valueOf(this.posY), Double.valueOf(this.posZ)));
         category.addCrashSection("Entity's Block location", CrashReportCategory.getCoordinateInfo(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)));
         category.addCrashSection("Entity's Momentum", String.format("%.2f, %.2f, %.2f", Double.valueOf(this.motionX), Double.valueOf(this.motionY), Double.valueOf(this.motionZ)));

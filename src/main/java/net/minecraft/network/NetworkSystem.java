@@ -13,15 +13,13 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.ServerSocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.timeout.ReadTimeoutHandler;
-import io.netty.util.concurrent.Future;
-import io.netty.util.concurrent.GenericFutureListener;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.SocketAddress;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 
 import net.minecraft.client.network.NetHandlerHandshakeMemory;
@@ -172,7 +170,7 @@ public class NetworkSystem
                             {
                                 CrashReport crashreport = CrashReport.makeCrashReport(exception, "Ticking memory connection");
                                 CrashReportCategory crashreportcategory = crashreport.makeCategory("Ticking connection");
-                                crashreportcategory.addCrashSectionCallable("Connection", () -> networkmanager.toString());
+                                crashreportcategory.addCrashSectionCallable("Connection", networkmanager::toString);
                                 throw new ReportedException(crashreport);
                             }
 

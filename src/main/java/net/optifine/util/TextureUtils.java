@@ -286,7 +286,7 @@ public class TextureUtils
 
         if (iresourcemanager instanceof IReloadableResourceManager ireloadableresourcemanager)
         {
-            IResourceManagerReloadListener iresourcemanagerreloadlistener = var1 -> TextureUtils.resourcesReloaded(var1);
+            IResourceManagerReloadListener iresourcemanagerreloadlistener = TextureUtils::resourcesReloaded;
             ireloadableresourcemanager.registerReloadListener(iresourcemanagerreloadlistener);
         }
 

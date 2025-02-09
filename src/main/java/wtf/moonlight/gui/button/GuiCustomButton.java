@@ -25,7 +25,7 @@ import java.awt.*;
 
 public class GuiCustomButton extends GuiButton {
 
-    private Animation hoverAnimation = new SmoothStepAnimation(400, 1);
+    private final Animation hoverAnimation = new SmoothStepAnimation(400, 1);
     public FontRenderer fontRenderer = Fonts.interRegular.get(15);
     public float radius = 8;
     public Runnable clickAction;

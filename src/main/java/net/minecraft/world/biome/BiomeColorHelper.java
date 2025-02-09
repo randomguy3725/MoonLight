@@ -5,8 +5,8 @@ import net.minecraft.world.IBlockAccess;
 
 public class BiomeColorHelper
 {
-    private static final BiomeColorHelper.ColorResolver GRASS_COLOR = (biome, blockPosition) -> biome.getGrassColorAtPos(blockPosition);
-    private static final BiomeColorHelper.ColorResolver FOLIAGE_COLOR = (biome, blockPosition) -> biome.getFoliageColorAtPos(blockPosition);
+    private static final BiomeColorHelper.ColorResolver GRASS_COLOR = BiomeGenBase::getGrassColorAtPos;
+    private static final BiomeColorHelper.ColorResolver FOLIAGE_COLOR = BiomeGenBase::getFoliageColorAtPos;
     private static final BiomeColorHelper.ColorResolver WATER_COLOR_MULTIPLIER = (biome, blockPosition) -> biome.waterColorMultiplier;
 
     private static int getColorAtPos(IBlockAccess blockAccess, BlockPos pos, BiomeColorHelper.ColorResolver colorResolver)

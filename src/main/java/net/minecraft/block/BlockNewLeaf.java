@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import com.google.common.base.Predicate;
 import java.util.List;
 
 import net.minecraft.block.properties.PropertyEnum;

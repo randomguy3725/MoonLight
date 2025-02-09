@@ -1,7 +1,7 @@
 package net.minecraft.world.gen.structure;
 
 import com.google.common.collect.Lists;
-import java.util.Iterator;
+
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;

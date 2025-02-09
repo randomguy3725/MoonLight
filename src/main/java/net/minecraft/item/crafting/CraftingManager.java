@@ -2,8 +2,7 @@ package net.minecraft.item.crafting;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import java.util.Collections;
-import java.util.Comparator;
+
 import java.util.List;
 import java.util.Map;
 import net.minecraft.block.Block;
