@@ -230,10 +230,7 @@ public class CrashReport
         stringbuilder.append(this.getCauseStackTraceOrString());
         stringbuilder.append("\n\nA detailed walkthrough of the error, its code path and all known details is as follows:\n");
 
-        for (int i = 0; i < 87; ++i)
-        {
-            stringbuilder.append("-");
-        }
+        stringbuilder.append("-".repeat(87));
 
         stringbuilder.append("\n\n");
         this.getSectionsInStringBuilder(stringbuilder);
