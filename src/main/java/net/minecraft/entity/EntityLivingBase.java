@@ -55,6 +55,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import wtf.moonlight.Moonlight;
+import wtf.moonlight.events.impl.player.AfterJumpEvent;
 import wtf.moonlight.events.impl.player.JumpEvent;
 import wtf.moonlight.events.impl.player.MoveEvent;
 import wtf.moonlight.events.impl.player.MoveMathEvent;
@@ -1371,6 +1372,9 @@ public abstract class EntityLivingBase extends Entity
         }
 
         this.isAirBorne = true;
+
+        final AfterJumpEvent afterJumpEvent = new AfterJumpEvent();
+        Moonlight.INSTANCE.getEventManager().call(afterJumpEvent);
     }
 
     protected void updateAITick()
