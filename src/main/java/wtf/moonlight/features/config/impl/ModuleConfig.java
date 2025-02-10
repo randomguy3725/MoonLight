@@ -59,6 +59,9 @@ public class ModuleConfig extends Config {
                                 modeValue.set(theValue.getAsString());
                             }
                             if (value instanceof MultiBoolValue multiBoolValue) {
+                                if (theValue.getAsString().isEmpty()) {
+                                    multiBoolValue.getToggled().forEach(option -> option.set(false));
+                                }
                                 if (!theValue.getAsString().isEmpty()) {
                                     String[] strings = theValue.getAsString().split(", ");
                                     multiBoolValue.getToggled().forEach(option -> option.set(false));
