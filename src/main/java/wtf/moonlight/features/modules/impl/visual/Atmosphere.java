@@ -34,6 +34,7 @@ public class Atmosphere extends Module {
     public final ColorValue worldColorRGB = new ColorValue("World Color RGB", Color.WHITE, this, worldColor::get);
     public final BoolValue worldFog = new BoolValue("World Fog", false, this);
     public final ColorValue worldFogRGB = new ColorValue("World Fog RGB", Color.WHITE, this, worldFog::get);
+    public final SliderValue worldFogDistance = new SliderValue("World Fog Distance", 0.10F, -1F, 0.9F, 0.1F, this, worldFog::get);
 
     @EventTarget
     private void onUpdate(UpdateEvent event) {

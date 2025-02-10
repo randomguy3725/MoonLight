@@ -2431,7 +2431,10 @@ public class EntityRenderer implements IResourceManagerReloadListener
             }
             else
             {
-                GlStateManager.setFogStart(f3 * Config.getFogStart());
+                Atmosphere atmosphere = Moonlight.INSTANCE.getModuleManager().getModule(Atmosphere.class);
+                boolean isWorldFogEnabled = atmosphere.isEnabled() && atmosphere.worldFog.get();
+                float fogStartDistance = isWorldFogEnabled ? atmosphere.worldFogDistance.get() : Config.getFogStart();
+                GlStateManager.setFogStart(f3 * fogStartDistance);
                 GlStateManager.setFogEnd(f3);
             }
 
