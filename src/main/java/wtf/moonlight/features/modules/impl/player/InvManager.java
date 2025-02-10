@@ -58,7 +58,7 @@ public class InvManager extends Module {
     public boolean serverOpen;
     public boolean clientOpen;
     private boolean nextTickCloseInventory;
-    public int slot;
+    public int slot = -1;
 
     @EventTarget
     public void onPacketSend(PacketEvent event) {
@@ -169,6 +169,7 @@ public class InvManager extends Module {
                 if (this.equipArmor(true)) return;
                 if (this.dropItem(this.trash)) return;
                 this.sortItems(true);
+                slot = -1;
                 timer.reset();
             }
         }
@@ -291,6 +292,7 @@ public class InvManager extends Module {
     public void onEnable() {
         this.clientOpen = mc.currentScreen instanceof GuiInventory;
         this.serverOpen = this.clientOpen;
+        this.slot = -1;
     }
 
     @Override
@@ -310,6 +312,7 @@ public class InvManager extends Module {
         if (!this.clientOpen && this.serverOpen) {
             mc.thePlayer.sendQueue.addToSendQueue(new C0DPacketCloseWindow(mc.thePlayer.inventoryContainer.windowId));
             this.serverOpen = false;
+            this.slot = -1;
         }
     }
 
@@ -321,5 +324,6 @@ public class InvManager extends Module {
         this.blockSlot.clear();
         Arrays.fill(this.bestArmorPieces, -1);
         Arrays.fill(this.bestToolSlots, -1);
+        this.slot = -1;
     }
 }
