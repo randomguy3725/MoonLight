@@ -47,6 +47,7 @@ public class InvManager extends Module {
     private final BoolValue startDelay = new BoolValue("Start Delay", true, this);
     public final BoolValue display = new BoolValue("Display", true, this);
     private final BoolValue lobbyCheck = new BoolValue("Lobby Check", true, this);
+    private final BoolValue usingItemCheck = new BoolValue("Using Item Check", true, this);
     private final TimerUtils timer = new TimerUtils();
     private final int[] bestArmorPieces = new int[4];
     private final IntList trash = new IntArrayList();
@@ -62,6 +63,7 @@ public class InvManager extends Module {
 
     @EventTarget
     public void onPacketSend(PacketEvent event) {
+        if (usingItemCheck.get() && mc.thePlayer.isUsingItem()) return;
         final Packet<?> packet = event.getPacket();
 
         if (packet instanceof C16PacketClientStatus clientStatus) {
@@ -99,7 +101,8 @@ public class InvManager extends Module {
 
     @EventTarget
     public void onUpdate(UpdateEvent event) {
-            setTag(String.valueOf(maxDelay.get()));
+        setTag(String.valueOf(maxDelay.get()));
+        if (usingItemCheck.get() && mc.thePlayer.isUsingItem()) return;
         final long delay = (MathUtils.nextInt((int) minDelay.get(), (int) maxDelay.get()) * 50L);
         if ((this.clientOpen || (mc.currentScreen == null && !Objects.equals(this.mode.get(), "Open Inventory"))) && !isEnabled(Scaffold.class) &&
                 (lobbyCheck.get() &&
