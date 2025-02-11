@@ -679,7 +679,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 Moonlight.INSTANCE.getModuleManager().getModule(KillAura.class).shouldBlock() && Moonlight.INSTANCE.getModuleManager().getModule(KillAura.class).isBlocking ||
                 Moonlight.INSTANCE.getModuleManager().getModule(AutoGap.class).eating
         ) && !this.isRiding()) {
-            SlowDownEvent slowDownEvent = new SlowDownEvent(0.2F, 0.2F,true);
+            SlowDownEvent slowDownEvent = new SlowDownEvent(0.2F, 0.2F,isSprinting());
             Moonlight.INSTANCE.getEventManager().call(slowDownEvent);
             this.movementInput.moveStrafe *= slowDownEvent.getStrafe();
             this.movementInput.moveForward *= slowDownEvent.getForward();
