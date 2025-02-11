@@ -749,7 +749,7 @@ public class AltRepositoryGUI extends GuiScreen {
             final String login = credential.getLogin();
             final String name = GuiAddAlt.isEmail(login) ? "<Unknown Name>" : login;
 
-            alt = new Alt(credential, null, this, false);
+            alt = new Alt(credential, new FakeEntityPlayer(new GameProfile(UUID.randomUUID(), name), null), this, false);
         }
 
         if (!hasAlt(alt)) {
