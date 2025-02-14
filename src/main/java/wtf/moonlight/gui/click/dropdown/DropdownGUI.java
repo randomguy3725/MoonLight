@@ -104,6 +104,7 @@ public class DropdownGUI extends GuiScreen {
 
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
+        panels.forEach(panel -> panel.keyTyped(typedChar, keyCode));
         if (keyCode == Keyboard.KEY_ESCAPE) {
             closing = true;
             return;
