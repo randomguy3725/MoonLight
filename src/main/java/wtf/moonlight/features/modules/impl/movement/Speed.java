@@ -163,6 +163,10 @@ public class Speed extends Module {
             break;
 
             case "Intave": {
+                if (mc.thePlayer.onGround && MovementUtils.isMoving()) {
+                    mc.thePlayer.jump();
+                }
+
                 if (mc.thePlayer.motionY > 0.03 && mc.thePlayer.isSprinting()) {
                     mc.thePlayer.motionX *= 1f + 0.003;
                     mc.thePlayer.motionZ *= 1f + 0.003;

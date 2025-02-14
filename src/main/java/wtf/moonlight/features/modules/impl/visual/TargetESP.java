@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.crafting.RecipesWeapons;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -48,7 +49,7 @@ import java.util.Objects;
 @ModuleInfo(name = "TargetESP", category = ModuleCategory.Visual)
 public class TargetESP extends Module {
 
-    private final ModeValue mode = new ModeValue("Mark Mode", new String[]{"Points","Ghost", "Rectangle", "Exhi","Circle"}, "Points", this);
+    private final ModeValue mode = new ModeValue("Mark Mode", new String[]{"Points", "Ghost", "Rectangle", "QuadStapple", "TriangleStapple", "TriangleStipple", "Exhi", "Circle"}, "Points", this);
     private final SliderValue circleSpeed = new SliderValue("Circle Speed",2.0F, 1.0F, 5.0F, 0.1F,this,() -> mode.is("Circle"));
     private final BoolValue onlyPlayer = new BoolValue("Only Player",true,this);
     private EntityLivingBase target;
@@ -57,6 +58,9 @@ public class TargetESP extends Module {
     private final Animation alphaAnim = new DecelerateAnimation(400, 1);
     private final ResourceLocation glowCircle = new ResourceLocation("moonlight/texture/targetesp/glow_circle.png");
     private final ResourceLocation rectangle = new ResourceLocation("moonlight/texture/targetesp/rectangle.png");
+    private final ResourceLocation quadstapple = new ResourceLocation("moonlight/texture/targetesp/quadstapple.png");
+    private final ResourceLocation trianglestapple = new ResourceLocation("moonlight/texture/targetesp/trianglestapple.png");
+    private final ResourceLocation trianglestipple = new ResourceLocation("moonlight/texture/targetesp/trianglestipple.png");
     public double prevCircleStep;
     public double circleStep;
     
@@ -204,7 +208,7 @@ public class TargetESP extends Module {
                 int i;
                 Color color;
                 for (i = 0; i <= 360; ++i) {
-                    color = new Color(getModule(Interface.class).color(i));
+                    color = (getModule(Interface.class).getMainColor());
                     GL11.glColor4f((float) color.getRed() / 255.0F, (float) color.getGreen() / 255.0F, (float) color.getBlue() / 255.0F, 0.6F);
                     GL11.glVertex3d(x + Math.cos(Math.toRadians(i)) * (double) target.width * 0.8D, nextY, z + Math.sin(Math.toRadians(i)) * (double) target.width * 0.8D);
                     GL11.glColor4f((float) color.getRed() / 255.0F, (float) color.getGreen() / 255.0F, (float) color.getBlue() / 255.0F, 0.01F);
@@ -216,7 +220,7 @@ public class TargetESP extends Module {
                 GL11.glBegin(2);
 
                 for (i = 0; i <= 360; ++i) {
-                    color = new Color(getModule(Interface.class).color(i));
+                    color = (getModule(Interface.class).getMainColor());
                     GL11.glColor4f((float) color.getRed() / 255.0F, (float) color.getGreen() / 255.0F, (float) color.getBlue() / 255.0F, 0.8F);
                     GL11.glVertex3d(x + Math.cos(Math.toRadians(i)) * (double) target.width * 0.8D, nextY, z + Math.sin(Math.toRadians(i)) * (double) target.width * 0.8D);
                 }
@@ -241,6 +245,21 @@ public class TargetESP extends Module {
             float dst = mc.thePlayer.getSmoothDistanceToEntity(target);
             drawTargetESP2D(Objects.requireNonNull(targetESPSPos(target))[0], Objects.requireNonNull(targetESPSPos(target))[1],
                     (1.0f - MathHelper.clamp_float(Math.abs(dst - 6.0f) / 60.0f, 0.0f, 0.75f)) * 1, index);
+        }
+        if (mode.is("QuadStapple") && target != null) {
+            float dst = mc.thePlayer.getSmoothDistanceToEntity(target);
+            drawTarget2DESP(Objects.requireNonNull(targetESPSPos(target))[0], Objects.requireNonNull(targetESPSPos(target))[1],
+                    (1.0f - MathHelper.clamp_float(Math.abs(dst - 6.0f) / 60.0f, 0.1f, 0.1f)) * 1, index);
+        }
+        if (mode.is("TriangleStapple") && target != null) {
+            float dst = mc.thePlayer.getSmoothDistanceToEntity(target);
+            drawTarget2DESP(Objects.requireNonNull(targetESPSPos(target))[0], Objects.requireNonNull(targetESPSPos(target))[1],
+                    (1.0f - MathHelper.clamp_float(Math.abs(dst - 6.0f) / 60.0f, 0.1f, 0.1f)) * 1, index);
+        }
+        if (mode.is("TriangleStipple") && target != null) {
+            float dst = mc.thePlayer.getSmoothDistanceToEntity(target);
+            drawTarget2DESP(Objects.requireNonNull(targetESPSPos(target))[0], Objects.requireNonNull(targetESPSPos(target))[1],
+                    (1.0f - MathHelper.clamp_float(Math.abs(dst - 6.0f) / 60.0f, 0.1f, 0.1f)) * 1, index);
         }
     }
 
@@ -333,6 +352,51 @@ public class TargetESP extends Module {
         GlStateManager.depthMask(true);
         GL11.glEnable(3008);
         GlStateManager.popMatrix();
+    }
+
+    private void drawTarget2DESP(float x, float y, float scale, int index) {
+        long millis = System.currentTimeMillis() + (long)index * 400L;
+        double angle = MathHelper.clamp_double((Math.sin((double)millis / 150.0) + 1.0) / 2.0 * 30.0, 0.0, 30.0);
+        double scaled = MathHelper.clamp_double((Math.sin((double)millis / 500.0) + 1.0) / 2.0, 0.8, 1.0);
+        double rotate = MathHelper.clamp_double((Math.sin((double)millis / 1000.0) + 1.0) / 2.0 * 360.0, 0.0, 360.0);
+        rotate = (double)(mode.is("QuadStapple") ? 45 : 0) - (angle - 15.0) + rotate;
+        int color = ColorUtils.applyOpacity(new Color(getModule(Interface.class).color(0)), (float) alphaAnim.getOutput()).getRGB();
+        int color2 = ColorUtils.applyOpacity(new Color(getModule(Interface.class).color(50)), (float) alphaAnim.getOutput()).getRGB();
+        int color3 = ColorUtils.applyOpacity(new Color(getModule(Interface.class).color(100)), (float) alphaAnim.getOutput()).getRGB();
+        int color4 = ColorUtils.applyOpacity(new Color(getModule(Interface.class).color(150)), (float) alphaAnim.getOutput()).getRGB();
+
+        float size = 128.0F * scale * (float)scaled;
+        x -= size / 2.0F;
+        y -= size / 2.0F;
+        float x2 = x + size;
+        float y2 = y + size;
+
+            GlStateManager.pushMatrix();
+            RenderUtils.customRotatedObject2D(x, y, size, size, (double)((float)rotate));
+            GL11.glDisable(3008);
+            GlStateManager.depthMask(false);
+            GlStateManager.enableBlend();
+            GlStateManager.shadeModel(7425);
+            GlStateManager.tryBlendFuncSeparate(770, 1, 1, 0);
+
+            if (mode.is("QuadStapple")) {
+                RenderUtils.drawImage(quadstapple, x, y, x2, y2, color, color2, color3, color4);
+            }
+
+            if (mode.is("TriangleStapple")) {
+                RenderUtils.drawImage(trianglestapple, x, y, x2, y2, color, color2, color3, color4);
+            }
+
+            if (mode.is("TriangleStipple")) {
+                RenderUtils.drawImage(trianglestipple, x, y, x2, y2, color, color2, color3, color4);
+            }
+
+            GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+            GlStateManager.resetColor();
+            GlStateManager.shadeModel(7424);
+            GlStateManager.depthMask(true);
+            GL11.glEnable(3008);
+            GlStateManager.popMatrix();
     }
 
     private float[] targetESPSPos(EntityLivingBase entity) {

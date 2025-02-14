@@ -22,10 +22,12 @@ import wtf.moonlight.events.impl.player.UpdateEvent;
 import wtf.moonlight.features.modules.Module;
 import wtf.moonlight.features.modules.ModuleCategory;
 import wtf.moonlight.features.modules.ModuleInfo;
+import wtf.moonlight.features.values.impl.BoolValue;
 import wtf.moonlight.utils.packet.PacketUtils;
 
 @ModuleInfo(name = "Freeze", category = ModuleCategory.Movement)
 public class Freeze extends Module {
+    private final BoolValue disableOnHurt = new BoolValue("Disable On Hurt", false, this);
     private double x;
     private double y;
     private double z;
@@ -72,6 +74,11 @@ public class Freeze extends Module {
 
         if (event.getPacket() instanceof S08PacketPlayerPosLook) {
             toggle();
+        }
+
+        if (disableOnHurt.get()) {
+            if (mc.thePlayer.hurtTime == 1)
+                getModule(Freeze.class).setEnabled(false);
         }
     }
 
