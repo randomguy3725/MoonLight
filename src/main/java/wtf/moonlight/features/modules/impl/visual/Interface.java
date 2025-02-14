@@ -96,7 +96,7 @@ public class Interface extends Module {
     public final BoolValue cFont = new BoolValue("C Fonts",true,this, () -> elements.isEnabled("Module List"));
     public final ModeValue fontMode = new ModeValue("C Fonts Mode", new String[]{"Bold","Semi Bold","Medium","Regular","Tahoma"}, "Semi Bold", this,() -> cFont.canDisplay() && cFont.get());
     public final SliderValue fontSize = new SliderValue("Font Size",15,10,25,this,cFont::get);
-    public final ModeValue watemarkMode = new ModeValue("Watermark Mode", new String[]{"Text","Styles","Nursultan","Exhi","Exhi 2","Nursultan 2","NeverLose"}, "Text", this,() -> elements.isEnabled("Watermark"));
+    public final ModeValue watemarkMode = new ModeValue("Watermark Mode", new String[]{"Text","Styles","Styles 2","Nursultan","Exhi","Exhi 2","Nursultan 2","NeverLose"}, "Text", this,() -> elements.isEnabled("Watermark"));
     public final ModeValue animation = new ModeValue("Animation", new String[]{"ScaleIn", "MoveIn","Slide In"}, "ScaleIn", this, () -> elements.isEnabled("Module List"));
     public final ModeValue arrayPosition = new ModeValue("Position", new String[]{"Right","Left"}, "Right", this, () -> elements.isEnabled("Module List"));
     public final SliderValue x = new SliderValue("Module List X", 0, -50, 50, this, () -> elements.isEnabled("Module List"));
@@ -135,6 +135,7 @@ public class Interface extends Module {
     private final DecimalFormat fpsFormat = new DecimalFormat("0");
     private final DecimalFormat healthFormat = new DecimalFormat("0.#", new DecimalFormatSymbols(Locale.ENGLISH));
     private final DateFormat dateFormat = new SimpleDateFormat("hh:mm");
+    private final DateFormat dateFormat2 = new SimpleDateFormat("hh:mm:ss");
     public final Map<EntityPlayer, DecelerateAnimation> animationEntityPlayerMap = new HashMap<>();
     public int lost = 0, killed = 0, won = 0;
     public int prevMatchKilled = 0,matchKilled = 0,match;
@@ -168,6 +169,28 @@ public class Interface extends Module {
                     RoundedUtils.drawRound(x, y, width, height, 4, new Color(getModule(Interface.class).bgColor(), true));
                     Fonts.interBold.get(17).drawOutlinedString("ML", x + 2, y + 4.5f, -1, color());
                     Fonts.interRegular.get(17).drawStringWithShadow(name, Fonts.interBold.get(17).getStringWidth("ML") + x + 2, y + 4.5f, -1);
+                    break;
+                case "Styles 2":
+                    String dateString = dateFormat2.format(new Date());
+
+                    String serverString;
+                    if (mc.isSingleplayer()) {
+                        serverString = "singleplayer";
+                    } else
+                        serverString = mc.getCurrentServerData().serverIP.toLowerCase();
+
+                    String name = "moonlight" + EnumChatFormatting.WHITE +
+                        " | " + mc.thePlayer.getName() +
+                        " | " + Minecraft.getDebugFPS() + "fps" +
+                        " | " + serverString + " | " + dateString;
+
+                    int x = 7;
+                    int y = 7;
+                    int width = Fonts.interSemiBold.get(17).getStringWidth("") + Fonts.interSemiBold.get(17).getStringWidth(name) + 5;
+                    int height = Fonts.interSemiBold.get(17).getHeight() + 3;
+
+                    RoundedUtils.drawRound(x, y, width, height, 4, new Color(getModule(Interface.class).bgColor(), true));
+                    Fonts.interSemiBold.get(17).drawString(name, Fonts.interBold.get(17).getStringWidth("") + x + 2, y + 4.5f, new Color(color(1)).getRGB());
                     break;
                 case "Nursultan":
                     RoundedUtils.drawRound(7, 7.5f, 20 + Fonts.interMedium.get(15).getStringWidth(INSTANCE.getVersion()) + 5, 15, 4, new Color(bgColor(0)));
@@ -669,6 +692,29 @@ public class Interface extends Module {
 
                 RoundedUtils.drawRound(x, y, width, height, 4, new Color(color()));
                 break;
+
+            case "Styles 2":
+                String dateString = dateFormat2.format(new Date());
+
+                String serverString;
+                if (mc.isSingleplayer()) {
+                    serverString = "singleplayer";
+                } else
+                    serverString = mc.getCurrentServerData().serverIP.toLowerCase();
+
+                String name = "moonlight" + EnumChatFormatting.WHITE +
+                    " | " + mc.thePlayer.getName() +
+                    " | " + Minecraft.getDebugFPS() + "fps" +
+                    " | " + serverString + " | " + dateString;
+
+                int x = 7;
+                int y = 7;
+                int width = Fonts.interSemiBold.get(17).getStringWidth("") + Fonts.interSemiBold.get(17).getStringWidth(name) + 5;
+                int height = Fonts.interRegular.get(17).getHeight() + 3;
+
+                RoundedUtils.drawRound(x, y, width, height, 4, new Color(color()));
+                break;
+
             case "NeverLose":
                 //title
                 FontRenderer title = Fonts.interBold.get(20);
