@@ -33,22 +33,24 @@ public class GuiMainMenu extends GuiScreen {
     private final List<MenuButton> buttons = List.of(
             new MenuButton("Singleplayer"),
             new MenuButton("Multiplayer"),
-            new MenuButton("Alts"),
-            new MenuButton("Options"),
-            new MenuButton("Shutdown"));
+            new MenuButton("Alt Manager"),
+            new MenuButton("Settings"),
+            new MenuButton("Exit"));
 
     private final List<ChangeLog> logs = new ArrayList<>();
 
     public GuiMainMenu() {
-        logs.add(new ChangeLog("1.8x autoblock for Hypixel", ChangeLogType.ADDITION));
-        logs.add(new ChangeLog("Hypixel tower/towermove", ChangeLogType.ADDITION));
-        logs.add(new ChangeLog("New Hypixel rotations for scaffold", ChangeLogType.ADDITION));
-        logs.add(new ChangeLog("Smart option for KillAura", ChangeLogType.ADDITION));
-        logs.add(new ChangeLog("Glide speed bypassing Hypixel", ChangeLogType.ADDITION));
-        logs.add(new ChangeLog("New notification mode", ChangeLogType.ADDITION));
-        logs.add(new ChangeLog("TargetHUD showing up from far away", ChangeLogType.FIX));
-        logs.add(new ChangeLog("Issues with towermove", ChangeLogType.FIX));
-        logs.add(new ChangeLog("Buttons on MainMenu not working", ChangeLogType.FIX));
+        logs.add(new ChangeLog("New TargetESP modes", ChangeLogType.ADDITION));
+        logs.add(new ChangeLog("NoWeb and NoFluid", ChangeLogType.ADDITION));
+        logs.add(new ChangeLog("InvManager Using Item Check", ChangeLogType.ADDITION));
+        logs.add(new ChangeLog("Watchdog NoSlowdown Speed Up", ChangeLogType.ADDITION));
+        logs.add(new ChangeLog("Opai Session Info", ChangeLogType.ADDITION));
+        logs.add(new ChangeLog("New Nursultan Watermark", ChangeLogType.ADDITION));
+        logs.add(new ChangeLog("Atmosphere Fog Distance setting", ChangeLogType.ADDITION));
+        logs.add(new ChangeLog("Optimization and code cleanups", ChangeLogType.IMPROVEMENT));
+        logs.add(new ChangeLog("Fixed Sprint activation after item use", ChangeLogType.FIX));
+        logs.add(new ChangeLog("Fixed BedNuker sometimes failing to break", ChangeLogType.FIX));
+        logs.add(new ChangeLog("Fixed Alt Manager adding multiple accounts", ChangeLogType.FIX));
     }
 
     @Override
@@ -83,9 +85,9 @@ public class GuiMainMenu extends GuiScreen {
                 switch (button.text) {
                     case "Singleplayer" -> mc.displayGuiScreen(new GuiSelectWorld(this));
                     case "Multiplayer" -> mc.displayGuiScreen(new GuiMultiplayer(this));
-                    case "Alts" -> mc.displayGuiScreen(Moonlight.INSTANCE.getAltRepositoryGUI());
-                    case "Options" -> mc.displayGuiScreen(new GuiOptions(this, mc.gameSettings));
-                    case "Shutdown" -> mc.shutdown();
+                    case "Alt Manager" -> mc.displayGuiScreen(Moonlight.INSTANCE.getAltRepositoryGUI());
+                    case "Settings" -> mc.displayGuiScreen(new GuiOptions(this, mc.gameSettings));
+                    case "Exit" -> mc.shutdown();
                 }
             };
             button.drawScreen(mouseX, mouseY);
@@ -97,7 +99,7 @@ public class GuiMainMenu extends GuiScreen {
         for (ChangeLog changeLog : logs) {
             if (changeLog != null) {
                 if (changeLog.getLog() != null) {
-                    Fonts.interBold.get(20).drawStringWithShadow("ChangeLog:", 5, 5, -1);
+                    Fonts.interBold.get(20).drawStringWithShadow("Changelogs", 5, 3, -1);
                     Fonts.interBold.get(15).drawStringWithShadow(changeLog.type.character + changeLog.getLog(), 5, i * (Fonts.interBold.get(20).getHeight()) + Fonts.interBold.get(20).getHeight() + 2, changeLog.type.stringColor);
                 }
                 i++;
