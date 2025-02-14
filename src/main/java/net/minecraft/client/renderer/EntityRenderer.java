@@ -1825,7 +1825,6 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
         this.mc.mcProfiler.endStartSection("hand");
 
-        //Moonlight.INSTANCE.getModuleManager().getModule(wtf.moonlight.features.modules.impl.visual.Shaders.class).renderShaders3D();
         Moonlight.INSTANCE.getEventManager().call(new Render3DEvent(partialTicks,new ScaledResolution(mc)));
 
         if (this.renderHand && !Shaders.isShadowPass)
