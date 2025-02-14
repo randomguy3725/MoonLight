@@ -171,7 +171,7 @@ public class Interface extends Module {
                     Fonts.interRegular.get(17).drawStringWithShadow(name, Fonts.interBold.get(17).getStringWidth("ML") + x + 2, y + 4.5f, -1);
                     break;
                 case "Styles 2":
-                    String dateString = dateFormat2.format(new Date());
+                    String dateString2 = dateFormat2.format(new Date());
 
                     String serverString;
                     if (mc.isSingleplayer()) {
@@ -179,18 +179,18 @@ public class Interface extends Module {
                     } else
                         serverString = mc.getCurrentServerData().serverIP.toLowerCase();
 
-                    String name = "moonlight" + EnumChatFormatting.WHITE +
+                    String stylesname = "moonlight" + EnumChatFormatting.WHITE +
                         " | " + mc.thePlayer.getName() +
                         " | " + Minecraft.getDebugFPS() + "fps" +
-                        " | " + serverString + " | " + dateString;
+                        " | " + serverString + " | " + dateString2;
 
-                    int x = 7;
-                    int y = 7;
-                    int width = Fonts.interSemiBold.get(17).getStringWidth("") + Fonts.interSemiBold.get(17).getStringWidth(name) + 5;
-                    int height = Fonts.interSemiBold.get(17).getHeight() + 3;
+                    x = 7;
+                    y = 7;
+                    width = Fonts.interSemiBold.get(17).getStringWidth("") + Fonts.interSemiBold.get(17).getStringWidth(stylesname) + 5;
+                    height = Fonts.interSemiBold.get(17).getHeight() + 3;
 
                     RoundedUtils.drawRound(x, y, width, height, 4, new Color(getModule(Interface.class).bgColor(), true));
-                    Fonts.interSemiBold.get(17).drawString(name, Fonts.interBold.get(17).getStringWidth("") + x + 2, y + 4.5f, new Color(color(1)).getRGB());
+                    Fonts.interSemiBold.get(17).drawString(stylesname, Fonts.interBold.get(17).getStringWidth("") + x + 2, y + 4.5f, new Color(color(1)).getRGB());
                     break;
                 case "Nursultan":
                     RoundedUtils.drawRound(7, 7.5f, 20 + Fonts.interMedium.get(15).getStringWidth(INSTANCE.getVersion()) + 5, 15, 4, new Color(bgColor(0)));
@@ -694,7 +694,7 @@ public class Interface extends Module {
                 break;
 
             case "Styles 2":
-                String dateString = dateFormat2.format(new Date());
+                String dateString2 = dateFormat2.format(new Date());
 
                 String serverString;
                 if (mc.isSingleplayer()) {
@@ -702,15 +702,15 @@ public class Interface extends Module {
                 } else
                     serverString = mc.getCurrentServerData().serverIP.toLowerCase();
 
-                String name = "moonlight" + EnumChatFormatting.WHITE +
+                String stylesname = "moonlight" + EnumChatFormatting.WHITE +
                     " | " + mc.thePlayer.getName() +
                     " | " + Minecraft.getDebugFPS() + "fps" +
-                    " | " + serverString + " | " + dateString;
+                    " | " + serverString + " | " + dateString2;
 
-                int x = 7;
-                int y = 7;
-                int width = Fonts.interSemiBold.get(17).getStringWidth("") + Fonts.interSemiBold.get(17).getStringWidth(name) + 5;
-                int height = Fonts.interRegular.get(17).getHeight() + 3;
+                x = 7;
+                y = 7;
+                width = Fonts.interSemiBold.get(17).getStringWidth("") + Fonts.interSemiBold.get(17).getStringWidth(stylesname) + 5;
+                height = Fonts.interRegular.get(17).getHeight() + 3;
 
                 RoundedUtils.drawRound(x, y, width, height, 4, new Color(color()));
                 break;
