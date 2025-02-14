@@ -182,7 +182,7 @@ public class Velocity extends Module {
                     }
                     break;
 
-                case "Intave Reduce":
+                case "Reduce":
                     veloPacket = true;
                     break;
             }
