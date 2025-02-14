@@ -13,6 +13,7 @@ package wtf.moonlight.features.modules.impl.visual;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.opengl.GL11;
 import wtf.moonlight.Moonlight;
 import wtf.moonlight.events.annotations.EventTarget;
@@ -81,17 +82,19 @@ public class ScaffoldCounter implements InstanceAccess {
                     c = ColorUtils.getColor(0, 255, 0, 150);
                 }
                 ScaledResolution scaledResolution = new ScaledResolution(mc);
-                mc.fontRendererObj.drawString(String.valueOf(scaffold.getBlockCount()), scaledResolution.getScaledWidth() / 2 - (mc.fontRendererObj.getStringWidth(String.valueOf(scaffold.getBlockCount())) / 2) - 1, scaledResolution.getScaledHeight() / 2 - 36, 0xff000000, false);
-                mc.fontRendererObj.drawString(String.valueOf(scaffold.getBlockCount()), scaledResolution.getScaledWidth() / 2 - (mc.fontRendererObj.getStringWidth(String.valueOf(scaffold.getBlockCount())) / 2) + 1, scaledResolution.getScaledHeight() / 2 - 36, 0xff000000, false);
-                mc.fontRendererObj.drawString(String.valueOf(scaffold.getBlockCount()), scaledResolution.getScaledWidth() / 2 - (mc.fontRendererObj.getStringWidth(String.valueOf(scaffold.getBlockCount())) / 2), scaledResolution.getScaledHeight() / 2 - 35, 0xff000000, false);
-                mc.fontRendererObj.drawString(String.valueOf(scaffold.getBlockCount()), scaledResolution.getScaledWidth() / 2 - (mc.fontRendererObj.getStringWidth(String.valueOf(scaffold.getBlockCount())) / 2), scaledResolution.getScaledHeight() / 2 - 37, 0xff000000, false);
-                mc.fontRendererObj.drawString(String.valueOf(scaffold.getBlockCount()), scaledResolution.getScaledWidth() / 2 - (mc.fontRendererObj.getStringWidth(String.valueOf(scaffold.getBlockCount())) / 2), scaledResolution.getScaledHeight() / 2 - 36, c, false);
+                mc.fontRendererObj.drawString(String.valueOf(scaffold.getBlockCount()), scaledResolution.getScaledWidth() / 2f - (mc.fontRendererObj.getStringWidth(String.valueOf(scaffold.getBlockCount())) / 2f) - 1, scaledResolution.getScaledHeight() / 2f - 36, 0xff000000, false);
+                mc.fontRendererObj.drawString(String.valueOf(scaffold.getBlockCount()), scaledResolution.getScaledWidth() / 2f - (mc.fontRendererObj.getStringWidth(String.valueOf(scaffold.getBlockCount())) / 2f) + 1, scaledResolution.getScaledHeight() / 2f - 36, 0xff000000, false);
+                mc.fontRendererObj.drawString(String.valueOf(scaffold.getBlockCount()), scaledResolution.getScaledWidth() / 2f - (mc.fontRendererObj.getStringWidth(String.valueOf(scaffold.getBlockCount())) / 2f), scaledResolution.getScaledHeight() / 2f - 35, 0xff000000, false);
+                mc.fontRendererObj.drawString(String.valueOf(scaffold.getBlockCount()), scaledResolution.getScaledWidth() / 2f - (mc.fontRendererObj.getStringWidth(String.valueOf(scaffold.getBlockCount())) / 2f), scaledResolution.getScaledHeight() / 2f - 37, 0xff000000, false);
+                mc.fontRendererObj.drawString(String.valueOf(scaffold.getBlockCount()), scaledResolution.getScaledWidth() / 2f - (mc.fontRendererObj.getStringWidth(String.valueOf(scaffold.getBlockCount())) / 2f), scaledResolution.getScaledHeight() / 2f - 36, c, false);
                 break;
             }
             case "adjust":
                 if (!scaffold.isEnabled()) return;
-                Fonts.interRegular.get(16).drawStringWithShadow(" blocks", sr.getScaledWidth() / 2.081f + Fonts.Tahoma.get(16).getStringWidth(scaffold.getBlockCount() + ""), sr.getScaledHeight() / 2f + 22, new Color(255,255,255).getRGB());
-                Fonts.Tahoma.get(16).drawStringWithShadow(scaffold.getBlockCount() + " ", sr.getScaledWidth() / 2.08f, sr.getScaledHeight() / 2f + 22, new Color(Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).color()).getRGB());
+                //Fonts.interRegular.get(16).drawStringWithShadow("blocks", sr.getScaledWidth() / 2f + Fonts.Tahoma.get(16).getStringWidth(scaffold.getBlockCount() + "") / 2f, sr.getScaledHeight() / 2f + 22, new Color(255,255,255).getRGB());
+                //Fonts.Tahoma.get(16).drawStringWithShadow(scaffold.getBlockCount() + "", sr.getScaledWidth() / 2f - Fonts.interRegular.get(16).getStringWidth("blocks") / 2f, sr.getScaledHeight() / 2f + 22, new Color(Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).color()).getRGB());
+
+                Fonts.interRegular.get(16).drawCenteredStringWithShadow(scaffold.getBlockCount() + " " + EnumChatFormatting.GRAY + "blocks", sr.getScaledWidth() / 2f,sr.getScaledHeight() / 2f + 22,-1);
                 break;
             case "simple": {
                 if (!scaffold.isEnabled()) return;

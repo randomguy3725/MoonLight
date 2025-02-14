@@ -415,15 +415,17 @@ public class KillAura extends Module {
                 }
                 blinkTicks++;
                 switch (blinkTicks) {
-                    case 1:
-                        unblock();
+                    case 0:
                         return true;
-                    case 2:
-                        block(true);
-                        if (!BlinkComponent.blinking)
+                    case 1:
+                        if(isBlocking) {
+                            block(true);
                             BlinkComponent.blinking = true;
-                        BlinkComponent.release(true);
-                        blinked = true;
+                            unblock();
+                            blinked = true;
+                            return true;
+                        }
+                    case 2:
                         return false;
                 }
                 break;
@@ -472,6 +474,10 @@ public class KillAura extends Module {
             case "HYT":
                 if (!shouldBlock() && isBlocking)
                     unblock();
+                break;
+            case "Watchdog":
+                block(true);
+                BlinkComponent.dispatch();
                 break;
         }
     }

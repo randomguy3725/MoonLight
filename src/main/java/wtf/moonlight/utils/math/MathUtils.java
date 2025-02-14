@@ -105,8 +105,11 @@ public class MathUtils {
         return (float) (startInclusive + ((endInclusive - startInclusive) * Math.random()));
     }
 
-    public static int randomizeInt(double min, double max) {
+    public static int randomizeInt(float min, float max) {
         return (int) randomizeDouble(min, max);
+    }
+    public static float randomizeFloat(float min, float max) {
+        return (float) randomizeDouble(min, max);
     }
 
     public static double randomizeDouble(double min, double max) {
