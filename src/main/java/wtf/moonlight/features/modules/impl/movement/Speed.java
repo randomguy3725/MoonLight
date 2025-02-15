@@ -42,12 +42,13 @@ import java.util.Objects;
 public class Speed extends Module {
     private final ModeValue mode = new ModeValue("Mode", new String[]{"Watchdog", "EntityCollide", "BlocksMC", "Intave", "NCP", "Miniblox"}, "Watchdog", this);
     private final ModeValue wdMode = new ModeValue("Watchdog Mode", new String[]{"Fast", "Glide","Test"}, "Basic", this, () -> mode.is("Watchdog"));
-    private final BoolValue fallStrafe = new BoolValue("Fall Strafe", true, this, () -> mode.is("Watchdog") && wdMode.is("Fast"));
-    private final BoolValue frictionOverride = new BoolValue("Friction Override", true, this, () -> mode.is("Watchdog") && wdMode.is("Fast"));
-    private final BoolValue extraStrafe = new BoolValue("Extra Strafe", true, this, () -> mode.is("Watchdog") && wdMode.is("Fast"));
     private final BoolValue fastFall = new BoolValue("Fast Fall", true, this, () -> mode.is("Watchdog") && wdMode.is("Fast"));
     private final BoolValue hurtTimeCheck = new BoolValue("Hurt Time Check", false, this, () -> mode.is("Watchdog") && (wdMode.is("Fast") || fastFall.canDisplay() && fastFall.get()));
     private final ModeValue wdFastFallMode = new ModeValue("Fast Fall Mode", new String[]{"8 Tick","7 Tick"}, "8 Tick", this, () -> mode.is("Watchdog") && fastFall.canDisplay() && fastFall.get());
+    private final BoolValue disableWhileScaffold = new BoolValue("Disable While Scaffold", true, this, () -> mode.is("Watchdog") && wdMode.is("Fast"));
+    private final BoolValue fallStrafe = new BoolValue("Fall Strafe", true, this, () -> mode.is("Watchdog") && wdMode.is("Fast"));
+    private final BoolValue frictionOverride = new BoolValue("Friction Override", true, this, () -> mode.is("Watchdog") && wdMode.is("Fast"));
+    private final BoolValue extraStrafe = new BoolValue("Extra Strafe", true, this, () -> mode.is("Watchdog") && wdMode.is("Fast"));
     private final BoolValue expand = new BoolValue("More Expand", false, this, () -> Objects.equals(mode.get(), "EntityCollide"));
     private final BoolValue ignoreDamage = new BoolValue("Ignore Damage", true, this, () -> Objects.equals(mode.get(), "EntityCollide"));
     private final BoolValue pullDown = new BoolValue("Pull Down", true, this, () -> Objects.equals(mode.get(), "NCP"));
@@ -368,7 +369,7 @@ public class Speed extends Module {
                     break;
                 case "Fast":
 
-                    if (!disable && fastFall.get()) {
+                    if (!disable && fastFall.get() && (disableWhileScaffold.get() && !isEnabled(Scaffold.class) || !disableWhileScaffold.get())) {
                         switch (mc.thePlayer.offGroundTicks) {
                             case 1:
                                  mc.thePlayer.motionY += 0.057f;
@@ -399,7 +400,7 @@ public class Speed extends Module {
                         mc.thePlayer.motionX = (mc.thePlayer.motionX * 1 + motionX3 * 2) / 3;
                     }
 
-                    if (mc.thePlayer.offGroundTicks == 6 && !disable && (PlayerUtils.blockRelativeToPlayer(0, mc.thePlayer.motionY * 3, 0) != Blocks.air && wdFastFallMode.is("8 Tick"))) {
+                    if (mc.thePlayer.offGroundTicks == 6 && !disable && (PlayerUtils.blockRelativeToPlayer(0, mc.thePlayer.motionY * 3, 0) != Blocks.air && wdFastFallMode.is("8 Tick")) && (disableWhileScaffold.get() && !isEnabled(Scaffold.class) || !disableWhileScaffold.get())) {
                         mc.thePlayer.motionY += 0.075;
                         MovementUtils.strafe();
                         double hypotenuse = Math.sqrt(mc.thePlayer.motionX * mc.thePlayer.motionX + mc.thePlayer.motionZ * mc.thePlayer.motionZ);

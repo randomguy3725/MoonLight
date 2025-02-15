@@ -268,7 +268,6 @@ public class LongJump extends Module {
                         if (!sentPlace) {
                             sendPacket(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
                             sentPlace = true;
-
                         }
                     } else if (initTicks == 2) {
 

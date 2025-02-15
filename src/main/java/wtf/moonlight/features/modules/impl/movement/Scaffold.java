@@ -91,8 +91,8 @@ public class Scaffold extends Module {
     private final ModeValue towerMove = new ModeValue("Tower Move", new String[]{"Jump", "Vanilla","Watchdog","Low"}, "Jump", this,() -> !mode.is("Telly"));
     private final ModeValue wdSprint = new ModeValue("WD Sprint Mode", new String[]{"Beside","Offset"}, "Bottom", this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint") && !addons.isEnabled("Keep Y"));
     private final BoolValue sprintBoost = new BoolValue("Sprint Boost Test", true, this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint") && !addons.isEnabled("Keep Y"));
-    private final ModeValue wdKeepY = new ModeValue("WD Keep Y Mode", new String[]{"Normal", "Opal", "None"}, "Opal", this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint") && addons.isEnabled("Keep Y"));
-    private final ModeValue wdLowhop = new ModeValue("WD Fast Fall Mode", new String[]{"8 Tick","7 Tick","Disabled"}, "Opal", this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint") && addons.isEnabled("Keep Y"));
+    private final ModeValue wdKeepY = new ModeValue("WD Keep Y Mode", new String[]{"Normal", "Opal", "None"}, "Opal", this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint") && (addons.isEnabled("Keep Y") || addons.isEnabled("Speed Keep Y")));
+    private final ModeValue wdLowhop = new ModeValue("WD Fast Fall Mode", new String[]{"8 Tick","7 Tick","Disabled"}, "Disabled", this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint") && addons.isEnabled("Keep Y"));
     private final BoolValue unFlagged = new BoolValue("Un Flagged Test", true, this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint"));
     private final BoolValue unPatch = new BoolValue("Un Patch Test", true, this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint") && (addons.isEnabled("Keep Y") || addons.isEnabled("Speed Keep Y")));
     private final SliderValue straightSpeed = new SliderValue("Keep Y Straight Speed", 1, 0.5f, 1f, 0.01f, this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint") && (addons.isEnabled("Keep Y") || addons.isEnabled("Speed Keep Y")));
@@ -221,15 +221,15 @@ public class Scaffold extends Module {
             posY = onGroundY;
         }
 
-        if (wdKeepY.canDisplay() && wdKeepY.is("Normal") && !towering() && !towering()) {
+        if (wdKeepY.canDisplay() && wdKeepY.is("Normal") && !towering() && (addons.isEnabled("Keep Y") || addons.isEnabled("Speed Keep Y") && isEnabled(Speed.class) && !mc.gameSettings.keyBindJump.isKeyDown())) {
             posY = mc.thePlayer.ticksExisted % 6 != 0 ? onGroundY : mc.thePlayer.getEntityBoundingBox().minY;
         }
 
-        if (towerMoving() || towering()) {
+        if (towerMoving()  || towering()) {
             onGroundY = posY = mc.thePlayer.getEntityBoundingBox().minY;
         }
 
-        if (wdKeepY.canDisplay() && wdKeepY.is("Opal") && !towering() && !towering()) {
+        if (wdKeepY.canDisplay() && wdKeepY.is("Opal") && !towering() && (addons.isEnabled("Keep Y") || addons.isEnabled("Speed Keep Y") && isEnabled(Speed.class) && !mc.gameSettings.keyBindJump.isKeyDown())) {
             if (FallDistanceComponent.distance > 0 && !start) {
                 posY = mc.thePlayer.getEntityBoundingBox().minY;
                 start = true;
@@ -238,9 +238,8 @@ public class Scaffold extends Module {
 
         targetBlock = new BlockPos(mc.thePlayer.posX, posY - 1, mc.thePlayer.posZ);
 
-
         if (wdKeepY.canDisplay() && wdKeepY.is("Opal")) {
-            if (start && !towering() && !towerMoving()) {
+            if (start && !towering() && !towerMoving() && (addons.isEnabled("Keep Y") || addons.isEnabled("Speed Keep Y") && isEnabled(Speed.class) && !mc.gameSettings.keyBindJump.isKeyDown())) {
                 targetBlock = targetBlock.add(0, -1, 0);
                 if (mc.thePlayer.fallDistance > 0 && groundDistance() > 0 && MovementUtils.isMoving()) {
                     targetBlock = targetBlock.add(0, 1, 0);
@@ -258,7 +257,7 @@ public class Scaffold extends Module {
             return;
         }
 
-        if (tower.canDisplay() && towering() && tower.is("Watchdog") && !placing) {
+        if (tower.canDisplay() && towering() && !isEnabled(Speed.class) && tower.is("Watchdog") && !placing) {
             BlockPos xPos = data.blockPos.add(1, 0, 0), zPos = data.blockPos.add(0, 0, 1);
             if (!PlayerUtils.isAir(xPos)) {
                 data.blockPos = xPos;
@@ -278,7 +277,7 @@ public class Scaffold extends Module {
             mc.thePlayer.setSprinting(false);
         }
 
-        if (tower.canDisplay() && (!tower.is("Jump") && towering() || !towerMove.is("Jump") && towerMoving())) {
+        if (tower.canDisplay() && (!tower.is("Jump") && towering() && !isEnabled(Speed.class) || !towerMove.is("Jump") && towerMoving())) {
             hoverState = HoverState.JUMP;
             blocksPlaced = 0;
         }
@@ -397,6 +396,7 @@ public class Scaffold extends Module {
             if(placing){
                 hypixelRandomYaw = MathUtils.randomizeFloat(0,15);
             }
+
             break;
             case "Test": {
                 rotation = getRotationToCorner(data.blockPos,data.facing);
@@ -414,12 +414,13 @@ public class Scaffold extends Module {
             break;
         }
 
-        if (unPatch.canDisplay() && (addons.isEnabled("Speed Keep Y") && isEnabled(Speed.class) || !addons.isEnabled("Speed Keep Y")) && unPatch.get() && mc.thePlayer.onGround && !towering() && !towerMoving()) {
-            rotation = new float[]{mc.thePlayer.rotationYaw, 0f};
-        }
 
         if (tower.canDisplay() && tower.is("Watchdog") && towering()) {
             rotation = getBestRotation(data.blockPos,data.facing);
+        }
+
+        if (unPatch.canDisplay() && (addons.isEnabled("Speed Keep Y") && isEnabled(Speed.class) || !addons.isEnabled("Speed Keep Y")) && unPatch.get() && mc.thePlayer.onGround && !towering() && !towerMoving()) {
+            rotation = new float[]{mc.thePlayer.rotationYaw, previousRotation[1]};
         }
 
         previousRotation = rotation;
@@ -450,7 +451,7 @@ public class Scaffold extends Module {
             return;
         }
 
-        if (mode.is("Watchdog") && towerMoving() && towerMove.is("Jump")) {
+        if (mode.is("Watchdog") && towerMoving() && !isEnabled(Speed.class) && towerMove.is("Jump")) {
             event.setJumping(placing);
         }
 
@@ -519,7 +520,7 @@ public class Scaffold extends Module {
             return;
         }
 
-        if(wdLowhop.canDisplay() && wdLowhop.is("7 Tick") && placed && !towering() && !towerMoving()) {
+        if(wdLowhop.canDisplay() && wdLowhop.is("7 Tick") && placed && !towering() && !isEnabled(Speed.class) && !towerMoving()) {
             switch (mc.thePlayer.offGroundTicks) {
                 case 1:
                     mc.thePlayer.motionY += 0.057f;
@@ -551,7 +552,7 @@ public class Scaffold extends Module {
         }
 
         if (mc.thePlayer.onGround) {
-            if (((addons.isEnabled("Keep Y") || mode.is("Telly")|| wdKeepY.canDisplay())) && MovementUtils.isMoving() && !towering() && !towerMoving() && (!isEnabled(Speed.class))) {
+            if (((addons.isEnabled("Keep Y") || mode.is("Telly")|| wdKeepY.canDisplay() && !addons.isEnabled("Speed Keep Y"))) && MovementUtils.isMoving() && !towering() && !towerMoving() && !addons.isEnabled("Speed Keep Y")) {
                 mc.thePlayer.jump();
             }
         }
@@ -617,7 +618,7 @@ public class Scaffold extends Module {
         if (data == null || data.blockPos == null || data.facing == null || getBlockSlot() == -1 || isEnabled(KillAura.class) && !getModule(KillAura.class).noScaffold.get() && getModule(KillAura.class).target != null && getModule(KillAura.class).shouldAttack() && !(mc.theWorld.getBlockState(getModule(Scaffold.class).targetBlock).getBlock() instanceof BlockAir))
             return;
 
-        if (!(PlayerUtils.getBlock(mc.thePlayer.getPosition()) instanceof BlockLiquid) && !towering() && !towerMoving()) {
+        if (!(PlayerUtils.getBlock(mc.thePlayer.getPosition()) instanceof BlockLiquid) && !towering() && !isEnabled(Speed.class) && !towerMoving()) {
 
             if (unFlagged.get()) {
                 if (flagged) {
@@ -642,11 +643,11 @@ public class Scaffold extends Module {
             }
         }
 
-        if (wdKeepY.canDisplay() && (addons.isEnabled("Speed Keep Y") && isEnabled(Speed.class) || !addons.isEnabled("Speed Keep Y")) && !towering() && !towerMoving() && addons.isEnabled("Sprint") && mc.thePlayer.onGround && MovementUtils.isMoving()) {
+        if (wdKeepY.canDisplay() && (addons.isEnabled("Speed Keep Y") && isEnabled(Speed.class) || !addons.isEnabled("Speed Keep Y")) && !towering() && !isEnabled(Speed.class) && !towerMoving() && !isEnabled(Speed.class) && addons.isEnabled("Sprint") && mc.thePlayer.onGround && MovementUtils.isMoving()) {
             MovementUtils.strafe(MovementUtils.getSpeed() * (MovementUtils.isMovingStraight() ? straightSpeed.get() : diagonalSpeed.get()));
         }
 
-        if(wdLowhop.canDisplay() && wdLowhop.is("8 Tick") && placed && !towering() && !towerMoving()) {
+        if(wdLowhop.canDisplay() && wdLowhop.is("8 Tick") && placed && !towering() && !isEnabled(Speed.class) && !towerMoving()) {
             boolean down = false;
             int simpleY = (int) Math.round((event.y % 1) * 10000);
 
@@ -727,12 +728,12 @@ public class Scaffold extends Module {
         setEnabled(false);
     }
 
-    public boolean towering() {
-        return Keyboard.isKeyDown(mc.gameSettings.keyBindJump.getKeyCode()) && !isEnabled(Speed.class) && !MovementUtils.isMoving();
+    public boolean towering(){
+        return Keyboard.isKeyDown(mc.gameSettings.keyBindJump.getKeyCode()) && !MovementUtils.isMoving();
     }
 
     public boolean towerMoving() {
-        return Keyboard.isKeyDown(mc.gameSettings.keyBindJump.getKeyCode()) && !isEnabled(Speed.class) && MovementUtils.isMoving();
+        return Keyboard.isKeyDown(mc.gameSettings.keyBindJump.getKeyCode()) && MovementUtils.isMoving();
     }
 
     public int getBlockSlot() {
@@ -804,9 +805,13 @@ public class Scaffold extends Module {
                 blocksPlaced += 1;
                 placed = true;
 
-                if (facing == EnumFacing.UP && wdKeepY.canDisplay()) {
-                    start = true;
-                }
+                placed = true;
+
+                if (wdKeepY.canDisplay() && (addons.isEnabled("Speed Keep Y") && isEnabled(Speed.class) || !addons.isEnabled("Speed Keep Y"))) {
+                    if (facing == EnumFacing.UP && wdKeepY.canDisplay()) {
+                        start = true;
+                    }
+                } else start = false;
             }
             previousBlock = data.blockPos.offset(data.facing);
         } else {
@@ -821,9 +826,11 @@ public class Scaffold extends Module {
                 blocksPlaced += 1;
                 placed = true;
 
-                if (facing == EnumFacing.UP && wdKeepY.canDisplay()) {
-                    start = true;
-                }
+                if (wdKeepY.canDisplay() && (addons.isEnabled("Speed Keep Y") && isEnabled(Speed.class) || !addons.isEnabled("Speed Keep Y"))) {
+                    if (ray.sideHit == EnumFacing.UP && wdKeepY.canDisplay()) {
+                        start = true;
+                    }
+                } else start = false;
             }
 
             previousBlock = ray.getBlockPos().offset(ray.sideHit);
