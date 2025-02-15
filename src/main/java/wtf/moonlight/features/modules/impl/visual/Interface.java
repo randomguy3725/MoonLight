@@ -120,8 +120,8 @@ public class Interface extends Module {
     private final ColorValue secondColor = new ColorValue("Second Color", new Color(128, 255, 255), this, () -> color.is("Fade"));
     public final SliderValue fadeSpeed = new SliderValue("Fade Speed", 1, 1, 10, 1, this, () -> color.is("Dynamic") || color.is("Fade"));
     public final BoolValue background = new BoolValue("Background",true,this, () -> elements.isEnabled("Module List"));
-    public final ModeValue  = new ModeValue("Background Color", new String[]{"Dark", "Synced","Custom","NeverLose"}, "Synced", this,background::get);
-    private final ColorValue bgCustomColor = new ColorValue("Background Custom Color", new Color(32, 32, 64), this,() -> .canDisplay() && .is("Custom"));
+    public final ModeValue bgColor = new ModeValue("Background Color", new String[]{"Dark", "Synced","Custom","NeverLose"}, "Synced", this,background::get);
+    private final ColorValue bgCustomColor = new ColorValue("Background Custom Color", new Color(32, 32, 64), this,() -> bgColor.canDisplay() && bgColor.is("Custom"));
     private final SliderValue bgAlpha = new SliderValue("Background Alpha",100,1,255,1,this);
     public final BoolValue hideScoreboard = new BoolValue("Hide Scoreboard", false, this);
     public final BoolValue hideScoreRed = new BoolValue("Hide Scoreboard Red Points", true, this,() -> !hideScoreboard.get());
@@ -166,7 +166,7 @@ public class Interface extends Module {
                     int width = Fonts.interBold.get(17).getStringWidth("ML") + Fonts.interRegular.get(17).getStringWidth(name) + 5;
                     int height = Fonts.interRegular.get(17).getHeight() + 3;
 
-                    RoundedUtils.drawRound(x, y, width, height, 4, new Color(getModule(Interface.class).(), true));
+                    RoundedUtils.drawRound(x, y, width, height, 4, new Color(getModule(Interface.class).bgColor(), true));
                     Fonts.interBold.get(17).drawOutlinedString("ML", x + 2, y + 4.5f, -1, color());
                     Fonts.interRegular.get(17).drawStringWithShadow(name, Fonts.interBold.get(17).getStringWidth("ML") + x + 2, y + 4.5f, -1);
                     break;
@@ -189,17 +189,17 @@ public class Interface extends Module {
                     width = Fonts.interSemiBold.get(17).getStringWidth("") + Fonts.interSemiBold.get(17).getStringWidth(stylesname) + 5;
                     height = Fonts.interSemiBold.get(17).getHeight() + 3;
 
-                    RoundedUtils.drawRound(x, y, width, height, 4, new Color(getModule(Interface.class).(), true));
+                    RoundedUtils.drawRound(x, y, width, height, 4, new Color(getModule(Interface.class).bgColor(), true));
                     Fonts.interSemiBold.get(17).drawString(stylesname, Fonts.interBold.get(17).getStringWidth("") + x + 2, y + 4.5f, new Color(color(1)).getRGB());
                     break;
                 case "Nursultan":
-                    RoundedUtils.drawRound(7, 7.5f, 20 + Fonts.interMedium.get(15).getStringWidth(INSTANCE.getVersion()) + 5, 15, 4, new Color((0)));
+                    RoundedUtils.drawRound(7, 7.5f, 20 + Fonts.interMedium.get(15).getStringWidth(INSTANCE.getVersion()) + 5, 15, 4, new Color(bgColor(0)));
                     Fonts.nursultan.get(16).drawString("P", 13, 14, color(0));
                     RenderUtils.drawRect(25, 10.5f, 1, 8.5f, new Color(47, 47, 47).getRGB());
                     Fonts.interMedium.get(15).drawString(INSTANCE.getVersion(), 29, 13, color(0));
 
                     RenderUtils.drawRect(7 + 20 + Fonts.interMedium.get(15).getStringWidth(INSTANCE.getVersion()) + 2.5f + 11 + 15, 10.5f, 1, 8.5f, new Color(47, 47, 47).getRGB());
-                    RoundedUtils.drawRound(7 + 20 + Fonts.interMedium.get(15).getStringWidth(INSTANCE.getVersion()) + 2.5f + 11, 7.5f, Fonts.interMedium.get(15).getStringWidth("user") + 25, 15, 4, new Color((0)));
+                    RoundedUtils.drawRound(7 + 20 + Fonts.interMedium.get(15).getStringWidth(INSTANCE.getVersion()) + 2.5f + 11, 7.5f, Fonts.interMedium.get(15).getStringWidth("user") + 25, 15, 4, new Color(bgColor(0)));
                     Fonts.nursultan.get(16).drawString("W", 7 + 20 + Fonts.interMedium.get(15).getStringWidth(INSTANCE.getVersion()) + 2.5f + 11 + 5, 14, color(0));
                     Fonts.interMedium.get(15).drawString("user", 7 + 20 + Fonts.interMedium.get(15).getStringWidth(INSTANCE.getVersion()) + 2.5f + 11 + 15 + 5, 13, -1);
                     break;
@@ -224,7 +224,7 @@ public class Interface extends Module {
                     String title = " | MoonLight";
                     float titleWidth = Fonts.interMedium.get(fontSize).getStringWidth(title);
 
-                    RoundedUtils.drawRound(posX, posY, rectWidth + iconSize * 2.5F + titleWidth, 15, 4.0F, new Color(getModule(Interface.class).(), true));
+                    RoundedUtils.drawRound(posX, posY, rectWidth + iconSize * 2.5F + titleWidth, 15, 4.0F, new Color(getModule(Interface.class).bgColor(), true));
 
                     Fonts.nursultan.get(18).drawString("S", posX + iconSize, posY + 2 + iconSize - 1.0F, color());
 
@@ -234,7 +234,7 @@ public class Interface extends Module {
                     float playerNameWidth = Fonts.interMedium.get(fontSize).getStringWidth(playerName);
                     float playerNameX = posX + rectWidth + iconSize * 2.5F + titleWidth + iconSize;
 
-                    RoundedUtils.drawRound(playerNameX, posY, rectWidth + iconSize * 2.5F + playerNameWidth, 15, 4.0F, new Color(getModule(Interface.class).(), true));
+                    RoundedUtils.drawRound(playerNameX, posY, rectWidth + iconSize * 2.5F + playerNameWidth, 15, 4.0F, new Color(getModule(Interface.class).bgColor(), true));
 
                     Fonts.nursultan.get(fontSize).drawString("W", playerNameX + iconSize, posY + 1 + iconSize, color());
 
@@ -245,7 +245,7 @@ public class Interface extends Module {
                     float fpsTextWidth = Fonts.interMedium.get(fontSize).getStringWidth(fpsText);
                     float fpsX = playerNameX + rectWidth + iconSize * 2.5F + playerNameWidth + iconSize;
 
-                    RoundedUtils.drawRound(fpsX, posY, rectWidth + iconSize * 2.5F + fpsTextWidth, 15, 4.0F, new Color(getModule(Interface.class).(), true));
+                    RoundedUtils.drawRound(fpsX, posY, rectWidth + iconSize * 2.5F + fpsTextWidth, 15, 4.0F, new Color(getModule(Interface.class).bgColor(), true));
 
                     Fonts.nursultan.get(18).drawString("X", fpsX + iconSize, posY + 1 + iconSize, color());
 
@@ -255,7 +255,7 @@ public class Interface extends Module {
                     float positionTextWidth = Fonts.interMedium.get(fontSize).getStringWidth(playerPosition);
                     float positionY = posY + 15 + iconSize;
 
-                    RoundedUtils.drawRound(posX, positionY, rectWidth + iconSize * 2.5F + positionTextWidth, 15, 4.0F, new Color(getModule(Interface.class).(), true));
+                    RoundedUtils.drawRound(posX, positionY, rectWidth + iconSize * 2.5F + positionTextWidth, 15, 4.0F, new Color(getModule(Interface.class).bgColor(), true));
 
                     Fonts.nursultan.get(18).drawString("F", posX + iconSize, positionY + 1.5F + iconSize, color());
 
@@ -265,7 +265,7 @@ public class Interface extends Module {
                     float pingTextWidth = Fonts.interMedium.get(fontSize).getStringWidth(pingText);
                     float pingX = posX + rectWidth + iconSize * 2.5F + positionTextWidth + iconSize;
 
-                    RoundedUtils.drawRound(pingX, positionY, rectWidth + iconSize * 2.5F + pingTextWidth, 15, 4.0F, new Color(getModule(Interface.class).(), true));
+                    RoundedUtils.drawRound(pingX, positionY, rectWidth + iconSize * 2.5F + pingTextWidth, 15, 4.0F, new Color(getModule(Interface.class).bgColor(), true));
 
                     Fonts.nursultan.get(18).drawString("Q", pingX + iconSize, positionY + 1 + iconSize, color());
 
@@ -290,7 +290,7 @@ public class Interface extends Module {
                     int textY = 11;
 
                     //title
-                    RoundedUtils.drawRound(3, bgY, titleFont.getStringWidth(clientName.getText()) + 10, Fonts.interRegular.get(20).getHeight() + 2, 4, ColorUtils.applyOpacity(NeverLose., 1f));
+                    RoundedUtils.drawRound(3, bgY, titleFont.getStringWidth(clientName.getText()) + 10, Fonts.interRegular.get(20).getHeight() + 2, 4, ColorUtils.applyOpacity(NeverLose.bgColor, 1f));
                     titleFont.drawOutlinedString(clientName.getText(), 8, textY - 2, textRGB, outlineTextRGB);
 
 
@@ -303,7 +303,7 @@ public class Interface extends Module {
                                     Fonts.nursultan.get(20).getStringWidth(timeIcon) +
                                     info.getStringWidth(times)
                                     + 27
-                            , Fonts.interRegular.get(20).getHeight() + 2, 4, ColorUtils.applyOpacity(NeverLose., 1f));
+                            , Fonts.interRegular.get(20).getHeight() + 2, 4, ColorUtils.applyOpacity(NeverLose.bgColor, 1f));
 
                     Fonts.nursultan.get(20).drawString(userIcon, userIconX, textY, iconRGB);
                     info.drawString(mc.thePlayer.getName(), userIconX + Fonts.nursultan.get(20).getStringWidth(userIcon), 11, textRGB);
@@ -424,7 +424,7 @@ public class Interface extends Module {
                     final float bottom = (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get();
 
                     if (background.get()) {
-                        RenderUtils.drawRect(leftSide, (float) translate.getY(), moduleWidth + 3, bottom, (count));
+                        RenderUtils.drawRect(leftSide, (float) translate.getY(), moduleWidth + 3, bottom, bgColor(count));
                     }
 
                     if (line.is("Left")) {
@@ -497,7 +497,7 @@ public class Interface extends Module {
                     final float bottom = (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get();
 
                     if (background.get()) {
-                        RenderUtils.drawRect(leftSide, y, moduleWidth + 3, bottom, (count));
+                        RenderUtils.drawRect(leftSide, y, moduleWidth + 3, bottom, bgColor(count));
                     }
 
                     if (line.is("Left")) {
@@ -739,7 +739,7 @@ public class Interface extends Module {
                                     Fonts.nursultan.get(20).getStringWidth(timeIcon) +
                                     info.getStringWidth(times)
                                     + 27
-                            , Fonts.interRegular.get(20).getHeight() + 2, 4, NeverLose.);
+                            , Fonts.interRegular.get(20).getHeight() + 2, 4, NeverLose.bgColor);
                     RoundedUtils.drawRound(3, bgY, title.getStringWidth(clientName.getText()) + 10, Fonts.interRegular.get(20).getHeight() + 2, 4, NeverLose.bgColor);
 
             }
