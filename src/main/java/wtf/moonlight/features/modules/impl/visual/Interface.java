@@ -180,9 +180,9 @@ public class Interface extends Module {
                         serverString = mc.getCurrentServerData().serverIP.toLowerCase();
 
                     String stylesname = "moonlight" + EnumChatFormatting.WHITE +
-                        " | " + mc.thePlayer.getName() +
-                        " | " + Minecraft.getDebugFPS() + "fps" +
-                        " | " + serverString + " | " + dateString2;
+                            " | " + mc.thePlayer.getName() +
+                            " | " + Minecraft.getDebugFPS() + "fps" +
+                            " | " + serverString + " | " + dateString2;
 
                     x = 7;
                     y = 7;
@@ -353,7 +353,7 @@ public class Interface extends Module {
         if (versionMode.canDisplay()) {
             switch (versionMode.get()) {
                 case "Default":
-                     float textY = (event.scaledResolution().getScaledHeight() - 9) + (mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f);
+                    float textY = (event.scaledResolution().getScaledHeight() - 9) + (mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f);
 
                     Fonts.interMedium.get(17).drawStringWithShadow(EnumChatFormatting.WHITE + Moonlight.INSTANCE.getVersion() + " §7- " + EnumChatFormatting.WHITE + Moonlight.INSTANCE.getDiscordRP().getName() + " §7- " + EnumChatFormatting.WHITE + "1.0", (float) event.scaledResolution().getScaledWidth() - Fonts.interMedium.get(17).getStringWidth(Moonlight.INSTANCE.getVersion() + " - "  + Moonlight.INSTANCE.getDiscordRP().getName() + " §7- " + EnumChatFormatting.WHITE + "1.0") - 2.0f, textY + 3.5, color (0));
                     break;
@@ -786,9 +786,12 @@ public class Interface extends Module {
                     final float leftSide = (float) (translate.getX() - 2f);
                     final float bottom = (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get();
 
-                    if (event.getShaderType() == Shader2DEvent.ShaderType.BLUR || event.getShaderType() == Shader2DEvent.ShaderType.SHADOW) {
-                        if (background.get()) {
-                            RenderUtils.drawRect(leftSide, (float) translate.getY(), moduleWidth + 3, bottom, bgColor(count));
+                    if (background.get()) {
+                        if (event.getShaderType() == Shader2DEvent.ShaderType.BLUR || event.getShaderType() == Shader2DEvent.ShaderType.SHADOW) {
+                            RenderUtils.drawRect(leftSide, y, moduleWidth + 3, bottom, color(count));
+                        }
+                        if (event.getShaderType() == Shader2DEvent.ShaderType.GLOW) {
+                            RenderUtils.drawRect(leftSide, y, moduleWidth + 3, bottom, color(count));
                         }
                     }
 
@@ -867,7 +870,7 @@ public class Interface extends Module {
                             RenderUtils.drawRect(leftSide, y, moduleWidth + 3, bottom, color(count));
                         }
                         if (event.getShaderType() == Shader2DEvent.ShaderType.GLOW) {
-                            RenderUtils.drawRect(leftSide, y, moduleWidth + 3, bottom, bgColor(count));
+                            RenderUtils.drawRect(leftSide, y, moduleWidth + 3, bottom, color(count));
                         }
                     }
 
