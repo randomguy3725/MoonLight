@@ -118,6 +118,7 @@ public class Interface extends Module {
     public final ModeValue color = new ModeValue("Color Setting", new String[]{"Custom", "Rainbow", "Dynamic", "Fade","Astolfo","NeverLose"}, "NeverLose", this);
     private final ColorValue mainColor = new ColorValue("Main Color", new Color(128, 128, 255), this,() -> !color.is("NeverLose"));
     private final ColorValue secondColor = new ColorValue("Second Color", new Color(128, 255, 255), this, () -> color.is("Fade"));
+    private final SliderValue colorAlpha = new SliderValue("Color Alpha",100,1,255,1,this);
     public final SliderValue fadeSpeed = new SliderValue("Fade Speed", 1, 1, 10, 1, this, () -> color.is("Dynamic") || color.is("Fade"));
     public final BoolValue background = new BoolValue("Background",true,this, () -> elements.isEnabled("Module List"));
     public final ModeValue bgColor = new ModeValue("Background Color", new String[]{"Dark", "Synced","Custom","NeverLose"}, "Synced", this,background::get);
@@ -531,9 +532,9 @@ public class Interface extends Module {
                     }
 
                     if (cFont.get()) {
-                        getFr().drawStringWithShadow(module.getName() + module.getTag(), x - 1, y + 2f, ColorUtils.swapAlpha(color(count), (int) alphaAnimation * 255));
+                        getFr().drawStringWithShadow(module.getName() + module.getTag(), x - 1, y + 2f, ColorUtils.swapAlpha(color(count), (int) alphaAnimation * colorAlpha.get()));
                     } else {
-                        mc.fontRendererObj.drawStringWithShadow(module.getName() + module.getTag(), x - 1, y + 2f, ColorUtils.swapAlpha(color(count), (int) alphaAnimation * 255));
+                        mc.fontRendererObj.drawStringWithShadow(module.getName() + module.getTag(), x - 1, y + 2f, ColorUtils.swapAlpha(color(count), (int) alphaAnimation * colorAlpha.get()));
                     }
 
                     if (animation.get().equals("ScaleIn")) {
@@ -908,9 +909,9 @@ public class Interface extends Module {
 
                     if(event.getShaderType() == Shader2DEvent.ShaderType.GLOW) {
                         if (cFont.get()) {
-                            getFr().drawStringWithShadow(module.getName() + module.getTag(), x - 1, y + 2f, ColorUtils.swapAlpha(color(count), 255));
+                            getFr().drawStringWithShadow(module.getName() + module.getTag(), x - 1, y + 2f, ColorUtils.swapAlpha(color(count), colorAlpha.get()));
                         } else {
-                            mc.fontRendererObj.drawStringWithShadow(module.getName() + module.getTag(), x - 1, y + 2f, ColorUtils.swapAlpha(color(count), 255));
+                            mc.fontRendererObj.drawStringWithShadow(module.getName() + module.getTag(), x - 1, y + 2f, ColorUtils.swapAlpha(color(count), colorAlpha.get()));
                         }
                     }
 
@@ -1160,7 +1161,6 @@ public class Interface extends Module {
         return color(0);
     }
 
-
     public int color(int counter, int alpha) {
         int colors = getMainColor().getRGB();
         colors = switch (color.get()) {
@@ -1172,13 +1172,14 @@ public class Interface extends Module {
             case "Astolfo" ->
                     ColorUtils.swapAlpha(astolfoRainbow(counter, mainColor.getSaturation(), mainColor.getBrightness()), alpha);
             case "NeverLose" -> ColorUtils.swapAlpha(iconRGB, alpha);
+            case "Custom" -> ColorUtils.swapAlpha(mainColor.get().getRGB(), alpha);
             default -> colors;
         };
-        return new Color(colors).getRGB();
+        return colors;
     }
 
     public int color(int counter) {
-        return color(counter, 255);
+        return color(counter, (int) colorAlpha.get());
     }
 
     public int bgColor(int counter, int alpha) {
