@@ -33,6 +33,7 @@ import wtf.moonlight.events.impl.player.*;
 import wtf.moonlight.features.modules.impl.combat.AutoGap;
 import wtf.moonlight.features.modules.impl.combat.KillAura;
 import wtf.moonlight.features.modules.impl.exploit.Disabler;
+import wtf.moonlight.utils.player.MovementInputFromKeyboard;
 import wtf.moonlight.utils.player.MovementUtils;
 import wtf.moonlight.utils.player.RotationUtils;
 
@@ -51,6 +52,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
     private boolean hasValidHealth;
     private String clientBrand;
     public MovementInput movementInput;
+    public MovementInput keyMovementInput;
     protected Minecraft mc;
     protected int sprintToggleTimer;
     public int sprintingTicksLeft;
@@ -674,6 +676,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
         float f = 0.8F;
         boolean flag2 = this.movementInput.moveForward >= f;
         this.movementInput.updatePlayerMoveState();
+        this.keyMovementInput.updatePlayerMoveState();
 
         if ((this.isUsingItem() || Moonlight.INSTANCE.getModuleManager().getModule(KillAura.class).target != null && Moonlight.INSTANCE.getModuleManager().getModule(KillAura.class).slow.get() &&
                 Moonlight.INSTANCE.getModuleManager().getModule(KillAura.class).shouldBlock() && Moonlight.INSTANCE.getModuleManager().getModule(KillAura.class).isBlocking ||

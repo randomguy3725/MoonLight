@@ -16,6 +16,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovementInput;
 import wtf.moonlight.events.impl.player.MoveEvent;
 import wtf.moonlight.events.impl.player.MoveInputEvent;
 import wtf.moonlight.features.modules.impl.combat.TargetStrafe;
@@ -172,7 +173,7 @@ public class MovementUtils implements InstanceAccess {
     }
 
     public static float getRawDirection() {
-        return getRawDirectionRotation(mc.thePlayer.rotationYaw, mc.thePlayer.moveStrafing, mc.thePlayer.moveForward);
+        return getRawDirectionRotation(mc.thePlayer.rotationYaw, mc.thePlayer.keyMovementInput.moveStrafe, mc.thePlayer.keyMovementInput.moveForward);
     }
 
     public static int getSpeedEffect(EntityPlayer player) {

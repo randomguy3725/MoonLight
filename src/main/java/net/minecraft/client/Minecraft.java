@@ -181,6 +181,7 @@ import wtf.moonlight.Moonlight;
 import wtf.moonlight.events.impl.misc.KeyPressEvent;
 import wtf.moonlight.events.impl.misc.TickEvent;
 import wtf.moonlight.utils.animations.Animation;
+import wtf.moonlight.utils.player.MovementInputFromKeyboard;
 
 public class Minecraft implements IThreadListener, IPlayerUsage
 {
@@ -2213,6 +2214,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             this.thePlayer.preparePlayerToSpawn();
             worldClientIn.spawnEntityInWorld(this.thePlayer);
             this.thePlayer.movementInput = new MovementInputFromOptions(this.gameSettings);
+            this.thePlayer.keyMovementInput = new MovementInputFromKeyboard();
             this.playerController.setPlayerCapabilities(this.thePlayer);
             this.renderViewEntity = this.thePlayer;
         }
@@ -2251,6 +2253,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         this.theWorld.spawnEntityInWorld(this.thePlayer);
         this.playerController.flipPlayer(this.thePlayer);
         this.thePlayer.movementInput = new MovementInputFromOptions(this.gameSettings);
+        this.thePlayer.keyMovementInput = new MovementInputFromKeyboard();
         this.thePlayer.setEntityId(i);
         this.playerController.setPlayerCapabilities(this.thePlayer);
         this.thePlayer.setReducedDebug(entityplayersp.hasReducedDebug());
