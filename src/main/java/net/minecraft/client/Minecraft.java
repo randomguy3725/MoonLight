@@ -1558,9 +1558,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         TickEvent tickEvent = new TickEvent();
         Moonlight.INSTANCE.getEventManager().call(tickEvent);
 
-        if(tickEvent.isCancelled())
-            return;
-
         if (this.rightClickDelayTimer > 0)
         {
             --this.rightClickDelayTimer;

@@ -387,9 +387,9 @@ public class Scaffold extends Module {
                     }
                 } else {
                     if (Math.abs(MathHelper.wrapAngleTo180_double(getBestRotation(data.blockPos,data.facing)[0] - MovementUtils.getRawDirection() - 135)) < Math.abs(MathHelper.wrapAngleTo180_double(getBestRotation(data.blockPos,data.facing)[0] - MovementUtils.getRawDirection() + 135))) {
-                        rotation[0] = MovementUtils.getRawDirection() + (125 - hypixelRandomYaw);
+                        rotation[0] = MovementUtils.getRawDirection() + (125 + hypixelRandomYaw);
                     } else {
-                        rotation[0] = MovementUtils.getRawDirection() - (125 - hypixelRandomYaw);
+                        rotation[0] = MovementUtils.getRawDirection() - (125 + hypixelRandomYaw);
                     }
                 }
             }

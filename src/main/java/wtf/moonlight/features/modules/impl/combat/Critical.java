@@ -10,10 +10,11 @@
  */
 package wtf.moonlight.features.modules.impl.combat;
 
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.C02PacketUseEntity;
+import net.minecraft.entity.EntityLivingBase;
 import wtf.moonlight.events.annotations.EventTarget;
-import wtf.moonlight.events.impl.packet.PacketEvent;
+import wtf.moonlight.events.impl.player.AttackEvent;
+import wtf.moonlight.events.impl.player.MotionEvent;
+import wtf.moonlight.events.impl.player.StrafeEvent;
 import wtf.moonlight.events.impl.player.UpdateEvent;
 import wtf.moonlight.features.modules.Module;
 import wtf.moonlight.features.modules.ModuleCategory;
@@ -27,7 +28,7 @@ import wtf.moonlight.utils.player.MovementUtils;
 public class Critical extends Module {
     private final ModeValue mode = new ModeValue("Mode", new String[]{"Jump", "AutoFreeze", "AutoSpeed"}, "Jump", this);
     private boolean attacking;
-    public static boolean stuckEnabled;
+    public boolean stuckEnabled;
 
     @Override
     public void onEnable() {
@@ -35,14 +36,16 @@ public class Critical extends Module {
     }
 
     @EventTarget
+    public void onAttack(AttackEvent event) {
+        if (mc.thePlayer.onGround && event.getTargetEntity() instanceof EntityLivingBase entity) {
+            attacking = true;
+        }
+    }
+
+    @EventTarget
     public void onUpdate(UpdateEvent event) {
         setTag(mode.get());
         switch (mode.get()) {
-            case "GrimAC":
-                if (mc.thePlayer.onGround && attacking) {
-                    attacking = false;
-                }
-                break;
             case "AutoFreeze":
                 if (getModule(KillAura.class).target != null && mc.thePlayer.onGround) {
                     mc.thePlayer.jump();
@@ -75,17 +78,10 @@ public class Critical extends Module {
     }
 
     @EventTarget
-    public void onPacket(PacketEvent event) {
-        Packet<?> packet = event.getPacket();
-        switch (mode.get()) {
-            case "GrimAC":
-                if (packet instanceof C02PacketUseEntity) {
-                    if (mc.thePlayer.onGround) {
-                        mc.thePlayer.jump();
-                    }
-                    attacking = true;
-                }
-                break;
+    public void onStrafe(StrafeEvent event){
+        if(mode.is("Jump") && attacking && mc.thePlayer.onGround){
+            mc.thePlayer.jump();
+            attacking = false;
         }
     }
 }
