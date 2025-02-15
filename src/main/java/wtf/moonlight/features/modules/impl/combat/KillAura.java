@@ -419,7 +419,6 @@ public class KillAura extends Module {
                         return true;
                     case 1:
                         if(isBlocking) {
-                            block(true);
                             BlinkComponent.blinking = true;
                             unblock();
                             blinked = true;
@@ -509,7 +508,8 @@ public class KillAura extends Module {
 
     public void unblock() {
         if (isBlocking) {
-            if (mode.is("HYT") || mode.is("Watchdog")) {
+            if (mode.is("HYT")// || mode.is("Watchdog")
+            ) {
                 sendPacket(new C09PacketHeldItemChange((mc.thePlayer.inventory.currentItem + 1) % 8));
                 sendPacket(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
             } else {

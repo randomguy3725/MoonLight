@@ -16,9 +16,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import org.lwjgl.opengl.GL11;
+import org.lwjglx.input.Keyboard;
 import wtf.moonlight.events.annotations.EventPriority;
 import wtf.moonlight.events.annotations.EventTarget;
 import wtf.moonlight.events.impl.player.JumpEvent;
+import wtf.moonlight.events.impl.player.MoveInputEvent;
 import wtf.moonlight.events.impl.player.StrafeEvent;
 import wtf.moonlight.events.impl.player.UpdateEvent;
 import wtf.moonlight.events.impl.render.Render3DEvent;
@@ -65,7 +67,7 @@ public class TargetStrafe extends Module {
 
         Speed speed = getModule(Speed.class);
 
-        if (holdJump.get() && !mc.gameSettings.keyBindJump.isKeyDown() || !(mc.gameSettings.keyBindForward.isKeyDown() && (speed != null && speed.isEnabled())) || !isEnabled(KillAura.class) || isEnabled(Scaffold.class)) {
+        if (holdJump.get() && !Keyboard.isKeyDown(mc.gameSettings.keyBindJump.getKeyCode()) || !(mc.gameSettings.keyBindForward.isKeyDown() && (speed != null && speed.isEnabled())) || !isEnabled(KillAura.class) || isEnabled(Scaffold.class)) {
             active = false;
             target = null;
             return;
@@ -113,6 +115,12 @@ public class TargetStrafe extends Module {
 
     public static float getYaw(EntityPlayer from, Vec3 pos) {
         return from.rotationYaw + MathHelper.wrapAngleTo180_float((float) Math.toDegrees(Math.atan2(pos.zCoord - from.posZ, pos.xCoord - from.posX)) - 90f - from.rotationYaw);
+    }
+
+    @EventTarget
+    public void onMoveInput(MoveInputEvent event){
+        if(Keyboard.isKeyDown(mc.gameSettings.keyBindJump.getKeyCode()) && holdJump.get() && active)
+            event.setJumping(false);
     }
 
     @EventTarget
