@@ -12,6 +12,8 @@ package wtf.moonlight.gui.font;
 
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
+import wtf.moonlight.Moonlight;
+import wtf.moonlight.features.modules.impl.visual.NameHider;
 import wtf.moonlight.utils.render.ColorUtils;
 
 import java.awt.*;
@@ -149,6 +151,9 @@ public class FontRenderer {
     public final int drawStringNoFormat(String str, float x, float y, int color, boolean darken) {
         GlStateManager.color(1F, 1F, 1F, 1F);
         str = str.replace("▬", "=");
+        if (Moonlight.INSTANCE.getModuleManager().getModule(NameHider.class) != null && Moonlight.INSTANCE.getModuleManager().getModule(NameHider.class).isEnabled()) {
+            str = Moonlight.INSTANCE.getModuleManager().getModule(NameHider.class).getFakeName(str);
+        }
         y = y - 2;
         x *= 2;
         y *= 2;
@@ -187,6 +192,9 @@ public class FontRenderer {
     public final int drawString(String str, float x, float y, int color, boolean darken) {
         GlStateManager.color(1F, 1F, 1F, 1F);
         str = str.replace("▬", "=");
+        if (Moonlight.INSTANCE.getModuleManager().getModule(NameHider.class) != null && Moonlight.INSTANCE.getModuleManager().getModule(NameHider.class).isEnabled()) {
+            str = Moonlight.INSTANCE.getModuleManager().getModule(NameHider.class).getFakeName(str);
+        }
         y = y - 2;
         x *= 2;
         y *= 2;
@@ -236,6 +244,11 @@ public class FontRenderer {
         if (text == null) {
             return 0;
         }
+
+        if (Moonlight.INSTANCE.getModuleManager().getModule(NameHider.class) != null && Moonlight.INSTANCE.getModuleManager().getModule(NameHider.class).isEnabled()) {
+            text = Moonlight.INSTANCE.getModuleManager().getModule(NameHider.class).getFakeName(text);
+        }
+
         int width = 0;
         char[] currentData = text.toCharArray();
 
@@ -284,7 +297,7 @@ public class FontRenderer {
         return textureId;
     }
 
-    private final int getOrGenerateCharTexture(int id) {
+    private int getOrGenerateCharTexture(int id) {
         if (textures[id] == -1)
             return textures[id] = generateCharTexture(id);
         return textures[id];
@@ -344,7 +357,6 @@ public class FontRenderer {
     }
 
     public final void drawLimitedStringWithAlpha(String text, float x, float y, int color, float alpha, float maxWidth) {
-        //   text = processString(text);
         x *= 2.0F;
         y *= 2.0F;
         float originalX = x;
@@ -360,6 +372,11 @@ public class FontRenderer {
         glEnable(GL_TEXTURE_2D);
 
         int currentColor = color;
+
+        if (Moonlight.INSTANCE.getModuleManager().getModule(NameHider.class) != null && Moonlight.INSTANCE.getModuleManager().getModule(NameHider.class).isEnabled()) {
+            text = Moonlight.INSTANCE.getModuleManager().getModule(NameHider.class).getFakeName(text);
+        }
+
         char[] characters = text.toCharArray();
 
         int index = 0;
