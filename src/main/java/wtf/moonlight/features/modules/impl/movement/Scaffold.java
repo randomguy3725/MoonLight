@@ -381,21 +381,21 @@ public class Scaffold extends Module {
                 rotation = getBestRotation(data.blockPos,data.facing);
                 if (MovementUtils.isMovingStraight()) {
                     if (Math.abs(MathHelper.wrapAngleTo180_double(getBestRotation(data.blockPos,data.facing)[0] - MovementUtils.getRawDirection() - 126)) < Math.abs(MathHelper.wrapAngleTo180_double(getBestRotation(data.blockPos,data.facing)[0] - MovementUtils.getRawDirection() + 126))) {
-                        rotation[0] = MovementUtils.getRawDirection() + (126 - hypixelRandomYaw);
+                        rotation[0] = MovementUtils.getRawDirection() + (116 - hypixelRandomYaw);
                     } else {
-                        rotation[0] = MovementUtils.getRawDirection() - (126 - hypixelRandomYaw);
+                        rotation[0] = MovementUtils.getRawDirection() - (116 - hypixelRandomYaw);
                     }
                 } else {
                     if (Math.abs(MathHelper.wrapAngleTo180_double(getBestRotation(data.blockPos,data.facing)[0] - MovementUtils.getRawDirection() - 135)) < Math.abs(MathHelper.wrapAngleTo180_double(getBestRotation(data.blockPos,data.facing)[0] - MovementUtils.getRawDirection() + 135))) {
-                        rotation[0] = MovementUtils.getRawDirection() + (135 - hypixelRandomYaw);
+                        rotation[0] = MovementUtils.getRawDirection() + (125 - hypixelRandomYaw);
                     } else {
-                        rotation[0] = MovementUtils.getRawDirection() - (135 - hypixelRandomYaw);
+                        rotation[0] = MovementUtils.getRawDirection() - (125 - hypixelRandomYaw);
                     }
                 }
             }
 
             if(placing){
-                hypixelRandomYaw = MathUtils.randomizeFloat(0,25);
+                hypixelRandomYaw = MathUtils.randomizeFloat(0,15);
             }
             break;
             case "Test": {

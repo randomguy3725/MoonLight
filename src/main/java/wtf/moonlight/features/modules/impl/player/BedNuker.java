@@ -13,13 +13,17 @@ package wtf.moonlight.features.modules.impl.player;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockBed;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
+import net.minecraft.potion.Potion;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
@@ -49,12 +53,13 @@ import java.awt.*;
 public class BedNuker extends Module {
     public final SliderValue breakRange = new SliderValue("Break Range", 4, 1, 5, 1, this);
     public final BoolValue breakSurroundings = new BoolValue("Break Top", true, this);
-    public final BoolValue rotOnPacket = new BoolValue("Rot On Packet", true, this);
     public final BoolValue autoTool = new BoolValue("Auto Tool", true, this);
-    public final BoolValue autoToolOnPacket = new BoolValue("Auto Tool On Packet", true, this);
     public final BoolValue progressText = new BoolValue("Progress Text", true, this);
-    public final BoolValue progressBar = new BoolValue("Progress Bar", false, this);
+    public final BoolValue progressBar = new BoolValue("Progress Bar", true, this);
     public final BoolValue whitelistOwnBed = new BoolValue("Whitelist Own Bed", true, this);
+    public final BoolValue swap = new BoolValue("Swap", false, this);
+    public final BoolValue ignoreSlow = new BoolValue("Ignore Slow", false, this,swap::get);
+    public final BoolValue groundSpoof = new BoolValue("Ground Spoof", false, this,swap::get);
     public BlockPos bedPos;
     public boolean rotate = false;
     private float breakProgress;
@@ -90,6 +95,9 @@ public class BedNuker extends Module {
 
     @EventTarget
     public void onUpdate(UpdateEvent event){
+
+        setTag(swap.get() ? "Swap" : "Vanilla");
+
         if (Moonlight.INSTANCE.getModuleManager().getModule(Scaffold.class).isEnabled() && Moonlight.INSTANCE.getModuleManager().getModule(Scaffold.class).data == null && mc.thePlayer.getHeldItem().getItem() instanceof ItemBlock) {
             reset(true);
             return;
@@ -201,14 +209,14 @@ public class BedNuker extends Module {
 
         if (breakProgress == 0) {
             rotate = true;
-            if (autoTool.get() && autoToolOnPacket.get()) {
+            if (autoTool.get() && !swap.get()) {
                 doAutoTool(blockPos);
             }
             mc.thePlayer.swingItem();
             sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, bedPos, EnumFacing.UP));
         } else if (breakProgress >= 1) {
             rotate = true;
-            if (autoTool.get() && autoToolOnPacket.get()) {
+            if (autoTool.get() && swap.get()) {
                 doAutoTool(blockPos);
             }
             mc.thePlayer.swingItem();
@@ -217,22 +225,26 @@ public class BedNuker extends Module {
             reset(false);
             return;
         } else {
-            if (!rotOnPacket.get()) {
+            if (!swap.get()) {
                 rotate = true;
             }
 
             if (autoTool.get()) {
-                if (!autoToolOnPacket.get()) {
+                if (!swap.get()) {
                     doAutoTool(blockPos);
                 } else {
-                    mc.thePlayer.inventory.currentItem = 0;
+                    //mc.thePlayer.inventory.currentItem = 0;
                 }
             }
 
             mc.thePlayer.swingItem();
         }
 
-        breakProgress += getBlockHardness(blockPos,PlayerUtils.findTool(blockPos) != -1 ? mc.thePlayer.inventory.getStackInSlot(PlayerUtils.findTool(blockPos)) : mc.thePlayer.getHeldItem());
+        if(swap.get()){
+            breakProgress += (getBlockHardness(bedPos, PlayerUtils.findTool(bedPos) != -1 ? mc.thePlayer.inventory.getStackInSlot(PlayerUtils.findTool(bedPos)) : mc.thePlayer.getHeldItem(), ignoreSlow.get() , groundSpoof.get()));
+        } else {
+            breakProgress += mc.theWorld.getBlockState(bedPos).getBlock().getPlayerRelativeBlockHardness(mc.thePlayer, mc.theWorld, bedPos);
+        }
 
         mc.theWorld.sendBlockBreakProgress(mc.thePlayer.getEntityId(), bedPos, (int) (breakProgress * 10));
     }
@@ -241,7 +253,7 @@ public class BedNuker extends Module {
         if (bedPos != null) {
             mc.theWorld.sendBlockBreakProgress(mc.thePlayer.getEntityId(), bedPos, -1);
             //test
-            sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK,bedPos,EnumFacing.DOWN));
+            //sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK,bedPos,EnumFacing.DOWN));
         }
 
         breakProgress = 0;
@@ -249,11 +261,10 @@ public class BedNuker extends Module {
         bedPos = null;
         rotate = !resetRotate;
     }
-    private int doAutoTool(BlockPos pos) {
+    private void doAutoTool(BlockPos pos) {
         if(PlayerUtils.findTool(pos) != -1) {
             mc.thePlayer.inventory.currentItem = PlayerUtils.findTool(pos);
-            return PlayerUtils.findTool(pos);
-        } else return -1;
+        }
     }
 
     private boolean isBedCovered(BlockPos headBlockBedPos) {
@@ -314,11 +325,56 @@ public class BedNuker extends Module {
         return EnumFacing.UP;
     }
 
-    public static float getBlockHardness(final BlockPos blockPos, final ItemStack itemStack) {
-        final float getBlockHardness = PlayerUtils.getBlock(blockPos).getBlockHardness(mc.theWorld, null);
+    public static float getBlockHardness(final BlockPos blockPos, final ItemStack itemStack, boolean ignoreSlow, boolean ignoreGround) {
+        Block block = mc.theWorld.getBlockState(blockPos).getBlock();
+        final float getBlockHardness = block.getBlockHardness(mc.theWorld, null);
         if (getBlockHardness < 0.0f) {
             return 0.0f;
         }
-        return PlayerUtils.getBlock(blockPos).getPlayerRelativeBlockHardness(itemStack != null ? itemStack : mc.thePlayer.getHeldItem(),mc.thePlayer, mc.theWorld, blockPos);
+        return (block.getMaterial().isToolNotRequired() || (itemStack != null && itemStack.canHarvestBlock(block))) ? (getToolDigEfficiency(itemStack, block, ignoreSlow, ignoreGround) / getBlockHardness / 30.0f) : (getToolDigEfficiency(itemStack, block, ignoreSlow, ignoreGround) / getBlockHardness / 100.0f);
+    }
+
+    public static float getToolDigEfficiency(ItemStack itemStack, Block block, boolean ignoreSlow, boolean ignoreGround) {
+        float n = (itemStack == null) ? 1.0f : itemStack.getItem().getStrVsBlock(itemStack, block);
+        if (n > 1.0f) {
+            final int getEnchantmentLevel = EnchantmentHelper.getEnchantmentLevel(Enchantment.efficiency.effectId, itemStack);
+            if (getEnchantmentLevel > 0 && itemStack != null) {
+                n += getEnchantmentLevel * getEnchantmentLevel + 1;
+            }
+        }
+        if (mc.thePlayer.isPotionActive(Potion.digSpeed)) {
+            n *= 1.0f + (mc.thePlayer.getActivePotionEffect(Potion.digSpeed).getAmplifier() + 1) * 0.2f;
+        }
+        if (!ignoreSlow) {
+            if (mc.thePlayer.isPotionActive(Potion.digSlowdown)) {
+                float n2;
+                switch (mc.thePlayer.getActivePotionEffect(Potion.digSlowdown).getAmplifier()) {
+                    case 0: {
+                        n2 = 0.3f;
+                        break;
+                    }
+                    case 1: {
+                        n2 = 0.09f;
+                        break;
+                    }
+                    case 2: {
+                        n2 = 0.0027f;
+                        break;
+                    }
+                    default: {
+                        n2 = 8.1E-4f;
+                        break;
+                    }
+                }
+                n *= n2;
+            }
+            if (mc.thePlayer.isInsideOfMaterial(Material.water) && !EnchantmentHelper.getAquaAffinityModifier(mc.thePlayer)) {
+                n /= 5.0f;
+            }
+            if (!mc.thePlayer.onGround && !ignoreGround) {
+                n /= 5.0f;
+            }
+        }
+        return n;
     }
 }

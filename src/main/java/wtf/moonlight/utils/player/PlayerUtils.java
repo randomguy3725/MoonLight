@@ -115,15 +115,14 @@ public class PlayerUtils implements InstanceAccess {
         for (int i = 0; i < 9; i++) {
             final ItemStack itemStack = mc.thePlayer.inventory.getStackInSlot(i);
 
-            if (itemStack == null) {
-                continue;
-            }
+            if (itemStack != null) {
 
-            final float speed = itemStack.getStrVsBlock(blockState.getBlock());
+                final float speed = itemStack.getStrVsBlock(blockState.getBlock());
 
-            if (speed > bestSpeed) {
-                bestSpeed = speed;
-                bestSlot = i;
+                if (speed > bestSpeed) {
+                    bestSpeed = speed;
+                    bestSlot = i;
+                }
             }
         }
 

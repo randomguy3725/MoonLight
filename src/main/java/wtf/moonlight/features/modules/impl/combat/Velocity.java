@@ -124,15 +124,17 @@ public class Velocity extends Module {
                     break;
 
                 case "Watchdog":
-                    if (!mc.thePlayer.onGround) {
-                        if (!absorbedVelocity) {
-                            event.setCancelled(true);
-                            absorbedVelocity = true;
-                            return;
+                    if (!isEnabled(LongJump.class)) {
+                        if (!mc.thePlayer.onGround) {
+                            if (!absorbedVelocity) {
+                                event.setCancelled(true);
+                                absorbedVelocity = true;
+                                return;
+                            }
                         }
+                        s12.motionX = (int) (mc.thePlayer.motionX * 8000);
+                        s12.motionZ = (int) (mc.thePlayer.motionZ * 8000);
                     }
-                    s12.motionX = (int) (mc.thePlayer.motionX * 8000);
-                    s12.motionZ = (int) (mc.thePlayer.motionZ * 8000);
                     break;
 
                 case "GrimAC":
