@@ -318,6 +318,10 @@ public class PlayerUtils implements InstanceAccess {
         return isAir(new BlockPos(x, y - 1.0D, z));
     }
 
+    public static boolean isOverAir() {
+        return isOverAir(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);
+    }
+
     public static boolean isAir(BlockPos blockPos) {
         Material material = getBlock(blockPos).getMaterial();
         return material == Material.air;

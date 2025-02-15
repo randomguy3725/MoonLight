@@ -989,43 +989,33 @@ public class Scaffold extends Module {
             previousBlock = null;
         }
 
-        for (int lastCheck = 0; lastCheck < 2; lastCheck++) {
-            for (int i = 0; i < offsets.length; i++) {
-                BlockPos newPos = pos.add(offsets[i]);
-                Block block = mc.theWorld.getBlockState(newPos).getBlock();
-                    /*if (newPos.equals(previousBlock)) {
-                        return new PlaceData(facings[i], newPos);
-                    }*/
-                if (lastCheck == 0) {
-                    continue;
-                }
-                if (!block.getMaterial().isReplaceable() && !isInteractable(block)) {
-                    return new PlaceData(facings[i], newPos);
-                }
+        for (int i = 0; i < offsets.length; i++) {
+            BlockPos newPos = pos.add(offsets[i]);
+            Block block = mc.theWorld.getBlockState(newPos).getBlock();
+            if (newPos.equals(previousBlock)) {
+                return new PlaceData(facings[i], newPos);
+            }
+            if (!block.getMaterial().isReplaceable() && !isInteractable(block)) {
+                return new PlaceData(facings[i], newPos);
             }
         }
 
-        BlockPos[] additionalOffsets = { // adjust these for perfect placement
+        BlockPos[] additionalOffsets = {
                 pos.add(-1, 0, 0),
                 pos.add(1, 0, 0),
                 pos.add(0, 0, 1),
                 pos.add(0, 0, -1),
                 pos.add(0, -1, 0),
         };
-        for (int lastCheck = 0; lastCheck < 2; lastCheck++) {
-            for (BlockPos additionalPos : additionalOffsets) {
-                for (int i = 0; i < offsets.length; i++) {
-                    BlockPos newPos = additionalPos.add(offsets[i]);
-                    Block block = mc.theWorld.getBlockState(newPos).getBlock();
-                    /*if (newPos.equals(previousBlock)) {
-                        return new PlaceData(facings[i], newPos);
-                    }*/
-                    if (lastCheck == 0) {
-                        continue;
-                    }
-                    if (!block.getMaterial().isReplaceable() && !isInteractable(block)) {
-                        return new PlaceData(facings[i], newPos);
-                    }
+        for (BlockPos additionalPos : additionalOffsets) {
+            for (int i = 0; i < offsets.length; i++) {
+                BlockPos newPos = additionalPos.add(offsets[i]);
+                Block block = mc.theWorld.getBlockState(newPos).getBlock();
+                if (newPos.equals(previousBlock)) {
+                    return new PlaceData(facings[i], newPos);
+                }
+                if (!block.getMaterial().isReplaceable() && !isInteractable(block)) {
+                    return new PlaceData(facings[i], newPos);
                 }
             }
         }
