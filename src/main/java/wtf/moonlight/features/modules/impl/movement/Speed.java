@@ -44,7 +44,7 @@ public class Speed extends Module {
     private final ModeValue wdMode = new ModeValue("Watchdog Mode", new String[]{"Fast", "Glide","Test"}, "Basic", this, () -> mode.is("Watchdog"));
     private final BoolValue fastFall = new BoolValue("Fast Fall", true, this, () -> mode.is("Watchdog") && wdMode.is("Fast"));
     private final BoolValue hurtTimeCheck = new BoolValue("Hurt Time Check", false, this, () -> mode.is("Watchdog") && (wdMode.is("Fast") || fastFall.canDisplay() && fastFall.get()));
-    private final ModeValue wdFastFallMode = new ModeValue("Fast Fall Mode", new String[]{"8 Tick","7 Tick"}, "8 Tick", this, () -> mode.is("Watchdog") && fastFall.canDisplay() && fastFall.get());
+    private final ModeValue wdFastFallMode = new ModeValue("Fast Fall Mode", new String[]{"7 Tick","8 Tick Strafe","8 Tick Fast","9 Tick"}, "8 Tick", this, () -> mode.is("Watchdog") && fastFall.canDisplay() && fastFall.get());
     private final BoolValue disableWhileScaffold = new BoolValue("Disable While Scaffold", true, this, () -> mode.is("Watchdog") && wdMode.is("Fast"));
     private final BoolValue fallStrafe = new BoolValue("Fall Strafe", true, this, () -> mode.is("Watchdog") && wdMode.is("Fast"));
     private final BoolValue frictionOverride = new BoolValue("Friction Override", true, this, () -> mode.is("Watchdog") && wdMode.is("Fast"));
@@ -332,7 +332,7 @@ public class Speed extends Module {
     @EventTarget
     public void onStrafe(StrafeEvent event) {
 
-        if(liquidCheck.get() && (mc.thePlayer.isInWater() || mc.thePlayer.isInLava()) || guiCheck.get() && mc.currentScreen instanceof GuiContainer)
+        if (liquidCheck.get() && (mc.thePlayer.isInWater() || mc.thePlayer.isInLava()) || guiCheck.get() && mc.currentScreen instanceof GuiContainer)
             return;
 
         if (mode.get().equals("Watchdog") && wdMode.get().equals("Fast") && (mc.thePlayer.isInWater() || mc.thePlayer.isInWeb || mc.thePlayer.isInLava())) {
@@ -370,17 +370,44 @@ public class Speed extends Module {
                 case "Fast":
 
                     if (!disable && fastFall.get() && (disableWhileScaffold.get() && !isEnabled(Scaffold.class) || !disableWhileScaffold.get())) {
-                        switch (mc.thePlayer.offGroundTicks) {
-                            case 1:
-                                 mc.thePlayer.motionY += 0.057f;
+
+                        switch (wdFastFallMode.get()) {
+                            case "7 Tick", "8 Tick Strafe":
+                                switch (mc.thePlayer.offGroundTicks) {
+                                    case 1:
+                                        mc.thePlayer.motionY += 0.057f;
+                                        break;
+                                    case 3:
+                                        mc.thePlayer.motionY -= 0.1309f;
+                                        break;
+                                    case 4:
+                                        mc.thePlayer.motionY -= 0.2;
+                                        break;
+                                }
                                 break;
-                            case 3:
-                                 mc.thePlayer.motionY -= 0.1309f;
+
+                            case "8 Tick Fast":
+                                switch (mc.thePlayer.offGroundTicks) {
+                                    case 3:
+                                        mc.thePlayer.motionY = mc.thePlayer.motionY - 0.02483;
+                                        break;
+                                    case 5:
+                                        mc.thePlayer.motionY = mc.thePlayer.motionY - 0.1913;
+                                        break;
+                                }
                                 break;
-                            case 4:
-                                 mc.thePlayer.motionY -= 0.2;
+                            case "9 Tick":
+                                switch (mc.thePlayer.offGroundTicks) {
+                                    case 3:
+                                        mc.thePlayer.motionY = mc.thePlayer.motionY - 0.02483;
+                                        break;
+                                    case 5:
+                                        mc.thePlayer.motionY = mc.thePlayer.motionY - 0.16874;
+                                        break;
+                                }
                                 break;
                         }
+
                     }
 
                     if (mc.thePlayer.offGroundTicks == 1 && !disable) {
@@ -400,18 +427,14 @@ public class Speed extends Module {
                         mc.thePlayer.motionX = (mc.thePlayer.motionX * 1 + motionX3 * 2) / 3;
                     }
 
-                    if (mc.thePlayer.offGroundTicks == 6 && !disable && (PlayerUtils.blockRelativeToPlayer(0, mc.thePlayer.motionY * 3, 0) != Blocks.air && wdFastFallMode.is("8 Tick")) && (disableWhileScaffold.get() && !isEnabled(Scaffold.class) || !disableWhileScaffold.get())) {
-                        mc.thePlayer.motionY += 0.075;
+                    if (mc.thePlayer.offGroundTicks > 1 && wdFastFallMode.is("8 Tick Strafe") && !disable && (PlayerUtils.blockRelativeToPlayer(0, mc.thePlayer.motionY * 3, 0) != Blocks.air) && (disableWhileScaffold.get() && !isEnabled(Scaffold.class) || !disableWhileScaffold.get())) {
+                        mc.thePlayer.motionY += 0.0754;
                         MovementUtils.strafe();
-                        double hypotenuse = Math.sqrt(mc.thePlayer.motionX * mc.thePlayer.motionX + mc.thePlayer.motionZ * mc.thePlayer.motionZ);
-                        if ((mc.thePlayer.motionX == 0 || mc.thePlayer.motionZ == 0) && !disable && (!recentlyCollided && mc.thePlayer.isPotionActive(Potion.moveSpeed)) && !getModule(Scaffold.class).isEnabled()) {
-                            MovementUtils.strafe();
-                            couldStrafe = true;
+                    }
 
-                        } else if (!disable && !getModule(Scaffold.class).isEnabled() && (hypotenuse < MovementUtils.getAllowedHorizontalDistance() || mc.thePlayer.motionX == 0 || mc.thePlayer.motionZ == 0)) {
-                            MovementUtils.strafe();
-                            couldStrafe = true;
-                        }
+                    if ((mc.thePlayer.motionX == 0 || mc.thePlayer.motionZ == 0) && !disable && (!recentlyCollided && mc.thePlayer.isPotionActive(Potion.moveSpeed)) && !getModule(Scaffold.class).isEnabled()) {
+                        MovementUtils.strafe();
+                        couldStrafe = true;
                     }
 
                     if (mc.thePlayer.offGroundTicks < 7 && (PlayerUtils.blockRelativeToPlayer(0, mc.thePlayer.motionY, 0) != Blocks.air) && mc.thePlayer.isPotionActive(Potion.moveSpeed) && !slab) {
