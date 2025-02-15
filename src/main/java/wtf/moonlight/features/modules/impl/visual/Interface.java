@@ -424,7 +424,12 @@ public class Interface extends Module {
                     final float bottom = (cFont.get() ? getFr().getHeight() : mc.fontRendererObj.FONT_HEIGHT) + textHeight.get();
 
                     if (background.get()) {
-                        RenderUtils.drawRect(leftSide, (float) translate.getY(), moduleWidth + 3, bottom, bgColor(count));
+                        if (event.getShaderType() == Shader2DEvent.ShaderType.BLUR || event.getShaderType() == Shader2DEvent.ShaderType.SHADOW) {
+                            RenderUtils.drawRect(leftSide, y, moduleWidth + 3, bottom, color(count));
+                        }
+                        if (event.getShaderType() == Shader2DEvent.ShaderType.GLOW) {
+                            RenderUtils.drawRect(leftSide, y, moduleWidth + 3, bottom, color(count));
+                        }
                     }
 
                     if (line.is("Left")) {
