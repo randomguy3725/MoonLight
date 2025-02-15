@@ -430,6 +430,7 @@ public class Interface extends Module {
                         if (event.getShaderType() == Shader2DEvent.ShaderType.GLOW) {
                             RenderUtils.drawRect(leftSide, y, moduleWidth + 3, bottom, color(count));
                         }
+                    }
 
                     if (line.is("Left")) {
                         RenderUtils.drawRect(leftSide - 1, (float) translate.getY(), 1, bottom, color(count));
