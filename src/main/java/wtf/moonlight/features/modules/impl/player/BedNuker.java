@@ -18,6 +18,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -231,11 +232,7 @@ public class BedNuker extends Module {
             mc.thePlayer.swingItem();
         }
 
-        if(doAutoTool(bedPos) != 1 && !(PlayerUtils.getBlock(bedPos) instanceof BlockBed) && (autoTool.get() || autoToolOnPacket.get())) {
-            breakProgress += mc.theWorld.getBlockState(bedPos).getBlock().getPlayerRelativeBlockHardness(mc.thePlayer.inventory.getStackInSlot(doAutoTool(bedPos)), mc.thePlayer, mc.theWorld, bedPos);
-        } else {
-            breakProgress += mc.theWorld.getBlockState(bedPos).getBlock().getPlayerRelativeBlockHardness(mc.thePlayer, mc.theWorld, bedPos);
-        }
+        breakProgress += getBlockHardness(blockPos,PlayerUtils.findTool(blockPos) != -1 ? mc.thePlayer.inventory.getStackInSlot(PlayerUtils.findTool(blockPos)) : mc.thePlayer.getHeldItem());
 
         mc.theWorld.sendBlockBreakProgress(mc.thePlayer.getEntityId(), bedPos, (int) (breakProgress * 10));
     }
@@ -317,4 +314,11 @@ public class BedNuker extends Module {
         return EnumFacing.UP;
     }
 
+    public static float getBlockHardness(final BlockPos blockPos, final ItemStack itemStack) {
+        final float getBlockHardness = PlayerUtils.getBlock(blockPos).getBlockHardness(mc.theWorld, null);
+        if (getBlockHardness < 0.0f) {
+            return 0.0f;
+        }
+        return PlayerUtils.getBlock(blockPos).getPlayerRelativeBlockHardness(itemStack != null ? itemStack : mc.thePlayer.getHeldItem(),mc.thePlayer, mc.theWorld, blockPos);
+    }
 }
