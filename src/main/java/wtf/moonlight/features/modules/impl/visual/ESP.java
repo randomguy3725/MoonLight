@@ -93,13 +93,9 @@ public class ESP extends Module {
     @EventTarget
     public void onRender2D(Render2DEvent event) {
 
-        if (!esp2d.get() && !fontTags.get()) {
-            return;
-        }
-
         for (EntityPlayer player : entityPosMap.keySet()) {
             if ((player.getDistanceToEntity(mc.thePlayer) < 1.0F && mc.gameSettings.thirdPersonView == 0) ||
-                    !RenderUtils.isBBInFrustum(player.getEntityBoundingBox()))
+                    !RenderUtils.isInViewFrustum(player))
                 continue;
 
             final float[] positions = entityPosMap.get(player);
@@ -114,35 +110,34 @@ public class ESP extends Module {
 
             if (fontTags.get()) {
 
-        final String hacker = getModule(HackerDetector.class).isHacker(player) ? EnumChatFormatting.RED + "[Hacker] " + EnumChatFormatting.RESET : "";
-        final String healthString = fonttagsHealth.get() ? EnumChatFormatting.WHITE + "" + EnumChatFormatting.BOLD + " " + (MathUtils.roundToHalf(player.getHealth())) + EnumChatFormatting.RESET + "" :"";
-        final String name = hacker + player.getDisplayName().getFormattedText() + healthString;
-        float halfWidth = (float) Fonts.interMedium.get(15).getStringWidth(name) * 0.5f;
-        final float xDif = x2 - x;
-        final float middle = x + (xDif / 2);
-        final float textHeight = Fonts.interMedium.get(15).getHeight() * 0.5f;
-        float renderY = y - textHeight - 2;
+                final String hacker = getModule(HackerDetector.class).isHacker(player) ? EnumChatFormatting.RED + "[Hacker] " + EnumChatFormatting.RESET : "";
+                final String healthString = fonttagsHealth.get() ? EnumChatFormatting.WHITE + "" + EnumChatFormatting.BOLD + " " + (MathUtils.roundToHalf(player.getHealth())) + EnumChatFormatting.RESET + "" : "";
+                final String name = hacker + player.getDisplayName().getFormattedText() + healthString;
+                float halfWidth = (float) Fonts.interMedium.get(15).getStringWidth(name) * 0.5f;
+                final float xDif = x2 - x;
+                final float middle = x + (xDif / 2);
+                final float textHeight = Fonts.interMedium.get(15).getHeight() * 0.5f;
+                float renderY = y - textHeight - 2;
 
-        final float left = middle - halfWidth - 1;
-        final float right = middle + halfWidth + 1;
+                final float left = middle - halfWidth - 1;
+                final float right = middle + halfWidth + 1;
 
-        if (fonttagsBackground.get()) {
-            Gui.drawRect(left, renderY - 4, right, renderY + textHeight + 1, new Color(0, 0, 0,50).getRGB());
-        }
+                if (fonttagsBackground.get()) {
+                    Gui.drawRect(left, renderY - 4, right, renderY + textHeight + 1, new Color(0, 0, 0, 50).getRGB());
+                }
 
-        Fonts.interMedium.get(15).drawStringWithShadow(name, middle - halfWidth, renderY - 1.5f, 0.5, -1);
-        }
+                Fonts.interMedium.get(15).drawStringWithShadow(name, middle - halfWidth, renderY - 1.5f, 0.5, -1);
+            }
 
-        if (!esp2d.get() && !tags.get()) {
-            return;
-        }
-
+            if (!esp2d.get() && !tags.get()) {
+                return;
+            }
 
             if (tags.get()) {
                 final FontRenderer fontRenderer = mc.fontRendererObj;
 
                 final String hacker = getModule(HackerDetector.class).isHacker(player) ? EnumChatFormatting.RED + "[Hacker] " + EnumChatFormatting.RESET : "";
-                final String healthString = tagsHealth.get() ? " " + (MathUtils.roundToHalf(player.getHealth())) + EnumChatFormatting.RED + "❤" :"";
+                final String healthString = tagsHealth.get() ? " " + (MathUtils.roundToHalf(player.getHealth())) + EnumChatFormatting.RED + "❤" : "";
                 final String name = hacker + player.getDisplayName().getFormattedText() + healthString;
                 float halfWidth = (float) fontRenderer.getStringWidth(name) / 2 * tagsSize.get();
                 final float xDif = x2 - x;
@@ -157,8 +152,8 @@ public class ESP extends Module {
                     Gui.drawRect(left, renderY - 1, right, renderY + textHeight + 1, 0x96000000);
                 }
 
-                if(tagsHealthBar.get()){
-                    RenderUtils.drawRect(left, renderY + textHeight, (halfWidth + halfWidth + 1) * healthPercentage,0.5f, ColorUtils.getHealthColor(player));
+                if (tagsHealthBar.get()) {
+                    RenderUtils.drawRect(left, renderY + textHeight, (halfWidth + halfWidth + 1) * healthPercentage, 0.5f, ColorUtils.getHealthColor(player));
                 }
 
                 fontRenderer.drawScaledString(name, middle - halfWidth, renderY + 0.5F, tagsSize.get(), -1);
@@ -248,13 +243,13 @@ public class ESP extends Module {
                     final float topOfHealthBar = y2 + 0.5F + healthBarHeight;
 
                     if (healthBarSyncColor.get()) {
-                    final int syncedcolor = getModule(Interface.class).color(0);
+                        final int syncedcolor = getModule(Interface.class).color(0);
 
-                    RenderUtils.color(syncedcolor);
+                        RenderUtils.color(syncedcolor);
                     } else {
-                    final int color = ColorUtils.getColorFromPercentage(healthPercentage);
+                        final int color = ColorUtils.getColorFromPercentage(healthPercentage);
 
-                    RenderUtils.color(color);
+                        RenderUtils.color(color);
                     }
                     // Bar
                     {
@@ -279,9 +274,9 @@ public class ESP extends Module {
                     final float topOfAbsorptionBar = y2 + 0.5F + absorptionHeight;
 
                     if (healthBarSyncColor.get()) {
-                    RenderUtils.color(getModule(Interface.class).color(0));
+                        RenderUtils.color(getModule(Interface.class).color(0));
                     } else {
-                    RenderUtils.color(absorptionColor);
+                        RenderUtils.color(absorptionColor);
                     }
 
                     // Absorption Bar
@@ -332,9 +327,9 @@ public class ESP extends Module {
                     }
 
                     if (boxSyncColor.get()) {
-                    RenderUtils.color(getModule(Interface.class).color(0));
+                        RenderUtils.color(getModule(Interface.class).color(0));
                     } else {
-                    RenderUtils.color(boxColor.get().getRGB());
+                        RenderUtils.color(boxColor.get().getRGB());
                     }
 
                     // Box

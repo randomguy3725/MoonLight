@@ -673,74 +673,76 @@ public class Interface extends Module {
             IslandRenderer.INSTANCE.render(new ScaledResolution(mc), true);
         }
 
-        switch (watemarkMode.get()) {
-            case "Text":
-                Fonts.interBold.get(30).drawStringWithShadow(clientName.get(), 10, 10, color(0));
-                break;
-            case "Styles":
-                String dateString = dateFormat.format(new Date());
+        if (watemarkMode.canDisplay()) {
+            switch (watemarkMode.get()) {
+                case "Text":
+                    Fonts.interBold.get(30).drawStringWithShadow(clientName.get(), 10, 10, color(0));
+                    break;
+                case "Styles":
+                    String dateString = dateFormat.format(new Date());
 
-                String name = " | " + Moonlight.INSTANCE.getVersion() +
-                        EnumChatFormatting.GRAY + " | " + EnumChatFormatting.WHITE + dateString +
-                        EnumChatFormatting.GRAY + " | " + EnumChatFormatting.WHITE + mc.thePlayer.getName() +
-                        EnumChatFormatting.GRAY + " | " + EnumChatFormatting.WHITE + mc.getCurrentServerData().serverIP;
+                    String name = " | " + Moonlight.INSTANCE.getVersion() +
+                            EnumChatFormatting.GRAY + " | " + EnumChatFormatting.WHITE + dateString +
+                            EnumChatFormatting.GRAY + " | " + EnumChatFormatting.WHITE + mc.thePlayer.getName() +
+                            EnumChatFormatting.GRAY + " | " + EnumChatFormatting.WHITE + mc.getCurrentServerData().serverIP;
 
-                int x = 7;
-                int y = 7;
-                int width = Fonts.interBold.get(17).getStringWidth("ML") + Fonts.interRegular.get(17).getStringWidth(name) + 5;
-                int height = Fonts.interRegular.get(17).getHeight() + 3;
+                    int x = 7;
+                    int y = 7;
+                    int width = Fonts.interBold.get(17).getStringWidth("ML") + Fonts.interRegular.get(17).getStringWidth(name) + 5;
+                    int height = Fonts.interRegular.get(17).getHeight() + 3;
 
-                RoundedUtils.drawRound(x, y, width, height, 4, new Color(color()));
-                break;
+                    RoundedUtils.drawRound(x, y, width, height, 4, new Color(color()));
+                    break;
 
-            case "Styles 2":
-                String dateString2 = dateFormat2.format(new Date());
+                case "Styles 2":
+                    String dateString2 = dateFormat2.format(new Date());
 
-                String serverString;
-                if (mc.isSingleplayer()) {
-                    serverString = "singleplayer";
-                } else
-                    serverString = mc.getCurrentServerData().serverIP.toLowerCase();
+                    String serverString;
+                    if (mc.isSingleplayer()) {
+                        serverString = "singleplayer";
+                    } else
+                        serverString = mc.getCurrentServerData().serverIP.toLowerCase();
 
-                String stylesname = "moonlight" + EnumChatFormatting.WHITE +
-                    " | " + mc.thePlayer.getName() +
-                    " | " + Minecraft.getDebugFPS() + "fps" +
-                    " | " + serverString + " | " + dateString2;
+                    String stylesname = "moonlight" + EnumChatFormatting.WHITE +
+                            " | " + mc.thePlayer.getName() +
+                            " | " + Minecraft.getDebugFPS() + "fps" +
+                            " | " + serverString + " | " + dateString2;
 
-                x = 7;
-                y = 7;
-                width = Fonts.interSemiBold.get(17).getStringWidth("") + Fonts.interSemiBold.get(17).getStringWidth(stylesname) + 5;
-                height = Fonts.interRegular.get(17).getHeight() + 3;
+                    x = 7;
+                    y = 7;
+                    width = Fonts.interSemiBold.get(17).getStringWidth("") + Fonts.interSemiBold.get(17).getStringWidth(stylesname) + 5;
+                    height = Fonts.interRegular.get(17).getHeight() + 3;
 
-                RoundedUtils.drawRound(x, y, width, height, 4, new Color(color()));
-                break;
+                    RoundedUtils.drawRound(x, y, width, height, 4, new Color(color()));
+                    break;
 
-            case "NeverLose":
-                //title
-                FontRenderer title = Fonts.interBold.get(20);
+                case "NeverLose":
+                    //title
+                    FontRenderer title = Fonts.interBold.get(20);
 
-                //info
-                FontRenderer info = Fonts.interRegular.get(16);
-                String userIcon = "W ";
-                String fpsIcon = "X ";
-                String timeIcon = "V ";
-                float userIconX = 3 + title.getStringWidth(clientName.getText()) + 9 + 7;
-                float fpsIconX = Fonts.nursultan.get(20).getStringWidth(userIcon) + userIconX + info.getStringWidth(mc.thePlayer.getName()) + Fonts.nursultan.get(20).getStringWidth(fpsIcon) - 10;
-                String times = dateFormat.format(new Date());
+                    //info
+                    FontRenderer info = Fonts.interRegular.get(16);
+                    String userIcon = "W ";
+                    String fpsIcon = "X ";
+                    String timeIcon = "V ";
+                    float userIconX = 3 + title.getStringWidth(clientName.getText()) + 9 + 7;
+                    float fpsIconX = Fonts.nursultan.get(20).getStringWidth(userIcon) + userIconX + info.getStringWidth(mc.thePlayer.getName()) + Fonts.nursultan.get(20).getStringWidth(fpsIcon) - 10;
+                    String times = dateFormat.format(new Date());
 
-                int bgY = 5;
+                    int bgY = 5;
 
-                RoundedUtils.drawRound(3 + title.getStringWidth(clientName.getText()) + 14, bgY,
-                        Fonts.nursultan.get(20).getStringWidth(userIcon) +
-                                info.getStringWidth(mc.thePlayer.getName()) +
-                                Fonts.nursultan.get(20).getStringWidth(fpsIcon) +
-                                info.getStringWidth(String.valueOf(Minecraft.getDebugFPS())) +
-                                Fonts.nursultan.get(20).getStringWidth(timeIcon) +
-                                info.getStringWidth(times)
-                                + 27
-                        , Fonts.interRegular.get(20).getHeight() + 2, 4, NeverLose.bgColor);
-                RoundedUtils.drawRound(3, bgY, title.getStringWidth(clientName.getText()) + 10, Fonts.interRegular.get(20).getHeight() + 2, 4, NeverLose.bgColor);
+                    RoundedUtils.drawRound(3 + title.getStringWidth(clientName.getText()) + 14, bgY,
+                            Fonts.nursultan.get(20).getStringWidth(userIcon) +
+                                    info.getStringWidth(mc.thePlayer.getName()) +
+                                    Fonts.nursultan.get(20).getStringWidth(fpsIcon) +
+                                    info.getStringWidth(String.valueOf(Minecraft.getDebugFPS())) +
+                                    Fonts.nursultan.get(20).getStringWidth(timeIcon) +
+                                    info.getStringWidth(times)
+                                    + 27
+                            , Fonts.interRegular.get(20).getHeight() + 2, 4, NeverLose.bgColor);
+                    RoundedUtils.drawRound(3, bgY, title.getStringWidth(clientName.getText()) + 10, Fonts.interRegular.get(20).getHeight() + 2, 4, NeverLose.bgColor);
 
+            }
         }
 
         if (elements.isEnabled("Module List")) {

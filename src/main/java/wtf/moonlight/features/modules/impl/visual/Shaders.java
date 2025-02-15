@@ -40,16 +40,20 @@ public class Shaders extends Module {
         if (!this.isEnabled()) return;
 
         if (this.blur.get()) {
+            RenderUtils.resetColor();
             Blur.startBlur();
             INSTANCE.getEventManager().call(new Shader2DEvent(Shader2DEvent.ShaderType.BLUR));
             Blur.endBlur(blurRadius.get(), (int) blurCompression.get());
+            RenderUtils.resetColor();
         }
 
         if (bloom.get()) {
             stencilFramebuffer = RenderUtils.createFrameBuffer(stencilFramebuffer);
             stencilFramebuffer.framebufferClear();
             stencilFramebuffer.bindFramebuffer(false);
+            RenderUtils.resetColor();
             INSTANCE.getEventManager().call(new Shader2DEvent(Shader2DEvent.ShaderType.GLOW));
+            RenderUtils.resetColor();
             stencilFramebuffer.unbindFramebuffer();
 
             Bloom.renderBlur(stencilFramebuffer.framebufferTexture, (int) glowRadius.get(), (int) glowOffset.get());
@@ -59,8 +63,10 @@ public class Shaders extends Module {
             stencilFramebuffer = RenderUtils.createFrameBuffer(stencilFramebuffer, true);
             stencilFramebuffer.framebufferClear();
             stencilFramebuffer.bindFramebuffer(true);
+            RenderUtils.resetColor();
             INSTANCE.getEventManager().call(new Shader2DEvent(Shader2DEvent.ShaderType.SHADOW));
             stencilFramebuffer.unbindFramebuffer();
+            RenderUtils.resetColor();
 
             Shadow.renderBloom(stencilFramebuffer.framebufferTexture, (int) shadowRadius.get(), (int) shadowOffset.get());
         }

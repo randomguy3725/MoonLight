@@ -253,7 +253,7 @@ public class TargetESP extends Module {
     public void onShader2D(Shader2DEvent event) {
         if (event.getShaderType() == Shader2DEvent.ShaderType.GLOW) {
             int index = 3;
-            if (imageMode.canDisplay() && target != null) {
+            if (imageMode.canDisplay() && imageMode.is("Rectangle") && target != null) {
                 float dst = mc.thePlayer.getSmoothDistanceToEntity(target);
                 drawTargetESP2D(Objects.requireNonNull(targetESPSPos(target))[0], Objects.requireNonNull(targetESPSPos(target))[1],
                         (1.0f - MathHelper.clamp_float(Math.abs(dst - 6.0f) / 60.0f, 0.0f, 0.75f)) * 1, index);

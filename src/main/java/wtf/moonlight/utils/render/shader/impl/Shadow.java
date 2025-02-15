@@ -33,7 +33,7 @@ public class Shadow implements InstanceAccess {
     public static float prevRadius;
 
     public static void renderBloom(int sourceTexture, int radius, int offset) {
-        bloomFramebuffer = RenderUtils.createFrameBuffer(bloomFramebuffer, true);
+        bloomFramebuffer = RenderUtils.createFrameBuffer(bloomFramebuffer, false);
         GlStateManager.enableAlpha();
         GlStateManager.alphaFunc(516, 0.0f);
         GlStateManager.enableBlend();

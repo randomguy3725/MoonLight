@@ -20,6 +20,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.*;
@@ -351,6 +352,16 @@ public class RenderUtils implements InstanceAccess {
     public static boolean isBBInFrustum(AxisAlignedBB aabb) {
         FRUSTUM.setPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);
         return FRUSTUM.isBoundingBoxInFrustum(aabb);
+    }
+
+    private static boolean isInViewFrustum(AxisAlignedBB bb) {
+        Entity current = mc.getRenderViewEntity();
+        FRUSTUM.setPosition(current.posX, current.posY, current.posZ);
+        return FRUSTUM.isBoundingBoxInFrustum(bb);
+    }
+
+    public static boolean isInViewFrustum(Entity entity) {
+        return isInViewFrustum(entity.getEntityBoundingBox()) || entity.ignoreFrustumCheck;
     }
 
     public static void scaleStart(float x, float y, float scale) {
