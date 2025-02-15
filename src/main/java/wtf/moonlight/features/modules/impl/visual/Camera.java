@@ -43,7 +43,8 @@ public class Camera extends Module {
             new BoolValue("Bright Players", false),
             new BoolValue("Motion Camera",false),
             new BoolValue("Motion Blur",false),
-            new BoolValue("World Bloom", false)
+            new BoolValue("World Bloom", false),
+            new BoolValue("Minimal Bobbing",true)
     ), this);
     public final SliderValue cameraDistance = new SliderValue("Distance", 4.0f, 1.0f, 8.0f, 1.0f, this, () -> setting.isEnabled("Third Person Distance"));
     public final SliderValue interpolation = new SliderValue("Motion Interpolation", 0.15f, 0.05f, 0.5f, 0.05f,this, () -> setting.isEnabled("Motion Camera"));
@@ -137,5 +138,9 @@ public class Camera extends Module {
 
     public void drawWorldBloom() {
         Blur.renderBlur(this.bloomAmount.get());
+    }
+
+    public boolean canMinimalBobbing(){
+        return this.isEnabled() && setting.isEnabled("Minimal Bobbing");
     }
 }

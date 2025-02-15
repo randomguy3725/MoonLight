@@ -10,6 +10,8 @@
  */
 package wtf.moonlight.features.modules.impl.visual;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -31,6 +33,10 @@ import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.network.play.server.S45PacketTitle;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.scoreboard.Score;
+import net.minecraft.scoreboard.ScoreObjective;
+import net.minecraft.scoreboard.ScorePlayerTeam;
+import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -69,6 +75,9 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static wtf.moonlight.gui.click.neverlose.NeverLose.*;
 
@@ -123,8 +132,11 @@ public class Interface extends Module {
     public final ModeValue bgColor = new ModeValue("Background Color", new String[]{"Dark", "Synced","Custom","NeverLose"}, "Synced", this,background::get);
     private final ColorValue bgCustomColor = new ColorValue("Background Custom Color", new Color(32, 32, 64), this,() -> bgColor.canDisplay() && bgColor.is("Custom"));
     private final SliderValue bgAlpha = new SliderValue("Background Alpha",100,1,255,1,this);
-    public final BoolValue hideScoreboard = new BoolValue("Hide Scoreboard", false, this);
-    public final BoolValue hideScoreRed = new BoolValue("Hide Scoreboard Red Points", true, this,() -> !hideScoreboard.get());
+    public final BoolValue customScoreboard = new BoolValue("Custom Scoreboard", false, this);
+    public final BoolValue hideScoreboard = new BoolValue("Hide Scoreboard", false, this,() -> !customScoreboard.get());
+    public final BoolValue hideScoreRed = new BoolValue("Hide Scoreboard Red Points", true, this, customScoreboard::get);
+    public final BoolValue fixHeight = new BoolValue("Fix Height", true, this, customScoreboard::get);
+    public final BoolValue hideBackground = new BoolValue("Hide Background", true, this, customScoreboard::get);
     public final BoolValue chatCombine = new BoolValue("Chat Combine", true, this);
 
     public final BoolValue cape = new BoolValue("Cape", true, this);
@@ -140,6 +152,8 @@ public class Interface extends Module {
     public int lost = 0, killed = 0, won = 0;
     public int prevMatchKilled = 0,matchKilled = 0,match;
     private final Random random = new Random();
+    private int scoreBoardHeight = 0;
+    private final Pattern LINK_PATTERN = Pattern.compile("(http(s)?://.)?(www\\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\\.[A-z]{2,6}\\b([-a-zA-Z0-9@:%_+.~#?&//=]*)");
 
     @EventTarget
     public void onRender2D(Render2DEvent event) {
@@ -546,6 +560,8 @@ public class Interface extends Module {
                     count -= 2;
                 }
             }
+
+            scoreBoardHeight = (int) y;
         }
 
         if (elements.isEnabled("Potion HUD") && potionHudMode.is("Exhi")) {
@@ -1097,6 +1113,71 @@ public class Interface extends Module {
             Gui.drawTexturedModalRect(renX, renY, xOffset + 45, 9 * yOffset, 9, 9);
         }
         GL11.glPopMatrix();
+    }
+
+    public void drawScoreboard(ScaledResolution scaledRes, ScoreObjective objective, Scoreboard scoreboard, Collection<Score> scores) {
+        List<Score> list = Lists.newArrayList(Iterables.filter(scores, p_apply_1_ -> p_apply_1_.getPlayerName() != null && !p_apply_1_.getPlayerName().startsWith("#")));
+
+        if (list.size() > 15)
+        {
+            scores = Lists.newArrayList(Iterables.skip(list, scores.size() - 15));
+        }
+        else
+        {
+            scores = list;
+        }
+
+        int i = mc.fontRendererObj.getStringWidth(objective.getDisplayName());
+
+        for (Score score : scores)
+        {
+            ScorePlayerTeam scoreplayerteam = scoreboard.getPlayersTeam(score.getPlayerName());
+            String s = ScorePlayerTeam.formatPlayerName(scoreplayerteam, score.getPlayerName()) + ": " + EnumChatFormatting.RED + score.getScorePoints();
+            i = Math.max(i, mc.fontRendererObj.getStringWidth(s));
+        }
+
+        int i1 = scores.size() * mc.fontRendererObj.FONT_HEIGHT;
+        int j1 = scaledRes.getScaledHeight() / 2 + i1 / 3;
+        int k1 = 3;
+        int l1 = scaledRes.getScaledWidth() - i - k1;
+        int j = 0;
+
+        if (this.fixHeight.get()) {
+            j1 = Math.max(j1, scoreBoardHeight + i1 + mc.fontRendererObj.FONT_HEIGHT + 2);
+        }
+
+        for (Score score1 : scores)
+        {
+            ++j;
+
+            ScorePlayerTeam scoreplayerteam1 = scoreboard.getPlayersTeam(score1.getPlayerName());
+            String s1 = ScorePlayerTeam.formatPlayerName(scoreplayerteam1, score1.getPlayerName());
+            String s2 = EnumChatFormatting.RED + "" + score1.getScorePoints();
+            int k = j1 - j * mc.fontRendererObj.FONT_HEIGHT;
+
+            int l = scaledRes.getScaledWidth() - k1 + 2;
+            drawRect(l1 - 2, k, l, k + mc.fontRendererObj.FONT_HEIGHT, 1342177280);
+
+            final Matcher linkMatcher = LINK_PATTERN.matcher(s1);
+            if(Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).isEnabled() && linkMatcher.find()) {
+                s1 = "Moonlight.wtf";
+                mc.fontRendererObj.drawGradientWithShadow(s1, l1, k,(index) -> new Color(Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).color(index)));
+            } else {
+                mc.fontRendererObj.drawString(s1, l1, k, 553648127, true);
+            }
+
+            if(!(Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).isEnabled() && Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).
+                    hideScoreRed.get()))
+                mc.fontRendererObj.drawString(s2, l - mc.fontRendererObj.getStringWidth(s2), k, 553648127);
+
+            if (j == scores.size())
+            {
+                String s3 = objective.getDisplayName();
+                drawRect(l1 - 2, k - mc.fontRendererObj.FONT_HEIGHT - 1, l, k - 1, 1610612736);
+                drawRect(l1 - 2, k - 1, l, k, 1342177280);
+                mc.fontRendererObj.drawString(s3, l1 + i / 2 - mc.fontRendererObj.getStringWidth(s3) / 2, k - mc.fontRendererObj.FONT_HEIGHT, 553648127);
+            }
+        }
     }
 
     private String intToRomanByGreedy(int num) {

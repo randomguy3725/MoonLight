@@ -482,32 +482,29 @@ public class GuiIngame extends Gui
         }
     }
 
+    private void renderScoreboard(ScoreObjective objective, ScaledResolution scaledRes) {
 
-    private static final Pattern LINK_PATTERN = Pattern.compile("(http(s)?://.)?(www\\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\\.[A-z]{2,6}\\b([-a-zA-Z0-9@:%_+.~#?&//=]*)");
+        if (Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).isEnabled() && Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).customScoreboard.get()) {
+            Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).drawScoreboard(scaledRes,objective,objective.getScoreboard(),objective.getScoreboard().getSortedScores(objective));
+            return;
+        }
 
-    private void renderScoreboard(ScoreObjective objective, ScaledResolution scaledRes)
-    {
-
-        if(Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).isEnabled() && Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).hideScoreboard.get())
+        if (Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).isEnabled() && Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).hideScoreboard.get())
             return;
 
         Scoreboard scoreboard = objective.getScoreboard();
         Collection<Score> collection = scoreboard.getSortedScores(objective);
         List<Score> list = Lists.newArrayList(Iterables.filter(collection, p_apply_1_ -> p_apply_1_.getPlayerName() != null && !p_apply_1_.getPlayerName().startsWith("#")));
 
-        if (list.size() > 15)
-        {
+        if (list.size() > 15) {
             collection = Lists.newArrayList(Iterables.skip(list, collection.size() - 15));
-        }
-        else
-        {
+        } else {
             collection = list;
         }
 
         int i = this.getFontRenderer().getStringWidth(objective.getDisplayName());
 
-        for (Score score : collection)
-        {
+        for (Score score : collection) {
             ScorePlayerTeam scoreplayerteam = scoreboard.getPlayersTeam(score.getPlayerName());
             String s = ScorePlayerTeam.formatPlayerName(scoreplayerteam, score.getPlayerName()) + ": " + EnumChatFormatting.RED + score.getScorePoints();
             i = Math.max(i, this.getFontRenderer().getStringWidth(s));
@@ -519,8 +516,7 @@ public class GuiIngame extends Gui
         int l1 = scaledRes.getScaledWidth() - i - k1;
         int j = 0;
 
-        for (Score score1 : collection)
-        {
+        for (Score score1 : collection) {
             ++j;
 
             ScorePlayerTeam scoreplayerteam1 = scoreboard.getPlayersTeam(score1.getPlayerName());
@@ -531,18 +527,11 @@ public class GuiIngame extends Gui
             int l = scaledRes.getScaledWidth() - k1 + 2;
             drawRect(l1 - 2, k, l, k + this.getFontRenderer().FONT_HEIGHT, 1342177280);
 
-            final Matcher linkMatcher = LINK_PATTERN.matcher(s1);
-            if(Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).isEnabled() && linkMatcher.find()) {
-                s1 = "Moonlight.wtf";
-                this.getFontRenderer().drawGradientWithShadow(s1, l1, k,(index) -> new Color(Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).color(index)));
-            } else {
-                this.getFontRenderer().drawString(s1, l1, k, 553648127, true);
-            }
-            if(!(Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).isEnabled() && Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).hideScoreRed.get()))
-                this.getFontRenderer().drawString(s2, l - this.getFontRenderer().getStringWidth(s2), k, 553648127);
+            this.getFontRenderer().drawString(s1, l1, k, 553648127, true);
 
-            if (j == collection.size())
-            {
+            this.getFontRenderer().drawString(s2, l - this.getFontRenderer().getStringWidth(s2), k, 553648127);
+
+            if (j == collection.size()) {
                 String s3 = objective.getDisplayName();
                 drawRect(l1 - 2, k - this.getFontRenderer().FONT_HEIGHT - 1, l, k - 1, 1610612736);
                 drawRect(l1 - 2, k - 1, l, k, 1342177280);

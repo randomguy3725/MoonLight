@@ -487,7 +487,12 @@ public class RenderUtils implements InstanceAccess {
         GlStateManager.pushMatrix();
 
         if (outline) {
+
+            glEnable(GL_LINE_SMOOTH);
+
             drawOutlineBoundingBox(bb,new Color(color,true));
+
+            glDisable(GL_LINE_SMOOTH);
         }
         if (filled) {
             drawFilledBoundingBox(bb,new Color(color,true));
