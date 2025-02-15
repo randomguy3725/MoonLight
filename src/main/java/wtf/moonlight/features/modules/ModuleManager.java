@@ -98,6 +98,7 @@ public class ModuleManager {
                 Scaffold.class,
                 NoFluid.class,
                 NoWeb.class,
+                SaveMoveKey.class,
 
                 // Player
                 AntiFireball.class,

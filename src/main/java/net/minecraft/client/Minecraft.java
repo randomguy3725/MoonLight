@@ -49,6 +49,7 @@ import net.minecraft.client.gui.GuiIngameMenu;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GLCapabilities;
 import wtf.moonlight.features.modules.impl.combat.TickBase;
+import wtf.moonlight.features.modules.impl.visual.Animations;
 import wtf.moonlight.gui.mainmenu.GuiMainMenu;
 import net.minecraft.client.gui.GuiMemoryErrorScreen;
 import net.minecraft.client.gui.GuiScreen;
@@ -179,6 +180,7 @@ import org.lwjglx.util.glu.GLU;
 import wtf.moonlight.Moonlight;
 import wtf.moonlight.events.impl.misc.KeyPressEvent;
 import wtf.moonlight.events.impl.misc.TickEvent;
+import wtf.moonlight.utils.animations.Animation;
 
 public class Minecraft implements IThreadListener, IPlayerUsage
 {
@@ -1929,8 +1931,16 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                     this.playerController.onStoppedUsingItem(this.thePlayer);
                 }
 
-                while (this.gameSettings.keyBindAttack.isPressed())
-                {
+                while (this.gameSettings.keyBindAttack.isPressed()) {
+                    if (Moonlight.INSTANCE.getModuleManager().getModule(Animations.class).isEnabled() &&
+                            Moonlight.INSTANCE.getModuleManager().getModule(Animations.class).getSwingWhileUsingItem().get()) {
+                        if (!thePlayer.isSwingInProgress ||
+                                thePlayer.swingProgressInt >= thePlayer.getArmSwingAnimationEnd() / 2 ||
+                                thePlayer.swingProgressInt < 0) {
+                            thePlayer.swingProgressInt = -1;
+                            thePlayer.isSwingInProgress = true;
+                        }
+                    }
                 }
 
                 while (this.gameSettings.keyBindUseItem.isPressed())

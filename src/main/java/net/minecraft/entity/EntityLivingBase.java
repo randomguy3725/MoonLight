@@ -1153,7 +1153,7 @@ public abstract class EntityLivingBase extends Entity
         this.dataWatcher.updateObject(9, (byte) count);
     }
 
-    private int getArmSwingAnimationEnd() {
+    public int getArmSwingAnimationEnd() {
         if (Moonlight.INSTANCE.getModuleManager().getModule(Animations.class).isEnabled() && this == Minecraft.getMinecraft().thePlayer) {
             return (int) (6 + Moonlight.INSTANCE.getModuleManager().getModule(Animations.class).getSlowdown().get());
         } else {

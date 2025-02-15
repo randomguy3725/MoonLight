@@ -23,6 +23,7 @@ import wtf.moonlight.utils.player.PlayerUtils;
 @ModuleInfo(name = "AutoTool", category = ModuleCategory.Player)
 public class AutoTool extends Module {
 
+    public final BoolValue ignoreUsingItem = new BoolValue("Ignore Using Item",false,this);
     public final BoolValue spoof = new BoolValue("Spoof",false,this);
     public final BoolValue switchBack = new BoolValue("Switch Back",true,this,() -> !spoof.get());
     private int oldSlot;
@@ -38,7 +39,7 @@ public class AutoTool extends Module {
 
     @EventTarget
     public void onTick(TickEvent event) {
-        if (mc.gameSettings.keyBindAttack.isKeyDown() && mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && PlayerUtils.findTool(mc.objectMouseOver.getBlockPos()) != -1) {
+        if (mc.gameSettings.keyBindAttack.isKeyDown() && (ignoreUsingItem.get() && !mc.thePlayer.isUsingItem() || !ignoreUsingItem.get()) && mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && PlayerUtils.findTool(mc.objectMouseOver.getBlockPos()) != -1) {
             if (!this.wasDigging) {
                 this.oldSlot = mc.thePlayer.inventory.currentItem;
                 if (this.spoof.get()) {
