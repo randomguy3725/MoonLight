@@ -20,6 +20,8 @@ import net.optifine.render.GlBlendState;
 import net.optifine.util.FontUtils;
 import org.apache.commons.io.IOUtils;
 import org.lwjgl.opengl.GL11;
+import wtf.moonlight.Moonlight;
+import wtf.moonlight.features.modules.impl.visual.NameHider;
 import wtf.moonlight.gui.font.GradientApplier;
 import wtf.moonlight.utils.render.RenderUtils;
 
@@ -630,6 +632,11 @@ public class FontRenderer implements IResourceManagerReloadListener
         }
         else
         {
+
+            if (Moonlight.INSTANCE.getModuleManager().getModule(NameHider.class) != null && Moonlight.INSTANCE.getModuleManager().getModule(NameHider.class).isEnabled()) {
+                text = Moonlight.INSTANCE.getModuleManager().getModule(NameHider.class).getFakeName(text);
+            }
+
             if (this.bidiFlag)
             {
                 text = this.bidiReorder(text);
@@ -665,6 +672,11 @@ public class FontRenderer implements IResourceManagerReloadListener
         }
         else
         {
+
+            if (Moonlight.INSTANCE.getModuleManager().getModule(NameHider.class) != null && Moonlight.INSTANCE.getModuleManager().getModule(NameHider.class).isEnabled()) {
+                text = Moonlight.INSTANCE.getModuleManager().getModule(NameHider.class).getFakeName(text);
+            }
+
             float f = 0.0F;
             boolean flag = false;
 

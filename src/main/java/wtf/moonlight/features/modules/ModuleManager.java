@@ -142,7 +142,8 @@ public class ModuleManager {
                 TargetESP.class,
                 Breadcrumbs.class,
                 DamageParticles.class,
-                ItemESP.class
+                ItemESP.class,
+                NameHider.class
         );
 
         // Sort modules alphabetically by name for better organization
