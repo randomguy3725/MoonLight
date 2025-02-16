@@ -10,18 +10,18 @@
  */
 package wtf.moonlight.utils.misc;
 
+import kotlin.io.ByteStreamsKt;
 import kotlin.io.TextStreamsKt;
 import wtf.moonlight.Moonlight;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.file.Files;
 import java.util.Map;
 
 public class HttpUtils {
 
-    private static final String DEFAULT_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0";
+    private static final String DEFAULT_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36";
     private static final String BOUNDARY_PREFIX = "--";
     private static final String LINE_END = "\r\n";
 
@@ -52,7 +52,7 @@ public class HttpUtils {
         }
     }
 
-    public static HttpResponse postFormData(String urlStr, Map<String, File> filePathMap, Map<String, Object> keyValues, Map<String, Object> headers) throws IOException {
+    public static HttpResponse postFormData(String urlStr, Map<String, File> filePathMap, Map<String, ?> keyValues, Map<String, ?> headers) throws IOException {
         HttpResponse response;
         HttpURLConnection conn = getHttpURLConnection(urlStr, headers);
         String boundary = "------------9sflsjbdgvsuhgbjvskjlvj13h5g1jh34v513hb" + System.currentTimeMillis() + "515ijk9a85e18429711ee9e70f040429711eebe560242ac120002be5602------------";
@@ -62,8 +62,13 @@ public class HttpUtils {
         try (DataOutputStream out = new DataOutputStream(conn.getOutputStream())) {
             //发送普通参数
             if (keyValues != null && !keyValues.isEmpty()) {
-                for (Map.Entry<String, Object> entry : keyValues.entrySet()) {
-                    writeSimpleFormField(boundary, out, entry);
+                for (Map.Entry<String, ?> entry : keyValues.entrySet()) {
+                    String boundaryStr = BOUNDARY_PREFIX + boundary + LINE_END;
+                    out.write(boundaryStr.getBytes());
+                    String contentDispositionStr = String.format("Content-Disposition: form-data; name=\"%s\"", entry.getKey()) + LINE_END + LINE_END;
+                    out.write(contentDispositionStr.getBytes());
+                    String valueStr = entry.getValue().toString() + LINE_END;
+                    out.write(valueStr.getBytes());
                 }
             }
             //发送文件类型参数
@@ -85,7 +90,7 @@ public class HttpUtils {
         return getHttpResponse(conn);
     }
 
-    private static HttpURLConnection getHttpURLConnection(String urlStr, Map<String, Object> headers) throws IOException {
+    private static HttpURLConnection getHttpURLConnection(String urlStr, Map<String, ?> headers) throws IOException {
         URL url = new URL(urlStr);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setConnectTimeout(50000);
@@ -98,7 +103,7 @@ public class HttpUtils {
         conn.setRequestProperty("connection", "keep-alive");
 
         if (headers != null && !headers.isEmpty()) {
-            for (Map.Entry<String, Object> header : headers.entrySet()) {
+            for (Map.Entry<String, ?> header : headers.entrySet()) {
                 conn.setRequestProperty(header.getKey(), header.getValue().toString());
             }
         }
@@ -134,7 +139,7 @@ public class HttpUtils {
 
     private static void writeFile(String paramName, File filePath, String boundary,
                                   DataOutputStream out) {
-        try (InputStream fileReader = Files.newInputStream(filePath.toPath())) {
+        try (var fis = new FileInputStream(filePath)) {
             String boundaryStr = BOUNDARY_PREFIX + boundary + LINE_END;
             out.write(boundaryStr.getBytes());
             String fileName = filePath.getName();
@@ -143,11 +148,7 @@ public class HttpUtils {
             String contentType = "Content-Type: application/octet-stream" + LINE_END + LINE_END;
             out.write(contentType.getBytes());
 
-            int bt = fileReader.read();
-            while (bt != -1){
-                out.write(bt);
-                bt = fileReader.read();
-            }
+            ByteStreamsKt.copyTo(fis, out, 8192);
 
             out.write(LINE_END.getBytes());
         } catch (Exception e) {
@@ -155,12 +156,4 @@ public class HttpUtils {
         }
     }
 
-    private static void writeSimpleFormField(String boundary, DataOutputStream out, Map.Entry<String, Object> entry) throws IOException {
-        String boundaryStr = BOUNDARY_PREFIX + boundary + LINE_END;
-        out.write(boundaryStr.getBytes());
-        String contentDispositionStr = String.format("Content-Disposition: form-data; name=\"%s\"", entry.getKey()) + LINE_END + LINE_END;
-        out.write(contentDispositionStr.getBytes());
-        String valueStr = entry.getValue().toString() + LINE_END;
-        out.write(valueStr.getBytes());
-    }
 }

@@ -239,9 +239,6 @@ public class AltRepositoryGUI extends GuiScreen {
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
                         File skinFile = jFileChooser.getSelectedFile();
                         String url = "https://api.minecraftservices.com/minecraft/profile/skins";
-                        Map<String, Object> keyValues = new HashMap<>();
-                        Map<String, File> filePathMap = new HashMap<>();
-                        Map<String, Object> headers = new HashMap<>();
 
                         if (!skinFile.getName().endsWith(".png")) {
                             moonlight.getNotificationManager().post(NotificationType.WARNING, "Its seems that the file isn't a skin..");
@@ -250,21 +247,18 @@ public class AltRepositoryGUI extends GuiScreen {
 
                         int result = JOptionPane.showConfirmDialog((Component) null, "Is this a slim skin?", "alert", JOptionPane.YES_NO_CANCEL_OPTION);
                         if (result == JOptionPane.CANCEL_OPTION) break;
-                        String skinType;
-                        if (result == JOptionPane.YES_OPTION) {
-                            skinType = "slim";
-                        } else {
-                            skinType = "classic";
-                        }
+                        String skinType = result == JOptionPane.YES_OPTION ? "slim" : "classic";
 
-                        keyValues.put("variant", skinType);
-                        filePathMap.put("file", skinFile);
-                        headers.put("Accept", "*/*");
-                        headers.put("Authorization", "Bearer " + mc.session.getToken());
-                        headers.put("User-Agent", "MojangSharp/0.1");
+                        var keyValues = Map.of("variant", skinType);
+                        var filePathMap = Map.of("file", skinFile);
+                        var headers = Map.of(
+                                "Accept", "*/*",
+                                "Authorization", "Bearer " + mc.session.getToken(),
+                                "User-Agent", "MojangSharp/0.1"
+                        );
 
                         HttpResponse response = HttpUtils.postFormData(url, filePathMap, keyValues, headers);
-                        if (response.getCode() == 200 || response.getCode() == 204) {
+                        if (response.code() == 200 || response.code() == 204) {
                             moonlight.getNotificationManager().post(NotificationType.OKAY, "Skin changed!");
                         } else {
                             moonlight.getNotificationManager().post(NotificationType.WARNING, "Failed to change skin.");
