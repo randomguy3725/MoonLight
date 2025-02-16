@@ -168,7 +168,7 @@ public class ModuleManager {
                 modules.add(module);
                 //  Moonlight.LOGGER.INFO("Added module: {}", module.getName());
             } catch (Exception e) {
-                //  Moonlight.LOGGER.INFO("Failed to instantiate module: {}", moduleClass.getSimpleName(), e);
+                 Moonlight.LOGGER.error("Failed to instantiate module: {}", moduleClass.getSimpleName(), e);
             }
         }
     }
