@@ -260,7 +260,7 @@ public final class SkeetUI extends GuiScreen {
 
                 @SuppressWarnings("all")
                 public void setupChildren() {
-                    final List<Module> modulesInCategory = Moonlight.INSTANCE.getModuleManager().getModulesByCategory(category);
+                    final var modulesInCategory = Moonlight.INSTANCE.getModuleManager().getModulesByCategory(category);
                     for (final Module module : modulesInCategory) {
                         final GroupBoxComponent groupBoxComponent = new GroupBoxComponent(this, module.getName(), 0.0f, 0.0f, 94.333336f, 6.0f);
                         final CheckBoxTextComponent enabledButton = new CheckBoxTextComponent(groupBoxComponent, "Enable", module::isEnabled, module::setEnabled);

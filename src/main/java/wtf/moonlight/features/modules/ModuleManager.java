@@ -10,36 +10,45 @@
  */
 package wtf.moonlight.features.modules;
 
-import lombok.Getter;
+import kotlin.collections.CollectionsKt;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import wtf.moonlight.Moonlight;
 import wtf.moonlight.events.annotations.EventTarget;
 import wtf.moonlight.events.impl.misc.KeyPressEvent;
 import wtf.moonlight.features.modules.impl.combat.*;
 import wtf.moonlight.features.modules.impl.exploit.*;
+import wtf.moonlight.features.modules.impl.exploit.Timer;
 import wtf.moonlight.features.modules.impl.misc.*;
 import wtf.moonlight.features.modules.impl.movement.*;
 import wtf.moonlight.features.modules.impl.player.*;
 import wtf.moonlight.features.modules.impl.visual.*;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.*;
+
 /**
  * Manages all modules within the MoonLight client.
  * Responsible for initializing, registering, and handling modules.
  */
-@Getter
-public class ModuleManager {
+public final class ModuleManager {
 
-    private final List<Module> modules = new CopyOnWriteArrayList<>();
+    // Sort modules alphabetically by name for better organization
+    private static final Comparator<Module> MODULE_COMPARATOR = Comparator.comparing(Module::getName);
+
+    private final Collection<Module> modules = new TreeSet<>(MODULE_COMPARATOR);
+    private final Map<Class<? extends Module>, Module> registry = new HashMap<>(128);
+    private final Map<ModuleCategory, Set<Module>> categories = new EnumMap<>(ModuleCategory.class);
 
     /**
      * Initializes the ModuleManager by adding all available modules,
      * sorting them by name, and registering event listeners.
      */
     public ModuleManager() {
+        // Init default sets
+        for (ModuleCategory category : ModuleCategory.values()) {
+            categories.put(category, new TreeSet<>(MODULE_COMPARATOR));
+        }
+
         addModules(
                 // Combat
                 Annoy.class,
@@ -147,9 +156,6 @@ public class ModuleManager {
                 NameHider.class
         );
 
-        // Sort modules alphabetically by name for better organization
-        modules.sort(Comparator.comparing(Module::getName));
-
         // Register the ModuleManager to listen for events
         Moonlight.INSTANCE.getEventManager().register(this);
       //  Moonlight.LOGGER.INFO("ModuleManager initialized with {} modules.", modules.size());
@@ -162,13 +168,18 @@ public class ModuleManager {
      */
     @SafeVarargs
     public final void addModules(Class<? extends Module>... moduleClasses) {
-        for (Class<? extends Module> moduleClass : moduleClasses) {
+        for (final var moduleClass : moduleClasses) {
             try {
                 Module module = moduleClass.getDeclaredConstructor().newInstance();
                 modules.add(module);
+                registry.put(moduleClass, module);
+                ModuleCategory category = moduleClass.getAnnotation(ModuleInfo.class).category();
+                Set<Module> categoryModules = categories.get(category);
+                categoryModules.add(module);
+                categories.put(category, categoryModules);
                 //  Moonlight.LOGGER.INFO("Added module: {}", module.getName());
             } catch (Exception e) {
-                //  Moonlight.LOGGER.INFO("Failed to instantiate module: {}", moduleClass.getSimpleName(), e);
+                 Moonlight.LOGGER.error("Failed to instantiate module: {}", moduleClass.getSimpleName(), e);
             }
         }
     }
@@ -180,12 +191,9 @@ public class ModuleManager {
      * @param <T>         The type of the module.
      * @return An instance of the requested module or null if not found.
      */
+    @NotNull
     public <T extends Module> T getModule(Class<T> moduleClass) {
-        Optional<Module> module = modules.stream()
-                .filter(m -> m.getClass().equals(moduleClass))
-                .findFirst();
-
-        return module.map(moduleClass::cast).orElse(null);
+        return (T) registry.get(moduleClass);
     }
 
     /**
@@ -194,11 +202,9 @@ public class ModuleManager {
      * @param name The name of the module to retrieve.
      * @return The module instance if found, otherwise null.
      */
+    @Nullable
     public Module getModule(String name) {
-        return modules.stream()
-                .filter(m -> m.getName().equalsIgnoreCase(name))
-                .findFirst()
-                .orElse(null);
+        return CollectionsKt.firstOrNull(modules, m -> m.getName().equalsIgnoreCase(name));
     }
 
     /**
@@ -207,14 +213,9 @@ public class ModuleManager {
      * @param category The category to filter modules by.
      * @return A list of modules within the specified category.
      */
-    public List<Module> getModulesByCategory(ModuleCategory category) {
-        List<Module> categorizedModules = new ArrayList<>();
-        for (Module module : modules) {
-            if (module.getCategory() == category) {
-                categorizedModules.add(module);
-            }
-        }
-        return categorizedModules;
+    @NotNull
+    public Set<Module> getModulesByCategory(ModuleCategory category) {
+        return categories.get(category);
     }
 
     /**
@@ -225,9 +226,11 @@ public class ModuleManager {
      */
     @EventTarget
     public void onKey(KeyPressEvent event) {
-        modules.stream()
-                .filter(module -> module.getKeyBind() == event.getKey())
-                .forEach(Module::toggle);
+        for (Module module : modules) {
+            if (module.getKeyBind() == event.getKey()) {
+                module.toggle();
+            }
+        }
     }
 
     /**
@@ -235,7 +238,7 @@ public class ModuleManager {
      *
      * @return An unmodifiable list of all modules.
      */
-    public List<Module> getAllModules() {
+    public Collection<Module> getModules() {
         return List.copyOf(modules);
     }
 }
