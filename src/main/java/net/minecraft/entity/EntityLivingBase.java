@@ -55,10 +55,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import wtf.moonlight.Moonlight;
 import wtf.moonlight.events.impl.misc.EntityUpdateEvent;
-import wtf.moonlight.events.impl.player.AfterJumpEvent;
-import wtf.moonlight.events.impl.player.JumpEvent;
-import wtf.moonlight.events.impl.player.MoveEvent;
-import wtf.moonlight.events.impl.player.MoveMathEvent;
+import wtf.moonlight.events.impl.player.*;
 import wtf.moonlight.features.modules.impl.movement.NoFluid;
 import wtf.moonlight.features.modules.impl.visual.Animations;
 import wtf.moonlight.features.modules.impl.visual.Rotation;
@@ -1940,14 +1937,24 @@ public abstract class EntityLivingBase extends Entity
         return this.getLook(1.0F);
     }
 
-    public Vec3 getLook(float partialTicks)
-    {
-        if (partialTicks == 1.0F)
-        {
-            return this.getVectorForRotation(this.rotationPitch, this.rotationYawHead);
+    public Vec3 getLook(float partialTicks) {
+
+        if (this == Minecraft.getMinecraft().thePlayer) {
+            LookEvent lookEvent = new LookEvent(rotationYaw, rotationPitch, prevRotationYaw, prevRotationPitch);
+            Moonlight.INSTANCE.getEventManager().call(lookEvent);
+
+            if (partialTicks == 1.0F) {
+                return this.getVectorForRotation(lookEvent.pitch, lookEvent.yaw);
+            } else {
+                float f = lookEvent.prevPitch + (lookEvent.pitch - lookEvent.prevPitch) * partialTicks;
+                float f1 = lookEvent.prevYaw + (lookEvent.yaw - lookEvent.prevYaw) * partialTicks;
+                return this.getVectorForRotation(f, f1);
+            }
         }
-        else
-        {
+
+        if (partialTicks == 1.0F) {
+            return this.getVectorForRotation(this.rotationPitch, this.rotationYawHead);
+        } else {
             float f = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * partialTicks;
             float f1 = this.prevRotationYawHead + (this.rotationYawHead - this.prevRotationYawHead) * partialTicks;
             return this.getVectorForRotation(f, f1);

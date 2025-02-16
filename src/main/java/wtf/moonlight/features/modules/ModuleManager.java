@@ -80,6 +80,7 @@ public class ModuleManager {
                 HackerDetector.class,
                 ItemAlerts.class,
                 KillSults.class,
+                RawMouseInput.class,
 
                 // Movement
                 AntiFall.class,

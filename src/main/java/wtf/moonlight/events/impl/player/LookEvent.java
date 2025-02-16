@@ -15,6 +15,8 @@ import wtf.moonlight.events.impl.Event;
 
 @AllArgsConstructor
 public class LookEvent implements Event {
-
-    public float[] rotation;
+    public float yaw;
+    public float pitch;
+    public float prevYaw;
+    public float prevPitch;
 }

@@ -24,7 +24,6 @@ import wtf.moonlight.events.annotations.EventTarget;
 import wtf.moonlight.events.impl.misc.WorldEvent;
 import wtf.moonlight.events.impl.packet.PacketEvent;
 import wtf.moonlight.events.impl.player.*;
-import wtf.moonlight.features.modules.impl.visual.Rotation;
 import wtf.moonlight.utils.InstanceAccess;
 import wtf.moonlight.utils.math.MathUtils;
 
@@ -165,12 +164,6 @@ public class RotationUtils implements InstanceAccess {
         }
     }
 
-    @EventTarget
-    public void onLook(LookEvent event){
-        if(shouldRotate() && INSTANCE.getModuleManager().getModule(Rotation.class).fixAim.get())
-            event.rotation = currentRotation;
-    }
-
     private static void resetRotation() {
         enabled = false;
         RotationUtils.currentRotation = null;
@@ -296,7 +289,7 @@ public class RotationUtils implements InstanceAccess {
 
     public static MovingObjectPosition rayTrace(double blockReachDistance, float partialTicks) {
         Vec3 vec3 = mc.thePlayer.getPositionEyes(partialTicks);
-        Vec3 vec31 = mc.thePlayer.getLookCustom(currentRotation[0], currentRotation[1]);
+        Vec3 vec31 = mc.thePlayer.getLookCustom(serverRotation[0], serverRotation[1]);
         Vec3 vec32 = vec3.addVector(vec31.xCoord * blockReachDistance, vec31.yCoord * blockReachDistance, vec31.zCoord * blockReachDistance);
         return mc.theWorld.rayTraceBlocks(vec3, vec32, false, true, true);
     }
