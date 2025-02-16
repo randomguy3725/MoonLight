@@ -1,5 +1,6 @@
 package wtf.moonlight.features.modules.impl.visual;
 
+import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.renderer.GlStateManager;
@@ -15,23 +16,20 @@ import wtf.moonlight.features.modules.ModuleInfo;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @ModuleInfo(name = "DamageParticles",category = ModuleCategory.Visual)
 public class DamageParticles extends Module {
 
-    private final HashMap<EntityLivingBase, Float> healthMap = new HashMap<>();
-    private final List<Particles> particles = new ArrayList<>();
+    private final Object2FloatOpenHashMap<EntityLivingBase> healthMap = new Object2FloatOpenHashMap<>();
+    private final ArrayDeque<Particles> particles = new ArrayDeque<>();
 
     @EventTarget
     public void onUpdate(EntityUpdateEvent e) {
         EntityLivingBase entity = e.getEntity();
-        if (entity == this.mc.thePlayer) return;
+        if (entity == mc.thePlayer) return;
         if (!this.healthMap.containsKey(entity)) this.healthMap.put(entity, entity.getHealth());
-        float floatValue = this.healthMap.get(entity);
+        float floatValue = this.healthMap.getFloat(entity);
         float health = entity.getHealth();
         if (floatValue != health) {
             boolean heal = health > floatValue;
@@ -61,14 +59,14 @@ public class DamageParticles extends Module {
             GlStateManager.enablePolygonOffset();
             GlStateManager.doPolygonOffset(1.0f, -1500000.0f);
             GlStateManager.translate((float) n, (float) n2, (float) n3);
-            GlStateManager.rotate(-this.mc.getRenderManager().playerViewY, 0.0f, 1.0f, 0.0f);
-            float textY = this.mc.gameSettings.thirdPersonView == 2 ? -1.0F : 1.0F;
-            GlStateManager.rotate(this.mc.getRenderManager().playerViewX, textY, 0.0f, 0.0f);
+            GlStateManager.rotate(-mc.getRenderManager().playerViewY, 0.0f, 1.0f, 0.0f);
+            float textY = mc.gameSettings.thirdPersonView == 2 ? -1.0F : 1.0F;
+            GlStateManager.rotate(mc.getRenderManager().playerViewX, textY, 0.0f, 0.0f);
             final double size = 0.03;
             GlStateManager.scale(-size, -size, size);
             GL11.glDepthMask(false);
-            mc.fontRendererObj.drawStringWithShadow(p.text, (float) -(this.mc.fontRendererObj.getStringWidth(p.text) / 2), (float) -(this.mc.fontRendererObj.FONT_HEIGHT - 1), 0);
-            mc.fontRendererObj.drawStringWithShadow(p.text, (float) -(this.mc.fontRendererObj.getStringWidth(p.text) / 2), (float) -(this.mc.fontRendererObj.FONT_HEIGHT - 1), 0);
+            mc.fontRendererObj.drawStringWithShadow(p.text, (float) -(mc.fontRendererObj.getStringWidth(p.text) / 2), (float) -(mc.fontRendererObj.FONT_HEIGHT - 1), 0);
+            mc.fontRendererObj.drawStringWithShadow(p.text, (float) -(mc.fontRendererObj.getStringWidth(p.text) / 2), (float) -(mc.fontRendererObj.FONT_HEIGHT - 1), 0);
             GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
             GL11.glDepthMask(true);
             GlStateManager.doPolygonOffset(1.0f, 1500000.0f);
@@ -85,11 +83,14 @@ public class DamageParticles extends Module {
 
     @EventTarget
     public void onUpdate(UpdateEvent eventUpdate) {
-        this.particles.forEach(update -> {
+        for (var iterator = this.particles.iterator(); iterator.hasNext(); ) {
+            Particles update = iterator.next();
             ++update.ticks;
-            if (update.ticks <= 10) update.location.setY(update.location.getY() + update.ticks * 0.005);
-            if (update.ticks > 20) this.particles.remove(update);
-        });
+            if (update.ticks <= 10)
+                update.location.setY(update.location.getY() + update.ticks * 0.005);
+            if (update.ticks > 20)
+                iterator.remove();
+        }
     }
 
     public static class Particles {

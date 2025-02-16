@@ -10,7 +10,6 @@
  */
 package wtf.moonlight.features.modules.impl.movement;
 
-import it.unimi.dsi.fastutil.doubles.DoubleList;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.BlockStairs;
@@ -32,7 +31,7 @@ public class Step extends Module {
     public final ModeValue mode = new ModeValue("Mode", new String[]{"NCP"}, "NCP", this);
     public final SliderValue timer = new SliderValue("Timer", 1, 0.05f, 1, 0.05f, this);
     public final SliderValue delay = new SliderValue("Delay", 1000, 0, 2500, 1, this);
-    public final DoubleList MOTION = DoubleList.of(.42, .75, 1);
+    private final double[] MOTION = new double[] {.42, .75, 1.};
     private final long lastStep = -1;
     private boolean stepped = false;
 

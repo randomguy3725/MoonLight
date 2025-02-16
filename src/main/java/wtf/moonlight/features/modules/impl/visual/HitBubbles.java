@@ -34,7 +34,7 @@ import java.util.ArrayList;
 
 @ModuleInfo(name = "HitBubbles", category = ModuleCategory.Visual)
 public class HitBubbles extends Module {
-    static final ArrayList<Bubble> bubbles;
+    private static final ArrayList<Bubble> bubbles = new ArrayList<>();
     private final Tessellator tessellator = Tessellator.getInstance();
     private final WorldRenderer buffer = this.tessellator.getWorldRenderer();
     private final ResourceLocation BUBBLE_TEXTURE = new ResourceLocation("moonlight/texture/hitbubble/bubble.png");
@@ -156,10 +156,6 @@ public class HitBubbles extends Module {
 
     private void removeAuto() {
         bubbles.removeIf(bubble -> bubble.getDeltaTime() >= 1.0f);
-    }
-
-    static {
-        bubbles = new ArrayList<>();
     }
 
     private static final class Bubble {

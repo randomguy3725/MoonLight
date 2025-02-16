@@ -29,7 +29,8 @@ import wtf.moonlight.features.modules.ModuleCategory;
 import wtf.moonlight.features.modules.ModuleInfo;
 import wtf.moonlight.features.values.impl.BoolValue;
 import wtf.moonlight.features.values.impl.SliderValue;
-import wtf.moonlight.utils.animations.AnimationUtils;
+import wtf.moonlight.utils.animations.Direction;
+import wtf.moonlight.utils.animations.impl.SmoothStepAnimation;
 import wtf.moonlight.utils.player.RotationUtils;
 import wtf.moonlight.utils.render.ColorUtils;
 import wtf.moonlight.utils.render.RenderUtils;
@@ -39,22 +40,20 @@ import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 @ModuleInfo(name = "DashTrail", category = ModuleCategory.Visual)
 public class DashTrail extends Module {
-    private final BoolValue motionsSmoothing = new BoolValue("MotionsSmoothing", false, this);
-    private final BoolValue dashSegments = new BoolValue("DashSegments", false, this);
-    private final BoolValue dashDots = new BoolValue("DashDots", true, this);
-    private final BoolValue lighting = new BoolValue("Lighting", true, this);
-    private final SliderValue dashLength = new SliderValue("DashLength", 0.75f, 0.5f, 2.0f, 0.05f, this);
+    private final BoolValue dashSegments = new BoolValue("Dash Segments", false, this);
+    private final BoolValue dashDots = new BoolValue("Dash Dots", true, this);
+    private final SliderValue animTime = new SliderValue("Anim Time", 20, 100, 500, 20, this);
+    private final SliderValue time = new SliderValue("Time", 400, 100, 2000, 100, this);
     private static final String format = ".png";
     private final ResourceLocation DASH_CUBIC_BLOOM_TEX = new ResourceLocation("moonlight/texture/dashtrail/dashbloomsample.png");
-    private final List<ResourceLocationWithSizes> DASH_CUBIC_TEXTURES = new ArrayList<>();
-    private final List<List<ResourceLocationWithSizes>> DASH_CUBIC_ANIMATED_TEXTURES = new ArrayList<>();
+    private final List<DashTrail.ResourceLocationWithSizes> DASH_CUBIC_TEXTURES = new ArrayList<>();
+    private final List<List<DashTrail.ResourceLocationWithSizes>> DASH_CUBIC_ANIMATED_TEXTURES = new ArrayList<>();
     private final Random RANDOM = new Random();
-    private final List<DashCubic> DASH_CUBICS = new ArrayList<>();
+    private final List<DashTrail.DashCubic> DASH_CUBICS = new ArrayList<>();
     private final Tessellator tessellator = Tessellator.getInstance();
     private final WorldRenderer buffer = this.tessellator.getWorldRenderer();
 
@@ -62,7 +61,7 @@ public class DashTrail extends Module {
         int dashTexturesCount = 21;
         int ct = 0;
         while (ct < dashTexturesCount) {
-            this.DASH_CUBIC_TEXTURES.add(new ResourceLocationWithSizes(new ResourceLocation("moonlight/texture/dashtrail/dashcubics/dashcubic" + ++ct + format)));
+            this.DASH_CUBIC_TEXTURES.add(new DashTrail.ResourceLocationWithSizes(new ResourceLocation("moonlight/texture/dashtrail/dashcubics/dashcubic" + ++ct + format)));
         }
     }
 
@@ -73,10 +72,10 @@ public class DashTrail extends Module {
         for (Integer dashFragsNumber : dashGroupsNumber) {
             ++
                     packageNumber;
-            ArrayList<ResourceLocationWithSizes> animatedTexuresList = new ArrayList<>();
+            ArrayList<DashTrail.ResourceLocationWithSizes> animatedTexuresList = new ArrayList<>();
             int fragNumber = 0;
             while (fragNumber < dashFragsNumber) {
-                animatedTexuresList.add(new ResourceLocationWithSizes(new ResourceLocation("moonlight/texture/dashtrail/dashcubics/group_dashs/group" +
+                animatedTexuresList.add(new DashTrail.ResourceLocationWithSizes(new ResourceLocation("moonlight/texture/dashtrail/dashcubics/group_dashs/group" +
                         packageNumber + "/dashcubic" + ++fragNumber + format)));
             }
             if (animatedTexuresList.isEmpty()) continue;
@@ -90,13 +89,12 @@ public class DashTrail extends Module {
         this.RANDOM.setSeed(1234567891L);
     }
 
-    private int getColorDashCubic() {
-        return getModule(Interface.class).color(0);
+    private int getColorDashCubic(DashTrail.DashCubic dashCubic,int alpha) {
+        return getModule(Interface.class).color(0, (int) (dashCubic.animation.getOutput() * alpha));
     }
 
     private int[] getTextureResolution(ResourceLocation location) {
-        try {
-            InputStream stream = mc.getResourceManager().getResource(location).getInputStream();
+        try (InputStream stream = mc.getResourceManager().getResource(location).getInputStream()) {
             BufferedImage image = ImageIO.read(stream);
             return new int[]{image.getWidth(), image.getHeight()};
         } catch (Exception e) {
@@ -113,11 +111,11 @@ public class DashTrail extends Module {
         return this.RANDOM.nextInt(this.DASH_CUBIC_ANIMATED_TEXTURES.size());
     }
 
-    private ResourceLocationWithSizes getDashCubicTextureRandom(int random) {
+    private DashTrail.ResourceLocationWithSizes getDashCubicTextureRandom(int random) {
         return this.DASH_CUBIC_TEXTURES.get(random);
     }
 
-    private List<ResourceLocationWithSizes> getDashCubicAnimatedTextureGroupRandom(int random) {
+    private List<DashTrail.ResourceLocationWithSizes> getDashCubicAnimatedTextureGroupRandom(int random) {
         return this.DASH_CUBIC_ANIMATED_TEXTURES.get(random);
     }
 
@@ -157,24 +155,22 @@ public class DashTrail extends Module {
         GL11.glPopMatrix();
     }
 
-    private List<DashCubic> DASH_CUBICS_FILTERED() {
-        return this.DASH_CUBICS.stream().filter(Objects::nonNull).filter(dashCubic -> dashCubic.alphaPC.getAnim() > 0.05f).toList();
+    private List<DashTrail.DashCubic> DASH_CUBICS_FILTERED() {
+        return this.DASH_CUBICS;
     }
 
     @EventTarget
     public void onUpdate(UpdateEvent event) {
-        this.DASH_CUBICS.stream().filter(dashCubic -> dashCubic.getTimePC() >= 1.0f && dashCubic.alphaPC.to != 0.0f).forEach(dashCubic -> dashCubic.alphaPC.to = 0.0f);
-        this.DASH_CUBICS.removeIf(dashCubic -> dashCubic.getTimePC() >= 1.0f && dashCubic.alphaPC.to == 0.0f && (double) dashCubic.alphaPC.getAnim() < 0.02);
-        List<DashCubic> filteredCubics = this.DASH_CUBICS_FILTERED();
+        this.DASH_CUBICS.removeIf(dashCubic -> dashCubic.animation.finished(Direction.BACKWARDS));
         int next = 0;
-        int max = this.motionsSmoothing.get() ? filteredCubics.size() : -1;
-        for (DashCubic dashCubic2 : filteredCubics) {
-            dashCubic2.motionCubicProcess(++next < max ? filteredCubics.get(next) : null);
+        int max = DASH_CUBICS.size();
+        for (DashTrail.DashCubic dashCubic2 : DASH_CUBICS) {
+            dashCubic2.motionCubicProcess(++next < max ? DASH_CUBICS.get(next) : null);
         }
     }
 
     private int getRandomTimeAnimationPerTime() {
-        return (int) ((float) (550 + this.RANDOM.nextInt(300)) * this.dashLength.get());
+        return (int) this.time.get();
     }
 
     public void onEntityMove(EntityLivingBase baseIn, Vec3 prev) {
@@ -191,7 +187,7 @@ public class DashTrail extends Module {
         boolean[] dashDops = this.getDashPops();
         int countMax = (int) MathHelper.clamp_float((int) (entitySpeed / 0.045), 1, 16);
         for (int count = 0; count < countMax; ++count) {
-            this.DASH_CUBICS.add(new DashCubic(new DashBase(baseIn, 0.04f, new DashTexture(animated), (float) count / (float) countMax, this.getRandomTimeAnimationPerTime()), dashDops[0] || dashDops[1]));
+            this.DASH_CUBICS.add(new DashTrail.DashCubic(new DashTrail.DashBase(baseIn, 0.04f, new DashTrail.DashTexture(animated), (float) count / (float) countMax, this.getRandomTimeAnimationPerTime()), dashDops[0] || dashDops[1]));
         }
     }
 
@@ -205,7 +201,7 @@ public class DashTrail extends Module {
 
         Frustum frustum = new Frustum(mc.getRenderViewEntity().posX, mc.getRenderViewEntity().posY, mc.getRenderViewEntity().posZ);
         boolean[] dashDops = this.getDashPops();
-        List<DashCubic> FILTERED_LEVEL2_CUBICS = this.DASH_CUBICS_FILTERED().stream().filter(dashCubic -> frustum.isBoundingBoxInFrustum(new AxisAlignedBB(dashCubic.getRenderPosX(partialTicks), dashCubic.getRenderPosY(partialTicks), dashCubic.getRenderPosZ(partialTicks)).expandXyz(0.2 * (double) dashCubic.alphaPC.getAnim()))).toList();
+        List<DashTrail.DashCubic> FILTERED_LEVEL2_CUBICS = this.DASH_CUBICS_FILTERED().stream().filter(dashCubic -> frustum.isBoundingBoxInFrustum(new AxisAlignedBB(dashCubic.getRenderPosX(partialTicks), dashCubic.getRenderPosY(partialTicks), dashCubic.getRenderPosZ(partialTicks)).expandXyz(0.2 * dashCubic.animation.getOutput()))).toList();
         if (dashDops[0] || dashDops[1]) {
             GL11.glTranslated(-mc.getRenderManager().viewerPosX, -mc.getRenderManager().viewerPosY, -mc.getRenderManager().viewerPosZ);
             if (dashDops[1]) {
@@ -217,11 +213,8 @@ public class DashTrail extends Module {
                         double[] renderDashPos = new double[]{dashCubic.getRenderPosX(partialTicks), dashCubic.getRenderPosY(partialTicks), dashCubic.getRenderPosZ(partialTicks)};
                         dashCubic.DASH_SPARKS_LIST.forEach(spark -> {
                             double[] renderSparkPos = new double[]{spark.getRenderPosX(partialTicks), spark.getRenderPosY(partialTicks), spark.getRenderPosZ(partialTicks)};
-                            float aPC = (float) (spark.alphaPC() * (double) dashCubic.alphaPC.anim);
-                            aPC = ((double) aPC > 0.5 ? 1.0f - aPC : aPC) * 2.0f;
-                            aPC = Math.min(aPC, 1.0f);
-                            int c = ColorUtils.interpolateColor(dashCubic.color, -1, aPC);
-                            RenderUtils.color(ColorUtils.applyOpacity(c, (float) ColorUtils.getAlphaFromColor(c) * aPC));
+                            int c = ColorUtils.interpolateColor(getColorDashCubic(dashCubic,255), -1, (float) dashCubic.animation.getOutput());
+                            RenderUtils.color(c);
                             GL11.glVertex3d(renderSparkPos[0] + renderDashPos[0], renderSparkPos[1] + renderDashPos[1], renderSparkPos[2] + renderDashPos[2]);
                             GL11.glVertex3d(-renderSparkPos[0] + renderDashPos[0], -renderSparkPos[1] + renderDashPos[1], -renderSparkPos[2] + renderDashPos[2]);
                         });
@@ -235,11 +228,8 @@ public class DashTrail extends Module {
                     GL11.glBegin(7);
                     dashCubic.DASH_SPARKS_LIST.forEach(spark -> {
                         double[] renderSparkPos = new double[]{spark.getRenderPosX(partialTicks), spark.getRenderPosY(partialTicks), spark.getRenderPosZ(partialTicks)};
-                        float aPC = (float) spark.alphaPC() * dashCubic.alphaPC.anim * (1.0f - dashCubic.getTimePC() / 2.0f);
-                        aPC = (double) aPC > 0.5 ? 1.0f - aPC : aPC;
-                        aPC = Math.min(aPC, 1.0f);
-                        int c = ColorUtils.interpolateColor(dashCubic.color, -1, 1.0f - aPC);
-                        RenderUtils.color(ColorUtils.applyOpacity(c, (float) ColorUtils.getAlphaFromColor(c) * aPC / 2.0f));
+                        int c = ColorUtils.interpolateColor(getColorDashCubic(dashCubic,255), -1, (float) (1 - dashCubic.animation.getOutput()));
+                        RenderUtils.color(c);
                         GL11.glVertex3d(renderSparkPos[0] + renderDashPos[0], renderSparkPos[1] + renderDashPos[1], renderSparkPos[2] + renderDashPos[2]);
                         GL11.glVertex3d(-renderSparkPos[0] + renderDashPos[0], -renderSparkPos[1] + renderDashPos[1], -renderSparkPos[2] + renderDashPos[2]);
                     });
@@ -285,14 +275,14 @@ public class DashTrail extends Module {
         GL11.glPopMatrix();
     }
 
-    void addDashSparks(DashCubic cubic) {
-        cubic.DASH_SPARKS_LIST.add(new DashSpark());
+    void addDashSparks(DashTrail.DashCubic cubic) {
+        cubic.DASH_SPARKS_LIST.add(new DashTrail.DashSpark());
     }
 
-    void dashSparksRemoveAuto(DashCubic cubic) {
+    void dashSparksRemoveAuto(DashTrail.DashCubic cubic) {
         if (!cubic.DASH_SPARKS_LIST.isEmpty()) {
             if (cubic.addDops) {
-                cubic.DASH_SPARKS_LIST.removeIf(DashSpark::toRemove);
+                cubic.DASH_SPARKS_LIST.removeIf(dashSpark -> cubic.animation.finished(Direction.BACKWARDS));
             } else {
                 cubic.DASH_SPARKS_LIST.clear();
             }
@@ -318,15 +308,13 @@ public class DashTrail extends Module {
     }
 
     private class DashCubic {
-        private final AnimationUtils alphaPC = new AnimationUtils(0.0f, 1.0f, 0.035f);
-        private final long startTime = System.currentTimeMillis();
-        private final DashBase base;
-        private final int color = getColorDashCubic();
+        public SmoothStepAnimation animation = new SmoothStepAnimation((int) animTime.get(),1);
+        private final DashTrail.DashBase base;
         private final float[] rotate = new float[]{0.0f, 0.0f};
-        List<DashSpark> DASH_SPARKS_LIST = new ArrayList<>();
+        List<DashTrail.DashSpark> DASH_SPARKS_LIST = new ArrayList<>();
         private final boolean addDops;
 
-        private DashCubic(DashBase base, boolean addDops) {
+        private DashCubic(DashTrail.DashBase base, boolean addDops) {
             this.base = base;
             this.addDops = addDops;
             if (Math.sqrt(base.motionX * base.motionX + base.motionZ * base.motionZ) < 5.0E-4) {
@@ -352,11 +340,7 @@ public class DashTrail extends Module {
             return this.base.prevPosZ + (this.base.posZ - this.base.prevPosZ) * (double) pTicks;
         }
 
-        private float getTimePC() {
-            return (float) (System.currentTimeMillis() - this.startTime) / (float) this.base.rMTime;
-        }
-
-        private void motionCubicProcess(DashCubic nextCubic) {
+        private void motionCubicProcess(DashTrail.DashCubic nextCubic) {
             if (nextCubic != null && nextCubic.base.entity.getEntityId() != this.base.entity.getEntityId()) {
                 nextCubic = null;
             }
@@ -370,41 +354,38 @@ public class DashTrail extends Module {
             this.base.motionZ = (nextCubic != null ? nextCubic.base.motionZ : this.base.motionZ) / (double) 1.05f;
             this.base.posZ = this.base.posZ + 5.0 * this.base.motionZ;
             if (this.addDops) {
-                if ((double) this.getTimePC() < 0.3 && RANDOM.nextInt(12) > 5) {
+                if (RANDOM.nextInt(12) > 5) {
                     for (int i = 0; i < (getDashPops()[0] ? 1 : 3); ++i) {
                         addDashSparks(this);
                     }
                 }
-                this.DASH_SPARKS_LIST.forEach(DashSpark::motionSparkProcess);
+                this.DASH_SPARKS_LIST.forEach(DashTrail.DashSpark::motionSparkProcess);
             }
+
             dashSparksRemoveAuto(this);
+
+            if(animation.timerUtils.hasTimeElapsed(getRandomTimeAnimationPerTime()))
+                animation.setDirection(Direction.BACKWARDS);
         }
 
         private void drawDash(float partialTicks, boolean isBloomRenderer) {
-            ResourceLocationWithSizes texureSized = this.base.dashTexture.getResourceWithSizes();
+            DashTrail.ResourceLocationWithSizes texureSized = this.base.dashTexture.getResourceWithSizes();
             if (texureSized == null) {
                 return;
             }
-            float aPC = this.alphaPC.getAnim();
-            float alphaPC = 3f;
-            float scale = 0.02f * aPC;
+            float scale = (float) (0.02f * animation.getOutput());
             float extX = (float) texureSized.getResolution()[0] * scale;
             float extY = (float) texureSized.getResolution()[1] * scale;
             double[] renderPos = new double[]{this.getRenderPosX(partialTicks), this.getRenderPosY(partialTicks), this.getRenderPosZ(partialTicks)};
             if (isBloomRenderer) {
                 set3dDashPos(renderPos, () -> {
                     float extXY = (float) Math.sqrt(extX * extX + extY * extY);
-                    float timePcOf = 1.0f - this.getTimePC();
-                    timePcOf = timePcOf > 1.0f ? 1.0f : (Math.max(timePcOf, 0.0f));
-                    drawBindedTexture(-extXY * 2.0f, -extXY * 2.0f, extXY * 2.0f, extXY * 2.0f, ColorUtils.swapAlpha(ColorUtils.getOverallColorFrom(this.color, -1, 0.15f), (lighting.get() ? 8.0f : 18.0f) * timePcOf * alphaPC + (lighting.get() ? 6.0f : 7.0f) * alphaPC));
-                    if (lighting.get()) {
-                        drawBindedTexture(-(extXY *= 2.0f + 2.5f * timePcOf) * 2.0f, -extXY * 2.0f, extXY * 2.0f, extXY * 2.0f, ColorUtils.swapAlpha(ColorUtils.getOverallColorFrom(this.color, -1, 0.15f), 6.0f * timePcOf * alphaPC + 3.0f * alphaPC));
-                    }
+                    drawBindedTexture(-extXY * 2.0f, -extXY * 2.0f, extXY * 2.0f, extXY * 2.0f, getColorDashCubic(this,64));
                 }, new float[]{Module.mc.getRenderManager().playerViewY, Module.mc.getRenderManager().playerViewX});
             } else {
                 set3dDashPos(renderPos, () -> {
                     bindResource(texureSized.getResource());
-                    drawBindedTexture(-extX / 2.0f, -extY / 2.0f, extX / 2.0f, extY / 2.0f, ColorUtils.darker(ColorUtils.interpolateColor(this.color, -1, 0.7f), 1.0f));
+                    drawBindedTexture(-extX / 2.0f, -extY / 2.0f, extX / 2.0f, extY / 2.0f, ColorUtils.darker(getColorDashCubic(this,64), 1.0f));
                 }, this.rotate);
             }
         }
@@ -421,8 +402,7 @@ public class DashTrail extends Module {
         private double prevPosX;
         private double prevPosY;
         private double prevPosZ;
-        private int rMTime;
-        private DashTexture dashTexture;
+        private DashTrail.DashTexture dashTexture;
 
         private double eMotionX() {
             return -(this.entity.prevPosX - this.entity.posX);
@@ -436,11 +416,10 @@ public class DashTrail extends Module {
             return -(this.entity.prevPosZ - this.entity.posZ);
         }
 
-        private DashBase(EntityLivingBase entity, float speedDash, DashTexture dashTexture, float offsetTickPC, int rmTime) {
+        private DashBase(EntityLivingBase entity, float speedDash, DashTrail.DashTexture dashTexture, float offsetTickPC, int rmTime) {
             if (entity == null) {
                 return;
             }
-            this.rMTime = rmTime;
             this.entity = entity;
             this.motionX = this.eMotionX();
             this.motionY = this.eMotionY();
@@ -465,7 +444,7 @@ public class DashTrail extends Module {
     }
 
     private class DashTexture {
-        private final List<ResourceLocationWithSizes> TEXTURES;
+        private final List<DashTrail.ResourceLocationWithSizes> TEXTURES;
         private final boolean animated;
         private long timeAfterSpawn;
         private long animationPerTime;
@@ -475,7 +454,7 @@ public class DashTrail extends Module {
         }
 
         private DashTexture(boolean animated) {
-            boolean bl = this.animated = animated && hasChancedAnimatedTexutreSet();
+            this.animated = animated && hasChancedAnimatedTexutreSet();
             if (this.animated) {
                 this.timeAfterSpawn = System.currentTimeMillis();
                 this.TEXTURES = getDashCubicAnimatedTextureGroupRandom(randomAnimatedTexturesGroupNumber());
@@ -486,8 +465,8 @@ public class DashTrail extends Module {
             }
         }
 
-        private ResourceLocationWithSizes getResourceWithSizes() {
-            ResourceLocationWithSizes fragTexure;
+        private DashTrail.ResourceLocationWithSizes getResourceWithSizes() {
+            DashTrail.ResourceLocationWithSizes fragTexure;
             float fragCount;
             if (this.isAnimated() && (fragCount = (float) this.TEXTURES.size()) > 0.0f && (fragTexure = this.TEXTURES.get((int) MathHelper.clamp_float((float) ((int) (System.currentTimeMillis() - this.timeAfterSpawn) % (int) this.animationPerTime) / (float) this.animationPerTime * fragCount, 0.0f, fragCount))) != null) {
                 return fragTexure;
@@ -506,21 +485,8 @@ public class DashTrail extends Module {
         double speed = Math.random() / 50.0;
         double radianYaw = Math.random() * 360.0;
         double radianPitch = -90.0 + Math.random() * 180.0;
-        long startTime = System.currentTimeMillis();
 
         DashSpark() {
-        }
-
-        double timePC() {
-            return MathHelper.clamp_float((float) (System.currentTimeMillis() - this.startTime) / 1000.0f, 0.0f, 1.0f);
-        }
-
-        double alphaPC() {
-            return 1.0 - this.timePC();
-        }
-
-        boolean toRemove() {
-            return this.timePC() == 1.0;
         }
 
         void motionSparkProcess() {

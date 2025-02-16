@@ -11,13 +11,12 @@ import wtf.moonlight.features.values.impl.BoolValue;
 import wtf.moonlight.features.values.impl.SliderValue;
 import wtf.moonlight.utils.render.RenderUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayDeque;
 
 @ModuleInfo(name = "Breadcrumbs", category = ModuleCategory.Visual)
 public final class Breadcrumbs extends Module {
 
-    List<Vec3> path = new ArrayList<>();
+    private final ArrayDeque<Vec3> path = new ArrayDeque<>();
 
     private final BoolValue timeoutBool = new BoolValue("Timeout", true, this);
     private final SliderValue timeout = new SliderValue("Time", 15, 1, 150, 0.1f, this);
@@ -36,7 +35,7 @@ public final class Breadcrumbs extends Module {
 
             if (timeoutBool.get()) {
                 while (path.size() > (int) timeout.get()) {
-                    path.remove(0);
+                    path.removeFirst();
                 }
             }
         }

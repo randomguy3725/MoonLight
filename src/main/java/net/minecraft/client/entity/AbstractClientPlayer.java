@@ -209,16 +209,21 @@ public abstract class AbstractClientPlayer extends EntityPlayer
         this.reloadCapeTimeMs = p_setReloadCapeTimeMs_1_;
     }
 
+    @Override
     public Vec3 getLook(final float partialTicks) {
-        float yaw = this.rotationYaw;
-        float pitch = this.rotationPitch;
-
-        LookEvent lookEvent = new LookEvent(new float[]{yaw, pitch});
+        LookEvent lookEvent = new LookEvent(rotationYaw, rotationPitch,prevRotationYaw,prevRotationPitch);
         Moonlight.INSTANCE.getEventManager().call(lookEvent);
-        yaw = lookEvent.rotation[0];
-        pitch = lookEvent.rotation[1];
 
-        return this.getVectorForRotation(pitch, yaw);
+        if (partialTicks == 1.0F)
+        {
+            return this.getVectorForRotation(lookEvent.pitch, lookEvent.yaw);
+        }
+        else
+        {
+            float f = lookEvent.prevPitch + (lookEvent.pitch - lookEvent.prevPitch) * partialTicks;
+            float f1 = lookEvent.prevYaw + (lookEvent.yaw - lookEvent.prevYaw) * partialTicks;
+            return this.getVectorForRotation(f, f1);
+        }
     }
 
     public Vec3 getLookCustom(float yaw,float pitch)

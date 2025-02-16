@@ -10,8 +10,7 @@
  */
 package wtf.moonlight.features.modules.impl.player;
 
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
+import it.unimi.dsi.fastutil.ints.*;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
@@ -46,11 +45,10 @@ public class InvManager extends Module {
     private final BoolValue autoArmor = new BoolValue("Auto Armor", true, this);
     private final BoolValue startDelay = new BoolValue("Start Delay", true, this);
     public final BoolValue display = new BoolValue("Display", true, this);
-    private final BoolValue lobbyCheck = new BoolValue("Lobby Check", true, this);
     private final BoolValue usingItemCheck = new BoolValue("Using Item Check", true, this);
     private final TimerUtils timer = new TimerUtils();
     private final int[] bestArmorPieces = new int[4];
-    private final IntList trash = new IntArrayList();
+    private final IntSet trash = new IntOpenHashSet();
     private final int[] bestToolSlots = new int[3];
     private final IntList gappleStackSlots = new IntArrayList();
     private final IntList blockSlot = new IntArrayList();
@@ -88,13 +86,13 @@ public class InvManager extends Module {
         }
     }
 
-    private boolean dropItem(final IntList listOfSlots) {
-        if (this.dropItems.get()) {
-            if (!listOfSlots.isEmpty()) {
-                int slot = listOfSlots.removeInt(0);
-                windowClick(slot, 1, 4);
-                return true;
-            }
+    private boolean dropItem(final IntSet listOfSlots) {
+        if (this.dropItems.get() && !listOfSlots.isEmpty()) {
+            final var iter = listOfSlots.iterator();
+            int slot = iter.nextInt();
+            windowClick(slot, 1, 4);
+            iter.remove();
+            return true;
         }
         return false;
     }
@@ -104,11 +102,7 @@ public class InvManager extends Module {
         setTag(String.valueOf(maxDelay.get()));
         if (usingItemCheck.get() && mc.thePlayer.isUsingItem()) return;
         final long delay = (MathUtils.nextInt((int) minDelay.get(), (int) maxDelay.get()) * 50L);
-        if ((this.clientOpen || (mc.currentScreen == null && !Objects.equals(this.mode.get(), "Open Inventory"))) && !isEnabled(Scaffold.class) &&
-                (lobbyCheck.get() &&
-                        InventoryUtils.findItem(InventoryUtils.EXCLUDE_ARMOR_BEGIN,InventoryUtils.END, Items.compass) > 0
-                        && InventoryUtils.findItem(InventoryUtils.EXCLUDE_ARMOR_BEGIN,InventoryUtils.END, Items.bed) > 0
-                 || !lobbyCheck.get())
+        if ((this.clientOpen || (mc.currentScreen == null && !Objects.equals(this.mode.get(), "Open Inventory"))) && !isEnabled(Scaffold.class)
         ) {
             if ((this.timer.hasTimeElapsed(delay) || delay == 0)) {
                 this.clear();
@@ -138,8 +132,12 @@ public class InvManager extends Module {
 
                             if (pieceSlot == -1 || slot != pieceSlot)
                                 this.bestArmorPieces[armor.armorType] = slot;
-                        } else if (stack.getItem() instanceof ItemBlock && slot == InventoryUtils.findBestBlockStack()) {
-                            this.blockSlot.add(slot);
+                        } else if (stack.getItem() instanceof ItemBlock) {
+                            if (slot == InventoryUtils.findBestBlockStack()) {
+                                this.blockSlot.add(slot);
+                            } else if (blockSlot.contains(slot)) {
+                                this.blockSlot.removeInt(slot);
+                            }
                         } else if (stack.getItem() instanceof ItemAppleGold) {
                             this.gappleStackSlots.add(slot);
                         } else if (!this.trash.contains(slot) && !InventoryUtils.isValidStack(stack)) {
@@ -204,7 +202,7 @@ public class InvManager extends Module {
             if (!this.gappleStackSlots.isEmpty()) {
                 this.gappleStackSlots.sort(Comparator.comparingInt(slot -> mc.thePlayer.inventoryContainer.getSlot(slot).getStack().stackSize));
 
-                final int bestGappleSlot = this.gappleStackSlots.get(0);
+                final int bestGappleSlot = this.gappleStackSlots.getInt(0);
 
                 if (bestGappleSlot != 37) {
                     if (moveItems) {
@@ -218,7 +216,7 @@ public class InvManager extends Module {
             if (!this.blockSlot.isEmpty()) {
                 this.blockSlot.sort(Comparator.comparingInt(slot -> -mc.thePlayer.inventoryContainer.getSlot(slot).getStack().stackSize));
 
-                final int blockSlot = this.blockSlot.get(0);
+                final int blockSlot = this.blockSlot.getInt(0);
 
                 if (blockSlot != 42) {
                     if (moveItems) {

@@ -37,4 +37,5 @@ public class Animations extends Module {
     private final SliderValue bz = new SliderValue("Block-Z", 0.0F, -1.0F, 1.0F, .05f, this);
     private final BoolValue walking = new BoolValue("Funny", false, this);
     private final BoolValue swingWhileUsingItem = new BoolValue("Swing While Using Item", false, this);
+
 }

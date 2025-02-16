@@ -28,12 +28,12 @@ public class MoreKB extends Module {
     private final BoolValue onlyGround = new BoolValue("Only Ground", true, this);
     public int ticks;
 
-    EntityLivingBase target = null;
+    private EntityLivingBase target = null;
 
     @EventTarget
     public void onAttack(AttackEvent event) {
-        if (event.getTargetEntity() != null && event.getTargetEntity() instanceof EntityLivingBase) {
-            target = (EntityLivingBase) event.getTargetEntity();
+        if (event.getTargetEntity() != null && event.getTargetEntity() instanceof EntityLivingBase t) {
+            target = t;
             ticks = 2;
         }
     }

@@ -152,7 +152,6 @@ public class GlowESP extends Module {
     }
 
     public void collectEntities() {
-        livingEntities.clear();
         livingEntities = PlayerUtils.getLivingPlayers(entity -> RenderUtils.isBBInFrustum(entity) && entity != mc.thePlayer || entity == mc.thePlayer && mc.gameSettings.thirdPersonView != 0);
     }
 

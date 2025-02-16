@@ -78,7 +78,7 @@ public class TargetHUDWidget extends Widget {
     }
 
     public float getTHUDWidth(Entity entity) {
-        float width = switch (setting.targetHudMode.get()) {
+        return switch (setting.targetHudMode.get()) {
             case "Type 1" -> Math.max(120, Fonts.interBold.get(18).getStringWidth(entity.getName()) + 50);
             case "Astolfo" -> Math.max(130, mc.fontRendererObj.getStringWidth(entity.getName()) + 60);
             case "Type 2" -> Math.max(100, mc.fontRendererObj.getStringWidth(entity.getDisplayName().getFormattedText())) + 11;
@@ -92,11 +92,10 @@ public class TargetHUDWidget extends Widget {
             case "Novo 4" -> 135.0f;
             default -> 0;
         };
-        return width;
     }
 
     public float getTHUDHeight() {
-        float height = switch (setting.targetHudMode.get()) {
+        return switch (setting.targetHudMode.get()) {
             case "Type 1" -> 44;
             case "Astolfo" -> 56;
             case "Type 2" -> 38.0F;
@@ -110,7 +109,6 @@ public class TargetHUDWidget extends Widget {
             case "Novo 4" -> 45.0f;
             default -> 0;
         };
-        return height;
     }
 
     @Override

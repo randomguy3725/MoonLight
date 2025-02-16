@@ -78,9 +78,10 @@ public class ESP extends Module {
 
     @EventTarget
     public void onRenderNameTag(RenderNameTagEvent event) {
-        if (tags.get() && entityPosMap.containsKey(event.getEntity()))
+        Entity entity = event.getEntity();
+        if (tags.get() && entityPosMap.containsKey(entity))
             event.setCancelled(true);
-        if (fontTags.get() && entityPosMap.containsKey(event.getEntity()))
+        if (fontTags.get() && entityPosMap.containsKey(entity))
             event.setCancelled(true);
     }
 

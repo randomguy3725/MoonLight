@@ -182,6 +182,11 @@ public class BedPlates extends Module {
         }
     }
 
+    private static final Set<Block> targetBlocks = Set.of(
+            Blocks.wool, Blocks.stained_hardened_clay, Blocks.stained_glass, Blocks.planks, Blocks.log, Blocks.log2, Blocks.end_stone, Blocks.obsidian,
+            Blocks.bedrock
+    ); // BW normal def blocks list ^ ^
+
     private boolean find(double x, double y, double z, int index) {
         BlockPos bedPos = new BlockPos(x, y, z);
         Block bed = mc.theWorld.getBlockState(bedPos).getBlock();
@@ -192,23 +197,16 @@ public class BedPlates extends Module {
             return false;
         }
 
-        Block[] targetBlocks = {
-                Blocks.wool, Blocks.stained_hardened_clay, Blocks.stained_glass, Blocks.planks, Blocks.log, Blocks.log2, Blocks.end_stone, Blocks.obsidian,
-                Blocks.bedrock
-        }; // BW normal def blocks list ^ ^
-
         final var pos = new BlockPos.MutableBlockPos();
-        for (int yOffset = 0; yOffset <= layers.get(); ++yOffset) {
-            for (int xOffset = (int) -layers.get(); xOffset <= layers.get(); ++xOffset) {
-                for (int zOffset = (int) -layers.get(); zOffset <= layers.get(); ++zOffset) {
+        final int layer = (int) layers.get();
+        for (int yOffset = 0; yOffset <= layer; ++yOffset) {
+            for (int xOffset = -layer; xOffset <= layer; ++xOffset) {
+                for (int zOffset = -layer; zOffset <= layer; ++zOffset) {
                     pos.set(bedPos);
                     pos.move(xOffset, yOffset, zOffset);
                     Block blockAtOffset = mc.theWorld.getBlockState(pos).getBlock();
-
-                    for (Block targetBlock : targetBlocks) {
-                        if (blockAtOffset.equals(targetBlock)) {
-                            bedBlocks[index].add(targetBlock);
-                        }
+                    if (targetBlocks.contains(blockAtOffset)) {
+                        bedBlocks[index].add(blockAtOffset);
                     }
                 }
             }

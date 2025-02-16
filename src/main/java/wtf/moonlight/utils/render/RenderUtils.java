@@ -487,7 +487,12 @@ public class RenderUtils implements InstanceAccess {
         GlStateManager.pushMatrix();
 
         if (outline) {
+
+            glEnable(GL_LINE_SMOOTH);
+
             drawOutlineBoundingBox(bb,new Color(color,true));
+
+            glDisable(GL_LINE_SMOOTH);
         }
         if (filled) {
             drawFilledBoundingBox(bb,new Color(color,true));
@@ -1074,7 +1079,7 @@ public class RenderUtils implements InstanceAccess {
         });
     }
 
-    public static void renderBreadCrumbs(final List<Vec3> vec3s) {
+    public static void renderBreadCrumbs(final Iterable<Vec3> vec3s) {
         GlStateManager.disableDepth();
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_TEXTURE_2D);

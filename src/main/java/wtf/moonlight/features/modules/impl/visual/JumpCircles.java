@@ -37,12 +37,11 @@ import wtf.moonlight.utils.render.RenderUtils;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @ModuleInfo(name = "JumpCircles", category = ModuleCategory.Visual)
 public class JumpCircles extends Module {
-    public List<ArrayList> animatedGroups = Arrays.asList(new ArrayList<>(), new ArrayList<>());
+    public ArrayList[] animatedGroups = new ArrayList[]{new ArrayList<>(), new ArrayList<>()};
 
     private final SliderValue maxTime = new SliderValue("Max TIme", 3000, 2000, 8000, 25F, this);
     private final SliderValue radius = new SliderValue("Radius", 2, 1, 3, 0.1F, this);
@@ -55,7 +54,7 @@ public class JumpCircles extends Module {
 
     private ResourceLocation jumpTexture(int index, float progress) {
         if (texture.is("CubicalPieces") || texture.is("Leeches")) {
-            ArrayList currentGroupTextures = texture.is("CubicalPieces") ? animatedGroups.get(0) : animatedGroups.get(1);
+            ArrayList currentGroupTextures = texture.is("CubicalPieces") ? animatedGroups[0] : animatedGroups[1];
             final boolean animateByProgress = texture.is("Leeches");
             if (texture.is("Leeches")) {
                 progress += .6F;
@@ -76,13 +75,13 @@ public class JumpCircles extends Module {
         final int[] groupsFramesLength = new int[]{100/*, 60*/, 200};
         final String[] groupsFramesFormat = new String[]{"jpeg", /*"png", */"png"};
         int groupIndex = groupsFramesLength.length - 1;
-        if (animatedGroups.stream().allMatch(ArrayList::isEmpty)) {
+        if (animatedGroups[0].isEmpty() && animatedGroups[1].isEmpty()) {
             while (groupIndex >= 0) {
                 int framesCounter = 0;
                 while (framesCounter < groupsFramesLength[groupIndex]) {
                     framesCounter++;
                     loc = new ResourceLocation(animatedLoc + ("animation" + (groupIndex + 1)) + ("/circleframe_" + framesCounter) + ("." + groupsFramesFormat[groupIndex]));
-                    animatedGroups.get(groupIndex).add(loc);
+                    animatedGroups[groupIndex].add(loc);
                 }
                 --groupIndex;
             }
@@ -116,9 +115,10 @@ public class JumpCircles extends Module {
 
     @EventTarget
     private void onRender3D(Render3DEvent event) {
-        if (circles.isEmpty()) return;
         circles.removeIf((final JumpRenderer circle) -> circle.getDeltaTime() >= 1.D);
+
         if (circles.isEmpty()) return;
+
         float deepestLightAnim = deepestLight.get() ? 1 : 0, immersiveStrengh = 0;
         if (deepestLightAnim >= 1.F / 255.F) {
             switch (texture.get()) {
@@ -196,9 +196,8 @@ public class JumpCircles extends Module {
     }
 
     private void reset() {
-        if (!circles.isEmpty()) circles.clear();
+        circles.clear();
     }
-
 
     private final static List<JumpRenderer> circles = new java.util.ArrayList<>();
 

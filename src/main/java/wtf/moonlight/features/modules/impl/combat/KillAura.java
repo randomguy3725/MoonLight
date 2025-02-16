@@ -133,14 +133,10 @@ public class KillAura extends Module {
             new BoolValue("Animals", false), new BoolValue("Invisible", true), new BoolValue("Dead", false)), this);
     public final MultiBoolValue filter = new MultiBoolValue("Filter", Arrays.asList(new BoolValue("Teams", true), new BoolValue("Friends", true)), this);
     public final ModeValue movementFix = new ModeValue("Movement", new String[]{"Silent", "Strict"}, "Silent", this, () -> addons.isEnabled("Movement Fix"));
-    private final BoolValue aimPoint = new BoolValue("Aim Point", false, this);
-    private final SliderValue dotSize = new SliderValue("Size", 0.1f, 0.05f, 0.2f, 0.05f, this, aimPoint::get);
-    private final SliderValue interpolation = new SliderValue("Interpolation", 0.15f, 0.01f, 1, 0.01f, this, aimPoint::get);
-    private final SliderValue delay = new SliderValue("Delay", 20, 1, 100, 1, this, aimPoint::get);
     public final BoolValue noScaffold = new BoolValue("No Scaffold", false, this);
     public final BoolValue noInventory = new BoolValue("No Inventory", false, this);
     public final BoolValue noBedNuker = new BoolValue("No Bed Nuker", false, this);
-    public List<EntityLivingBase> targets = new ArrayList<>();
+    public final List<EntityLivingBase> targets = new ArrayList<>();
     public EntityLivingBase target;
     private final TimerUtils attackTimer = new TimerUtils();
     private final TimerUtils switchTimer = new TimerUtils();
@@ -221,7 +217,7 @@ public class KillAura extends Module {
             }
         }
 
-        targets = getTargets();
+        getTargets();
         if (!targets.isEmpty()) {
             if (targets.size() > 1) {
                 switch (priority.get()) {
@@ -382,31 +378,6 @@ public class KillAura extends Module {
         }
     }
 
-    @EventTarget
-    public void onLook(LookEvent event) {
-        if(rotation != null)
-            event.rotation = rotation;
-    }
-
-    @EventTarget
-    public void onRender3D(Render3DEvent event) {
-        if (aimPoint.get() && target != null && PlayerUtils.getDistanceToEntityBox(target) < rotationRange.get()) {
-            double distance = mc.thePlayer.getDistanceToEntity(target);
-            final Vec3 vec31 = mc.thePlayer.getLook(1.0f);
-            final Vec3 vec32 = mc.thePlayer.getPositionEyes(1.0f).addVector(vec31.xCoord * distance,
-                    vec31.yCoord * distance, vec31.zCoord * distance);
-            float interpolatedX = MathUtils.interpolate(animatedX.getOutput(), (float) vec32.xCoord, interpolation.get());
-            float interpolatedY = MathUtils.interpolate(animatedY.getOutput(), (float) vec32.yCoord, interpolation.get());
-            float interpolatedZ = MathUtils.interpolate(animatedZ.getOutput(), (float) vec32.zCoord, interpolation.get());
-
-            animatedX.animate(interpolatedX, (int) delay.get());
-            animatedY.animate(interpolatedY, (int) delay.get());
-            animatedZ.animate(interpolatedZ, (int) delay.get());
-
-            drawDot(new Vec3(animatedX.getOutput(), animatedY.getOutput(), animatedZ.getOutput()), dotSize.get(), getModule(Interface.class).color());
-        }
-    }
-
     private boolean preTickBlock() {
         switch (autoBlock.get()) {
             case "Watchdog":
@@ -419,7 +390,6 @@ public class KillAura extends Module {
                         return true;
                     case 1:
                         if(isBlocking) {
-                            block(true);
                             BlinkComponent.blinking = true;
                             unblock();
                             blinked = true;
@@ -509,7 +479,8 @@ public class KillAura extends Module {
 
     public void unblock() {
         if (isBlocking) {
-            if (mode.is("HYT") || mode.is("Watchdog")) {
+            if (mode.is("HYT")// || mode.is("Watchdog")
+            ) {
                 sendPacket(new C09PacketHeldItemChange((mc.thePlayer.inventory.currentItem + 1) % 8));
                 sendPacket(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
             } else {
@@ -578,17 +549,15 @@ public class KillAura extends Module {
                 () -> mc.thePlayer.isInWeb).map(Supplier::get).anyMatch(Boolean.TRUE::equals);
     }
 
-    public List<EntityLivingBase> getTargets() {
-        final List<EntityLivingBase> entities = new ArrayList<>();
+    private void getTargets() {
         for (final Entity entity : mc.theWorld.loadedEntityList) {
             if (entity instanceof EntityLivingBase e) {
                 if (isValid(e) && PlayerUtils.getDistanceToEntityBox(e) <= searchRange.get() && (RotationUtils.getRotationDifference(e) <= fov.get() || fov.get() == 180))
-                    entities.add(e);
-                else entities.remove(e);
-
+                    targets.add(e);
+                else
+                    targets.remove(e);
             }
         }
-        return entities;
     }
 
     public double getDistanceToEntity(Entity entity) {

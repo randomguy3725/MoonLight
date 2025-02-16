@@ -45,7 +45,7 @@ public class AttackEffect extends Module {
 
     public final ModeValue modeValue = new ModeValue("Mode", new String[]{"Triangle", "Circle"}, "Triangle", this);
     private final SliderValue amount = new SliderValue("Amount", 3, 0, 10, this);
-    final BoolValue physics = new BoolValue("Physics", true, this);
+    private final BoolValue physics = new BoolValue("Physics", true, this);
     private final List<AttackParticle> particles = new ArrayList<>();
     private final TimerUtils timer = new TimerUtils();
 

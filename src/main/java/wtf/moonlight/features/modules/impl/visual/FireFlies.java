@@ -28,7 +28,8 @@ import wtf.moonlight.features.modules.ModuleCategory;
 import wtf.moonlight.features.modules.ModuleInfo;
 import wtf.moonlight.features.values.impl.BoolValue;
 import wtf.moonlight.features.values.impl.SliderValue;
-import wtf.moonlight.utils.animations.AnimationUtils;
+import wtf.moonlight.utils.animations.Direction;
+import wtf.moonlight.utils.animations.impl.SmoothStepAnimation;
 import wtf.moonlight.utils.math.MathUtils;
 import wtf.moonlight.utils.render.ColorUtils;
 import wtf.moonlight.utils.render.RenderUtils;
@@ -38,20 +39,17 @@ import java.util.List;
 
 @ModuleInfo(name = "FireFlies", category = ModuleCategory.Visual)
 public class FireFlies extends Module {
-    private final BoolValue darkImprint = new BoolValue("DarkImprint", false, this);
+    private final BoolValue darkImprint = new BoolValue("Dark Imprint", false, this);
     private final BoolValue lighting = new BoolValue("Lighting", false, this);
-    private final SliderValue spawnDelay = new SliderValue("SpawnDelay", 3.0f, 1.0f, 10.0f, this);
-    private final ArrayList<FirePart> FIRE_PARTS_LIST = new ArrayList<>();
+    private final SliderValue spawnDelay = new SliderValue("Spawn Delay", 3.0f, 1.0f, 10.0f, this);
+    private final SliderValue maxAliveTime = new SliderValue("Max Alive Time",1000,500,6000,500,this);
+    private final ArrayList<FireFlies.FirePart> FIRE_PARTS_LIST = new ArrayList<>();
     private final ResourceLocation FIRE_PART_TEX = new ResourceLocation("moonlight/texture/fireflies/firepart.png");
     private final Tessellator tessellator = Tessellator.getInstance();
     private final WorldRenderer buffer = this.tessellator.getWorldRenderer();
 
-    private long getMaxPartAliveTime() {
-        return 6000L;
-    }
-
-    private int getPartColor() {
-        return getModule(Interface.class).color(0);
+    private int getPartColor(FirePart part) {
+        return getModule(Interface.class).color(0, (int) (part.animation.getOutput() * 255));
     }
 
     private float getRandom(double min, double max) {
@@ -108,16 +106,15 @@ public class FireFlies extends Module {
         this.tessellator.draw();
     }
 
-    private void drawPart(FirePart part, float pTicks) {
-        int color = this.getPartColor();
+    private void drawPart(FireFlies.FirePart part, float pTicks) {
         if (this.darkImprint.get()) {
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-            this.drawSparkPartsList(color, part, pTicks);
-            this.drawTrailPartsList(color, part);
+            this.drawSparkPartsList(getPartColor(part), part, pTicks);
+            this.drawTrailPartsList(getPartColor(part), part);
             GlStateManager.tryBlendFuncSeparate(770, 1, 1, 0);
         } else {
-            this.drawSparkPartsList(color, part, pTicks);
-            this.drawTrailPartsList(color, part);
+            this.drawSparkPartsList(getPartColor(part), part, pTicks);
+            this.drawTrailPartsList(getPartColor(part), part);
         }
         Vec3 pos = part.getRenderPosVec(pTicks);
         GL11.glPushMatrix();
@@ -127,10 +124,9 @@ public class FireFlies extends Module {
         GL11.glRotated(FireFlies.mc.getRenderManager().playerViewX, FireFlies.mc.gameSettings.thirdPersonView == 2 ? -1.0 : 1.0, 0.0, 0.0);
         GL11.glScaled(-0.1, -0.1, 0.1);
         float scale = 7.0f;
-        this.drawBindedTexture(-scale / 2.0f, -scale / 2.0f, scale / 2.0f, scale / 2.0f, color);
+        this.drawBindedTexture(-scale / 2.0f, -scale / 2.0f, scale / 2.0f, scale / 2.0f, getPartColor(part));
         if (this.lighting.get()) {
-            //this.drawBindedTexture(-(scale *= 8.0f) / 2.0f, -scale / 2.0f, scale / 2.0f, scale / 2.0f, ColorUtils.applyOpacity(ColorUtils.darker(color, 0.2f), (float)ColorUtils.getAlphaFromColor(color) / 5.0f));
-            this.drawBindedTexture(-(scale *= 3.0f) / 2.0f, -scale / 2.0f, scale / 2.0f, scale / 2.0f, ColorUtils.applyOpacity(ColorUtils.darker(color, 0.2f), (float) ColorUtils.getAlphaFromColor(color) / 7.0f));
+            this.drawBindedTexture(-(scale *= 3.0f) / 2.0f, -scale / 2.0f, scale / 2.0f, scale / 2.0f, ColorUtils.applyOpacity(ColorUtils.darker(getPartColor(part), 0.2f), (float) (part.animation.getOutput() / 7.0f)));
         }
         GL11.glPopMatrix();
     }
@@ -138,13 +134,13 @@ public class FireFlies extends Module {
     @EventTarget
     public void onUpdate(UpdateEvent event) {
         if (mc.thePlayer != null && mc.thePlayer.ticksExisted == 1) {
-            this.FIRE_PARTS_LIST.forEach(FirePart::setToRemove);
+            this.FIRE_PARTS_LIST.forEach(FireFlies.FirePart::setToRemove);
         }
-        this.FIRE_PARTS_LIST.forEach(FirePart::updatePart);
-        this.FIRE_PARTS_LIST.removeIf(FirePart::isToRemove);
+        this.FIRE_PARTS_LIST.forEach(FireFlies.FirePart::updatePart);
+        this.FIRE_PARTS_LIST.removeIf(FireFlies.FirePart::isToRemove);
         if (mc.thePlayer.ticksExisted % (int) (this.spawnDelay.get() + 1.0f) == 0) {
-            this.FIRE_PARTS_LIST.add(new FirePart(this.generateVecForPart(10.0, 4.0), this.getMaxPartAliveTime()));
-            this.FIRE_PARTS_LIST.add(new FirePart(this.generateVecForPart(6.0, 5.0), this.getMaxPartAliveTime()));
+            this.FIRE_PARTS_LIST.add(new FireFlies.FirePart(this.generateVecForPart(10.0, 4.0), maxAliveTime.get()));
+            this.FIRE_PARTS_LIST.add(new FireFlies.FirePart(this.generateVecForPart(6.0, 5.0), maxAliveTime.get()));
         }
     }
 
@@ -158,7 +154,7 @@ public class FireFlies extends Module {
         }
     }
 
-    private void drawSparkPartsList(int color, FirePart firePart, float partialTicks) {
+    private void drawSparkPartsList(int color, FireFlies.FirePart firePart, float partialTicks) {
         if (firePart.SPARK_PARTS.size() < 2) {
             return;
         }
@@ -168,9 +164,8 @@ public class FireFlies extends Module {
         GL11.glEnable(2832);
         GL11.glPointSize(1.5f + 6.0f * MathHelper.clamp_float(1.0f - (mc.thePlayer.getSmoothDistanceToCoord((float) firePart.getPosVec().xCoord, (float) firePart.getPosVec().yCoord + 1.6f, (float) firePart.getPosVec().zCoord) - 3.0f) / 10.0f, 0.0f, 1.0f));
         GL11.glBegin(0);
-        for (SparkPart spark : firePart.SPARK_PARTS) {
-            int c = ColorUtils.applyOpacity(ColorUtils.interpolateColor(-1, color, (float) spark.timePC()), (float) ColorUtils.getAlphaFromColor(color) * (float) 1 * (1.0f - (float) spark.timePC()));
-            RenderUtils.color(c);
+        for (FireFlies.SparkPart spark : firePart.SPARK_PARTS) {
+            RenderUtils.color(color);
             GL11.glVertex3d(spark.getRenderPosX(partialTicks), spark.getRenderPosY(partialTicks), spark.getRenderPosZ(partialTicks));
         }
         GL11.glEnd();
@@ -179,7 +174,7 @@ public class FireFlies extends Module {
         GL11.glEnable(3553);
     }
 
-    private void drawTrailPartsList(int color, FirePart firePart) {
+    private void drawTrailPartsList(int color, FireFlies.FirePart firePart) {
         if (firePart.TRAIL_PARTS.size() < 2) {
             return;
         }
@@ -189,17 +184,10 @@ public class FireFlies extends Module {
         GL11.glDisable(3008);
         GL11.glEnable(2848);
         GL11.glHint(3154, 4354);
-        int point = 0;
-        int pointsCount = firePart.TRAIL_PARTS.size();
         GL11.glBegin(3);
-        for (TrailPart trail : firePart.TRAIL_PARTS) {
-            float sizePC = (float) point / (float) pointsCount;
-            sizePC = ((double) sizePC > 0.5 ? 1.0f - sizePC : sizePC) * 2.0f;
-            sizePC = sizePC > 1.0f ? 1.0f : (Math.max(sizePC, 0.0f));
-            int c = ColorUtils.applyOpacity(color, (float) ColorUtils.getAlphaFromColor(color) * (float) 1 * sizePC);
-            RenderUtils.color(c);
+        for (FireFlies.TrailPart trail : firePart.TRAIL_PARTS) {
+            RenderUtils.color(color);
             GL11.glVertex3d(trail.x, trail.y, trail.z);
-            ++point;
         }
         GL11.glEnd();
         GlStateManager.resetColor();
@@ -211,11 +199,11 @@ public class FireFlies extends Module {
     }
 
     private class FirePart {
-        List<TrailPart> TRAIL_PARTS;
-        List<SparkPart> SPARK_PARTS = new ArrayList<>();
+        List<FireFlies.TrailPart> TRAIL_PARTS;
+        List<FireFlies.SparkPart> SPARK_PARTS = new ArrayList<>();
         Vec3 prevPos;
         Vec3 pos;
-        AnimationUtils alphaPC = new AnimationUtils(0.0f, 1.0f, 0.02f);
+        public SmoothStepAnimation animation = new SmoothStepAnimation(400,1);
         int msChangeSideRate = this.getMsChangeSideRate();
         float moveYawSet = FireFlies.this.getRandom(0.0, 360.0);
         float speed = FireFlies.this.getRandom(0.1, 0.25);
@@ -236,14 +224,6 @@ public class FireFlies extends Module {
 
         public float getTimePC() {
             return MathHelper.clamp_float((float) (System.currentTimeMillis() - this.startTime) / this.maxAlive, 0.0f, 1.0f);
-        }
-
-        public void setAlphaPCTo(float to) {
-            this.alphaPC.to = to;
-        }
-
-        public float getAlphaPC() {
-            return this.alphaPC.getAnim();
         }
 
         public Vec3 getPosVec() {
@@ -268,23 +248,22 @@ public class FireFlies extends Module {
             float scaleBox = 0.1f;
             float delente = !mc.theWorld.getCollisionBoxes(new AxisAlignedBB(this.pos.xCoord - (double) (scaleBox / 2.0f), this.pos.yCoord, this.pos.zCoord - (double) (scaleBox / 2.0f), this.pos.xCoord + (double) (scaleBox / 2.0f), this.pos.yCoord + (double) scaleBox, this.pos.zCoord + (double) (scaleBox / 2.0f))).isEmpty() ? 0.3f : 1.0f;
             this.pos = this.pos.addVector(motionX / delente, (this.yMotion /= 1.02f) / delente, motionZ / delente);
-            if (this.getTimePC() >= 1.0f) {
-                this.setAlphaPCTo(0.0f);
-                if (this.getAlphaPC() < 0.003921569f) {
-                    this.setToRemove();
-                }
+            if (this.getTimePC() >= 1.0f || animation.timerUtils.hasTimeElapsed(maxAliveTime.get())) {
+                animation.setDirection(Direction.BACKWARDS);
             }
-            this.TRAIL_PARTS.add(new TrailPart(this, 400));
+            if (animation.finished(Direction.BACKWARDS))
+                this.setToRemove();
             if (!this.TRAIL_PARTS.isEmpty()) {
-                this.TRAIL_PARTS.removeIf(TrailPart::toRemove);
+                this.TRAIL_PARTS.removeIf(trailPart -> animation.finished(Direction.BACKWARDS));
             }
-            for (int i = 0; i < 2; ++i) {
-                this.SPARK_PARTS.add(new SparkPart(this, 300));
-            }
-            this.SPARK_PARTS.forEach(SparkPart::motionSparkProcess);
             if (!this.SPARK_PARTS.isEmpty()) {
-                this.SPARK_PARTS.removeIf(SparkPart::toRemove);
+                this.SPARK_PARTS.removeIf(sparkPart -> animation.finished(Direction.BACKWARDS));
             }
+            this.TRAIL_PARTS.add(new FireFlies.TrailPart(this));
+            for (int i = 0; i < 2; ++i) {
+                this.SPARK_PARTS.add(new FireFlies.SparkPart(this));
+            }
+            this.SPARK_PARTS.forEach(FireFlies.SparkPart::motionSparkProcess);
         }
 
         public void setToRemove() {
@@ -306,25 +285,14 @@ public class FireFlies extends Module {
         double speed = Math.random() / 30.0;
         double radianYaw = Math.random() * 360.0;
         double radianPitch = -90.0 + Math.random() * 180.0;
-        long startTime = System.currentTimeMillis();
-        int maxTime;
 
-        SparkPart(FirePart part, int maxTime) {
-            this.maxTime = maxTime;
+        SparkPart(FireFlies.FirePart part) {
             this.posX = part.getPosVec().xCoord;
             this.posY = part.getPosVec().yCoord;
             this.posZ = part.getPosVec().zCoord;
             this.prevPosX = this.posX;
             this.prevPosY = this.posY;
             this.prevPosZ = this.posZ;
-        }
-
-        double timePC() {
-            return MathHelper.clamp_float((float) (System.currentTimeMillis() - this.startTime) / (float) this.maxTime, 0.0f, 1.0f);
-        }
-
-        boolean toRemove() {
-            return this.timePC() == 1.0;
         }
 
         void motionSparkProcess() {
@@ -354,22 +322,11 @@ public class FireFlies extends Module {
         double x;
         double y;
         double z;
-        long startTime = System.currentTimeMillis();
-        int maxTime;
 
-        public TrailPart(FirePart part, int maxTime) {
-            this.maxTime = maxTime;
+        public TrailPart(FireFlies.FirePart part) {
             this.x = part.getPosVec().xCoord;
             this.y = part.getPosVec().yCoord;
             this.z = part.getPosVec().zCoord;
-        }
-
-        public float getTimePC() {
-            return MathHelper.clamp_float((float) (System.currentTimeMillis() - this.startTime) / (long) this.maxTime, 0.0f, 1.0f);
-        }
-
-        public boolean toRemove() {
-            return this.getTimePC() == 1.0f;
         }
     }
 }

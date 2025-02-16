@@ -1287,6 +1287,23 @@ public abstract class Entity implements ICommandSender
 
     public Vec3 getLook(float partialTicks)
     {
+
+        if(this == Minecraft.getMinecraft().thePlayer){
+            LookEvent lookEvent = new LookEvent(rotationYaw, rotationPitch,prevRotationYaw,prevRotationPitch);
+            Moonlight.INSTANCE.getEventManager().call(lookEvent);
+
+            if (partialTicks == 1.0F)
+            {
+                return this.getVectorForRotation(lookEvent.pitch, lookEvent.yaw);
+            }
+            else
+            {
+                float f = lookEvent.prevPitch + (lookEvent.pitch - lookEvent.prevPitch) * partialTicks;
+                float f1 = lookEvent.prevYaw + (lookEvent.yaw - lookEvent.prevYaw) * partialTicks;
+                return this.getVectorForRotation(f, f1);
+            }
+        }
+
         if (partialTicks == 1.0F)
         {
             return this.getVectorForRotation(this.rotationPitch, this.rotationYaw);

@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.*;
 import net.minecraft.item.ItemBlock;
@@ -116,56 +117,63 @@ public final class Stealer extends Module {
     public void onMotion(MotionEvent event) {
         setTag(String.valueOf(maxDelay.get()));
         rotation = null;
-        if (aura.get() && !(isEnabled(Scaffold.class) || getModule(KillAura.class).isBlocking)) {
-            if (event.isPre()) {
-                if (!isStealing) {
-                    for (TileEntity chest : tileEntityList()) {
-                        if (!posList.contains(chest.getPos()) && timerAura.hasTimeElapsed(300)) {
-                            rotate(chest.getPos(), Block.getFacingDirection(chest.getPos()));
-                            if (RotationUtils.rayTrace(RotationUtils.currentRotation, range.get(), 1).getBlockPos().equals(chest.getPos()) && (chest instanceof TileEntityChest || brewingStand.get() && chest instanceof TileEntityBrewingStand || furnace.get() && chest instanceof TileEntityFurnace)) {
-                                mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), chest.getPos(), Block.getFacingDirection(chest.getPos()), getVec3(chest.getPos()));
-                                posList.add(chest.getPos());
-                                timerAura.reset();
-                            }
-                        }
-                    }
-                } else {
-                    timerAura.reset();
-                }
-                if (avoid.get()) {
-                    if (!isStealing) {
-                        if (!posList.isEmpty()) {
-                            if (mc.thePlayer.getDistance(posList.get(chestIndex)) <= range.get()) {
-                                if (mc.theWorld.getBlockState(posList.get(chestIndex).add(0, 1, 0)).getBlock() instanceof BlockAir && getBlockSlot() != -1) {
-                                    if (timerAvoid.hasTimeElapsed(1000)) {
-                                        prevItem = mc.thePlayer.inventory.currentItem;
-                                        mc.thePlayer.inventory.currentItem = getBlockSlot();
-                                        rotate(posList.get(chestIndex), Block.getFacingDirection(posList.get(chestIndex)));
-                                        if (RotationUtils.rayTrace(RotationUtils.currentRotation, range.get(), 1).getBlockPos().equals(posList.get(chestIndex))) {
-                                            if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), posList.get(chestIndex).add(0, 1, 0), Block.getFacingDirection(posList.get(chestIndex).add(0, 1, 0)), getVec3(posList.get(chestIndex).add(0, 1, 0)))) {
-                                                mc.thePlayer.swingItem();
-                                            }
 
-                                            chestIndex += 1;
-                                            mc.thePlayer.inventory.currentItem = prevItem;
-                                            timerAvoid.reset();
-                                        }
-                                    }
-                                }
-                            }
+        if (!event.isPre())
+            return;
+
+        if (!aura.get() || (isEnabled(Scaffold.class) || getModule(KillAura.class).isBlocking))
+            return;
+
+        if (!isStealing) {
+            for (TileEntity chest : tileEntityList()) {
+                if (!posList.contains(chest.getPos()) && timerAura.hasTimeElapsed(300)) {
+                    rotate(chest.getPos(), Block.getFacingDirection(chest.getPos()));
+                    if (RotationUtils.rayTrace(RotationUtils.currentRotation, range.get(), 1).getBlockPos().equals(chest.getPos()) && (chest instanceof TileEntityChest || brewingStand.get() && chest instanceof TileEntityBrewingStand || furnace.get() && chest instanceof TileEntityFurnace)) {
+                        mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), chest.getPos(), Block.getFacingDirection(chest.getPos()), getVec3(chest.getPos()));
+                        posList.add(chest.getPos());
+                        timerAura.reset();
+                    }
+                }
+            }
+        } else {
+            timerAura.reset();
+        }
+
+        if (!avoid.get())
+            return;
+
+        if (!isStealing) {
+            if (chestIndex >= posList.size()) {
+                return;
+            }
+
+            BlockPos pos = posList.get(chestIndex);
+            if (mc.thePlayer.getDistance(pos) <= range.get()) {
+                BlockPos up = pos.up();
+                if (mc.theWorld.getBlockState(up).getBlock() == Blocks.air && getBlockSlot() != -1 && timerAvoid.hasTimeElapsed(1000)) {
+                    prevItem = mc.thePlayer.inventory.currentItem;
+                    mc.thePlayer.inventory.currentItem = getBlockSlot();
+                    rotate(pos, Block.getFacingDirection(pos));
+                    if (RotationUtils.rayTrace(RotationUtils.currentRotation, range.get(), 1).getBlockPos().equals(pos)) {
+                        if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), up, Block.getFacingDirection(up), getVec3(up))) {
+                            mc.thePlayer.swingItem();
                         }
-                    } else {
+
+                        chestIndex += 1;
+                        mc.thePlayer.inventory.currentItem = prevItem;
                         timerAvoid.reset();
                     }
                 }
             }
+        } else {
+            timerAvoid.reset();
         }
     }
 
     @EventTarget
     public void onRender3D(Render3DEvent event) {
-        if (!posList.isEmpty()) {
-            posList.forEach(blockPos -> RenderUtils.renderBlock(blockPos, getModule(Interface.class).color(), true, true));
+        for (BlockPos blockPos : posList) {
+            RenderUtils.renderBlock(blockPos, getModule(Interface.class).color(), true, true);
         }
     }
 
@@ -252,76 +260,77 @@ public final class Stealer extends Module {
 
     @EventTarget
     private void onUpdate(UpdateEvent event) {
-            if (mc.thePlayer.openContainer != null) {
-                if (mc.thePlayer.openContainer instanceof ContainerChest) {
-                    if (isStealing) {
-                        ContainerChest container = (ContainerChest) mc.thePlayer.openContainer;
-                        if (menuCheck.get()) {
+        if (mc.thePlayer.openContainer != null) {
+            if (mc.thePlayer.openContainer instanceof ContainerChest) {
+                if (isStealing) {
+                    ContainerChest container = (ContainerChest) mc.thePlayer.openContainer;
+                    if (menuCheck.get()) {
 
-                            String name = container.getLowerChestInventory().getDisplayName().getUnformattedText().toLowerCase();
-                            for (String str : list) {
-                                if (name.contains(str))
-                                    return;
-                            }
+                        String name = container.getLowerChestInventory().getDisplayName().getUnformattedText().toLowerCase();
+                        for (String str : list) {
+                            if (name.contains(str))
+                                return;
                         }
+                    }
 
-                        for (int i = 0; i < container.getLowerChestInventory().getSizeInventory(); ++i) {
-                            if (container.getLowerChestInventory().getStackInSlot(i) != null && (timer.hasTimeElapsed((long) (MathUtils.nextInt((int) minDelay.get(), (int) maxDelay.get())) * 100L) || MathUtils.nextInt((int) minDelay.get(), (int) maxDelay.get()) == 0) && InventoryUtils.isValid(container.getLowerChestInventory().getStackInSlot(i))) {
-                                slot = i;
-                                mc.playerController.windowClick(container.windowId, i, 0, 1, mc.thePlayer);
+                    for (int i = 0; i < container.getLowerChestInventory().getSizeInventory(); ++i) {
+                        if (container.getLowerChestInventory().getStackInSlot(i) != null && (timer.hasTimeElapsed((long) (MathUtils.nextInt((int) minDelay.get(), (int) maxDelay.get())) * 100L) || MathUtils.nextInt((int) minDelay.get(), (int) maxDelay.get()) == 0) && InventoryUtils.isValid(container.getLowerChestInventory().getStackInSlot(i))) {
+                            slot = i;
+                            mc.playerController.windowClick(container.windowId, i, 0, 1, mc.thePlayer);
+                            timer.reset();
+                        }
+                    }
+                    if (InventoryUtils.isInventoryFull() || InventoryUtils.isInventoryEmpty(container.getLowerChestInventory())) {
+                        mc.thePlayer.closeScreen();
+                        isStealing = false;
+                    }
+                }
+            }
+
+            if (furnace.get()) {
+                if (mc.thePlayer.openContainer instanceof ContainerFurnace container) {
+                    if (isStealing) {
+                        for (index = 0; index < container.tileFurnace.getSizeInventory(); ++index) {
+                            if (container.tileFurnace.getStackInSlot(index) != null || (timer.hasTimeElapsed((long) (MathUtils.nextInt((int) minDelay.get(), (int) maxDelay.get()) * 100L)) || MathUtils.nextInt((int) minDelay.get(), (int) maxDelay.get()) == 0)) {
+                                mc.playerController.windowClick(container.windowId, index, 0, 1, mc.thePlayer);
                                 timer.reset();
                             }
                         }
-                        if (InventoryUtils.isInventoryFull() || InventoryUtils.isInventoryEmpty(container.getLowerChestInventory())) {
+
+                        if (isFurnaceEmpty(container)) {
                             mc.thePlayer.closeScreen();
                             isStealing = false;
                         }
                     }
                 }
+            }
 
-                if (furnace.get()) {
-                    if (mc.thePlayer.openContainer instanceof ContainerFurnace container) {
-                        if (isStealing) {
-                            for (index = 0; index < container.tileFurnace.getSizeInventory(); ++index) {
-                                if (container.tileFurnace.getStackInSlot(index) != null || (timer.hasTimeElapsed((long) (MathUtils.nextInt((int) minDelay.get(), (int) maxDelay.get()) * 100L)) || MathUtils.nextInt((int) minDelay.get(), (int) maxDelay.get()) == 0)) {
-                                    mc.playerController.windowClick(container.windowId, index, 0, 1, mc.thePlayer);
-                                    timer.reset();
-                                }
-                            }
-
-                            if (isFurnaceEmpty(container)) {
-                                mc.thePlayer.closeScreen();
-                                isStealing = false;
+            if (brewingStand.get()) {
+                if (mc.thePlayer.openContainer instanceof ContainerBrewingStand container) {
+                    if (isStealing) {
+                        for (index = 0; index < container.tileBrewingStand.getSizeInventory(); ++index) {
+                            if (container.tileBrewingStand.getStackInSlot(index) != null || (timer.hasTimeElapsed((long) (MathUtils.nextInt((int) minDelay.get(), (int) maxDelay.get()) * 100L)) || MathUtils.nextInt((int) minDelay.get(), (int) maxDelay.get()) == 0)) {
+                                mc.playerController.windowClick(container.windowId, index, 0, 1, mc.thePlayer);
+                                timer.reset();
                             }
                         }
-                    }
-                }
 
-                if (brewingStand.get()) {
-                    if (mc.thePlayer.openContainer instanceof ContainerBrewingStand container) {
-                        if (isStealing) {
-                            for (index = 0; index < container.tileBrewingStand.getSizeInventory(); ++index) {
-                                if (container.tileBrewingStand.getStackInSlot(index) != null || (timer.hasTimeElapsed((long) (MathUtils.nextInt((int) minDelay.get(), (int) maxDelay.get()) * 100L)) || MathUtils.nextInt((int) minDelay.get(), (int) maxDelay.get()) == 0)) {
-                                    mc.playerController.windowClick(container.windowId, index, 0, 1, mc.thePlayer);
-                                    timer.reset();
-                                }
-                            }
-
-                            if (isBrewingStandEmpty(container)) {
-                                mc.thePlayer.closeScreen();
-                                isStealing = false;
-                            }
+                        if (isBrewingStandEmpty(container)) {
+                            mc.thePlayer.closeScreen();
+                            isStealing = false;
                         }
                     }
                 }
             }
+        }
     }
 
     @EventTarget
     public void onPacket(PacketEvent event) {
         if (event.getPacket() instanceof S2DPacketOpenWindow packetOpenWindow) {
+            String title = packetOpenWindow.getWindowTitle().getUnformattedText().toLowerCase();
             for (String blacklisted : list) {
-                if (packetOpenWindow.getWindowTitle().getUnformattedText().toLowerCase().contains(blacklisted)) {
+                if (title.contains(blacklisted)) {
                     isStealing = false;
                     return;
                 }
@@ -365,8 +374,9 @@ public final class Stealer extends Module {
 
     public static int getBlockSlot() {
         for (int i = 0; i < 9; ++i) {
-            if (mc.thePlayer.inventoryContainer.getSlot(i + 36).getHasStack()
-                    && mc.thePlayer.inventoryContainer.getSlot(i + 36).getStack().getItem() instanceof ItemBlock) {
+            Slot slot = mc.thePlayer.inventoryContainer.getSlot(i + 36);
+            if (slot.getHasStack()
+                    && slot.getStack().getItem() instanceof ItemBlock) {
                 return i;
             }
         }
@@ -378,16 +388,17 @@ public final class Stealer extends Module {
         EnumFacing facing = Block.getFacingDirection(pos);
         double random = ThreadLocalRandom.current().nextDouble();
 
-        if (facing == EnumFacing.NORTH) {
-            vector.xCoord += random;
-        } else if (facing == EnumFacing.SOUTH) {
-            vector.xCoord += random;
-            vector.zCoord += 1.0;
-        } else if (facing == EnumFacing.WEST) {
-            vector.zCoord += random;
-        } else if (facing == EnumFacing.EAST) {
-            vector.zCoord += random;
-            vector.xCoord += 1.0;
+        switch (facing) {
+            case NORTH -> vector.xCoord += random;
+            case SOUTH -> {
+                vector.xCoord += random;
+                vector.zCoord += 1.0;
+            }
+            case WEST -> vector.zCoord += random;
+            case EAST -> {
+                vector.zCoord += random;
+                vector.xCoord += 1.0;
+            }
         }
 
         if (facing == EnumFacing.UP) {

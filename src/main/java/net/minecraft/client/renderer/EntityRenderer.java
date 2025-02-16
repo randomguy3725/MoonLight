@@ -851,8 +851,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
         this.hurtCameraEffect(partialTicks);
 
-        if (this.mc.gameSettings.viewBobbing)
-        {
+        if (this.mc.gameSettings.viewBobbing && !Moonlight.INSTANCE.getModuleManager().getModule(Camera.class).canMinimalBobbing()) {
             this.setupViewBobbing(partialTicks);
         }
 

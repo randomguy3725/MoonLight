@@ -39,24 +39,12 @@ public class AutoPlay extends Module {
             if (chatMessage.contains(win) ||  chatMessage.contains(lose) || chatMessage.contains(bw)) {
                 String command = "/play ";
                 switch (mode.get()) {
-                    case "Solo Insane":
-                        command += "solo_insane";
-                        break;
-                    case "Solo Normal":
-                        command += "solo_normal";
-                        break;
-                    case "BedWars Solo":
-                        command += "bedwars_eight_one";
-                        break;
-                    case "BedWars Duo":
-                        command += "bedwars_eight_two";
-                        break;
-                    case "BedWars Trio":
-                        command += "bedwars_four_three";
-                        break;
-                    case "BedWars 4s":
-                        command += "bedwars_four_four";
-                        break;
+                    case "Solo Insane" -> command += "solo_insane";
+                    case "Solo Normal" -> command += "solo_normal";
+                    case "BedWars Solo" -> command += "bedwars_eight_one";
+                    case "BedWars Duo" -> command += "bedwars_eight_two";
+                    case "BedWars Trio" -> command += "bedwars_four_three";
+                    case "BedWars 4s" -> command += "bedwars_four_four";
                 }
                 mc.thePlayer.sendChatMessage(command);
             }
