@@ -430,6 +430,7 @@ public class Speed extends Module {
                     if (mc.thePlayer.offGroundTicks > 1 && wdFastFallMode.is("8 Tick Strafe") && !disable && PlayerUtils.blockRelativeToPlayer(0, mc.thePlayer.motionY * 3, 0) != Blocks.air && PlayerUtils.blockRelativeToPlayer(0, mc.thePlayer.motionY * 3, 0).isFullBlock() && (disableWhileScaffold.get() && !isEnabled(Scaffold.class) || !disableWhileScaffold.get())) {
                         mc.thePlayer.motionY += 0.0754;
                         MovementUtils.strafe();
+                        couldStrafe = true;
                     }
 
                     if ((mc.thePlayer.motionX == 0 || mc.thePlayer.motionZ == 0) && !disable && (!recentlyCollided && mc.thePlayer.isPotionActive(Potion.moveSpeed)) && !getModule(Scaffold.class).isEnabled()) {
