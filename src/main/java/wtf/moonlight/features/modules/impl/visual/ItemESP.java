@@ -27,39 +27,40 @@ public class ItemESP extends Module {
 
     @EventTarget
     public void onRender3D(Render3DEvent event) {
+        final RenderManager renderManager = mc.getRenderManager();
         for (final Entity entity : mc.theWorld.getLoadedEntityList()) {
-            final RenderManager renderManager = mc.getRenderManager();
+            if (!(entity instanceof EntityItem entityItem))
+                continue;
+
             final double posX = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * mc.timer.renderPartialTicks - renderManager.renderPosX;
             final double posY = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * mc.timer.renderPartialTicks - renderManager.renderPosY;
             final double posZ = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * mc.timer.renderPartialTicks - renderManager.renderPosZ;
-            if (entity instanceof EntityItem) {
-                String enhancement = "";
+            String enhancement = "";
 
-                if (EnchantmentHelper.getEnchantmentLevel(Enchantment.protection.effectId, ((EntityItem) entity).getEntityItem()) != 0) {
-                    enhancement = EnumChatFormatting.AQUA + " Protection:" + EnumChatFormatting.RED + EnchantmentHelper.getEnchantmentLevel(Enchantment.protection.effectId, ((EntityItem) entity).getEntityItem());
-                }
-
-                if (EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, ((EntityItem) entity).getEntityItem()) != 0) {
-                    enhancement = EnumChatFormatting.AQUA + " Sharpness:" + EnumChatFormatting.RED + EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, ((EntityItem) entity).getEntityItem());
-                }
-
-                if (((EntityItem) entity).getEntityItem().getItem() == Items.golden_apple) {
-                    if (((EntityItem) entity).getEntityItem().getItem().hasEffect(((EntityItem) entity).getEntityItem())) {
-                        enhancement = EnumChatFormatting.RED + " Enchanted";
-                    }
-                }
-
-                final String var3 = (((EntityItem) entity).getEntityItem().stackSize > 1) ? (EnumChatFormatting.RESET + " x" + ((EntityItem) entity).getEntityItem().stackSize) : "";
-                if (!this.checkItem(((EntityItem) entity).getEntityItem().getItem())) {
-                    continue;
-                }
-
-                GL11.glEnable(32823);
-                GL11.glPolygonOffset(1.0f, -1100000.0f);
-                renderLivingLabel(entity, ((EntityItem) entity).getEntityItem().getDisplayName() + var3 + enhancement, posX, posY, posZ, 160);
-                GL11.glDisable(32823);
-                GL11.glPolygonOffset(1.0f, 1100000.0f);
+            if (EnchantmentHelper.getEnchantmentLevel(Enchantment.protection.effectId,  entityItem.getEntityItem()) != 0) {
+                enhancement = EnumChatFormatting.AQUA + " Protection:" + EnumChatFormatting.RED + EnchantmentHelper.getEnchantmentLevel(Enchantment.protection.effectId,  entityItem.getEntityItem());
             }
+
+            if (EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId,  entityItem.getEntityItem()) != 0) {
+                enhancement = EnumChatFormatting.AQUA + " Sharpness:" + EnumChatFormatting.RED + EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId,  entityItem.getEntityItem());
+            }
+
+            if ( entityItem.getEntityItem().getItem() == Items.golden_apple) {
+                if ( entityItem.getEntityItem().getItem().hasEffect( entityItem.getEntityItem())) {
+                    enhancement = EnumChatFormatting.RED + " Enchanted";
+                }
+            }
+
+            final String var3 = ( entityItem.getEntityItem().stackSize > 1) ? (EnumChatFormatting.RESET + " x" +  entityItem.getEntityItem().stackSize) : "";
+            if (!this.checkItem( entityItem.getEntityItem().getItem())) {
+                continue;
+            }
+
+            GL11.glEnable(32823);
+            GL11.glPolygonOffset(1.0f, -1100000.0f);
+            renderLivingLabel(entity,  entityItem.getEntityItem().getDisplayName() + var3 + enhancement, posX, posY, posZ, 160);
+            GL11.glDisable(32823);
+            GL11.glPolygonOffset(1.0f, 1100000.0f);
         }
     }
 
@@ -85,48 +86,49 @@ public class ItemESP extends Module {
 
     protected void renderLivingLabel(final Entity entityIn, final String strin, final double x, final double y, final double z, final int maxDistance) {
         final double d0 = entityIn.getDistanceSqToEntity(mc.thePlayer);
-        if (d0 <= maxDistance * maxDistance) {
-            final FontRenderer fontrenderer = mc.fontRendererObj;
-            float var12 = mc.thePlayer.getDistanceToEntity(entityIn) / 6.0f;
-            if (var12 < 1.1f) {
-                var12 = 1.1f;
-            }
-            float var13 = (float) (var12 * 1.1);
-            var13 /= 100.0f;
-            GlStateManager.pushMatrix();
-            RenderHelper.enableStandardItemLighting();
-            GlStateManager.translate((float) x + 0.0f, (float) y + entityIn.height + 0.5f, (float) z);
-            GL11.glNormal3f(0.0f, 1.0f, 0.0f);
-            GlStateManager.rotate(-mc.getRenderManager().playerViewY, 0.0f, 1.0f, 0.0f);
-            if (mc.gameSettings.thirdPersonView == 2) {
-                GL11.glRotatef(mc.getRenderManager().playerViewX, -1.0f, 0.0f, 0.0f);
-            } else {
-                GL11.glRotatef(mc.getRenderManager().playerViewX, 1.0f, 0.0f, 0.0f);
-            }
-            GlStateManager.scale(-var13, -var13, var13);
-            GlStateManager.disableLighting();
-            GlStateManager.depthMask(false);
-            GlStateManager.disableDepth();
-            GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-            final Tessellator tessellator = Tessellator.getInstance();
-            tessellator.getWorldRenderer();
-            GlStateManager.disableTexture2D();
-            GlStateManager.enableTexture2D();
-            new ScaledResolution(mc);
-            mc.fontRendererObj.drawOutlinedString(strin, (float) -fontrenderer.getStringWidth(strin) / 2, 0,0.5f, -1, Color.BLACK.getRGB());
-            GlStateManager.enableDepth();
-            GlStateManager.depthMask(true);
-            GL11.glScaled(0.6000000238418579, 0.6000000238418579, 0.6000000238418579);
-            GL11.glScaled(1.0, 1.0, 1.0);
-            GlStateManager.enableLighting();
-            GlStateManager.disableBlend();
-            GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-            RenderHelper.disableStandardItemLighting();
-            GL11.glScaled(1.5, 1.5, 1.5);
-            GlStateManager.popMatrix();
-            GL11.glPolygonOffset(1.0f, 1000000.0f);
-            GL11.glDisable(32823);
+        if (!(d0 <= maxDistance * maxDistance)) {
+            return;
         }
+        final FontRenderer fontrenderer = mc.fontRendererObj;
+        float var12 = mc.thePlayer.getDistanceToEntity(entityIn) / 6.0f;
+        if (var12 < 1.1f) {
+            var12 = 1.1f;
+        }
+        float var13 = (float) (var12 * 1.1);
+        var13 /= 100.0f;
+        GlStateManager.pushMatrix();
+        RenderHelper.enableStandardItemLighting();
+        GlStateManager.translate((float) x + 0.0f, (float) y + entityIn.height + 0.5f, (float) z);
+        GL11.glNormal3f(0.0f, 1.0f, 0.0f);
+        GlStateManager.rotate(-mc.getRenderManager().playerViewY, 0.0f, 1.0f, 0.0f);
+        if (mc.gameSettings.thirdPersonView == 2) {
+            GL11.glRotatef(mc.getRenderManager().playerViewX, -1.0f, 0.0f, 0.0f);
+        } else {
+            GL11.glRotatef(mc.getRenderManager().playerViewX, 1.0f, 0.0f, 0.0f);
+        }
+        GlStateManager.scale(-var13, -var13, var13);
+        GlStateManager.disableLighting();
+        GlStateManager.depthMask(false);
+        GlStateManager.disableDepth();
+        GlStateManager.enableBlend();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        final Tessellator tessellator = Tessellator.getInstance();
+        tessellator.getWorldRenderer();
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableTexture2D();
+        new ScaledResolution(mc);
+        mc.fontRendererObj.drawOutlinedString(strin, (float) -fontrenderer.getStringWidth(strin) / 2, 0,0.5f, -1, Color.BLACK.getRGB());
+        GlStateManager.enableDepth();
+        GlStateManager.depthMask(true);
+        GL11.glScaled(0.6000000238418579, 0.6000000238418579, 0.6000000238418579);
+        GL11.glScaled(1.0, 1.0, 1.0);
+        GlStateManager.enableLighting();
+        GlStateManager.disableBlend();
+        GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+        RenderHelper.disableStandardItemLighting();
+        GL11.glScaled(1.5, 1.5, 1.5);
+        GlStateManager.popMatrix();
+        GL11.glPolygonOffset(1.0f, 1000000.0f);
+        GL11.glDisable(32823);
     }
 }

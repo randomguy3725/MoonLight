@@ -136,7 +136,7 @@ public class KillAura extends Module {
     public final BoolValue noScaffold = new BoolValue("No Scaffold", false, this);
     public final BoolValue noInventory = new BoolValue("No Inventory", false, this);
     public final BoolValue noBedNuker = new BoolValue("No Bed Nuker", false, this);
-    public List<EntityLivingBase> targets = new ArrayList<>();
+    public final List<EntityLivingBase> targets = new ArrayList<>();
     public EntityLivingBase target;
     private final TimerUtils attackTimer = new TimerUtils();
     private final TimerUtils switchTimer = new TimerUtils();
@@ -217,7 +217,7 @@ public class KillAura extends Module {
             }
         }
 
-        targets = getTargets();
+        getTargets();
         if (!targets.isEmpty()) {
             if (targets.size() > 1) {
                 switch (priority.get()) {
@@ -549,17 +549,15 @@ public class KillAura extends Module {
                 () -> mc.thePlayer.isInWeb).map(Supplier::get).anyMatch(Boolean.TRUE::equals);
     }
 
-    public List<EntityLivingBase> getTargets() {
-        final List<EntityLivingBase> entities = new ArrayList<>();
+    private void getTargets() {
         for (final Entity entity : mc.theWorld.loadedEntityList) {
             if (entity instanceof EntityLivingBase e) {
                 if (isValid(e) && PlayerUtils.getDistanceToEntityBox(e) <= searchRange.get() && (RotationUtils.getRotationDifference(e) <= fov.get() || fov.get() == 180))
-                    entities.add(e);
-                else entities.remove(e);
-
+                    targets.add(e);
+                else
+                    targets.remove(e);
             }
         }
-        return entities;
     }
 
     public double getDistanceToEntity(Entity entity) {

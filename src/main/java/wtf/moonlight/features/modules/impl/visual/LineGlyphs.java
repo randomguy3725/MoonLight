@@ -111,9 +111,8 @@ public class LineGlyphs extends Module {
     }
 
     private List<Vec3> getSmoothTickedFromList(List<Vec3i> vec3is, float moveAdvance) {
-        if (!this.temp3dVecs.isEmpty()) {
-            this.temp3dVecs.clear();
-        }
+        this.temp3dVecs.clear();
+
         for (Vec3i vec3i : vec3is) {
             double x = vec3i.getX();
             double y = vec3i.getY();

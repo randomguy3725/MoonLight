@@ -10,16 +10,12 @@
  */
 package wtf.moonlight.utils.misc;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
+import kotlin.io.TextStreamsKt;
 import wtf.moonlight.Moonlight;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Map;
 
@@ -48,30 +44,12 @@ public class HttpUtils {
         return httpConnection;
     }
 
-    private static HttpURLConnection make(String url, String method) throws IOException {
-        return make(url,method,DEFAULT_AGENT);
-    }
-
-    public static String request(String url, String method, String agent) throws IOException {
-        HttpURLConnection connection = make(url, method, agent);
-
-        try (InputStream inputStream = connection.getInputStream()) {
-            return new String(inputStream.readAllBytes());
-        }
-    }
-
-    public static InputStream requestStream(String url, String method, String agent) throws IOException {
-        HttpURLConnection connection = make(url, method, agent);
-
-        return connection.getInputStream();
-    }
-
     public static String get(String url) throws IOException {
-        return request(url, "GET", DEFAULT_AGENT);
-    }
+        HttpURLConnection connection = make(url, "GET", DEFAULT_AGENT);
 
-    public static void download(String url, File file) throws IOException {
-        FileUtils.copyInputStreamToFile(make(url, "GET").getInputStream(), file);
+        try (var reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+            return TextStreamsKt.readText(reader);
+        }
     }
 
     public static HttpResponse postFormData(String urlStr, Map<String, File> filePathMap, Map<String, Object> keyValues, Map<String, Object> headers) throws IOException {

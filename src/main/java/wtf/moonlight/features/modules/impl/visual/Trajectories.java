@@ -128,26 +128,16 @@ public class Trajectories extends Module {
         }
     }
 
-    private ArrayList getEntities() {
-        final ArrayList ret = new ArrayList();
-        for (final Object e : mc.theWorld.loadedEntityList) {
-            if (e != mc.thePlayer && e instanceof EntityLivingBase) {
-                ret.add(e);
-            }
-        }
-        return ret;
-    }
-
     private Entity getEntityHit(final Vec3 vecOrig, final Vec3 vecNew) {
-        for (final Object o : this.getEntities()) {
-            final EntityLivingBase entity = (EntityLivingBase) o;
-            if (entity != mc.thePlayer) {
-                final float expander = 0.2f;
-                final AxisAlignedBB bounding2 = entity.getEntityBoundingBox().expand(expander, expander, expander);
-                final MovingObjectPosition possibleEntityLanding = bounding2.calculateIntercept(vecOrig, vecNew);
-                if (possibleEntityLanding != null) {
-                    return entity;
-                }
+        for (final Object e : mc.theWorld.loadedEntityList) {
+            if (e == mc.thePlayer || !(e instanceof EntityLivingBase entity)) {
+                continue;
+            }
+            final float expander = 0.2f;
+            final AxisAlignedBB bounding2 = entity.getEntityBoundingBox().expand(expander, expander, expander);
+            final MovingObjectPosition possibleEntityLanding = bounding2.calculateIntercept(vecOrig, vecNew);
+            if (possibleEntityLanding != null) {
+                return entity;
             }
         }
         return null;

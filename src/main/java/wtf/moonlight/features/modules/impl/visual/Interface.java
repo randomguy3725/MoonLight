@@ -975,7 +975,7 @@ public class Interface extends Module {
                 }
             }
         }
-        if (aura.targets != null && !(mc.currentScreen instanceof GuiChat)) {
+        if (!aura.targets.isEmpty() && !(mc.currentScreen instanceof GuiChat)) {
             for (EntityLivingBase entity : aura.targets) {
                 if (entity instanceof EntityPlayer && entity != mc.thePlayer) {
                     animationEntityPlayerMap.putIfAbsent((EntityPlayer) entity, new DecelerateAnimation(175, 1));

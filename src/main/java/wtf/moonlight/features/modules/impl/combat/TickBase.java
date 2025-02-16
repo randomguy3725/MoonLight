@@ -52,7 +52,7 @@ public class TickBase extends Module {
     private long shifted, previousTime;
     public boolean working;
     private boolean firstAnimation = true;
-    public final List<PredictProcess> predictProcesses = new ArrayList<>();
+    private final List<PredictProcess> predictProcesses = new ArrayList<>();
     public EntityPlayer target;
 
     @Override
@@ -145,9 +145,10 @@ public class TickBase extends Module {
     @EventTarget
     public void onRender3D(Render3DEvent event) {
         if(displayPredictPos.get()) {
-            double x = predictProcesses.get(predictProcesses.size() - 1).position.xCoord - mc.getRenderManager().viewerPosX;
-            double y = predictProcesses.get(predictProcesses.size() - 1).position.yCoord - mc.getRenderManager().viewerPosY;
-            double z = predictProcesses.get(predictProcesses.size() - 1).position.zCoord - mc.getRenderManager().viewerPosZ;
+            Vec3 position = predictProcesses.get(predictProcesses.size() - 1).position;
+            double x = position.xCoord - mc.getRenderManager().viewerPosX;
+            double y = position.yCoord - mc.getRenderManager().viewerPosY;
+            double z = position.zCoord - mc.getRenderManager().viewerPosZ;
             AxisAlignedBB box = mc.thePlayer.getEntityBoundingBox().expand(0.1D, 0.1, 0.1);
             AxisAlignedBB axis = new AxisAlignedBB(box.minX - mc.thePlayer.posX + x, box.minY - mc.thePlayer.posY + y, box.minZ - mc.thePlayer.posZ + z, box.maxX - mc.thePlayer.posX + x, box.maxY - mc.thePlayer.posY + y, box.maxZ - mc.thePlayer.posZ + z);
             RenderUtils.drawAxisAlignedBB(axis,false, true, new Color(50, 255, 255, 150).getRGB());

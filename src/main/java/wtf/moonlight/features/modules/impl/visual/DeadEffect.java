@@ -28,8 +28,10 @@ import wtf.moonlight.features.values.impl.ColorValue;
 import wtf.moonlight.features.values.impl.SliderValue;
 
 import java.awt.*;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -39,7 +41,7 @@ public class DeadEffect extends Module {
     public final ColorValue color = new ColorValue("Color", new Color(0,128,255),this);
     public final SliderValue speed = new SliderValue("Speed",20,20,100,this);
     public final SliderValue maxOffset = new SliderValue("Max Offset",1,0.1f,100,0.1f,this);
-    private final ArrayList<Person> popList = new ArrayList<>();
+    private final ArrayDeque<Person> popList = new ArrayDeque<>();
     private final LongArrayFIFOQueue frames = new LongArrayFIFOQueue();
     private int fps;
 
@@ -59,8 +61,16 @@ public class DeadEffect extends Module {
         GL11.glEnable(2848);
         GL11.glHint(3154, 4354);
 
-        popList.forEach(person -> {
-            person.update(popList);
+        for (Iterator<Person> iterator = popList.iterator(); iterator.hasNext(); ) {
+            Person person = iterator.next();
+            if (person.alpha <= 0) {
+                iterator.remove();
+                mc.theWorld.removeEntity(person.player);
+                continue;
+            }
+            person.alpha -= 180 / speed.get() * getFrametime();
+            person.player.posY += maxOffset.get() / speed.get() * getFrametime();
+
             person.modelPlayer.bipedLeftLegwear.showModel = false;
             person.modelPlayer.bipedRightLegwear.showModel = false;
             person.modelPlayer.bipedLeftArmwear.showModel = false;
@@ -70,11 +80,11 @@ public class DeadEffect extends Module {
             person.modelPlayer.bipedHeadwear.showModel = false;
 
             GlStateManager.color(color.get().getRed() / 255f, color.get().getGreen() / 255f, color.get().getBlue() / 255f, (float) person.alpha / 255f);
-            GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
             renderEntity(person.player, person.modelPlayer, person.player.limbSwing, person.player.limbSwingAmount, person.player.ticksExisted, person.player.rotationYawHead, person.player.rotationPitch, 1);
             GlStateManager.resetColor();
 
-        });
+        }
 
         if (!hz)
             GL11.glDisable(2848);
@@ -178,16 +188,6 @@ public class DeadEffect extends Module {
             this.player = player;
             this.modelPlayer = new ModelPlayer(0, false);
             this.alpha = 180;
-        }
-
-        public void update(Collection<Person> arrayList) {
-            if (alpha <= 0) {
-                arrayList.remove(this);
-                mc.theWorld.removeEntity(player);
-                return;
-            }
-            this.alpha -= 180 / speed.get() * getFrametime();
-            player.posY += maxOffset.get() / speed.get() * getFrametime();
         }
     }
 }

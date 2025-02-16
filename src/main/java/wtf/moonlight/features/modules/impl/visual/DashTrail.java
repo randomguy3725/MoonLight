@@ -94,8 +94,7 @@ public class DashTrail extends Module {
     }
 
     private int[] getTextureResolution(ResourceLocation location) {
-        try {
-            InputStream stream = mc.getResourceManager().getResource(location).getInputStream();
+        try (InputStream stream = mc.getResourceManager().getResource(location).getInputStream()) {
             BufferedImage image = ImageIO.read(stream);
             return new int[]{image.getWidth(), image.getHeight()};
         } catch (Exception e) {
