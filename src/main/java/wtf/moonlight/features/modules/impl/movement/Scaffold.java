@@ -11,6 +11,7 @@
 package wtf.moonlight.features.modules.impl.movement;
 
 import net.minecraft.block.*;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.init.Blocks;
@@ -255,9 +256,12 @@ public class Scaffold extends Module {
             tellyTicks = MathUtils.randomizeInt((int) minTellyTicks.get(), (int) maxTellyTicks.get());
         }
 
-        data = findBlock(targetBlock);
+        //data = findBlock(targetBlock);
 
-        if (data == null || data.blockPos == null || data.facing == null || isEnabled(KillAura.class) && !getModule(KillAura.class).noScaffold.get() && getModule(KillAura.class).target != null && getModule(KillAura.class).shouldAttack() && !(mc.theWorld.getBlockState(targetBlock).getBlock() instanceof BlockAir)) {
+        search();
+
+        if (data == null || data.blockPos == null || data.facing == null ||
+                isEnabled(KillAura.class) && !getModule(KillAura.class).noScaffold.get() && getModule(KillAura.class).target != null && getModule(KillAura.class).shouldAttack() && !(mc.theWorld.getBlockState(targetBlock).getBlock() instanceof BlockAir)) {
             return;
         }
 
@@ -1020,6 +1024,62 @@ public class Scaffold extends Module {
             }
         }
         return null;
+    }
+
+    public void search() {
+        Vec3 positionEyes = mc.thePlayer.getPositionEyes(1F);//不必多加
+        BlockPos base = new BlockPos(positionEyes.xCoord,targetBlock.getY(), positionEyes.zCoord);
+        int baseX = base.getX();
+        int baseZ = base.getZ();
+
+        IBlockState baseState = mc.theWorld.getBlockState(base);
+       // if (baseState.getBlock().getMaterial().isOpaque() && baseState.getBlock().isFullCube()) return;
+
+        if (check(positionEyes, base)) return;
+
+        for (int depth = 1; depth <= 6; depth++) {
+            if (check(positionEyes, new BlockPos(baseX, targetBlock.getY() - depth, baseZ))) return;
+
+            for (int xCoord = 1; xCoord <= depth; xCoord++) {
+                for (int zCoord = 0; zCoord <= depth - xCoord; zCoord++) {
+                    int y = depth - xCoord - zCoord;
+                    if (tryCheckOffsets(positionEyes, baseX, baseZ, xCoord, y, zCoord)) return;
+                }
+            }
+        }
+    }
+
+    private boolean tryCheckOffsets(Vec3 baseVec, int baseX, int baseZ, int x, int y, int z) {
+        for (int rev1 = 0; rev1 <= 1; rev1++) {
+            for (int rev2 = 0; rev2 <= 1; rev2++) {
+                BlockPos offsetPos = new BlockPos(
+                        baseX + (rev1 == 0 ? x : -x),
+                        targetBlock.getY() - y,
+                        baseZ + (rev2 == 0 ? z : -z)
+                );
+                if (check(baseVec, offsetPos)) return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean check(Vec3 baseVec, BlockPos pos) {
+        IBlockState blockState = mc.theWorld.getBlockState(pos);
+        //if (!(blockState.getBlock() instanceof BlockAir)) return false;
+        Vec3 center = new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+        for (EnumFacing facing : EnumFacing.values()) {
+            Vec3 offset = new Vec3(facing.getDirectionVec()).scale(0.5);
+            Vec3 hit = center.add(offset);
+            BlockPos neighborPos = pos.add(facing.getDirectionVec());
+            IBlockState neighborState = mc.theWorld.getBlockState(neighborPos);
+            if (!neighborState.getBlock().isBlockNormalCube()) continue;
+            Vec3 relevant = hit.subtract(baseVec);
+            if (relevant.lengthVector() <= 4.5 * 4.5 && relevant.dotProduct(offset) >= 0) {
+                data = new PlaceData(facing.getOpposite(),neighborPos);
+                return true;
+            }
+        }
+        return false;
     }
 
     public static class PlaceData {

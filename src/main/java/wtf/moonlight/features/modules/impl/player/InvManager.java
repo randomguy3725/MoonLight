@@ -46,7 +46,6 @@ public class InvManager extends Module {
     private final BoolValue autoArmor = new BoolValue("Auto Armor", true, this);
     private final BoolValue startDelay = new BoolValue("Start Delay", true, this);
     public final BoolValue display = new BoolValue("Display", true, this);
-    private final BoolValue lobbyCheck = new BoolValue("Lobby Check", true, this);
     private final BoolValue usingItemCheck = new BoolValue("Using Item Check", true, this);
     private final TimerUtils timer = new TimerUtils();
     private final int[] bestArmorPieces = new int[4];
@@ -104,11 +103,7 @@ public class InvManager extends Module {
         setTag(String.valueOf(maxDelay.get()));
         if (usingItemCheck.get() && mc.thePlayer.isUsingItem()) return;
         final long delay = (MathUtils.nextInt((int) minDelay.get(), (int) maxDelay.get()) * 50L);
-        if ((this.clientOpen || (mc.currentScreen == null && !Objects.equals(this.mode.get(), "Open Inventory"))) && !isEnabled(Scaffold.class) &&
-                (lobbyCheck.get() &&
-                        InventoryUtils.findItem(InventoryUtils.EXCLUDE_ARMOR_BEGIN,InventoryUtils.END, Items.compass) > 0
-                        && InventoryUtils.findItem(InventoryUtils.EXCLUDE_ARMOR_BEGIN,InventoryUtils.END, Items.bed) > 0
-                 || !lobbyCheck.get())
+        if ((this.clientOpen || (mc.currentScreen == null && !Objects.equals(this.mode.get(), "Open Inventory"))) && !isEnabled(Scaffold.class)
         ) {
             if ((this.timer.hasTimeElapsed(delay) || delay == 0)) {
                 this.clear();
@@ -138,8 +133,12 @@ public class InvManager extends Module {
 
                             if (pieceSlot == -1 || slot != pieceSlot)
                                 this.bestArmorPieces[armor.armorType] = slot;
-                        } else if (stack.getItem() instanceof ItemBlock && slot == InventoryUtils.findBestBlockStack()) {
-                            this.blockSlot.add(slot);
+                        } else if (stack.getItem() instanceof ItemBlock) {
+                            if (slot == InventoryUtils.findBestBlockStack()) {
+                                this.blockSlot.add(slot);
+                            } else if (blockSlot.contains(slot)) {
+                                this.blockSlot.remove(slot);
+                            }
                         } else if (stack.getItem() instanceof ItemAppleGold) {
                             this.gappleStackSlots.add(slot);
                         } else if (!this.trash.contains(slot) && !InventoryUtils.isValidStack(stack)) {

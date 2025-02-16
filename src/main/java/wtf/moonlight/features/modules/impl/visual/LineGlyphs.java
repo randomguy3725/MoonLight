@@ -27,7 +27,8 @@ import wtf.moonlight.features.modules.ModuleCategory;
 import wtf.moonlight.features.modules.ModuleInfo;
 import wtf.moonlight.features.values.impl.BoolValue;
 import wtf.moonlight.features.values.impl.SliderValue;
-import wtf.moonlight.utils.animations.AnimationUtils;
+import wtf.moonlight.utils.animations.Direction;
+import wtf.moonlight.utils.animations.impl.SmoothStepAnimation;
 import wtf.moonlight.utils.math.MathUtils;
 
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class LineGlyphs extends Module {
     private final Random RAND = new Random(93882L);
     private final List<Vec3> temp3dVecs = new ArrayList<>();
     private static final Tessellator tessellator = Tessellator.getInstance();
-    private final List<GliphsVecGen> GLIPHS_VEC_GENS = new ArrayList<>();
+    private final List<LineGlyphs.GliphsVecGen> GLIPHS_VEC_GENS = new ArrayList<>();
 
     private int[] lineMoveSteps() {
         return new int[]{0, 3};
@@ -140,22 +141,22 @@ public class LineGlyphs extends Module {
     }
 
     private void addAllGliphs(int countCap) {
-        for (int maxAttempt = 8; maxAttempt > 0 && this.GLIPHS_VEC_GENS.stream().filter(gliphsVecGen -> gliphsVecGen.alphaPC.to != 0.0f).count() < (long) countCap; --maxAttempt) {
+        for (int maxAttempt = 8; maxAttempt > 0 && (long) this.GLIPHS_VEC_GENS.size() < (long) countCap; --maxAttempt) {
             int[] lineStepsAmount = this.lineStepsAmount();
             while (this.GLIPHS_VEC_GENS.size() < countCap) {
                 Vec3i pos = this.randGliphSpawnPos();
-                this.GLIPHS_VEC_GENS.add(new GliphsVecGen(pos, this.RAND.nextInt(lineStepsAmount[0], lineStepsAmount[1])));
+                this.GLIPHS_VEC_GENS.add(new LineGlyphs.GliphsVecGen(pos, this.RAND.nextInt(lineStepsAmount[0], lineStepsAmount[1])));
             }
         }
     }
 
-    private void gliphsRemoveAuto(float moduleAlphaPC) {
-        this.GLIPHS_VEC_GENS.removeIf(gliphsVecGen -> gliphsVecGen.isToRemove(moduleAlphaPC));
+    private void gliphsRemoveAuto() {
+        this.GLIPHS_VEC_GENS.removeIf(LineGlyphs.GliphsVecGen::isToRemove);
     }
 
     private void gliphsUpdate() {
         if (!this.GLIPHS_VEC_GENS.isEmpty()) {
-            this.GLIPHS_VEC_GENS.forEach(GliphsVecGen::update);
+            this.GLIPHS_VEC_GENS.forEach(LineGlyphs.GliphsVecGen::update);
         }
     }
 
@@ -163,14 +164,11 @@ public class LineGlyphs extends Module {
         if (this.GLIPHS_VEC_GENS.isEmpty()) {
             return;
         }
-        List<GliphsVecGen> filteredGens = this.GLIPHS_VEC_GENS.stream().filter(gliphsVecGen -> gliphsVecGen.getAlphaPC() * 255.0f >= 1.0f).toList();
-        if (filteredGens.isEmpty()) {
-            return;
-        }
-        GliphVecRenderer.set3DRendering(() -> {
+        List<LineGlyphs.GliphsVecGen> filteredGens = this.GLIPHS_VEC_GENS;
+        LineGlyphs.GliphVecRenderer.set3DRendering(() -> {
             int colorIndex = 0;
-            for (GliphsVecGen filteredGen : filteredGens) {
-                GliphVecRenderer.clientColoredBegin(filteredGen, ++colorIndex, filteredGen.alphaPC.anim, pTicks);
+            for (LineGlyphs.GliphsVecGen filteredGen : filteredGens) {
+                LineGlyphs.GliphVecRenderer.clientColoredBegin(filteredGen, ++colorIndex, (float) filteredGen.animation.getOutput(), pTicks);
             }
         });
     }
@@ -183,8 +181,7 @@ public class LineGlyphs extends Module {
 
     @EventTarget
     public void onRender3D(Render3DEvent event) {
-        Frustum frustum = new Frustum(mc.getRenderManager().renderPosX, mc.getRenderManager().renderPosY, mc.getRenderManager().renderPosZ);
-        this.gliphsRemoveAuto(1);
+        this.gliphsRemoveAuto();
         this.drawAllGliphs(event.partialTicks());
     }
 
@@ -194,17 +191,18 @@ public class LineGlyphs extends Module {
         private int lastStepSet;
         private int stepsAmount;
         private int[] lastYawPitch;
-        private final AnimationUtils alphaPC = new AnimationUtils(0.1f, 1.0f, 0.075f);
+        private final SmoothStepAnimation animation = new SmoothStepAnimation(400,1);
 
         public GliphsVecGen(Vec3i spawnPos, int maxStepsAmount) {
             this.vecGens.add(spawnPos);
             this.lastYawPitch = LineGlyphs.this.getR360XY();
             this.stepsAmount = maxStepsAmount;
+            animation.setDirection(Direction.FORWARDS);
         }
 
         private void update() {
             if (this.stepsAmount == 0) {
-                this.alphaPC.to = 0.0f;
+                animation.setDirection(Direction.BACKWARDS);
             }
             if (this.currentStepTicks > 0) {
                 this.currentStepTicks -= LineGlyphs.this.slowSpeed.get() ? 1 : 2;
@@ -223,12 +221,8 @@ public class LineGlyphs extends Module {
             return LineGlyphs.this.getSmoothTickedFromList(this.vecGens, LineGlyphs.this.moveAdvanceFromTicks(this.lastStepSet, this.currentStepTicks, pTicks));
         }
 
-        public float getAlphaPC() {
-            return MathHelper.clamp_float(this.alphaPC.getAnim(), 0.0f, 1.0f);
-        }
-
-        public boolean isToRemove(float moduleAlphaPC) {
-            return moduleAlphaPC * (this.alphaPC.to == 0.0f ? this.getAlphaPC() : 1.0f) * 255.0f < 1.0f;
+        public boolean isToRemove() {
+            return animation.finished(Direction.BACKWARDS) && animation.getOutput() == 0;
         }
     }
 
@@ -270,39 +264,32 @@ public class LineGlyphs extends Module {
             GL11.glPopMatrix();
         }
 
-        private static float calcLineWidth(GliphsVecGen gliphVecGen) {
+        private static float calcLineWidth(LineGlyphs.GliphsVecGen gliphVecGen) {
             Vec3 cameraPos = new Vec3(mc.getRenderManager().renderPosX, mc.getRenderManager().renderPosY, mc.getRenderManager().renderPosZ);
             Vec3i pos = gliphVecGen.vecGens.stream().sorted(Comparator.comparingDouble(vec3i -> -vec3i.distanceTo(cameraPos))).findAny().orElse(new Vec3i(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE));
             double dst = cameraPos.getDistanceAtEyeByVec(mc.thePlayer, pos.getX(), pos.getY(), pos.getZ());
             return 1.0E-4f + 3.0f * (float) MathHelper.clamp_double(1.0 - dst / 20.0, 0.0, 1.0);
         }
 
-        private static void clientColoredBegin(GliphsVecGen gliphVecGen, int objIndex, float alphaPC, float pTicks) {
-            float aPC;
-            if (alphaPC * 255.0f < 1.0f || gliphVecGen.vecGens.size() < 2) {
+        private static void clientColoredBegin(LineGlyphs.GliphsVecGen gliphVecGen, int objIndex, float alphaPC, float pTicks) {
+            if (gliphVecGen.vecGens.size() < 2) {
                 return;
             }
-            float lineWidth = GliphVecRenderer.calcLineWidth(gliphVecGen);
+            float lineWidth = LineGlyphs.GliphVecRenderer.calcLineWidth(gliphVecGen);
             GL11.glLineWidth(lineWidth);
             tessellator.getWorldRenderer().begin(3, DefaultVertexFormats.POSITION_COLOR);
             int colorIndex = objIndex;
-            int index = 0;
             for (Vec3 vec3d : gliphVecGen.getPosVectors(pTicks)) {
-                aPC = alphaPC * (0.25f + (float) index / (float) gliphVecGen.vecGens.size() / 1.75f);
-                tessellator.getWorldRenderer().pos(vec3d).color(Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).color(colorIndex, (int) aPC * 255)).endVertex();
+                tessellator.getWorldRenderer().pos(vec3d).color(Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).color(colorIndex, (int) (alphaPC * 255))).endVertex();
                 colorIndex += 180;
-                ++index;
             }
             tessellator.draw();
             GL11.glPointSize(lineWidth * 3.0f);
             tessellator.getWorldRenderer().begin(0, DefaultVertexFormats.POSITION_COLOR);
             colorIndex = objIndex;
-            index = 0;
             for (Vec3 vec3d : gliphVecGen.getPosVectors(pTicks)) {
-                aPC = alphaPC * (0.25f + (float) index / (float) gliphVecGen.vecGens.size() / 1.75f);
-                tessellator.getWorldRenderer().pos(vec3d).color(Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).color(colorIndex, (int) aPC * 255)).endVertex();
+                tessellator.getWorldRenderer().pos(vec3d).color(Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).color(colorIndex, (int) (alphaPC * 255))).endVertex();
                 colorIndex += 180;
-                ++index;
             }
             tessellator.draw();
         }

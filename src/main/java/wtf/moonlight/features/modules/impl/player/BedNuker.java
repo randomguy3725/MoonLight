@@ -22,6 +22,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.BlockPos;
@@ -29,6 +30,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
 import wtf.moonlight.Moonlight;
 import wtf.moonlight.events.annotations.EventTarget;
+import wtf.moonlight.events.impl.player.MotionEvent;
 import wtf.moonlight.events.impl.player.TeleportEvent;
 import wtf.moonlight.events.impl.player.UpdateEvent;
 import wtf.moonlight.events.impl.render.Render2DEvent;
@@ -59,12 +61,13 @@ public class BedNuker extends Module {
     public final BoolValue whitelistOwnBed = new BoolValue("Whitelist Own Bed", true, this);
     public final BoolValue swap = new BoolValue("Swap", false, this);
     public final BoolValue ignoreSlow = new BoolValue("Ignore Slow", false, this,swap::get);
-    public final BoolValue groundSpoof = new BoolValue("Ground Spoof", false, this,swap::get);
+    public final BoolValue groundSpoof = new BoolValue("Hypixel Ground Spoof", false, this,swap::get);
     public BlockPos bedPos;
     public boolean rotate = false;
     private float breakProgress;
     private int delayTicks;
     private Vec3 home;
+    private boolean spoofed;
     public ContinualAnimation barAnim = new ContinualAnimation();
 
     @Override
@@ -114,6 +117,27 @@ public class BedNuker extends Module {
             mine(bedPos);
         } else {
             reset(true);
+        }
+    }
+
+    @EventTarget
+    public void onMotion(MotionEvent event) {
+        if (event.isPost())
+            return;
+
+
+        if (bedPos != null && groundSpoof.canDisplay() && groundSpoof.get() && !mc.thePlayer.onGround) {
+            if (mc.thePlayer.ticksExisted % 2 == 0) {
+                mc.timer.timerSpeed = 0.5f;
+                mc.getNetHandler().addToSendQueue(new C03PacketPlayer(true));
+                spoofed = true;
+            } else {
+                mc.timer.timerSpeed = 1f;
+                spoofed = false;
+            }
+        } else if (spoofed) {
+            mc.timer.timerSpeed = 1f;
+            spoofed = false;
         }
     }
 

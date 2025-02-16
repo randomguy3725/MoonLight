@@ -127,7 +127,6 @@ public class Interface extends Module {
     public final ModeValue color = new ModeValue("Color Setting", new String[]{"Custom", "Rainbow", "Dynamic", "Fade","Astolfo","NeverLose"}, "NeverLose", this);
     private final ColorValue mainColor = new ColorValue("Main Color", new Color(128, 128, 255), this,() -> !color.is("NeverLose"));
     private final ColorValue secondColor = new ColorValue("Second Color", new Color(128, 255, 255), this, () -> color.is("Fade"));
-    private final SliderValue colorAlpha = new SliderValue("Color Alpha",100,1,255,1,this);
     public final SliderValue fadeSpeed = new SliderValue("Fade Speed", 1, 1, 10, 1, this, () -> color.is("Dynamic") || color.is("Fade"));
     public final BoolValue background = new BoolValue("Background",true,this, () -> elements.isEnabled("Module List"));
     public final ModeValue bgColor = new ModeValue("Background Color", new String[]{"Dark", "Synced","Custom","NeverLose"}, "Synced", this,background::get);
@@ -546,9 +545,9 @@ public class Interface extends Module {
                     }
 
                     if (cFont.get()) {
-                        getFr().drawStringWithShadow(module.getName() + module.getTag(), x - 1, y + 2f, ColorUtils.swapAlpha(color(count), (int) alphaAnimation * colorAlpha.get()));
+                        getFr().drawStringWithShadow(module.getName() + module.getTag(), x - 1, y + 2f, ColorUtils.swapAlpha(color(count), (int) alphaAnimation * 255));
                     } else {
-                        mc.fontRendererObj.drawStringWithShadow(module.getName() + module.getTag(), x - 1, y + 2f, ColorUtils.swapAlpha(color(count), (int) alphaAnimation * colorAlpha.get()));
+                        mc.fontRendererObj.drawStringWithShadow(module.getName() + module.getTag(), x - 1, y + 2f, ColorUtils.swapAlpha(color(count), (int) alphaAnimation * 255));
                     }
 
                     if (animation.get().equals("ScaleIn")) {
@@ -925,9 +924,9 @@ public class Interface extends Module {
 
                     if(event.getShaderType() == Shader2DEvent.ShaderType.GLOW) {
                         if (cFont.get()) {
-                            getFr().drawStringWithShadow(module.getName() + module.getTag(), x - 1, y + 2f, ColorUtils.swapAlpha(color(count), colorAlpha.get()));
+                            getFr().drawStringWithShadow(module.getName() + module.getTag(), x - 1, y + 2f, ColorUtils.swapAlpha(color(count), 255));
                         } else {
-                            mc.fontRendererObj.drawStringWithShadow(module.getName() + module.getTag(), x - 1, y + 2f, ColorUtils.swapAlpha(color(count), colorAlpha.get()));
+                            mc.fontRendererObj.drawStringWithShadow(module.getName() + module.getTag(), x - 1, y + 2f, ColorUtils.swapAlpha(color(count), 255));
                         }
                     }
 
@@ -1157,7 +1156,9 @@ public class Interface extends Module {
             int k = j1 - j * mc.fontRendererObj.FONT_HEIGHT;
 
             int l = scaledRes.getScaledWidth() - k1 + 2;
-            drawRect(l1 - 2, k, l, k + mc.fontRendererObj.FONT_HEIGHT, 1342177280);
+
+            if(!hideBackground.get())
+                drawRect(l1 - 2, k, l, k + mc.fontRendererObj.FONT_HEIGHT, 1342177280);
 
             final Matcher linkMatcher = LINK_PATTERN.matcher(s1);
             if(Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).isEnabled() && linkMatcher.find()) {
@@ -1174,8 +1175,10 @@ public class Interface extends Module {
             if (j == scores.size())
             {
                 String s3 = objective.getDisplayName();
-                drawRect(l1 - 2, k - mc.fontRendererObj.FONT_HEIGHT - 1, l, k - 1, 1610612736);
-                drawRect(l1 - 2, k - 1, l, k, 1342177280);
+                if(!hideBackground.get()) {
+                    drawRect(l1 - 2, k - mc.fontRendererObj.FONT_HEIGHT - 1, l, k - 1, 1610612736);
+                    drawRect(l1 - 2, k - 1, l, k, 1342177280);
+                }
                 mc.fontRendererObj.drawString(s3, l1 + i / 2 - mc.fontRendererObj.getStringWidth(s3) / 2, k - mc.fontRendererObj.FONT_HEIGHT, 553648127);
             }
         }
@@ -1256,11 +1259,11 @@ public class Interface extends Module {
             case "Custom" -> ColorUtils.swapAlpha(mainColor.get().getRGB(), alpha);
             default -> colors;
         };
-        return colors;
+        return new Color(colors,true).getRGB();
     }
 
     public int color(int counter) {
-        return color(counter, (int) colorAlpha.get());
+        return color(counter, 255);
     }
 
     public int bgColor(int counter, int alpha) {

@@ -427,7 +427,7 @@ public class Speed extends Module {
                         mc.thePlayer.motionX = (mc.thePlayer.motionX * 1 + motionX3 * 2) / 3;
                     }
 
-                    if (mc.thePlayer.offGroundTicks > 1 && wdFastFallMode.is("8 Tick Strafe") && !disable && (PlayerUtils.blockRelativeToPlayer(0, mc.thePlayer.motionY * 3, 0) != Blocks.air) && (disableWhileScaffold.get() && !isEnabled(Scaffold.class) || !disableWhileScaffold.get())) {
+                    if (mc.thePlayer.offGroundTicks > 1 && wdFastFallMode.is("8 Tick Strafe") && !disable && PlayerUtils.blockRelativeToPlayer(0, mc.thePlayer.motionY * 3, 0) != Blocks.air && PlayerUtils.blockRelativeToPlayer(0, mc.thePlayer.motionY * 3, 0).isFullBlock() && (disableWhileScaffold.get() && !isEnabled(Scaffold.class) || !disableWhileScaffold.get())) {
                         mc.thePlayer.motionY += 0.0754;
                         MovementUtils.strafe();
                     }
