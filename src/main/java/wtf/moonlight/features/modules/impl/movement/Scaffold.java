@@ -90,6 +90,8 @@ public class Scaffold extends Module {
     private final SliderValue sneakDistance = new SliderValue("Sneak Distance", 0, 0, 0.5f, 0.01f, this, () -> addons.isEnabled("Sneak"));
     private final ModeValue tower = new ModeValue("Tower", new String[]{"Jump", "Vanilla", "Watchdog"}, "Jump", this, () -> !mode.is("Telly"));
     private final ModeValue towerMove = new ModeValue("Tower Move", new String[]{"Jump", "Vanilla", "Watchdog", "Low"}, "Jump", this, () -> !mode.is("Telly"));
+    private final BoolValue stop = new BoolValue("Stop",true,this,() -> tower.is("Watchdog"));
+    private final SliderValue stopTick = new SliderValue("Stop Tick",7,4,20,this,() -> stop.canDisplay() && stop.get());
     private final ModeValue wdSprint = new ModeValue("WD Sprint Mode", new String[]{"Beside", "Offset"}, "Bottom", this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint") && !addons.isEnabled("Keep Y"));
     private final BoolValue sprintBoost = new BoolValue("Sprint Boost Test", true, this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint") && !addons.isEnabled("Keep Y"));
     private final ModeValue wdKeepY = new ModeValue("WD Keep Y Mode", new String[]{"Normal", "Opal", "None"}, "Opal", this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint") && (addons.isEnabled("Keep Y") || addons.isEnabled("Speed Keep Y")));
@@ -695,7 +697,7 @@ public class Scaffold extends Module {
 
         if (towerMove.canDisplay()) {
             if (towerMove.get().equals("Watchdog")) {
-                if (MovementUtils.isMoving() && MovementUtils.getSpeed() > 0.1 && !mc.thePlayer.isPotionActive(Potion.jump)) {
+                if (MovementUtils.isMoving() && MovementUtils.getSpeed() > 0.1 && !mc.thePlayer.isPotionActive(Potion.jump) && (!stop.get() || stop.get() && mc.thePlayer.offGroundTicks < stopTick.get())) {
                     if (towerMoving()) {
                         int valY = (int) Math.round((event.y % 1) * 10000);
                         if (valY == 0) {
@@ -707,7 +709,6 @@ public class Scaffold extends Module {
                         } else if (valY > 7000) {
                             mc.thePlayer.motionY = 1 - mc.thePlayer.posY % 1;
                         }
-
                     }
                 }
             }
