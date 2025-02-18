@@ -37,8 +37,7 @@ public class Fly extends Module {
     private final SliderValue moveSpeed = new SliderValue("Speed", 2f, 1f, 10f, 0.1f, this, () -> mode.is("Vanilla") || mode.is("Miniblox"));
     private final SliderValue upSpeed = new SliderValue("Up Speed", 2f, 0.1f, 5f, 0.1f, this, () -> mode.is("Vanilla") || mode.is("Miniblox"));
     private final SliderValue downSpeed = new SliderValue("Down Speed", 2f, 0.1f, 5f, 0.1f, this, () -> mode.is("Vanilla") || mode.is("Miniblox"));
-    private final BoolValue packets = new BoolValue("Packet", false, this, () -> mode.is("Miniblox"));
-    private final BoolValue extra = new BoolValue("Cancel Setback", false, this, () -> mode.is("Miniblox"));
+    private final BoolValue cancelSetback = new BoolValue("Cancel Setback", false, this, () -> mode.is("Miniblox"));
     private final BoolValue autoResync = new BoolValue("Auto Resync", false, this, () -> mode.is("Miniblox"));
     private final BoolValue stop = new BoolValue("Stop", false, this, () -> mode.is("Miniblox"));
     private final SliderValue stopTicks = new SliderValue("Stop Ticks", 25f, 5f, 100f, 1f, this, () -> mode.is("Miniblox") && stop.get());
@@ -116,7 +115,7 @@ public class Fly extends Module {
                         }
 
                         MovementUtils.setSpeed(moveSpeed.get());
-                }
+                    }
 
                 if (!stop.get()) {
                     if (!mc.thePlayer.isJumping) {
@@ -146,18 +145,18 @@ public class Fly extends Module {
                         if (!lockY.get()) {
                             if (mc.thePlayer.isJumping)
                                 mc.thePlayer.motionY = upSpeed.get();
-                            }
+                        }
                         if (!lockY.get()) {
                             if (mc.thePlayer.isSneaking())
                                 mc.thePlayer.motionY = -downSpeed.get();
-                            }
+                        }
 
                         if (lockY.get()) {
                             mc.thePlayer.motionY = 0.0D;
                         }
 
                         MovementUtils.setSpeed(moveSpeed.get() / slowAmount.get());
-                }
+                    }
                 break;
         }
     }
@@ -168,11 +167,11 @@ public class Fly extends Module {
         Packet packet = event.getPacket();
         switch (mode.get()) {
             case "Miniblox":
-                if (extra.get()) {
-                    if (event.getPacket() instanceof S08PacketPlayerPosLook s08 && mc.thePlayer.ticksExisted > 80) {
+                if (cancelSetback.get()) {
+                    if (event.getPacket() instanceof S08PacketPlayerPosLook s08 && mc.thePlayer.ticksExisted >= 100) {
                         event.setCancelled(true);
 
-                        PacketUtils.sendPacket(new C03PacketPlayer.C06PacketPlayerPosLook(
+                        PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(
                                         s08.getX(),
                                         s08.getY(),
                                         s08.getZ(),
@@ -181,9 +180,8 @@ public class Fly extends Module {
                                         mc.thePlayer.onGround
                                 )
                         );
-                    }
-                        if (packets.get())
-                            PacketUtils.sendPacket(new C03PacketPlayer.C06PacketPlayerPosLook(
+
+                        PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(
                                         mc.thePlayer.posX,
                                         mc.thePlayer.posY,
                                         mc.thePlayer.posZ,
@@ -194,5 +192,6 @@ public class Fly extends Module {
                         );
                     }
                 }
-            }
         }
+    }
+}
