@@ -40,7 +40,7 @@ import java.util.Objects;
 
 @ModuleInfo(name = "Speed", category = ModuleCategory.Movement, key = Keyboard.KEY_V)
 public class Speed extends Module {
-    private final ModeValue mode = new ModeValue("Mode", new String[]{"Watchdog", "EntityCollide", "BlocksMC", "Intave", "NCP", "Miniblox"}, "Watchdog", this);
+    private final ModeValue mode = new ModeValue("Mode", new String[]{"Vanilla","Watchdog", "EntityCollide", "BlocksMC", "Intave", "NCP", "Miniblox"}, "Watchdog", this);
     private final ModeValue wdMode = new ModeValue("Watchdog Mode", new String[]{"Fast", "Glide","Test"}, "Basic", this, () -> mode.is("Watchdog"));
     private final BoolValue fastFall = new BoolValue("Fast Fall", true, this, () -> mode.is("Watchdog") && wdMode.is("Fast"));
     private final BoolValue hurtTimeCheck = new BoolValue("Hurt Time Check", false, this, () -> mode.is("Watchdog") && (wdMode.is("Fast") || fastFall.canDisplay() && fastFall.get()));
@@ -63,6 +63,9 @@ public class Speed extends Module {
     private final BoolValue liquidCheck = new BoolValue("Liquid Check", true, this);
     private final BoolValue guiCheck = new BoolValue("Gui Check", true, this);
     private final BoolValue printOffGroundTicks = new BoolValue("Print Off Ground Ticks", true, this);
+    private final SliderValue vanilla = new SliderValue("Vanilla Speed", 0.5f,0.05f,2, 0.05f,this, () -> Objects.equals(mode.get(), "Vanilla"));
+    private final BoolValue vanillaPullDown = new BoolValue("Pull Down", true, this, () -> mode.is("Vanilla"));
+    private final SliderValue vanillaPullDownAmount = new SliderValue("Vanilla Pull Down", 0.5f,0.05f,2, 0.05f,this, () -> Objects.equals(mode.get(), "Vanilla"));
     private boolean disable;
     private boolean disable3;
     private int boostTicks;
@@ -159,6 +162,16 @@ public class Speed extends Module {
                 if (airBoost.get() && MovementUtils.isMoving()) {
                     mc.thePlayer.motionX *= 1f + 0.00718;
                     mc.thePlayer.motionZ *= 1f + 0.00718;
+                }
+            }
+            break;
+
+            case "Vanilla": {
+                MovementUtils.strafe(1 * vanilla.get());
+                couldStrafe = true;
+
+                if (vanillaPullDown.get()) {
+                    mc.thePlayer.motionY = vanillaPullDownAmount.get();
                 }
             }
             break;
@@ -270,6 +283,17 @@ public class Speed extends Module {
 
                 if (damageBoost.get() && mc.thePlayer.hurtTime > 0) {
                     MovementUtils.strafe(Math.max(MovementUtils.getSpeed(),0.5));
+                }
+            }
+            break;
+
+            case "Vanilla": {
+                if (MovementUtils.isMoving()) {
+                    couldStrafe = true;
+                    MovementUtils.strafe();
+                    if (mc.thePlayer.onGround) {
+                        mc.thePlayer.jump();
+                    }
                 }
             }
             break;

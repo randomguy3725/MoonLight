@@ -10,9 +10,12 @@
  */
 package wtf.moonlight.features.modules.impl.movement;
 
+import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockGlass;
 import net.minecraft.network.Packet;
+import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.server.S02PacketChat;
+import net.minecraft.util.AxisAlignedBB;
 import wtf.moonlight.events.annotations.EventTarget;
 import wtf.moonlight.events.impl.misc.BlockAABBEvent;
 import wtf.moonlight.events.impl.packet.PacketEvent;
@@ -23,19 +26,42 @@ import wtf.moonlight.features.modules.ModuleInfo;
 import wtf.moonlight.features.values.impl.ModeValue;
 import wtf.moonlight.utils.math.TimerUtils;
 import wtf.moonlight.utils.packet.PingSpoofComponent;
+import wtf.moonlight.utils.player.PlayerUtils;
 
 @ModuleInfo(name = "Phase", category = ModuleCategory.Movement)
 public class Phase extends Module {
 
-    public final ModeValue mode = new ModeValue("Mode", new String[]{"Watchdog Auto","Watchdog"}, "Watchdog Auto", this);
+    public final ModeValue mode = new ModeValue("Mode", new String[]{"Vanilla","Watchdog Auto","Watchdog"}, "Watchdog Auto", this);
     public boolean phase;
     private final TimerUtils timerUtils = new TimerUtils();
+    private boolean phasing;
 
     @EventTarget
     public void onUpdate(UpdateEvent event) {
         setTag(mode.get());
         if (mode.get().equals("Watchdog Auto")) {
             if (phase && !timerUtils.hasTimeElapsed(4000)) PingSpoofComponent.blink();
+        }
+        if (mode.get().equals("Vanilla")) {
+                this.phasing = false;
+
+                final double rotation = Math.toRadians(mc.thePlayer.rotationYaw);
+
+                final double x = Math.sin(rotation);
+                final double z = Math.cos(rotation);
+
+                if (mc.thePlayer.isCollidedHorizontally) {
+                    mc.thePlayer.setPosition(mc.thePlayer.posX - x * 0.005, mc.thePlayer.posY, mc.thePlayer.posZ + z * 0.005);
+                    this.phasing = true;
+                } else if (PlayerUtils.insideBlock()) {
+                    sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX - x * 1.5, mc.thePlayer.posY, mc.thePlayer.posZ + z * 1.5, false));
+
+                    mc.thePlayer.motionX *= 0.3D;
+                    mc.thePlayer.motionZ *= 0.3D;
+
+                    this.phasing = true;
+                }
+
         }
     }
 
@@ -45,6 +71,15 @@ public class Phase extends Module {
             if (phase && PingSpoofComponent.enabled && event.getBlock() instanceof BlockGlass)
                 event.setCancelled(true);
         }
+        if (mode.get().equals("Vanilla")) {
+            if (event.getBlock() instanceof BlockAir && phasing) {
+                final double x = event.getBlockPos().getX(), y = event.getBlockPos().getY(), z = event.getBlockPos().getZ();
+
+                if (y < mc.thePlayer.posY) {
+                    event.setBoundingBox(AxisAlignedBB.fromBounds(-15, -1, -15, 15, 1, 15).offset(x, y, z));
+                }
+            }
+        };
     }
 
     @EventTarget
