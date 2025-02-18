@@ -32,6 +32,7 @@ public class WidgetManager implements InstanceAccess {
         register(new SessionInfoWidget());
         register(new PointerWidget());
         register(new KeyBindWidget());
+        register(new ModuleListWidget());
     }
 
     public boolean loaded;
