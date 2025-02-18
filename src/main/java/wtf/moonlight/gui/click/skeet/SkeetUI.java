@@ -51,7 +51,7 @@ public final class SkeetUI extends GuiScreen {
     public static final FontRenderer GROUP_BOX_HEADER_RENDERER = new FontRenderer(new Font("Tahoma", Font.BOLD, 11), true);
     public static final FontRenderer ICONS_RENDERER = Fonts.skeet.get(35);
     public static final FontRenderer FONT_RENDERER = new FontRenderer(new Font("Tahoma", Font.PLAIN, 9), false);
-    public static final FontRenderer KEYBIND_FONT_RENDERER = new FontRenderer(new Font("Tahoma", Font.PLAIN, 8), false);         
+    public static final FontRenderer KEYBIND_FONT_RENDERER = new FontRenderer(new Font("Tahoma", Font.PLAIN, 8), false);
     public static final FontRenderer SLIDER_BOX_RENDERER = new FontRenderer(new Font("Tahoma", Font.BOLD, 10), false);
     public static final FontRenderer fs = new FontRenderer(new Font("Tahoma Bold", Font.PLAIN, 11), true);
     private static final ResourceLocation BACKGROUND_IMAGE = new ResourceLocation("moonlight/texture/exhi/skeetchainmail.png");
@@ -198,7 +198,7 @@ public final class SkeetUI extends GuiScreen {
                     child.onKeyPress(keyCode);
                 }
             }
-            
+
             @Override
             public void onMouseClick(final int mouseX, final int mouseY, final int button) {
                 for (Component child : children) {
@@ -239,7 +239,7 @@ public final class SkeetUI extends GuiScreen {
                     prevY = mouseY - getY();
                 }
             }
-            
+
             @Override
             public void onMouseRelease(final int button) {
                 super.onMouseRelease(button);
@@ -299,7 +299,7 @@ public final class SkeetUI extends GuiScreen {
         this.selectedTab = (TabComponent) this.rootComponent.getChildren().get(this.selectorIndex);
         this.tabSelectorComponent = new Component(this.rootComponent, 3.5f, 5.0f, 48.0f, 341.5f) {
             private double selectorY;
-            
+
             @Override
             public void onMouseClick(final int mouseX, final int mouseY, final int button) {
                 if (isHovered(mouseX, mouseY)) {
@@ -310,7 +310,7 @@ public final class SkeetUI extends GuiScreen {
                     }
                 }
             }
-            
+
             @Override
             public void drawComponent(final LockedResolution resolution, final int mouseX, final int mouseY) {
                 this.selectorY = Translate.anim(this.selectorY, selectorIndex * TAB_SELECTOR_HEIGHT + 10, 3);
@@ -346,11 +346,11 @@ public final class SkeetUI extends GuiScreen {
         };
         this.rootComponent.addChild(this.tabSelectorComponent);
     }
-    
+
     public static double getAlpha() {
         return alpha;
     }
-    
+
     public static int getSkeetColor() {
         return getSkeetColor(Moonlight.INSTANCE.getModuleManager().getModule(ClickGUI.class).color.get().getRGB());
     }
@@ -358,11 +358,11 @@ public final class SkeetUI extends GuiScreen {
     public static boolean shouldRenderText() {
         return alpha > 20.0;
     }
-    
+
     private static boolean isVisible() {
         return open || alpha > 0.0;
     }
-    
+
     public static int getSkeetColor(final int color) {
         final int r = color >> 16 & 0xFF;
         final int g = color >> 8 & 0xFF;
@@ -384,7 +384,7 @@ public final class SkeetUI extends GuiScreen {
             this.rootComponent.keyTyped(typedChar,keyCode);
         }
     }
-    
+
     @Override
     public void drawScreen(final int mouseX, final int mouseY, final float partialTicks) {
         if (!open && alpha == 0.0 && !this.closed) {

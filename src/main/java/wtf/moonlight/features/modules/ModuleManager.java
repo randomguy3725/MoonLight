@@ -159,7 +159,7 @@ public final class ModuleManager {
 
         // Register the ModuleManager to listen for events
         Moonlight.INSTANCE.getEventManager().register(this);
-      //  Moonlight.LOGGER.INFO("ModuleManager initialized with {} modules.", modules.size());
+        //  Moonlight.LOGGER.INFO("ModuleManager initialized with {} modules.", modules.size());
     }
 
     /**
@@ -180,7 +180,7 @@ public final class ModuleManager {
                 categories.put(category, categoryModules);
                 //  Moonlight.LOGGER.INFO("Added module: {}", module.getName());
             } catch (Exception e) {
-                 Moonlight.LOGGER.error("Failed to instantiate module: {}", moduleClass.getSimpleName(), e);
+                Moonlight.LOGGER.error("Failed to instantiate module: {}", moduleClass.getSimpleName(), e);
             }
         }
     }

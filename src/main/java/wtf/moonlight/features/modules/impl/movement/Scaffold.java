@@ -1034,7 +1034,7 @@ public class Scaffold extends Module {
         int baseZ = base.getZ();
 
         IBlockState baseState = mc.theWorld.getBlockState(base);
-       // if (baseState.getBlock().getMaterial().isOpaque() && baseState.getBlock().isFullCube()) return;
+        // if (baseState.getBlock().getMaterial().isOpaque() && baseState.getBlock().isFullCube()) return;
 
         if (check(positionEyes, base)) return;
 
