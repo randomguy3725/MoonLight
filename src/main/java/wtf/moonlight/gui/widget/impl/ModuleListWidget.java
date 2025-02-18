@@ -63,7 +63,9 @@ public class ModuleListWidget extends Widget {
                 RenderUtils.scaleEnd();
             }
 
-            offset = calculateNextOffset(module, height, offset);
+            if (!module.isHidden()) {
+                offset = calculateNextOffset(module, height, offset);
+            }
             lastWidth = width;
         }
     }
@@ -238,16 +240,22 @@ public class ModuleListWidget extends Widget {
             case "Slide In":
                 Translate translate = module.getTranslate();
                 if (localX < middle) {
-                    if (module.isEnabled() && !module.isHidden()) {
+                    if (module.isEnabled()) {
                         translate.translate(MOVE_IN_SCALE + localX, localY);
                     } else {
                         translate.animate((-width) + localX, -25.0);
                     }
+                    if (module.isHidden()) {
+                        return new RenderPosition(-1000, -1000, 0);
+                    }
                 } else {
-                    if (module.isEnabled() && !module.isHidden()) {
+                    if (module.isEnabled()) {
                         translate.translate(localX, localY);
                     } else {
                         translate.animate(localX - width + this.width, -25.0);
+                    }
+                    if (module.isHidden()) {
+                        return new RenderPosition(1000, 1000, 0);
                     }
                 }
                 localX = (float) translate.getX();
