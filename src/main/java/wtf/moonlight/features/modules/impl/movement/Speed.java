@@ -65,7 +65,7 @@ public class Speed extends Module {
     private final BoolValue printOffGroundTicks = new BoolValue("Print Off Ground Ticks", true, this);
     private final SliderValue vanilla = new SliderValue("Vanilla Speed", 0.5f,0.05f,2, 0.05f,this, () -> Objects.equals(mode.get(), "Vanilla"));
     private final BoolValue vanillaPullDown = new BoolValue("Pull Down", true, this, () -> mode.is("Vanilla"));
-    private final SliderValue vanillaPullDownAmount = new SliderValue("Vanilla Pull Down", 0.5f,0.05f,2, 0.05f,this, () -> Objects.equals(mode.get(), "Vanilla"));
+    private final SliderValue vanillaPullDownAmount = new SliderValue("Vanilla Pull Down", 0.5f,0.05f,2, 0.05f,this, () -> Objects.equals(mode.get(), "Vanilla") && vanillaPullDown.get());
     private boolean disable;
     private boolean disable3;
     private int boostTicks;
@@ -171,7 +171,7 @@ public class Speed extends Module {
                 couldStrafe = true;
 
                 if (vanillaPullDown.get()) {
-                    mc.thePlayer.motionY = vanillaPullDownAmount.get();
+                    mc.thePlayer.motionY = -vanillaPullDownAmount.get();
                 }
             }
             break;
