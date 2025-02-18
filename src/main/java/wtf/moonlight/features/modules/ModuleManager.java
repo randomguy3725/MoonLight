@@ -104,6 +104,7 @@ public final class ModuleManager {
                 Sprint.class,
                 Step.class,
                 Strafe.class,
+                VClip.class,
                 Fly.class,
                 Scaffold.class,
                 NoFluid.class,
