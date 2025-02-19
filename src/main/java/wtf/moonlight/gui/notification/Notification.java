@@ -49,7 +49,7 @@ public class Notification implements InstanceAccess {
     }
     
     public double getWidth(){
-        double width = switch (INSTANCE.getModuleManager().getModule(Interface.class).notificationMode.get()) {
+        return switch (INSTANCE.getModuleManager().getModule(Interface.class).notificationMode.get()) {
             case "Default" -> Fonts.interMedium.get(15).getStringWidth(getDescription()) + 5;
             case "Test" ->
                     Math.max(Fonts.interSemiBold.get(15).getStringWidth(getTitle()), Fonts.interSemiBold.get(15).getStringWidth(getDescription())) + 5;
@@ -65,11 +65,10 @@ public class Notification implements InstanceAccess {
                     Math.max(140, Math.max(Fonts.interRegular.get(18).getStringWidth(getTitle()), Fonts.interRegular.get(14).getStringWidth(getDescription())) + 40);
             default -> 0;
         };
-        return width;
     }
 
     public double getHeight(){
-        double height = switch (INSTANCE.getModuleManager().getModule(Interface.class).notificationMode.get()) {
+        return switch (INSTANCE.getModuleManager().getModule(Interface.class).notificationMode.get()) {
             case "Default" -> 16;
             case "Test" -> Fonts.interRegular.get(15).getHeight() * 2 + 2;
             case "Test2" -> 33;
@@ -79,6 +78,5 @@ public class Notification implements InstanceAccess {
             case "Type 4" -> 35f;
             default -> 0;
         };
-        return height;
     }
 }

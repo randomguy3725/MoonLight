@@ -87,67 +87,65 @@ public class IslandRenderer implements InstanceAccess {
             }
 
             GL11.glDisable(GL11.GL_SCISSOR_TEST);
-        } else if (!Moonlight.INSTANCE.getNotificationManager().getNotifications().isEmpty()) {
+        } else {
+            var notifications = Moonlight.INSTANCE.getNotificationManager().getNotifications();
+            if (!notifications.isEmpty()) {
+                boolean isExhi = Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).notificationMode.is("Exhi");
+                notifications.removeIf(it -> {
+                    var animation = it.getAnimation();
+                    animation.setDirection(it.getTimerUtils().hasTimeElapsed((long) it.getTime()) ? Direction.BACKWARDS : Direction.FORWARDS);
+                    return !isExhi && it.getAnimation().finished(Direction.BACKWARDS);
+                });
 
-            for (Notification notification : Moonlight.INSTANCE.getNotificationManager().getNotifications()) {
+                Notification notification = notifications.getLast();
                 Animation animation = notification.getAnimation();
-                animation.setDirection(notification.getTimerUtils().hasTimeElapsed((long) notification.getTime()) ? Direction.BACKWARDS : Direction.FORWARDS);
 
-                if (!Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).notificationMode.is("Exhi") && notification.getAnimation().finished(Direction.BACKWARDS)) {
-                    Moonlight.INSTANCE.getNotificationManager().getNotifications().remove(notification);
+                if (!animation.finished(Direction.BACKWARDS)) {
+                    title = notification.getTitle();
+                    description = notification.getDescription();
+
+                    width = Math.max(medium.getStringWidth(description), largest.getStringWidth(title) + 10) + 10;
+                    height = 30;
+                    x = sr.getScaledWidth() / 2f;
+                    y = 40;
+
+                    runToXy(x, y);
+
+                    GL11.glEnable(GL11.GL_SCISSOR_TEST);
+
+                    drawBackgroundAuto(1);
+
+                    RoundedUtils.drawRound(animatedX.getOutput() + 6, animatedY.getOutput() + ((y - animatedY.getOutput()) * 2), (width - 12), 5f, 2.5f, new Color(255, 255, 255, 80));
+                    RoundedUtils.drawRound(animatedX.getOutput() + 6, animatedY.getOutput() + ((y - animatedY.getOutput()) * 2), (width - 12) * Math.min((notification.getTimerUtils().getTime() / notification.getTime()), 1), 5f, 2.5f, new Color(255, 255, 255, 255));
+
+                    if (!shader) {
+                        largest.drawString(title, animatedX.getOutput() + 5, animatedY.getOutput() + 6, -1);
+                        medium.drawString(description, animatedX.getOutput() + 5, animatedY.getOutput() + 18, -1);
+                    }
+
+                    GL11.glDisable(GL11.GL_SCISSOR_TEST);
                 }
-            }
-
-            Notification notification = Moonlight.INSTANCE.getNotificationManager().getNotifications().get(Moonlight.INSTANCE.getNotificationManager().getNotifications().size() - 1);
-
-            Animation animation = notification.getAnimation();
-            animation.setDirection(notification.getTimerUtils().hasTimeElapsed((long) notification.getTime()) ? Direction.BACKWARDS : Direction.FORWARDS);
-
-            if (!animation.finished(Direction.BACKWARDS)) {
-                title = notification.getTitle();
-                description = notification.getDescription();
-
-                width = Math.max(medium.getStringWidth(description), largest.getStringWidth(title) + 10) + 10;
-                height = 30;
+            } else {
+                title = "MoonLight" + EnumChatFormatting.WHITE + " | " + mc.thePlayer.getName() + " | " + Minecraft.getDebugFPS() + " FPS";
+                width = titleFont.getStringWidth(title) + 10;
+                height = 15;
                 x = sr.getScaledWidth() / 2f;
                 y = 40;
 
                 runToXy(x, y);
 
+                GL11.glPushMatrix();
                 GL11.glEnable(GL11.GL_SCISSOR_TEST);
 
-                drawBackgroundAuto(1);
+                drawBackgroundAuto(0);
 
-                RoundedUtils.drawRound(animatedX.getOutput() + 6, animatedY.getOutput() + ((y - animatedY.getOutput()) * 2), (width - 12), 5f, 2.5f, new Color(255, 255, 255, 80));
-                RoundedUtils.drawRound(animatedX.getOutput() + 6, animatedY.getOutput() + ((y - animatedY.getOutput()) * 2), (width - 12) * Math.min((notification.getTimerUtils().getTime() / notification.getTime()), 1), 5f, 2.5f, new Color(255, 255, 255, 255));
-
-                if (!shader) {
-                    largest.drawString(title, animatedX.getOutput() + 5, animatedY.getOutput() + 6, -1);
-                    medium.drawString(description, animatedX.getOutput() + 5, animatedY.getOutput() + 18, -1);
+                if(!shader) {
+                    titleFont.drawString(title, animatedX.getOutput() + 5, animatedY.getOutput() + 5, Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).color());
                 }
 
                 GL11.glDisable(GL11.GL_SCISSOR_TEST);
+                GL11.glPopMatrix();
             }
-        } else {
-            title = "MoonLight" + EnumChatFormatting.WHITE + " | " + mc.thePlayer.getName() + " | " + Minecraft.getDebugFPS() + " FPS";
-            width = titleFont.getStringWidth(title) + 10;
-            height = 15;
-            x = sr.getScaledWidth() / 2f;
-            y = 40;
-
-            runToXy(x, y);
-
-            GL11.glPushMatrix();
-            GL11.glEnable(GL11.GL_SCISSOR_TEST);
-
-            drawBackgroundAuto(0);
-
-            if(!shader) {
-                titleFont.drawString(title, animatedX.getOutput() + 5, animatedY.getOutput() + 5, Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).color());
-            }
-
-            GL11.glDisable(GL11.GL_SCISSOR_TEST);
-            GL11.glPopMatrix();
         }
     }
 

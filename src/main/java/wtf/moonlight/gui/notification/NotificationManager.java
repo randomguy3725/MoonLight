@@ -27,11 +27,12 @@ import wtf.moonlight.utils.render.RenderUtils;
 import wtf.moonlight.utils.render.RoundedUtils;
 
 import java.awt.*;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Deque;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 @Getter
 public class NotificationManager implements InstanceAccess {
-    private final CopyOnWriteArrayList<Notification> notifications = new CopyOnWriteArrayList<>();
+    private final Deque<Notification> notifications = new ConcurrentLinkedDeque<>();
 
     @Setter
     private float toggleTime = 2;

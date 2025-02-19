@@ -210,9 +210,9 @@ public class Interface extends Module {
                     Fonts.interMedium.get(15).drawString(INSTANCE.getVersion(), 29, 13, color(0));
 
                     RenderUtils.drawRect(7 + 20 + Fonts.interMedium.get(15).getStringWidth(INSTANCE.getVersion()) + 2.5f + 11 + 15, 10.5f, 1, 8.5f, new Color(47, 47, 47).getRGB());
-                    RoundedUtils.drawRound(7 + 20 + Fonts.interMedium.get(15).getStringWidth(INSTANCE.getVersion()) + 2.5f + 11, 7.5f, Fonts.interMedium.get(15).getStringWidth("user") + 25, 15, 4, new Color(bgColor(0)));
+                    RoundedUtils.drawRound(7 + 20 + Fonts.interMedium.get(15).getStringWidth(INSTANCE.getVersion()) + 2.5f + 11, 7.5f, Fonts.interMedium.get(15).getStringWidth(mc.thePlayer.getName()) + 25, 15, 4, new Color(bgColor(0)));
                     Fonts.nursultan.get(16).drawString("W", 7 + 20 + Fonts.interMedium.get(15).getStringWidth(INSTANCE.getVersion()) + 2.5f + 11 + 5, 14, color(0));
-                    Fonts.interMedium.get(15).drawString("user", 7 + 20 + Fonts.interMedium.get(15).getStringWidth(INSTANCE.getVersion()) + 2.5f + 11 + 15 + 5, 13, -1);
+                    Fonts.interMedium.get(15).drawString(mc.thePlayer.getName(), 7 + 20 + Fonts.interMedium.get(15).getStringWidth(INSTANCE.getVersion()) + 2.5f + 11 + 15 + 5, 13, -1);
                     break;
                 case "Exhi":
                     boolean shouldChange = RenderUtils.COLOR_PATTERN.matcher(clientName.get()).find();
