@@ -10,12 +10,12 @@
  */
 package wtf.moonlight.gui.click.dropdown.panel;
 
+import kotlin.collections.CollectionsKt;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import wtf.moonlight.Moonlight;
-import wtf.moonlight.features.modules.Module;
 import wtf.moonlight.features.modules.ModuleCategory;
 import wtf.moonlight.features.modules.impl.visual.ClickGUI;
 import wtf.moonlight.gui.click.IComponent;
@@ -29,7 +29,7 @@ import wtf.moonlight.utils.render.RenderUtils;
 import wtf.moonlight.utils.render.RoundedUtils;
 
 import java.awt.*;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -39,15 +39,16 @@ public class CategoryPanel implements IComponent {
     private boolean dragging, opened;
     private final EaseInOutQuad openAnimation = new EaseInOutQuad(250, 1);
     private final ModuleCategory category;
-    private final CopyOnWriteArrayList<ModuleComponent> moduleComponents = new CopyOnWriteArrayList<>();
+    private final List<ModuleComponent> moduleComponents;
 
     public CategoryPanel(ModuleCategory category) {
         this.category = category;
         this.openAnimation.setDirection(Direction.BACKWARDS);
 
-        for (Module module : Moonlight.INSTANCE.getModuleManager().getModulesByCategory(category)) {
-            moduleComponents.add(new ModuleComponent(module));
-        }
+        this.moduleComponents = CollectionsKt.map(
+                Moonlight.INSTANCE.getModuleManager().getModulesByCategory(category),
+                ModuleComponent::new
+        );
     }
 
     @Override

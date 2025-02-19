@@ -14,6 +14,8 @@ import com.google.common.base.Strings;
 import com.mojang.authlib.GameProfile;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
+import kotlin.collections.CollectionsKt;
+import kotlin.random.Random;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -267,7 +269,7 @@ public class AltRepositoryGUI extends GuiScreen {
                     }
                 } catch (Exception e) {
                     moonlight.getNotificationManager().post(NotificationType.WARNING, "Failed to change skin.");
-                    e.printStackTrace();
+                    logger.error(e);
                 }
                 break;
             /*case 72:
@@ -297,7 +299,7 @@ public class AltRepositoryGUI extends GuiScreen {
                     moonlight.getNotificationManager().post(NotificationType.OKAY,"Logged in! " + name);
                 } catch (Throwable e) {
                     moonlight.getNotificationManager().post(NotificationType.WARNING,"Oops, something went wrong. Maybe ur token expired?");
-                    e.printStackTrace();
+                    logger.error(e);
                 }
                 break;*/
 
@@ -463,7 +465,7 @@ public class AltRepositoryGUI extends GuiScreen {
 
             super.drawScreen(mouseX, mouseY, partialTicks);
         } catch (Throwable t) {
-            this.logger.warn("scrolled: " + this.scrolled, t);
+            this.logger.warn("scrolled: {}", this.scrolled, t);
         }
     }
 
@@ -533,18 +535,21 @@ public class AltRepositoryGUI extends GuiScreen {
 
     @Nullable
     public Alt getRandomAlt() {
-        List<Alt> alts = this.alts.stream().filter(alt1 -> alt1.getUnbanDate() == 0L && !alt1.isInvalid()).collect(Collectors.toList());
+        final Alt alt = CollectionsKt.randomOrNull(
+                CollectionsKt.filter(this.alts, it -> it.getUnbanDate() == 0L && !it.isInvalid()),
+                Random.Default
+        );
 
-        if (alts.isEmpty()) return null;
-
-        final Alt alt = alts.get(alts.size() == 1 ? 0 : ThreadLocalRandom.current().nextInt(0, alts.size() - 1));
-        alt.select();
+        if (alt != null) {
+            alt.select();
+        }
 
         return alt;
     }
 
+    @Nullable
     public Alt getSelectedAlt() {
-        return this.alts.stream().filter(Alt::isSelected).findAny().orElse(null);
+        return CollectionsKt.firstOrNull(this.alts, Alt::isSelected);
     }
 
     @Override
@@ -634,7 +639,7 @@ public class AltRepositoryGUI extends GuiScreen {
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error(e);
             }
         }
 
@@ -682,18 +687,18 @@ public class AltRepositoryGUI extends GuiScreen {
             if (contents.isDataFlavorSupported(DataFlavor.stringFlavor)) {
                 stream = Arrays.stream(((String) contents.getTransferData(DataFlavor.stringFlavor)).split("\n"));
             } else if (contents.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
-                stream = ((List<File>) contents.getTransferData(DataFlavor.javaFileListFlavor)).stream().map(file -> {
+                stream = ((List<File>) contents.getTransferData(DataFlavor.javaFileListFlavor)).stream().flatMap(file -> {
                     try {
                         return Files.lines(file.toPath());
                     } catch (Exception e) {
-                        return null;
+                        return Stream.empty();
                     }
-                }).filter(Objects::nonNull).flatMap(s -> s);
+                });
             } else {
                 return;
             }
 
-            final Set<Object> seen = ConcurrentHashMap.newKeySet();
+            final Set<String> seen = new HashSet<>();
 
             stream.map(s -> {
                         if (!s.endsWith("@alt.com")) {
@@ -703,11 +708,12 @@ public class AltRepositoryGUI extends GuiScreen {
                             return new String[]{s, new String(new char[ThreadLocalRandom.current().nextInt(7) + 1]).replace(
                                     '\0', 'a')};
                         }
-                    }).filter(Objects::nonNull).filter(alt -> !alt[0].trim().isEmpty() && !alt[1].trim().isEmpty())
+                    })
+                    .filter(alt -> alt != null && !alt[0].trim().isEmpty() && !alt[1].trim().isEmpty())
                     .filter(t -> seen.add(t[0]))
                     .sorted(Comparator.comparing(o -> o[0])).forEach(alt -> addAlt(new AltCredential(alt[0], alt[1])));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
         }
     }
 

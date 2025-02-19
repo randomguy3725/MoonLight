@@ -18,9 +18,6 @@ import wtf.moonlight.utils.misc.DebugUtils;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class ConfigCommand extends Command {
 
@@ -96,8 +93,8 @@ public class ConfigCommand extends Command {
     }
 
     private void handleList() {
-        List<String> configs = getConfigList();
-        if (configs.isEmpty()) {
+        var configs = getConfigList();
+        if (configs.length == 0) {
             DebugUtils.sendMessage("No configurations found.");
         } else {
             DebugUtils.sendMessage("Configs: " + String.join(", ", configs));
@@ -192,15 +189,16 @@ public class ConfigCommand extends Command {
         }
     }
 
-    private List<String> getConfigList() {
+    private String[] getConfigList() {
         File directory = Moonlight.INSTANCE.getMainDir();
-        File[] files = directory.listFiles((dir, name) -> name.endsWith(".json"));
+        File[] files = directory.listFiles((dir, name) -> dir.isFile() && name.endsWith(".json"));
         if (files == null) {
-            return List.of();
+            return new String[0];
         }
-        return Arrays.stream(files)
-                .filter(File::isFile)
-                .map(file -> file.getName().replaceFirst("\\.json$", ""))
-                .collect(Collectors.toList());
+        String[] configs = new String[files.length];
+        for (int i = 0; i < files.length; i++) {
+            configs[i] = files[i].getName().replaceFirst("\\.json$", "");
+        }
+        return configs;
     }
 }
