@@ -68,11 +68,15 @@ public class ModuleListWidget extends Widget {
             }
             lastWidth = width;
         }
+        setting.scoreBoardHeight = offset;
     }
 
     private List<Module> getEnabledModules() {
         List<Module> enabledModules = new ArrayList<>();
         for (Module module : INSTANCE.getModuleManager().getModules()) {
+            if (module.isHidden()) {
+                continue;
+            }
             Animation moduleAnimation = module.getAnimation();
             moduleAnimation.setDirection(module.isEnabled() ? Direction.FORWARDS : Direction.BACKWARDS);
             if (!module.isEnabled() && moduleAnimation.finished(Direction.BACKWARDS)) continue;
@@ -245,17 +249,11 @@ public class ModuleListWidget extends Widget {
                     } else {
                         translate.animate((-width) + localX, -25.0);
                     }
-                    if (module.isHidden()) {
-                        return new RenderPosition(-1000, -1000, 0);
-                    }
                 } else {
                     if (module.isEnabled()) {
                         translate.translate(localX, localY);
                     } else {
                         translate.animate(localX - width + this.width, -25.0);
-                    }
-                    if (module.isHidden()) {
-                        return new RenderPosition(1000, 1000, 0);
                     }
                 }
                 localX = (float) translate.getX();
