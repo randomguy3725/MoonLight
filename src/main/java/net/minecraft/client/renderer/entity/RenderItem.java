@@ -65,6 +65,9 @@ import net.optifine.reflect.Reflector;
 import net.optifine.reflect.ReflectorForge;
 import net.optifine.shaders.Shaders;
 import net.optifine.shaders.ShadersRender;
+import wtf.moonlight.Moonlight;
+import wtf.moonlight.features.modules.impl.visual.EnchantGlint;
+import wtf.moonlight.features.modules.impl.visual.Interface;
 
 public class RenderItem implements IResourceManagerReloadListener
 {
@@ -236,14 +239,16 @@ public class RenderItem implements IResourceManagerReloadListener
                 float f = (float)(Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
                 GlStateManager.translate(f, 0.0F, 0.0F);
                 GlStateManager.rotate(-50.0F, 0.0F, 0.0F, 1.0F);
-                this.renderModel(model, -8372020);
+                EnchantGlint enchantGlint  = Moonlight.INSTANCE.getModuleManager().getModule(EnchantGlint.class);
+                int color = enchantGlint.isEnabled() ? enchantGlint.syncColor.get() ? Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).color(0) : enchantGlint.color.get().getRGB() : -8372020;
+                this.renderModel(model, color);
                 GlStateManager.popMatrix();
                 GlStateManager.pushMatrix();
                 GlStateManager.scale(8.0F, 8.0F, 8.0F);
                 float f1 = (float)(Minecraft.getSystemTime() % 4873L) / 4873.0F / 8.0F;
                 GlStateManager.translate(-f1, 0.0F, 0.0F);
                 GlStateManager.rotate(10.0F, 0.0F, 0.0F, 1.0F);
-                this.renderModel(model, -8372020);
+                this.renderModel(model, color);
                 GlStateManager.popMatrix();
                 GlStateManager.matrixMode(5888);
                 GlStateManager.blendFunc(770, 771);

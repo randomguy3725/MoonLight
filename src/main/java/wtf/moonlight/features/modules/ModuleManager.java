@@ -154,7 +154,8 @@ public final class ModuleManager {
                 Breadcrumbs.class,
                 DamageParticles.class,
                 ItemESP.class,
-                NameHider.class
+                NameHider.class,
+                EnchantGlint.class
         );
 
         // Register the ModuleManager to listen for events
