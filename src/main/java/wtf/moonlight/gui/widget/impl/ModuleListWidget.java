@@ -242,20 +242,19 @@ public class ModuleListWidget extends Widget {
                 if (localX < middle) {
                     if (module.isEnabled()) {
                         translate.translate(MOVE_IN_SCALE + localX, localY);
-                        localY += getModuleHeight();
                     } else {
-                        translate.animate((-width) + localX, -25.0);
+                        translate.animate((-width * 2) + localX, -25.0);
                     }
                 } else {
                     if (module.isEnabled()) {
                         translate.translate(localX, localY);
-                        localY += getModuleHeight();
                     } else {
-                        translate.animate(localX - width + this.width, -25.0);
+                        translate.animate(localX - width + this.width * 2, -25.0);
                     }
                 }
 
                 localX = (float) translate.getX();
+                localY = (float) translate.getY();
                 break;
         }
 
@@ -263,12 +262,7 @@ public class ModuleListWidget extends Widget {
     }
 
     private float calculateNextOffset(Module module, int height, float offset) {
-        if (setting.animation.is("ScaleIn") || setting.animation.is("MoveIn")) {
-            return (float) (offset + (module.getAnimation().getOutput() * (height) +
-                                setting.textHeight.get()) + PADDING);
-        } else {
-            return offset + (int) (height + PADDING + setting.textHeight.get());
-        }
+        return (float) (offset + (module.getAnimation().getOutput() * (height) + setting.textHeight.get()) + PADDING);
     }
 
     @Override
