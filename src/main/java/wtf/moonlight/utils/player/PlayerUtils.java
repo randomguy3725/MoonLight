@@ -400,4 +400,9 @@ public class PlayerUtils implements InstanceAccess {
         }
         return blocks;
     }
+
+    public static boolean canBeClick(BlockPos pos) {
+        return mc.theWorld.getBlockState(pos).getBlock().canCollideCheck(mc.theWorld.getBlockState(pos), false) && mc.theWorld.getWorldBorder().contains(pos);
+    }
+
 }

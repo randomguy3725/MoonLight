@@ -10,6 +10,7 @@
  */
 package wtf.moonlight.gui.widget;
 
+import org.lwjglx.opengl.Display;
 import wtf.moonlight.events.annotations.EventTarget;
 import wtf.moonlight.events.impl.render.ChatGUIEvent;
 import wtf.moonlight.events.impl.render.Render2DEvent;
@@ -39,37 +40,43 @@ public class WidgetManager implements InstanceAccess {
 
     @EventTarget
     public void onRender2D(Render2DEvent event) {
-        for (Widget widget : widgetList) {
-            if (widget.shouldRender()) {
-                widget.updatePos();
-                widget.render();
+        if(Display.isVisible()) {
+            for (Widget widget : widgetList) {
+                if (widget.shouldRender()) {
+                    widget.updatePos();
+                    widget.render();
+                }
             }
         }
     }
 
     @EventTarget
     public void onShader2D(Shader2DEvent event) {
-        for (Widget widget : widgetList) {
-            if (widget.shouldRender()) {
-                widget.onShader(event);
+        if (Display.isVisible()) {
+            for (Widget widget : widgetList) {
+                if (widget.shouldRender()) {
+                    widget.onShader(event);
+                }
             }
         }
     }
 
     @EventTarget
     public void onChatGUI(ChatGUIEvent event) {
-        Widget draggingWidget = null;
-        for (Widget widget : widgetList) {
-            if (widget.shouldRender() && widget.dragging) {
-                draggingWidget = widget;
-                break;
+        if (Display.isVisible()) {
+            Widget draggingWidget = null;
+            for (Widget widget : widgetList) {
+                if (widget.shouldRender() && widget.dragging) {
+                    draggingWidget = widget;
+                    break;
+                }
             }
-        }
 
-        for (Widget widget : widgetList) {
-            if (widget.shouldRender()) {
-                widget.onChatGUI(event.mouseX, event.mouseY, (draggingWidget == null || draggingWidget == widget));
-                if (widget.dragging) draggingWidget = widget;
+            for (Widget widget : widgetList) {
+                if (widget.shouldRender()) {
+                    widget.onChatGUI(event.mouseX, event.mouseY, (draggingWidget == null || draggingWidget == widget));
+                    if (widget.dragging) draggingWidget = widget;
+                }
             }
         }
     }

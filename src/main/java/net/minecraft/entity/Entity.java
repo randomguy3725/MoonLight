@@ -1329,6 +1329,15 @@ public abstract class Entity implements ICommandSender
         return new Vec3(f1 * f2, f3, f * f2);
     }
 
+    public final Vec3 getVectorForRotation(float[] rotation)
+    {
+        float f = MathHelper.cos(-rotation[0] * 0.017453292F - (float)Math.PI);
+        float f1 = MathHelper.sin(-rotation[0] * 0.017453292F - (float)Math.PI);
+        float f2 = -MathHelper.cos(-rotation[1] * 0.017453292F);
+        float f3 = MathHelper.sin(-rotation[1] * 0.017453292F);
+        return new Vec3(f1 * f2, f3, f * f2);
+    }
+
     public Vec3 getPositionEyes(float partialTicks)
     {
         if (partialTicks == 1.0F)
@@ -1352,9 +1361,6 @@ public abstract class Entity implements ICommandSender
         return this.worldObj.rayTraceBlocks(vec3, vec32, false, false, true);
     }
 
-    public MovingObjectPosition rayTraceCustom(double blockReachDistance, float yaw, float pitch) {
-        return rayTraceCustom(blockReachDistance,1f,yaw,pitch);
-    }
     public MovingObjectPosition rayTraceCustom(double blockReachDistance,float partialTicks, float yaw, float pitch) {
         final Vec3 vec3 = this.getPositionEyes(partialTicks);
         final Vec3 vec31 = this.getLookCustom(yaw, pitch);

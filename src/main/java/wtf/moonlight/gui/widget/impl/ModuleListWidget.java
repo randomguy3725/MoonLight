@@ -15,8 +15,7 @@ import java.util.List;
 
 public class ModuleListWidget extends Widget {
 
-    private static final int PADDING = 2;
-    private static final float MOVE_IN_SCALE = 2.0f;
+    private final int PADDING = 2;
 
     public ModuleListWidget() {
         super("ModuleList");
@@ -26,11 +25,7 @@ public class ModuleListWidget extends Widget {
 
     @Override
     public void onShader(Shader2DEvent event) {
-        if (event.getShaderType() == Shader2DEvent.ShaderType.GLOW ||
-                event.getShaderType() == Shader2DEvent.ShaderType.BLUR ||
-                event.getShaderType() == Shader2DEvent.ShaderType.SHADOW) {
-            render();
-        }
+        render();
     }
 
     @Override
@@ -40,7 +35,7 @@ public class ModuleListWidget extends Widget {
         int middle = sr.getScaledWidth() / 2;
         List<Module> enabledModules = getEnabledModules();
 
-        int offset = 0;
+        float offset = 0;
         float lastWidth = 0;
 
         for (int i = 0; i < enabledModules.size(); i++) {
@@ -68,7 +63,7 @@ public class ModuleListWidget extends Widget {
             }
             lastWidth = width;
         }
-        setting.scoreBoardHeight = offset;
+        setting.scoreBoardHeight = (int) offset;
     }
 
     private List<Module> getEnabledModules() {
@@ -98,38 +93,38 @@ public class ModuleListWidget extends Widget {
                 setting.getFr().getHeight();
     }
 
-    private void renderModule(Module module, float localX, float localY, int offset, int width, int height,
+    private void renderModule(Module module, float localX, float localY, float offset, int width, int height,
                               float alphaAnimation, int middle, float lastWidth, int index, int totalModules) {
         if (setting.background.get()) {
-            renderBackground(localX, localY, offset, width, height, middle);
+            renderBackground(localX, localY, offset, width, height, middle,index);
         }
 
         if (setting.line.get()) {
             renderLines(localX, localY, offset, width, height, middle, lastWidth, index, totalModules);
         }
 
-        renderText(module, localX, localY, offset, width, alphaAnimation, middle);
+        renderText(module, localX, localY, offset, width, alphaAnimation, middle,index);
     }
 
-    private void renderBackground(float localX, float localY, int offset, int width, int height, int middle) {
+    private void renderBackground(float localX, float localY, float offset, int width, int height, int middle, int index) {
         if (localX < middle) {
             RenderUtils.drawRect(localX - PADDING, localY + offset, width + 3,
-                    height + PADDING + setting.textHeight.get(), setting.bgColor(offset));
+                    height + PADDING + setting.textHeight.get(), setting.bgColor(index));
         } else {
             RenderUtils.drawRect(localX + this.width - 4 - width, localY + offset + 1,
-                    width + 3, height + PADDING + setting.textHeight.get(), setting.bgColor(offset));
+                    width + 3, height + PADDING + setting.textHeight.get(), setting.bgColor(index));
         }
     }
 
-    private void renderLines(float localX, float localY, int offset, int width, int height,
+    private void renderLines(float localX, float localY, float offset, int width, int height,
                              int middle, float lastWidth, int index, int totalModules) {
         // Main line
         if (localX < middle) {
             RenderUtils.drawRect(localX - PADDING, localY + offset, 1,
-                    height + 3 + setting.textHeight.get(), setting.color(offset));
+                    height + 3 + setting.textHeight.get(), setting.color(index));
         } else {
             RenderUtils.drawRect(localX + this.width + PADDING - 3, localY + offset + 1, 1,
-                    height + PADDING + setting.textHeight.get(), setting.color(offset));
+                    height + PADDING + setting.textHeight.get(), setting.color(index));
         }
 
         if (setting.outLine.get()) {
@@ -137,20 +132,20 @@ public class ModuleListWidget extends Widget {
         }
     }
 
-    private void renderOutlines(float localX, float localY, int offset, int width, int height,
+    private void renderOutlines(float localX, float localY, float offset, int width, int height,
                                 int middle, float lastWidth, int index, int totalModules) {
         // Side lines
         if (localX < middle) {
             RenderUtils.drawRect(localX + width + 1, localY + offset + 1, 1,
-                    height + PADDING + setting.textHeight.get(), setting.color(offset));
+                    height + PADDING + setting.textHeight.get(), setting.color(index));
         } else {
             RenderUtils.drawRect(localX + this.width - width - PADDING - 3, localY + offset, 1,
-                    height + 3 + setting.textHeight.get(), setting.color(offset));
+                    height + 3 + setting.textHeight.get(), setting.color(index));
         }
 
         // Middle lines
         if (index > 0) {
-            renderMiddleLines(localX, localY, offset, width, middle, lastWidth);
+            renderMiddleLines(localX, localY, offset, width, middle, lastWidth, index);
         }
 
         // Top lines
@@ -160,15 +155,15 @@ public class ModuleListWidget extends Widget {
 
         // Bottom lines
         if (index == totalModules - 1) {
-            renderBottomLines(localX, localY, offset, width, height, middle);
+            renderBottomLines(localX, localY, offset, width, height, middle,index);
         }
     }
 
-    private void renderMiddleLines(float localX, float localY, int offset, int width, int middle, float lastWidth) {
+    private void renderMiddleLines(float localX, float localY, float offset, int width, int middle, float lastWidth, int index) {
         if (localX < middle) {
-            RenderUtils.drawRect(localX + width + 1, localY + offset, lastWidth - width, 1, setting.color(offset));
+            RenderUtils.drawRect(localX + width + 1, localY + offset, lastWidth - width, 1, setting.color(index));
         } else {
-            RenderUtils.drawRect(localX + this.width - width - 4, localY + offset, -(lastWidth - width), 1, setting.color(offset));
+            RenderUtils.drawRect(localX + this.width - width - 4, localY + offset, -(lastWidth - width), 1, setting.color(index));
         }
     }
 
@@ -180,21 +175,21 @@ public class ModuleListWidget extends Widget {
         }
     }
 
-    private void renderBottomLines(float localX, float localY, int offset, int width, int height, int middle) {
+    private void renderBottomLines(float localX, float localY, float offset, int width, int height, int middle, int index) {
         if (localX < middle) {
             RenderUtils.drawRect(localX - 1, localY + offset + height + PADDING + setting.textHeight.get(),
-                    width + PADDING, 1, setting.color(offset));
+                    width + PADDING, 1, setting.color(index));
         } else {
             RenderUtils.drawRect(localX - 4 - width + this.width,
                     localY + offset + height + PADDING + setting.textHeight.get(),
-                    width + 3, 1, setting.color(offset));
+                    width + 3, 1, setting.color(index));
         }
     }
 
-    private void renderText(Module module, float localX, float localY, int offset,
-                            int width, float alphaAnimation, int middle) {
+    private void renderText(Module module, float localX, float localY, float offset,
+                            int width, float alphaAnimation, int middle, int index) {
         String text = module.getName() + module.getTag();
-        int color = ColorUtils.swapAlpha(setting.color(offset), (int) alphaAnimation * 255);
+        int color = ColorUtils.swapAlpha(setting.color(index), (int) alphaAnimation * 255);
         float textY = localY + offset + (setting.cFont.get() ? 4 : 2);
 
         if (localX < middle) {
@@ -228,13 +223,14 @@ public class ModuleListWidget extends Widget {
         float localY = renderY;
         float alphaAnimation = 1.0f;
 
+        float MOVE_IN_SCALE = 2.0f;
         switch (setting.animation.get()) {
             case "MoveIn":
                 if (localX > middle) {
-                    localX += (int) Math.abs((Math.max(module.getAnimation().getOutput(), 0.1) - 1.0) *
+                    localX += (float) Math.abs((Math.max(module.getAnimation().getOutput(), 0.1) - 1.0) *
                             (MOVE_IN_SCALE + width));
                 } else {
-                    localX -= (int) Math.abs((Math.max(module.getAnimation().getOutput(), 0.1) - 1.0) *
+                    localX -= (float) Math.abs((Math.max(module.getAnimation().getOutput(), 0.1) - 1.0) *
                             (MOVE_IN_SCALE + width));
                 }
                 break;
@@ -246,28 +242,30 @@ public class ModuleListWidget extends Widget {
                 if (localX < middle) {
                     if (module.isEnabled()) {
                         translate.translate(MOVE_IN_SCALE + localX, localY);
+                        localY += getModuleHeight();
                     } else {
                         translate.animate((-width) + localX, -25.0);
                     }
                 } else {
                     if (module.isEnabled()) {
                         translate.translate(localX, localY);
+                        localY += getModuleHeight();
                     } else {
                         translate.animate(localX - width + this.width, -25.0);
                     }
                 }
+
                 localX = (float) translate.getX();
-                localY = (float) translate.getY();
                 break;
         }
 
         return new RenderPosition(localX, localY, alphaAnimation);
     }
 
-    private int calculateNextOffset(Module module, int height, int offset) {
+    private float calculateNextOffset(Module module, int height, float offset) {
         if (setting.animation.is("ScaleIn") || setting.animation.is("MoveIn")) {
-            return offset + (int) (module.getAnimation().getOutput() * (height) +
-                    setting.textHeight.get()) + PADDING;
+            return (float) (offset + (module.getAnimation().getOutput() * (height) +
+                                setting.textHeight.get()) + PADDING);
         } else {
             return offset + (int) (height + PADDING + setting.textHeight.get());
         }
