@@ -911,7 +911,7 @@ public class Interface extends Module {
     }
 
     public int color(int counter) {
-        return color(counter, 255);
+        return color(counter, getMainColor().getAlpha());
     }
 
     public int bgColor(int counter, int alpha) {

@@ -195,7 +195,7 @@ public class ModuleListWidget extends Widget {
     private void renderText(Module module, float localX, float localY, float offset,
                             int width, float alphaAnimation, int middle, int index) {
         String text = module.getName() + module.getTag();
-        int color = ColorUtils.swapAlpha(setting.color(index), (int) alphaAnimation * 255);
+        int color = ColorUtils.swapAlpha(setting.color(index), (int) alphaAnimation * setting.getMainColor().getAlpha());
         float textY = localY + offset + (setting.cFont.get() ? 4 : 2);
 
         if (localX < middle) {
