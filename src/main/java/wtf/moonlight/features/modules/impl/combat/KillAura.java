@@ -6,10 +6,11 @@
  *
  * Repository: https://github.com/randomguy3725/MoonLight
  *
- * Author(s): [Randumbguy & opZywl & lucas]
+ * Author(s): [Randumbguy & wxdbie & opZywl & MukjepScarlet & lucas & eonian]
  */
 package wtf.moonlight.features.modules.impl.combat;
 
+import com.google.common.collect.Lists;
 import com.viaversion.viarewind.protocol.protocol1_8to1_9.Protocol1_8To1_9;
 import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.protocol.packet.PacketWrapper;
@@ -26,7 +27,6 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.*;
 import net.minecraft.util.*;
 import org.apache.commons.lang3.RandomUtils;
-import org.jetbrains.annotations.NotNull;
 import org.lwjglx.input.Keyboard;
 import org.lwjglx.input.Mouse;
 import wtf.moonlight.Moonlight;
@@ -44,14 +44,13 @@ import wtf.moonlight.features.values.impl.BoolValue;
 import wtf.moonlight.features.values.impl.ModeValue;
 import wtf.moonlight.features.values.impl.MultiBoolValue;
 import wtf.moonlight.features.values.impl.SliderValue;
-import wtf.moonlight.utils.animations.ContinualAnimation;
 import wtf.moonlight.utils.animations.Direction;
 import wtf.moonlight.utils.animations.impl.DecelerateAnimation;
 import wtf.moonlight.utils.math.MathUtils;
 import wtf.moonlight.utils.math.TimerUtils;
 import wtf.moonlight.utils.packet.BlinkComponent;
 import wtf.moonlight.utils.player.*;
-import wtf.moonlight.utils.render.RenderUtils;
+
 import java.security.SecureRandom;
 import java.util.*;
 
@@ -70,35 +69,34 @@ public class KillAura extends Module {
     private final BoolValue smartVec = new BoolValue("Smart Vec", true, this);
     private final BoolValue smartRotation = new BoolValue("Smart Rotation", true, this);
     private final BoolValue customRotationSetting = new BoolValue("Custom Rotation Setting", false, this);
-    private final SliderValue minYawRotSpeed = new SliderValue("Min Yaw Rotation Speed", 180, 0, 180, 1, this, customRotationSetting::get);
-    private final SliderValue minPitchRotSpeed = new SliderValue("Min Pitch Rotation Speed", 180, 0, 180, 1, this, customRotationSetting::get);
-    private final SliderValue maxYawRotSpeed = new SliderValue("Max Yaw Rotation Speed", 180, 0, 180, 1, this, customRotationSetting::get);
-    private final SliderValue maxPitchRotSpeed = new SliderValue("Max Pitch Rotation Speed", 180, 0, 180, 1, this, customRotationSetting::get);
-    public final SliderValue maxYawAcceleration = new SliderValue("Max Yaw Acceleration", 100, 0f, 100f, 1f, this, customRotationSetting::get);
-    public final SliderValue maxPitchAcceleration = new SliderValue("Max Pitch Acceleration", 100, 0f, 100f, 1f, this, customRotationSetting::get);
-    public final SliderValue accelerationError = new SliderValue("Acceleration Error", 0f, 0f, 1f, 0.01f, this, customRotationSetting::get);
-    public final SliderValue constantError = new SliderValue("Constant Error", 0f, 0f, 10f, 0.01f, this, customRotationSetting::get);
-    public final BoolValue smoothlyResetRotation = new BoolValue("Smoothly Reset Rotation", true, this, customRotationSetting::get);
+    private final ModeValue smoothMode = new ModeValue("Mode", RotationUtils.smoothModes, RotationUtils.smoothModes[0], this,() -> customRotationSetting.canDisplay() && customRotationSetting.get());
+    private final SliderValue minYawRotSpeed = new SliderValue("Min Yaw Rotation Speed", 45, 1,180,1, this,() -> customRotationSetting.canDisplay() && customRotationSetting.get());
+    private final SliderValue minPitchRotSpeed = new SliderValue("Min Pitch Rotation Speed", 45, 1,180,1, this,() -> customRotationSetting.canDisplay() && customRotationSetting.get());
+    private final SliderValue maxYawRotSpeed = new SliderValue("Max Yaw Rotation Speed", 90, 1,180,1, this,() -> customRotationSetting.canDisplay() && customRotationSetting.get());
+    private final SliderValue maxPitchRotSpeed = new SliderValue("Max Pitch Rotation Speed", 90, 1,180,1, this,() -> customRotationSetting.canDisplay() && customRotationSetting.get());
+    private final SliderValue bezierP0 = new SliderValue("Bezier P0", 0f, 0f, 1f,1, this,() -> customRotationSetting.canDisplay() && customRotationSetting.get() && (smoothMode.is(RotationUtils.smoothModes[1]) || smoothMode.is(RotationUtils.smoothModes[8])));
+    private final SliderValue bezierP1 = new SliderValue("Bezier P1", 0.05f, 0f, 1f,1, this,() -> customRotationSetting.canDisplay() && customRotationSetting.get() && (smoothMode.is(RotationUtils.smoothModes[1]) || smoothMode.is(RotationUtils.smoothModes[8])));
+    private final SliderValue bezierP2 = new SliderValue("Bezier P2", 0.2f, 0f, 1f,1, this,() -> customRotationSetting.canDisplay() && customRotationSetting.get() && (smoothMode.is(RotationUtils.smoothModes[1]) || smoothMode.is(RotationUtils.smoothModes[8])));
+    private final SliderValue bezierP3 = new SliderValue("Bezier P3", 0.4f, 0f, 1f,1, this,() -> customRotationSetting.canDisplay() && customRotationSetting.get() && (smoothMode.is(RotationUtils.smoothModes[1]) || smoothMode.is(RotationUtils.smoothModes[8])));
+    private final SliderValue bezierP4 = new SliderValue("Bezier P4", 0.6f, 0f, 1f,1, this,() -> customRotationSetting.canDisplay() && customRotationSetting.get() && (smoothMode.is(RotationUtils.smoothModes[1]) || smoothMode.is(RotationUtils.smoothModes[8])));
+    private final SliderValue bezierP5 = new SliderValue("Bezier P5", 0.8f, 0f, 1f,1, this,() -> customRotationSetting.canDisplay() && customRotationSetting.get() && (smoothMode.is(RotationUtils.smoothModes[1]) || smoothMode.is(RotationUtils.smoothModes[8])));
+    private final SliderValue bezierP6 = new SliderValue("Bezier P6", 0.95f, 0f, 1f,1, this,() -> customRotationSetting.canDisplay() && customRotationSetting.get() && (smoothMode.is(RotationUtils.smoothModes[1]) || smoothMode.is(RotationUtils.smoothModes[8])));
+    private final SliderValue bezierP7 = new SliderValue("Bezier P7", 0.1f, 0f, 1f,1, this,() -> customRotationSetting.canDisplay() && customRotationSetting.get() && (smoothMode.is(RotationUtils.smoothModes[1]) || smoothMode.is(RotationUtils.smoothModes[8])));
+    private final SliderValue elasticity = new SliderValue("Elasticity", 0.3f, 0.1f, 1f,0.01f, this,() -> customRotationSetting.canDisplay() && customRotationSetting.get() && smoothMode.is(RotationUtils.smoothModes[7]));
+    private final SliderValue dampingFactor = new SliderValue("Damping Factor", 0.5f, 0.1f, 1f,0.01f, this,() -> customRotationSetting.canDisplay() && customRotationSetting.get() && smoothMode.is(RotationUtils.smoothModes[7]));
+    private final SliderValue keepLength = new SliderValue("Keep Length", 1, 0, 20,1, this);
+    public final BoolValue smoothlyResetRotation = new BoolValue("Smoothly Reset Rotation", true, this,() -> customRotationSetting.canDisplay() && customRotationSetting.get());
     private final BoolValue randomize = new BoolValue("Randomize", false, this);
-    public final ModeValue randomizerot = new ModeValue("RandomizeRotation", new String[]{"Random", "RandomSecure", "Noise","Advanced"}, "Noise", this, randomize::get);
+    public final ModeValue randomizerot = new ModeValue("RandomizeRotation", new String[]{"Random","Advanced"}, "Noise", this, randomize::get);
     public final SliderValue yawStrength = new SliderValue("YawStrength",5f,1,35f,this, () -> this.randomize.get() && this.randomizerot.is("Random") || this.randomizerot.is("RandomSecure"));
     public final SliderValue pitchStrength = new SliderValue("PitchStrength",5f,1,35f,this, () -> this.randomize.get() && this.randomizerot.is("Random") || this.randomizerot.is("RandomSecure"));
-    private final SliderValue minPitchFactor = new SliderValue("Min Pitch Factor", 0, 0, 1, 0.01f, this, () -> randomize.get() && randomizerot.is("Noise"));
-    private final SliderValue minYawFactor = new SliderValue("Min Yaw Factor", 0, 0, 1, 0.01f, this, () -> randomize.get() && randomizerot.is("Noise"));
-    private final SliderValue maxPitchFactor = new SliderValue("Max Pitch Factor", 0, 0, 1, 0.01f, this, () -> randomize.get() && randomizerot.is("Noise"));
-    private final SliderValue maxYawFactor = new SliderValue("Max Yaw Factor", 0, 0, 1, 0.01f, this, () -> randomize.get() && randomizerot.is("Noise"));
-    private final SliderValue dynamicPitchFactor = new SliderValue("Dynaimc Pitch Factor", 0, 0, 1, 0.01f, this, () -> randomize.get() && randomizerot.is("Noise"));
-    private final SliderValue dynamicYawFactor = new SliderValue("Dynaimc Yaw Factor", 0, 0, 1, 0.01f, this, () -> randomize.get() && randomizerot.is("Noise"));
-    private final SliderValue tolerance = new SliderValue("Tolerance", 0.1f, 0.01f, 0.1f, 0.01f, this, () -> randomize.get() && randomizerot.is("Noise"));
-    private final SliderValue minSpeed = new SliderValue("Min Speed", 0.1f, 0.01f, 1, 0.01f, this, () -> randomize.get() && randomizerot.is("Noise"));
-    private final SliderValue maxSpeed = new SliderValue("Max Speed", 0.2f, 0.01f, 1, 0.01f, this, () -> randomize.get() && randomizerot.is("Noise"));
 
-    public final MultiBoolValue rdadvanceaddons = new MultiBoolValue("RandomAddons", Arrays.asList(new BoolValue("SinCosRandom", true),
+    public final MultiBoolValue rdadvanceaddons = new MultiBoolValue("Random Addons", Arrays.asList(new BoolValue("Sin Cos Random", true),
             new BoolValue("Randomize", false)),this,randomize::get);
 
-    public final SliderValue frequency = new SliderValue("SpeedSinCos", 1.5f, 0f, 5.0f, 0.01f, this,() -> this.randomizerot.is("Advanced") && this.rdadvanceaddons.isEnabled("SinCosRandom"));
-    public final SliderValue yStrengthAimPattern = new SliderValue("YStrengthAmplitudeSinCos", 3.5f, 0f, 15.0f, 0.01f, this, () -> this.randomizerot.is("Advanced") && this.rdadvanceaddons.isEnabled("SinCosRandom"));
-    public final SliderValue xStrengthAimPattern = new SliderValue("XStrengthAmplitudeSinCos", 3.5f, 0f, 15.0f, 0.01f, this, () -> this.randomizerot.is("Advanced") && this.rdadvanceaddons.isEnabled("SinCosRandom"));
+    public final SliderValue frequency = new SliderValue("SpeedSinCos", 1.5f, 0f, 5.0f, 0.01f, this,() -> this.randomizerot.is("Advanced") && this.rdadvanceaddons.isEnabled("Sin Cos Random"));
+    public final SliderValue yStrengthAimPattern = new SliderValue("YStrengthAmplitudeSinCos", 3.5f, 0f, 15.0f, 0.01f, this, () -> this.randomizerot.is("Advanced") && this.rdadvanceaddons.isEnabled("Sin Cos Random"));
+    public final SliderValue xStrengthAimPattern = new SliderValue("XStrengthAmplitudeSinCos", 3.5f, 0f, 15.0f, 0.01f, this, () -> this.randomizerot.is("Advanced") && this.rdadvanceaddons.isEnabled("Sin Cos Random"));
 
     public final SliderValue yawStrengthAddon = new SliderValue("Yaw Strength Randomize",5f,1,35f,this, () -> this.randomizerot.is("Advanced") && this.rdadvanceaddons.isEnabled("Randomize"));
     public final SliderValue pitchStrengthAddon = new SliderValue("Pitch Strength Randomize",5f,1,35f,this, () -> this.randomizerot.is("Advanced") &&  this.rdadvanceaddons.isEnabled("Randomize"));
@@ -138,7 +136,6 @@ public class KillAura extends Module {
     private final TimerUtils switchTimer = new TimerUtils();
     private final TimerUtils perfectHitTimer = new TimerUtils();
     private final TimerUtils afterHitSelectTimer = new TimerUtils();
-    private final Random random = new Random();
     private int index;
     private int clicks;
     private int maxClicks;
@@ -152,9 +149,6 @@ public class KillAura extends Module {
     public Vec3 targetVec;
     public boolean doHitSelect = false;
     public boolean autoHitSelect;
-    private final ContinualAnimation animatedX = new ContinualAnimation();
-    private final ContinualAnimation animatedY = new ContinualAnimation();
-    private final ContinualAnimation animatedZ = new ContinualAnimation();
 
     public float[] rotation;
 
@@ -243,9 +237,7 @@ public class KillAura extends Module {
             if (index >= targets.size()) {
                 index = 0;
             }
-            if (!targets.isEmpty()) {
-                target = targets.get(Objects.equals(mode.get(), "Switch") ? index : 0);
-            }
+            target = targets.get(Objects.equals(mode.get(), "Switch") ? index : 0);
 
         } else {
             target = null;
@@ -275,12 +267,26 @@ public class KillAura extends Module {
                 }
 
                 rotation = calcToEntity(target);
-
-                if (customRotationSetting.get()) {
-                    RotationUtils.setRotation(rotation, addons.isEnabled("Movement Fix") ? movementFix.is("Strict") ? MovementCorrection.STRICT : MovementCorrection.SILENT : MovementCorrection.OFF, MathUtils.randomizeInt(minYawRotSpeed.get(), maxYawRotSpeed.get()), MathUtils.randomizeInt(minPitchRotSpeed.get(), maxPitchRotSpeed.get()), maxYawAcceleration.get(), maxPitchAcceleration.get(), accelerationError.get(), constantError.get(), smoothlyResetRotation.get());
+                if (customRotationSetting.canDisplay() && customRotationSetting.get()) {
+                    RotationUtils.setRotation(rotation,
+                            smoothMode.get(),
+                            addons.isEnabled("Movement Fix") ? movementFix.is("Strict") ? MovementCorrection.STRICT : MovementCorrection.SILENT : MovementCorrection.OFF,
+                            minYawRotSpeed.get(), maxYawRotSpeed.get(), minPitchRotSpeed.get(), maxPitchRotSpeed.get(),
+                            bezierP0.get(),
+                            bezierP1.get(),
+                            bezierP2.get(),
+                            bezierP3.get(),
+                            bezierP4.get(),
+                            bezierP5.get(),
+                            bezierP6.get(),
+                            bezierP7.get(),
+                            elasticity.get(),
+                            dampingFactor.get(),
+                            (int) keepLength.get(), smoothlyResetRotation.get());
                 } else {
-                    RotationUtils.setRotation(rotation, addons.isEnabled("Movement Fix") ? movementFix.is("Strict") ? MovementCorrection.STRICT : MovementCorrection.SILENT : MovementCorrection.OFF);
+                    RotationUtils.setRotation(rotation, addons.isEnabled("Movement Fix") ? movementFix.is("Strict") ? MovementCorrection.STRICT : MovementCorrection.SILENT : MovementCorrection.OFF, (int) keepLength.get());
                 }
+
 
                 prevRotation = rotation;
 
@@ -600,8 +606,6 @@ public class KillAura extends Module {
     public float[] calcToEntity(EntityLivingBase entity) {
 
         prevVec = currentVec;
-        float yaw;
-        float pitch;
 
         Vec3 playerPos = mc.thePlayer.getPositionEyes(1);
         Vec3 entityPos = entity.getPositionVector();
@@ -684,9 +688,8 @@ public class KillAura extends Module {
         double deltaY = currentVec.yCoord - playerPos.yCoord;
         double deltaZ = currentVec.zCoord - playerPos.zCoord;
 
-        yaw = (float) -(Math.atan2(deltaX, deltaZ) * (180.0 / Math.PI));
-        pitch = (float) (-Math.toDegrees(Math.atan2(deltaY, Math.hypot(deltaX, deltaZ))));
-
+        float yaw = (float) -(Math.atan2(deltaX, deltaZ) * (180.0 / Math.PI));
+        float pitch = (float) (-Math.toDegrees(Math.atan2(deltaY, Math.hypot(deltaX, deltaZ))));
 
         if(this.randomize.get()) {
             switch (this.randomizerot.get()) {
@@ -694,24 +697,8 @@ public class KillAura extends Module {
                     yaw += MathUtils.randomizeDouble(-this.yawStrength.get(), this.yawStrength.get());
                     pitch += MathUtils.randomizeDouble(-this.pitchStrength.get(), this.pitchStrength.get());
                 }
-                case "RandomSecure" -> {
-                    yaw += MathUtils.nextSecureFloat(1.0, 2.0) * Math.sin(targetVec.xCoord * 3.141592653589793) * yawStrength.get();
-                    pitch += MathUtils.nextSecureFloat(1.0, 2.0) * Math.sin(targetVec.xCoord * 3.141592653589793) * pitchStrength.get();
-                }
-                case "Noise" -> {
-                    if (gaussianHasReachedTarget(currentVec, targetVec, tolerance.get())) {
-                        double yawFactor = dynamicYawFactor.get() > 0f ? (MathUtils.randomizeDouble(minYawFactor.get(), maxYawFactor.get()) + MovementUtils.getSpeed() * dynamicYawFactor.get()) : (MathUtils.randomizeDouble(minYawFactor.get(), maxYawFactor.get()));
-                        double pitchFactor = dynamicPitchFactor.get() > 0f ? (MathUtils.randomizeDouble(minPitchFactor.get(), maxPitchFactor.get()) + MovementUtils.getSpeed() * dynamicPitchFactor.get()) : (MathUtils.randomizeDouble(minPitchFactor.get(), minPitchFactor.get()));
-                        yaw += random.nextGaussian(0.00942273861037109, 0.23319837528201348) * yawFactor;
-                        pitch += random.nextGaussian(0.30075078007595923, 0.3492437109081718) * pitchFactor;
-
-                    } else {
-                        yaw += MathUtils.interpolate(currentVec.xCoord, targetVec.xCoord, MathUtils.randomizeDouble(minSpeed.get(), maxSpeed.get()));
-                        yaw += MathUtils.interpolate(currentVec.yCoord, targetVec.yCoord, MathUtils.randomizeDouble(minSpeed.get(), maxSpeed.get()));
-                    }
-                }
                 case "Advanced" -> {
-                    if(rdadvanceaddons.isEnabled("SinCosRandom")) {
+                    if(rdadvanceaddons.isEnabled("Sin Cos Random")) {
                         double time = System.currentTimeMillis() / 1000.0D;
                         double frequency = this.frequency.get();
                         double yawAmplitude = this.xStrengthAimPattern.get();
@@ -728,7 +715,6 @@ public class KillAura extends Module {
                 }
             }
         }
-
 
         if (smartRotation.get() && prevRotation != null) {
             MovingObjectPosition test = RotationUtils.rayCast(prevRotation, rotationRange.get());
@@ -750,19 +736,5 @@ public class KillAura extends Module {
         pitch = MathHelper.clamp_float(pitch,-90,90);
 
         return new float[]{yaw, pitch};
-    }
-
-    private boolean gaussianHasReachedTarget(Vec3 vec1, Vec3 vec2, float tolerance) {
-        return MathHelper.abs((float) (vec1.xCoord - vec2.xCoord)) < tolerance &&
-                MathHelper.abs((float) (vec1.yCoord - vec2.yCoord)) < tolerance &&
-                MathHelper.abs((float) (vec1.zCoord - vec2.zCoord)) < tolerance;
-    }
-
-    public static void drawDot(@NotNull Vec3 pos, double size, int color) {
-        double d = size / 2;
-        AxisAlignedBB bbox = new AxisAlignedBB(pos.xCoord - d, pos.yCoord - d, pos.zCoord - d, pos.xCoord + d, pos.yCoord + d, pos.zCoord + d);
-
-        AxisAlignedBB axis = new AxisAlignedBB(bbox.minX - mc.thePlayer.posX, bbox.minY - mc.thePlayer.posY, bbox.minZ - mc.thePlayer.posZ, bbox.maxX - mc.thePlayer.posX, bbox.maxY - mc.thePlayer.posY, bbox.maxZ - mc.thePlayer.posZ);
-        RenderUtils.drawAxisAlignedBB(axis, true, color);
     }
 }

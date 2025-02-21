@@ -6,7 +6,7 @@
  *
  * Repository: https://github.com/randomguy3725/MoonLight
  *
- * Author(s): [Randumbguy & opZywl & lucas]
+ * Author(s): [Randumbguy & wxdbie & opZywl & MukjepScarlet & lucas & eonian]
  */
 package wtf.moonlight.features.modules;
 
@@ -154,7 +154,8 @@ public final class ModuleManager {
                 Breadcrumbs.class,
                 DamageParticles.class,
                 ItemESP.class,
-                NameHider.class
+                NameHider.class,
+                EnchantGlint.class
         );
 
         // Register the ModuleManager to listen for events

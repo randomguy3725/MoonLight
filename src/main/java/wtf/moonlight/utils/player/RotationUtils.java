@@ -6,11 +6,12 @@
  *
  * Repository: https://github.com/randomguy3725/MoonLight
  *
- * Author(s): [Randumbguy & opZywl & lucas]
+ * Author(s): [Randumbguy & wxdbie & opZywl & MukjepScarlet & lucas & eonian]
  */
 package wtf.moonlight.utils.player;
 
 import com.google.common.base.Predicates;
+import de.florianmichael.vialoadingbase.ViaLoadingBase;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
@@ -19,31 +20,47 @@ import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.util.*;
 import net.optifine.reflect.Reflector;
 import org.jetbrains.annotations.NotNull;
+import wtf.moonlight.Moonlight;
 import wtf.moonlight.events.annotations.EventPriority;
 import wtf.moonlight.events.annotations.EventTarget;
+import wtf.moonlight.events.impl.misc.MouseOverEvent;
+import wtf.moonlight.events.impl.misc.TickEvent;
 import wtf.moonlight.events.impl.misc.WorldEvent;
 import wtf.moonlight.events.impl.packet.PacketEvent;
 import wtf.moonlight.events.impl.player.*;
+import wtf.moonlight.features.modules.impl.visual.Rotation;
 import wtf.moonlight.utils.InstanceAccess;
 import wtf.moonlight.utils.math.MathUtils;
 
 import java.util.List;
 import java.util.Objects;
 
-import static java.lang.Math.abs;
 import static java.lang.Math.hypot;
 
 public class RotationUtils implements InstanceAccess {
     public static float[] currentRotation = null, serverRotation = new float[]{}, previousRotation = null;
     public static MovementCorrection currentCorrection = MovementCorrection.OFF;
     private static boolean enabled;
+    private static int keepLength;
     private static boolean smoothlyReset;
-    public static float cachedHSpeed;
-    public static float cachedVSpeed;
-    public static float cachedMaxHAcceleration;
-    public static float cachedMaxVAcceleration;
-    public static float cachedAccelerationError;
-    public static float cachedConstantError;
+    public static String cachedMode;
+    public static float cachedMinYawRotSpeed;
+    public static float cachedMaxYawRotSpeed;
+    public static float cachedMinPitchRotSpeed;
+    public static float cachedMaxPitchRotSpeed;
+    public static float elasticity;
+    public static float dampingFactor;
+    public static float bezierP0;
+    public static float bezierP1;
+    public static float bezierP2;
+    public static float bezierP3;
+    public static float bezierP4;
+    public static float bezierP5;
+    public static float bezierP6;
+    public static float bezierP7;
+
+    public static String[] smoothModes = new String[]{"Slerp", "Adaptive Bezier", "Adaptive Slerp", "Sinusoidal", "Spring", "Cosine Interpolation", "Logarithmic Interpolation", "Elastic Spring", "Bezier"};
+
     public static boolean shouldRotate() {
         return currentRotation != null;
     }
@@ -59,18 +76,74 @@ public class RotationUtils implements InstanceAccess {
         enabled = true;
     }
 
-    public static void setRotation(float[] rotation, final MovementCorrection correction,float hSpeed,float vSpeed, float maxHAcceleration, float maxVAcceleration, float accelerationError, float constantError, boolean smoothlyReset) {
-        RotationUtils.currentRotation = smooth(serverRotation, rotation, hSpeed, vSpeed, maxHAcceleration, maxVAcceleration, accelerationError, constantError);
+    public static void setRotation(float[] rotation, final MovementCorrection correction,int keepLength) {
+        RotationUtils.currentRotation = applyGCDFix(serverRotation, rotation);
         currentCorrection = correction;
-        RotationUtils.smoothlyReset = smoothlyReset;
-        cachedHSpeed = hSpeed;
-        cachedVSpeed = vSpeed;
-        cachedMaxHAcceleration = maxHAcceleration;
-        cachedMaxVAcceleration = maxVAcceleration;
-        cachedAccelerationError = 0;
-        cachedConstantError = 0;
+        smoothlyReset = false;
+
+        RotationUtils.keepLength = keepLength;
 
         enabled = true;
+    }
+
+    public static void setRotation(float[] rotation, String mode, final MovementCorrection correction, float minYawRotSpeed, float maxYawRotSpeed, float minPitchRotSpeed, float maxPitchRotSpeed,float bezierP0,float bezierP1,float bezierP2,float bezierP3,float bezierP4,float bezierP5,float bezierP6,float bezierP7,float elasticity,float dampingFactor, boolean smoothlyReset) {
+        RotationUtils.currentRotation = smooth(serverRotation, rotation, mode, MathUtils.randomizeInt(minYawRotSpeed,maxYawRotSpeed), MathUtils.randomizeInt(minPitchRotSpeed,maxPitchRotSpeed), bezierP0, bezierP1, bezierP2, bezierP3, bezierP4, bezierP5, bezierP6, bezierP7,elasticity,dampingFactor);
+        currentCorrection = correction;
+        RotationUtils.smoothlyReset = smoothlyReset;
+        cachedMinYawRotSpeed = minYawRotSpeed;
+        cachedMaxYawRotSpeed = maxYawRotSpeed;
+        cachedMinPitchRotSpeed = minPitchRotSpeed;
+        cachedMaxPitchRotSpeed = maxPitchRotSpeed;
+        cachedMode = mode;
+        RotationUtils.bezierP0 = bezierP0;
+        RotationUtils.bezierP1 = bezierP1;
+        RotationUtils.bezierP2 = bezierP2;
+        RotationUtils.bezierP3 = bezierP3;
+        RotationUtils.bezierP4 = bezierP4;
+        RotationUtils.bezierP5 = bezierP5;
+        RotationUtils.bezierP6 = bezierP6;
+        RotationUtils.bezierP7 = bezierP7;
+        RotationUtils.elasticity = elasticity;
+        RotationUtils.dampingFactor = dampingFactor;
+
+        enabled = true;
+    }
+
+    public static void setRotation(float[] rotation, String mode, final MovementCorrection correction, float minYawRotSpeed, float maxYawRotSpeed, float minPitchRotSpeed, float maxPitchRotSpeed,float bezierP0,float bezierP1,float bezierP2,float bezierP3,float bezierP4,float bezierP5,float bezierP6,float bezierP7,float elasticity,float dampingFactor,int keepLength, boolean smoothlyReset) {
+        RotationUtils.currentRotation = smooth(serverRotation, rotation, mode, MathUtils.randomizeInt(minYawRotSpeed,maxYawRotSpeed), MathUtils.randomizeInt(minPitchRotSpeed,maxPitchRotSpeed), bezierP0, bezierP1, bezierP2, bezierP3, bezierP4, bezierP5, bezierP6, bezierP7,elasticity,dampingFactor);
+        currentCorrection = correction;
+        RotationUtils.smoothlyReset = smoothlyReset;
+        cachedMinYawRotSpeed = minYawRotSpeed;
+        cachedMaxYawRotSpeed = maxYawRotSpeed;
+        cachedMinPitchRotSpeed = minPitchRotSpeed;
+        cachedMaxPitchRotSpeed = maxPitchRotSpeed;
+        cachedMode = mode;
+        RotationUtils.bezierP0 = bezierP0;
+        RotationUtils.bezierP1 = bezierP1;
+        RotationUtils.bezierP2 = bezierP2;
+        RotationUtils.bezierP3 = bezierP3;
+        RotationUtils.bezierP4 = bezierP4;
+        RotationUtils.bezierP5 = bezierP5;
+        RotationUtils.bezierP6 = bezierP6;
+        RotationUtils.bezierP7 = bezierP7;
+        RotationUtils.elasticity = elasticity;
+        RotationUtils.dampingFactor = dampingFactor;
+
+        RotationUtils.keepLength = keepLength;
+
+        enabled = true;
+    }
+
+    @EventTarget
+    @EventPriority(-100)
+    public void onTick(TickEvent event){
+        if(shouldRotate()){
+            keepLength--;
+
+            if (keepLength <= 0) {
+                enabled = false;
+            }
+        }
     }
 
     @EventTarget
@@ -87,10 +160,9 @@ public class RotationUtils implements InstanceAccess {
             }
 
             if (distanceToPlayerRotation > 0) {
-                RotationUtils.currentRotation = smooth(Objects.requireNonNullElse(currentRotation, serverRotation), new float[]{mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch},cachedHSpeed,cachedVSpeed,cachedMaxHAcceleration,cachedMaxVAcceleration,cachedAccelerationError,cachedConstantError);
+                RotationUtils.currentRotation = smooth(Objects.requireNonNullElse(currentRotation, serverRotation), new float[]{mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch}, cachedMode, MathUtils.randomizeInt(cachedMinYawRotSpeed,cachedMaxYawRotSpeed), MathUtils.randomizeInt(cachedMinPitchRotSpeed,cachedMaxPitchRotSpeed), bezierP0, bezierP1, bezierP2, bezierP3, bezierP4, bezierP5, bezierP6, bezierP7,elasticity,dampingFactor);
             }
         }
-        enabled = false;
     }
 
     @EventTarget
@@ -123,19 +195,16 @@ public class RotationUtils implements InstanceAccess {
     public void onPacket(final PacketEvent event) {
         final Packet<?> packet = event.getPacket();
 
-        if (!(packet instanceof C03PacketPlayer packetPlayer))
-            return;
+        if(packet instanceof C03PacketPlayer packetPlayer) {
 
-        if (!packetPlayer.rotating)
-            return;
+            if(currentRotation != null && (currentRotation[0] != serverRotation[0] || currentRotation[1] != serverRotation[1])) {
+                packetPlayer.yaw = currentRotation[0];
+                packetPlayer.pitch = currentRotation[1];
+                packetPlayer.rotating = true;
+            }
 
-        if (shouldRotate()) {
-            packetPlayer.yaw = currentRotation[0];
-            packetPlayer.pitch = currentRotation[1];
+            if(packetPlayer.rotating) serverRotation = new float[]{packetPlayer.yaw, packetPlayer.pitch};
         }
-
-        serverRotation = new float[]{packetPlayer.yaw, packetPlayer.pitch};
-
     }
 
     @EventTarget
@@ -157,46 +226,110 @@ public class RotationUtils implements InstanceAccess {
                 }
 
                 if (distanceToPlayerRotation > 0) {
-                    RotationUtils.currentRotation = smooth(Objects.requireNonNullElse(currentRotation, serverRotation), new float[]{mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch},cachedHSpeed,cachedVSpeed,cachedMaxHAcceleration,cachedMaxVAcceleration,cachedAccelerationError,cachedConstantError);
+                    RotationUtils.currentRotation = smooth(Objects.requireNonNullElse(currentRotation, serverRotation), new float[]{mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch}, cachedMode, MathUtils.randomizeInt(cachedMinYawRotSpeed,cachedMaxYawRotSpeed), MathUtils.randomizeInt(cachedMinPitchRotSpeed,cachedMaxPitchRotSpeed), bezierP0, bezierP1, bezierP2, bezierP3, bezierP4, bezierP5, bezierP6, bezierP7,elasticity,dampingFactor);
                 }
             }
-            enabled = false;
         }
     }
 
     private static void resetRotation() {
+        keepLength = 0;
         enabled = false;
         RotationUtils.currentRotation = null;
         currentCorrection = MovementCorrection.OFF;
     }
 
-    public static float[] smooth(final float[] currentRotation, final float[] targetRotation,float hSpeed,float vSpeed,float maxHAcceleration,float maxVAcceleration,float accelerationError,float constantError) {
+    public static float[] smooth(final float[] currentRotation, final float[] targetRotation, String mode, float hSpeed, float vSpeed,float bezierP0,float bezierP1,float bezierP2,float bezierP3,float bezierP4,float bezierP5,float bezierP6,float bezierP7,float elasticity,float dampingFactor) {
 
-        float yawDifference = getAngleDifference(targetRotation[0], currentRotation[0]);
-        float pitchDifference = getAngleDifference(targetRotation[1], currentRotation[1]);
+        float[] result = new float[]{smooth(currentRotation[0], targetRotation[0], mode, hSpeed, bezierP0, bezierP1, bezierP2, bezierP3, bezierP4, bezierP5, bezierP6, bezierP7,elasticity,dampingFactor), smooth(currentRotation[1], targetRotation[1], mode, vSpeed, bezierP0, bezierP1, bezierP2, bezierP3, bezierP4, bezierP5, bezierP6, bezierP7,elasticity,dampingFactor)};
 
-        double rotationDifference = hypot(abs(yawDifference), abs(pitchDifference));
+        return applyGCDFix(currentRotation, result);
+    }
 
-        float straightLineYaw = (float) (abs(yawDifference / rotationDifference) * hSpeed);
-        float straightLinePitch = (float) (abs(pitchDifference / rotationDifference) * vSpeed);
+    private static float smooth(float current, float target, String mode, float speed, float bezierP0, float bezierP1, float bezierP2, float bezierP3, float bezierP4, float bezierP5, float bezierP6, float bezierP7,float elasticity,float dampingFactor) {
 
-        float[] finalTargetRotation = new float[]{currentRotation[0] + Math.max(-straightLineYaw, Math.min(straightLineYaw, yawDifference)), currentRotation[1] + Math.max(-straightLinePitch, Math.min(straightLinePitch, pitchDifference))};
+        speed /= 180;
+        switch (mode) {
+            case "Slerp": {
+                float delta = MathHelper.wrapAngleTo180_float(target - current);
+                return current + delta * speed;
+            }
+            case "Adaptive Bezier": {
+                float p0 = bezierP0;
+                float p1 = bezierP1;
+                float p2 = bezierP2;
+                float p3 = bezierP3;
+                float p4 = bezierP4;
+                float p5 = bezierP5;
+                float p6 = bezierP6;
+                float p7 = bezierP7;
 
-        float[] prevRotation = previousRotation;
+                float factor = (float) ((Math.pow(1 - speed, 7) * p0) +
+                        7 * Math.pow(1 - speed, 6) * speed * p1 +
+                        21 * Math.pow(1 - speed, 5) * Math.pow(speed, 2) * p2 +
+                        35 * Math.pow(1 - speed, 4) * Math.pow(speed, 3) * p3 +
+                        35 * Math.pow(1 - speed, 3) * Math.pow(speed, 4) * p4 +
+                        21 * Math.pow(1 - speed, 2) * Math.pow(speed, 5) * p5 +
+                        7 * (1 - speed) * Math.pow(speed, 6) * p6 +
+                        Math.pow(speed, 7) * p7);
+                float delta = MathHelper.wrapAngleTo180_float(target - current);
+                float distance = Math.abs(delta);
+                float deltaTime = Math.min(distance, factor);
+                return current + deltaTime * Math.signum(delta);
+            }
+            case "Adaptive Slerp": {
+                float delta = MathHelper.wrapAngleTo180_float(target - current);
+                float distance = Math.abs(delta);
+                double smoothFactor = Math.pow(distance, 2.0);
+                float deltaTime = Math.min((float) smoothFactor * speed, distance);
+                return current + deltaTime * Math.signum(delta);
+            }
+            case "Sinusoidal": {
+                float delta = MathHelper.wrapAngleTo180_float(target - current);
+                float factor = (float) Math.sin((speed * Math.PI) / 2);
+                return current + delta * factor ;
+            }
+            case "Cosine Interpolation": {
+                float delta = MathHelper.wrapAngleTo180_float(target - current);
+                float factor = (float) ((1 - Math.cos(Math.PI * speed)) * 0.5f);
+                return current + delta * factor;
+            }
+            case "Logarithmic Interpolation": {
+                float delta = MathHelper.wrapAngleTo180_float(target - current);
+                float factor = (float) Math.log(1 + speed);
+                return current + delta * factor;
+            }
+            case "Elastic Spring": {
+                float delta = MathHelper.wrapAngleTo180_float(target - current);
+                float elastic = elasticity;
+                float damping = dampingFactor;
+                float factor = (float) (Math.exp((-elastic * speed)) * Math.cos(damping * speed * Math.PI));
+                return current + delta * factor;
+            }
+            case "Bezier": {
 
-        float prevYawDiff = getAngleDifference(currentRotation[0], prevRotation[0]);
-        float prevPitchDiff = getAngleDifference(currentRotation[1], prevRotation[1]);
-        float yawDiff = getAngleDifference(finalTargetRotation[0], currentRotation[0]);
-        float pitchDiff = getAngleDifference(finalTargetRotation[1], currentRotation[1]);
-
-        float[] newDiff = computeTurnSpeed(maxHAcceleration,maxVAcceleration,prevYawDiff, prevPitchDiff, yawDiff, pitchDiff,accelerationError,constantError);
-
-        float[] result = new float[]{
-                (currentRotation[0] + newDiff[0]),
-                (currentRotation[1] + newDiff[1])
-        };
-
-        return applyGCDFix(currentRotation,result);
+                float p0 = bezierP0;
+                float p1 = bezierP1;
+                float p2 = bezierP2;
+                float p3 = bezierP3;
+                float p4 = bezierP4;
+                float p5 = bezierP5;
+                float p6 = bezierP6;
+                float p7 = bezierP7;
+                float factor = (float) ((Math.pow(1 - speed, 7) * p0) +
+                        7 * Math.pow(1 - speed, 6) * speed * p1 +
+                        21 * Math.pow(1 - speed, 5) * Math.pow(speed, 2) * p2 +
+                        35 * Math.pow(1 - speed, 4) * Math.pow(speed, 3) * p3 +
+                        35 * Math.pow(1 - speed, 3) * Math.pow(speed, 4) * p4 +
+                        21 * Math.pow(1 - speed, 2) * Math.pow(speed, 5) * p5 +
+                        7 * (1 - speed) * Math.pow(speed, 6) * p6 +
+                        Math.pow(speed, 7) * p7);
+                return current + MathHelper.wrapAngleTo180_float(target - current) * factor;
+            }
+            default: {
+                return target;
+            }
+        }
     }
 
     public static float[] applyGCDFix(float[] prevRotation, float[] currentRotation) {
@@ -206,28 +339,6 @@ public class RotationUtils implements InstanceAccess {
         final float pitch = prevRotation[1] + (float) (Math.round((currentRotation[1] - prevRotation[1]) / gcd) * gcd);
 
         return new float[]{yaw, pitch};
-    }
-
-    private static float[] computeTurnSpeed(float maxHAcceleration,float maxVAcceleration,float prevYawDiff, float prevPitchDiff, float yawDiff, float pitchDiff,float accelerationError,float constantError) {
-
-        float yawAccel = getAngleDifference(yawDiff, prevYawDiff);
-        yawAccel = Math.max(-maxHAcceleration, Math.min(yawAccel, maxHAcceleration));
-
-        float pitchAccel = getAngleDifference(pitchDiff, prevPitchDiff);
-        pitchAccel = Math.max(-maxVAcceleration, Math.min(pitchAccel, maxVAcceleration));
-
-        float yawError = yawAccel * errorMult(accelerationError) + constantError(constantError);
-        float pitchError = pitchAccel * errorMult(accelerationError) + constantError(constantError);
-
-        return new float[]{prevYawDiff + yawAccel + yawError, prevPitchDiff + pitchAccel + pitchError};
-    }
-
-    public static float errorMult(float accelerationError) {
-        return MathUtils.nextFloat(-accelerationError, accelerationError);
-    }
-
-    public static float constantError(float constantError) {
-        return MathUtils.nextFloat(-constantError, constantError);
     }
 
     public static float getAngleDifference(float a, float b) {
@@ -256,6 +367,7 @@ public class RotationUtils implements InstanceAccess {
     public static double distanceFromYaw(final Entity entity) {
         return Math.abs(MathHelper.wrapAngleTo180_double(i(entity.posX, entity.posZ) - mc.thePlayer.rotationYaw));
     }
+
     public static double getRotationDifference(float[] e) {
         return getRotationDifference(serverRotation, e);
     }
@@ -266,13 +378,13 @@ public class RotationUtils implements InstanceAccess {
     }
 
     public static float getRotationDifference(final Entity entity) {
-        float[] target = RotationUtils.getRotations(entity.posX,entity.posY + entity.getEyeHeight(),entity.posZ);
+        float[] target = RotationUtils.getRotations(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ);
         return (float) hypot(Math.abs(getAngleDifference(target[0], mc.thePlayer.rotationYaw)), Math.abs(target[1] - mc.thePlayer.rotationPitch));
     }
 
-    public static float getRotationDifference(final Entity entity,final Entity entity2) {
-        float[] target = RotationUtils.getRotations(entity.posX,entity.posY + entity.getEyeHeight(),entity.posZ);
-        float[] target2 = RotationUtils.getRotations(entity2.posX,entity2.posY + entity2.getEyeHeight(),entity2.posZ);
+    public static float getRotationDifference(final Entity entity, final Entity entity2) {
+        float[] target = RotationUtils.getRotations(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ);
+        float[] target2 = RotationUtils.getRotations(entity2.posX, entity2.posY + entity2.getEyeHeight(), entity2.posZ);
         return (float) hypot(Math.abs(getAngleDifference(target[0], target2[0])), Math.abs(target[1] - target2[1]));
     }
 
@@ -289,7 +401,7 @@ public class RotationUtils implements InstanceAccess {
 
     public static MovingObjectPosition rayTrace(double blockReachDistance, float partialTicks) {
         Vec3 vec3 = mc.thePlayer.getPositionEyes(partialTicks);
-        Vec3 vec31 = mc.thePlayer.getLookCustom(serverRotation[0], serverRotation[1]);
+        Vec3 vec31 = mc.thePlayer.getLookCustom(currentRotation[0], currentRotation[1]);
         Vec3 vec32 = vec3.addVector(vec31.xCoord * blockReachDistance, vec31.yCoord * blockReachDistance, vec31.zCoord * blockReachDistance);
         return mc.theWorld.rayTraceBlocks(vec3, vec32, false, true, true);
     }
@@ -313,20 +425,20 @@ public class RotationUtils implements InstanceAccess {
         double y = rotY - startY;
         double z = rotZ - startZ;
         double dist = MathHelper.sqrt_double(x * x + z * z);
-        float yaw = (float)(Math.atan2(z, x) * 180.0 / Math.PI) - 90.0F;
-        float pitch = (float)(-(Math.atan2(y, dist) * 180.0 / Math.PI));
+        float yaw = (float) (Math.atan2(z, x) * 180.0 / Math.PI) - 90.0F;
+        float pitch = (float) (-(Math.atan2(y, dist) * 180.0 / Math.PI));
         return new float[]{yaw, pitch};
     }
 
     public static float[] getRotations(double posX, double posY, double posZ) {
-        return getRotations(posX, posY, posZ, mc.thePlayer.posX, mc.thePlayer.posY + (double)mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
+        return getRotations(posX, posY, posZ, mc.thePlayer.posX, mc.thePlayer.posY + (double) mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
     }
 
     public static float[] getRotations(Vec3 vec) {
         return getRotations(vec.xCoord, vec.yCoord, vec.zCoord);
     }
 
-    public static float[] getRotationToBlock(BlockPos blockPos,EnumFacing direction) {
+    public static float[] getRotationToBlock(BlockPos blockPos, EnumFacing direction) {
 
         double centerX = blockPos.getX() + 0.5 + direction.getFrontOffsetX() * 0.5;
         double centerY = blockPos.getY() + 0.5 + direction.getFrontOffsetY() * 0.5;
@@ -345,10 +457,6 @@ public class RotationUtils implements InstanceAccess {
         float pitch = (float) -Math.toDegrees(Math.atan2(deltaY, distanceXZ));
 
         return new float[]{yaw, pitch};
-    }
-
-    public static float clampTo90(final float n) {
-        return MathHelper.clamp_float(n, -90, 90);
     }
 
     public static float calculateYawFromSrcToDst(final float yaw,
@@ -405,75 +513,94 @@ public class RotationUtils implements InstanceAccess {
     }
 
     public static MovingObjectPosition rayCast(final float[] rotation, final double range) {
-        return rayCast(rotation, range, 0,1f);
+        return rayCast(rotation, range, mc.timer.renderPartialTicks);
     }
 
-    public static MovingObjectPosition rayCast(final float[] rots, final double range, final double hitBoxExpand,final float partialTicks) {
+    public static MovingObjectPosition rayCast(final float[] rots, final double range, final float partialTicks) {
         MovingObjectPosition objectMouseOver = null;
-        final Entity entity = mc.getRenderViewEntity();
-        if (entity != null && mc.theWorld != null) {
-            mc.mcProfiler.startSection("pick");
-            mc.pointedEntity = null;
-            double d0 = range;
-            objectMouseOver = entity.rayTraceCustom(d0, partialTicks, rots[0], rots[1]);
-            double d2 = d0;
-            final Vec3 vec3 = entity.getPositionEyes(partialTicks);
-            boolean flag = false;
-            if (mc.playerController.extendedReach()) {
-                d0 = 6.0;
-                d2 = 6.0;
-            }
-            else {
-                if (d0 > 3.0) {
-                    flag = true;
-                }
-            }
-            if (objectMouseOver != null) {
-                d2 = objectMouseOver.hitVec.distanceTo(vec3);
-            }
-            final Vec3 vec4 = entity.getLookCustom(rots[0], rots[1]);
-            final Vec3 vec5 = vec3.addVector(vec4.xCoord * d0, vec4.yCoord * d0, vec4.zCoord * d0);
+        Entity entity = mc.getRenderViewEntity();
+
+        if (entity != null && mc.theWorld != null)
+        {
             Entity pointedEntity = null;
-            Vec3 vec6 = null;
-            final float f = 1.0f;
-            final List<Entity> list = mc.theWorld.getEntitiesInAABBexcluding(entity, entity.getEntityBoundingBox().addCoord(vec4.xCoord * d0, vec4.yCoord * d0, vec4.zCoord * d0).expand(f, f, f), Predicates.and(EntitySelectors.NOT_SPECTATING));
-            double d3 = d2;
-            for (Entity value : list) {
-                final float f2 = (float) (value.getCollisionBorderSize() + hitBoxExpand);
-                final AxisAlignedBB axisalignedbb = value.getEntityBoundingBox().expand(f2, f2, f2);
-                final MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(vec3, vec5);
+            double d0 = mc.playerController.getBlockReachDistance();
+            objectMouseOver = entity.rayTraceCustom(d0, partialTicks,rots[0],rots[1]);
+            double d1 = d0;
+            Vec3 vec3 = entity.getPositionEyes(partialTicks);
+            boolean flag = false;
+            double i = range;
+
+            MouseOverEvent mouseOverEvent = new MouseOverEvent(i);
+            Moonlight.INSTANCE.getEventManager().call(mouseOverEvent);
+
+            i = mouseOverEvent.getRange();
+
+            if (mc.playerController.extendedReach())
+            {
+                d0 = 6.0D;
+                d1 = 6.0D;
+            }
+            else if (d0 > (ViaLoadingBase.getInstance().getTargetVersion().getVersion() <= 47 ? 3.0D : 2.9D))
+            {
+                flag = true;
+            }
+
+            if (objectMouseOver != null)
+            {
+                d1 = objectMouseOver.hitVec.distanceTo(vec3);
+            }
+
+            Vec3 vec31 = entity.getLookCustom(RotationUtils.currentRotation[0],RotationUtils.currentRotation[1]);
+            Vec3 vec32 = vec3.addVector(vec31.xCoord * d0, vec31.yCoord * d0, vec31.zCoord * d0);
+            Vec3 vec33 = null;
+            float f = 1.0F;
+            List<Entity> list = mc.theWorld.getEntitiesInAABBexcluding(entity, entity.getEntityBoundingBox().addCoord(vec31.xCoord * d0, vec31.yCoord * d0, vec31.zCoord * d0).expand(f, f, f), Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith));
+            double d2 = d1;
+
+            for (Entity entity1 : list) {
+                float f1 = entity1.getCollisionBorderSize();
+                AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand(f1, f1, f1);
+                MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(vec3, vec32);
+
                 if (axisalignedbb.isVecInside(vec3)) {
-                    if (d3 >= 0.0) {
-                        pointedEntity = value;
-                        vec6 = ((movingobjectposition == null) ? vec3 : movingobjectposition.hitVec);
-                        d3 = 0.0;
+                    if (d2 >= 0.0D) {
+                        pointedEntity = entity1;
+                        vec33 = movingobjectposition == null ? vec3 : movingobjectposition.hitVec;
+                        d2 = 0.0D;
                     }
                 } else if (movingobjectposition != null) {
-                    final double d4 = vec3.distanceTo(movingobjectposition.hitVec);
-                    if (d4 < d3 || d3 == 0.0) {
-                        boolean flag3 = false;
+                    double d3 = vec3.distanceTo(movingobjectposition.hitVec);
+
+                    if (d3 < d2 || d2 == 0.0D) {
+                        boolean flag1 = false;
+
                         if (Reflector.ForgeEntity_canRiderInteract.exists()) {
-                            flag3 = Reflector.callBoolean(value, Reflector.ForgeEntity_canRiderInteract, new Object[0]);
+                            flag1 = Reflector.callBoolean(entity1, Reflector.ForgeEntity_canRiderInteract);
                         }
-                        if (value == entity.ridingEntity && !flag3) {
-                            if (d3 == 0.0) {
-                                pointedEntity = value;
-                                vec6 = movingobjectposition.hitVec;
+
+                        if (!flag1 && entity1 == entity.ridingEntity) {
+                            if (d2 == 0.0D) {
+                                pointedEntity = entity1;
+                                vec33 = movingobjectposition.hitVec;
                             }
                         } else {
-                            pointedEntity = value;
-                            vec6 = movingobjectposition.hitVec;
-                            d3 = d4;
+                            pointedEntity = entity1;
+                            vec33 = movingobjectposition.hitVec;
+                            d2 = d3;
                         }
                     }
                 }
             }
-            if (pointedEntity != null && flag && vec3.distanceTo(vec6) > range) {
+
+            if (pointedEntity != null && flag && vec3.distanceTo(vec33) > (ViaLoadingBase.getInstance().getTargetVersion().getVersion() <= 47 ? i : i - 0.1f))
+            {
                 pointedEntity = null;
-                objectMouseOver = new MovingObjectPosition(MovingObjectPosition.MovingObjectType.MISS, vec6, null, new BlockPos(vec6));
+                objectMouseOver = new MovingObjectPosition(MovingObjectPosition.MovingObjectType.MISS, vec33, null, new BlockPos(vec33));
             }
-            if (pointedEntity != null && (d3 < d2 || objectMouseOver == null)) {
-                objectMouseOver = new MovingObjectPosition(pointedEntity, vec6);
+
+            if (pointedEntity != null && (d2 < d1 || objectMouseOver == null))
+            {
+                objectMouseOver = new MovingObjectPosition(pointedEntity, vec33);
             }
         }
         return objectMouseOver;
@@ -487,7 +614,6 @@ public class RotationUtils implements InstanceAccess {
         double posZ = target.posZ + (predict ? (target.posZ - target.prevPosZ) * predictSize : 0.0) - (player.posZ + (predict ? player.posZ - player.prevPosZ : 0.0));
         double posSqrt = Math.sqrt(posX * posX + posZ * posZ);
 
-        /*velocity = player.getItemInUseDuration() / 20f;*/
         velocity = Math.min((velocity * velocity + velocity * 2) / 3, 1f);
 
         float gravityModifier = 0.12f * gravity;

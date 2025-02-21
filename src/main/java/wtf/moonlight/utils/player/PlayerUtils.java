@@ -6,7 +6,7 @@
  *
  * Repository: https://github.com/randomguy3725/MoonLight
  *
- * Author(s): [Randumbguy & opZywl & lucas]
+ * Author(s): [Randumbguy & wxdbie & opZywl & MukjepScarlet & lucas & eonian]
  */
 package wtf.moonlight.utils.player;
 
@@ -400,4 +400,9 @@ public class PlayerUtils implements InstanceAccess {
         }
         return blocks;
     }
+
+    public static boolean canBeClick(BlockPos pos) {
+        return mc.theWorld.getBlockState(pos).getBlock().canCollideCheck(mc.theWorld.getBlockState(pos), false) && mc.theWorld.getWorldBorder().contains(pos);
+    }
+
 }

@@ -6,7 +6,7 @@
  *
  * Repository: https://github.com/randomguy3725/MoonLight
  *
- * Author(s): [Randumbguy & opZywl & lucas]
+ * Author(s): [Randumbguy & wxdbie & opZywl & MukjepScarlet & lucas & eonian]
  */
 package wtf.moonlight.features.modules.impl.movement;
 
@@ -20,6 +20,7 @@ import wtf.moonlight.events.annotations.EventTarget;
 import wtf.moonlight.events.impl.misc.BlockAABBEvent;
 import wtf.moonlight.events.impl.packet.PacketEvent;
 import wtf.moonlight.events.impl.player.UpdateEvent;
+import wtf.moonlight.events.impl.render.Render3DEvent;
 import wtf.moonlight.features.modules.Module;
 import wtf.moonlight.features.modules.ModuleCategory;
 import wtf.moonlight.features.modules.ModuleInfo;
@@ -31,10 +32,11 @@ import wtf.moonlight.utils.player.PlayerUtils;
 @ModuleInfo(name = "Phase", category = ModuleCategory.Movement)
 public class Phase extends Module {
 
-    public final ModeValue mode = new ModeValue("Mode", new String[]{"Vanilla","Watchdog Auto","Watchdog"}, "Watchdog Auto", this);
+    public final ModeValue mode = new ModeValue("Mode", new String[]{"Vanilla","Watchdog Auto","Watchdog","Intave"}, "Watchdog Auto", this);
     public boolean phase;
     private final TimerUtils timerUtils = new TimerUtils();
     private boolean phasing;
+    private boolean canClip = false;
 
     @EventTarget
     public void onUpdate(UpdateEvent event) {
@@ -43,27 +45,73 @@ public class Phase extends Module {
             if (phase && !timerUtils.hasTimeElapsed(4000)) PingSpoofComponent.blink();
         }
         if (mode.get().equals("Vanilla")) {
-                this.phasing = false;
+            this.phasing = false;
+
+            final double rotation = Math.toRadians(mc.thePlayer.rotationYaw);
+
+            final double x = Math.sin(rotation);
+            final double z = Math.cos(rotation);
+
+            if (mc.thePlayer.isCollidedHorizontally) {
+                mc.thePlayer.setPosition(mc.thePlayer.posX - x * 0.005, mc.thePlayer.posY, mc.thePlayer.posZ + z * 0.005);
+                this.phasing = true;
+            } else if (PlayerUtils.insideBlock()) {
+                sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX - x * 1.5, mc.thePlayer.posY, mc.thePlayer.posZ + z * 1.5, false));
+
+                mc.thePlayer.motionX *= 0.3D;
+                mc.thePlayer.motionZ *= 0.3D;
+
+                this.phasing = true;
+            }
+        }
+        if (mode.is("Intave")) {
+            mc.thePlayer.capabilities.allowEdit = true;
+
+            if (canClip) {
+                mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY - 0.005, mc.thePlayer.posZ);
+                }
+            if (mc.thePlayer.isSneaking()) {
+                final double wdist = 0.05D;
+                final double sdist = -0.05D;
 
                 final double rotation = Math.toRadians(mc.thePlayer.rotationYaw);
 
-                final double x = Math.sin(rotation);
-                final double z = Math.cos(rotation);
+                if (mc.gameSettings.keyBindForward.isKeyDown()) {
 
-                if (mc.thePlayer.isCollidedHorizontally) {
-                    mc.thePlayer.setPosition(mc.thePlayer.posX - x * 0.005, mc.thePlayer.posY, mc.thePlayer.posZ + z * 0.005);
-                    this.phasing = true;
-                } else if (PlayerUtils.insideBlock()) {
-                    sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX - x * 1.5, mc.thePlayer.posY, mc.thePlayer.posZ + z * 1.5, false));
-
-                    mc.thePlayer.motionX *= 0.3D;
-                    mc.thePlayer.motionZ *= 0.3D;
-
-                    this.phasing = true;
+                    final double x = Math.sin(rotation) * wdist;
+                    final double z = Math.cos(rotation) * wdist;
+                    
+                    mc.thePlayer.setPosition(mc.thePlayer.posX - x, mc.thePlayer.posY, mc.thePlayer.posZ + z);
                 }
+                if (mc.gameSettings.keyBindBack.isKeyDown()) {
 
+                    final double x = Math.sin(rotation) * sdist;
+                    final double z = Math.cos(rotation) * sdist;
+
+                    mc.thePlayer.setPosition(mc.thePlayer.posX - x, mc.thePlayer.posY, mc.thePlayer.posZ + z);
+                }
+                if (mc.gameSettings.keyBindLeft.isKeyDown()) {
+
+                    final double x = Math.sin(rotation) * wdist;
+
+                    mc.thePlayer.setPosition(mc.thePlayer.posX + x, mc.thePlayer.posY, mc.thePlayer.posZ);
+                }
+                if (mc.gameSettings.keyBindLeft.isKeyDown()) {
+
+                    final double x = Math.sin(rotation) * sdist;
+
+                    mc.thePlayer.setPosition(mc.thePlayer.posX + x, mc.thePlayer.posY, mc.thePlayer.posZ);
+                }
+            }
         }
     }
+
+        @EventTarget
+        public void onRender3D (Render3DEvent e){
+            if (mode.is("Intave")) {
+                canClip = mc.playerController.curBlockDamageMP > 0.75;
+            }
+        }
 
     @EventTarget
     public void onBlockAABB(BlockAABBEvent event) {
