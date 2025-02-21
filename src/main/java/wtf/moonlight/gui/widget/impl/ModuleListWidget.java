@@ -46,9 +46,15 @@ public class ModuleListWidget extends Widget {
             RenderPosition position = calculateRenderPosition(module, width, middle);
 
             if (setting.animation.is("ScaleIn")) {
-                RenderUtils.scaleStart(position.x + (width / 2.0f),
-                        position.y + offset + mc.fontRendererObj.FONT_HEIGHT,
-                        (float) module.getAnimation().getOutput());
+                if (renderX < middle) {
+                    RenderUtils.scaleStart(position.x + (width / 2.0f),
+                            position.y + offset + mc.fontRendererObj.FONT_HEIGHT,
+                            (float) module.getAnimation().getOutput());
+                } else {
+                    RenderUtils.scaleStart(position.x - (width / 2.0f) + this.width,
+                            position.y + offset + mc.fontRendererObj.FONT_HEIGHT,
+                            (float) module.getAnimation().getOutput());
+                }
             }
 
             renderModule(module, position.x, position.y, offset, width, height,
