@@ -68,13 +68,11 @@ public class Phase extends Module {
             mc.thePlayer.capabilities.allowEdit = true;
 
             if (canClip) {
-                mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY - 0.0052, mc.thePlayer.posZ);
+                mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY - 0.005, mc.thePlayer.posZ);
                 }
             if (mc.thePlayer.isSneaking()) {
                 final double wdist = 0.05D;
                 final double sdist = -0.05D;
-                final double adist = 0.05D;
-                final double ddist = -0.05D;
 
                 final double rotation = Math.toRadians(mc.thePlayer.rotationYaw);
 
@@ -94,13 +92,13 @@ public class Phase extends Module {
                 }
                 if (mc.gameSettings.keyBindLeft.isKeyDown()) {
 
-                    final double x = Math.sin(rotation) * adist;
+                    final double x = Math.sin(rotation) * wdist;
 
                     mc.thePlayer.setPosition(mc.thePlayer.posX + x, mc.thePlayer.posY, mc.thePlayer.posZ);
                 }
                 if (mc.gameSettings.keyBindLeft.isKeyDown()) {
 
-                    final double x = Math.sin(rotation) * ddist;
+                    final double x = Math.sin(rotation) * sdist;
 
                     mc.thePlayer.setPosition(mc.thePlayer.posX + x, mc.thePlayer.posY, mc.thePlayer.posZ);
                 }
@@ -111,7 +109,7 @@ public class Phase extends Module {
         @EventTarget
         public void onRender3D (Render3DEvent e){
             if (mode.is("Intave")) {
-                canClip = mc.playerController.curBlockDamageMP > 0.9;
+                canClip = mc.playerController.curBlockDamageMP > 0.75;
             }
         }
 
