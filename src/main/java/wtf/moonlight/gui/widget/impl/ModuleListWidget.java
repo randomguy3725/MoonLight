@@ -243,13 +243,13 @@ public class ModuleListWidget extends Widget {
                     if (module.isEnabled()) {
                         translate.translate(MOVE_IN_SCALE + localX, localY);
                     } else {
-                        translate.animate((-width * 2) + localX, -25.0);
+                        translate.animate((-width) + localX, -25.0);
                     }
                 } else {
                     if (module.isEnabled()) {
                         translate.translate(localX, localY);
                     } else {
-                        translate.animate(localX - width + this.width * 2, -25.0);
+                        translate.animate(localX - width + this.width, -25.0);
                     }
                 }
 
