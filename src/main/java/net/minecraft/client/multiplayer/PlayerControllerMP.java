@@ -37,7 +37,7 @@ public class PlayerControllerMP
     private final NetHandlerPlayClient netClientHandler;
     private BlockPos currentBlock = new BlockPos(-1, -1, -1);
     private ItemStack currentItemHittingBlock;
-    private float curBlockDamageMP;
+    public float curBlockDamageMP;
     private float stepSoundTickCounter;
     private int blockHitDelay;
     private boolean isHittingBlock;
