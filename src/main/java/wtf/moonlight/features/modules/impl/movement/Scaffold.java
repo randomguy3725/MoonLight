@@ -528,7 +528,7 @@ public class Scaffold extends Module {
                     }
                 }
 
-                if (!isEnabled(Speed.class) && mc.thePlayer.onGround && sprintBoost.get() && (unFlagged.get() && flagged || !unFlagged.get())) {
+                if (!isEnabled(Speed.class) && mc.thePlayer.onGround && sprintBoost.get() && (unFlagged.get() && !flagged || !unFlagged.get())) {
                     mc.thePlayer.motionX *= 1.14 - MovementUtils.getSpeedEffect() * .01 - Math.random() * 1E-4;
                     mc.thePlayer.motionZ *= 1.14 - MovementUtils.getSpeedEffect() * .01 - Math.random() * 1E-4;
                 }
