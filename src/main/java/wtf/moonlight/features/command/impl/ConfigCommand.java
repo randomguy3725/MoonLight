@@ -191,7 +191,7 @@ public class ConfigCommand extends Command {
 
     private String[] getConfigList() {
         File directory = Moonlight.INSTANCE.getMainDir();
-        File[] files = directory.listFiles((dir, name) -> dir.isFile() && name.endsWith(".json"));
+        File[] files = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".json"));
         if (files == null) {
             return new String[0];
         }
