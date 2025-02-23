@@ -319,6 +319,9 @@ public class Scaffold extends Module {
                 break;
         }
 
+        if(!placed)
+            rotation = new float[]{mc.thePlayer.rotationYaw,mc.thePlayer.rotationPitch};
+
         if (addons.isEnabled("Snap") && PlayerUtils.getBlock(targetBlock) instanceof BlockAir || !addons.isEnabled("Snap") && !mode.is("Telly") || mode.is("Telly") && mc.thePlayer.offGroundTicks >= tellyTicks) {
             place(data.blockPos, data.facing, getVec3(data));
         }
@@ -525,9 +528,9 @@ public class Scaffold extends Module {
                     }
                 }
 
-                if (!isEnabled(Speed.class) && mc.thePlayer.onGround && sprintBoost.get() && (unFlagged.get() && flagged || !unFlagged.get())) {
-                    mc.thePlayer.motionX *= 1.13 - MovementUtils.getSpeedEffect() * .01 - Math.random() * 1E-4;
-                    mc.thePlayer.motionZ *= 1.13 - MovementUtils.getSpeedEffect() * .01 - Math.random() * 1E-4;
+                if (!isEnabled(Speed.class) && mc.thePlayer.onGround && sprintBoost.get() && (unFlagged.get() && !flagged || !unFlagged.get())) {
+                    mc.thePlayer.motionX *= 1.14 - MovementUtils.getSpeedEffect() * .01 - Math.random() * 1E-4;
+                    mc.thePlayer.motionZ *= 1.14 - MovementUtils.getSpeedEffect() * .01 - Math.random() * 1E-4;
                 }
             }
         }
