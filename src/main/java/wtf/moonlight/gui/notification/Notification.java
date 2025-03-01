@@ -19,6 +19,8 @@ import wtf.moonlight.gui.font.Fonts;
 import wtf.moonlight.utils.InstanceAccess;
 import wtf.moonlight.utils.animations.Animation;
 import wtf.moonlight.utils.animations.Translate;
+import wtf.moonlight.utils.animations.impl.EaseBackIn;
+import wtf.moonlight.utils.animations.impl.EaseInOutQuad;
 import wtf.moonlight.utils.animations.impl.EaseOutSine;
 import wtf.moonlight.utils.math.TimerUtils;
 

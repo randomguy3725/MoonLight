@@ -22,7 +22,9 @@ import wtf.moonlight.features.values.Value;
 import wtf.moonlight.gui.notification.NotificationType;
 import wtf.moonlight.utils.InstanceAccess;
 import wtf.moonlight.utils.animations.Translate;
+import wtf.moonlight.utils.animations.impl.DecelerateAnimation;
 import wtf.moonlight.utils.animations.impl.EaseInOutQuad;
+import wtf.moonlight.utils.animations.impl.EaseOutSine;
 import wtf.moonlight.utils.packet.PacketUtils;
 
 import java.util.*;
@@ -49,7 +51,7 @@ public abstract class Module implements InstanceAccess {
     @Setter
     private boolean expanded;
     @Getter
-    private final EaseInOutQuad animation = new EaseInOutQuad(175, 1);
+    private final DecelerateAnimation animation = new DecelerateAnimation(200, 1);
     @Getter
     private final Translate translate = new Translate(0.0, 0.0);
 

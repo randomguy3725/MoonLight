@@ -79,6 +79,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static net.minecraft.util.EnumChatFormatting.GRAY;
+import static net.minecraft.util.EnumChatFormatting.WHITE;
 import static wtf.moonlight.gui.click.neverlose.NeverLose.*;
 
 @ModuleInfo(name = "Interface", category = ModuleCategory.Visual)
@@ -105,7 +107,7 @@ public class Interface extends Module {
     public final BoolValue cFont = new BoolValue("C Fonts",true,this, () -> elements.isEnabled("Module List"));
     public final ModeValue fontMode = new ModeValue("C Fonts Mode", new String[]{"Bold","Semi Bold","Medium","Regular","Tahoma"}, "Semi Bold", this,() -> cFont.canDisplay() && cFont.get());
     public final SliderValue fontSize = new SliderValue("Font Size",15,10,25,this,cFont::get);
-    public final ModeValue watemarkMode = new ModeValue("Watermark Mode", new String[]{"Text","Styles","Styles 2","Nursultan","Exhi","Exhi 2","Nursultan 2","NeverLose"}, "Text", this,() -> elements.isEnabled("Watermark"));
+    public final ModeValue watemarkMode = new ModeValue("Watermark Mode", new String[]{"Text","Styles","Styles 2","Nursultan","Exhi","Exhi 2","Nursultan 2","NeverLose","Novo"}, "Text", this,() -> elements.isEnabled("Watermark"));
     public final ModeValue animation = new ModeValue("Animation", new String[]{"ScaleIn", "MoveIn","Slide In"}, "ScaleIn", this, () -> elements.isEnabled("Module List"));
     public final SliderValue textHeight = new SliderValue("Text Height", 2, 0, 10, this, () -> elements.isEnabled("Module List"));
     public final ModeValue tags = new ModeValue("Suffix", new String[]{"None", "Simple", "Bracket", "Dash"}, "None", this, () -> elements.isEnabled("Module List"));
@@ -115,11 +117,11 @@ public class Interface extends Module {
     public final ModeValue infoMode = new ModeValue("Info Mode", new String[]{"Exhi", "Moon", "Moon 2","Tenacity"}, "Default", this,() -> elements.isEnabled("Info"));
     public final ModeValue versionMode = new ModeValue("Version Mode", new String[]{"Default"}, "Default",this,() -> elements.isEnabled("Version Info"));
     public final ModeValue potionHudMode = new ModeValue("Potion Mode", new String[]{"Default","Nursultan","Exhi","Moon","Sexy","Type 1","NeverLose","Mod"}, "Default", this,() -> elements.isEnabled("Potion HUD"));
-    public final ModeValue targetHudMode = new ModeValue("TargetHUD Mode", new String[]{"Astolfo", "Type 1", "Type 2","Exhi","Adjust","Moon","Augustus","New","Novo 1","Novo 2","Novo 3","Novo 4"}, "Astolfo", this,() -> elements.isEnabled("Target HUD"));
+    public final ModeValue targetHudMode = new ModeValue("TargetHUD Mode", new String[]{"Astolfo", "Type 1", "Type 2","Exhi","Adjust","Moon","Augustus","New","Novo 1","Novo 2","Novo 3","Novo 4","Novo 5"}, "Astolfo", this,() -> elements.isEnabled("Target HUD"));
     public final BoolValue targetHudParticle = new BoolValue("TargetHUD Particle",true,this,() -> elements.isEnabled("Target HUD"));
     public final ModeValue notificationMode = new ModeValue("Notification Mode", new String[]{"Default", "Test","Type 2","Type 3","Type 4", "Test2","Exhi"}, "Default", this,() -> elements.isEnabled("Notification"));
     public final ModeValue keyBindMode = new ModeValue("Key Bind Mode", new String[]{"Type 1"}, "Type 1", this,() -> elements.isEnabled("Key Bind"));
-    public final ModeValue sessionInfoMode = new ModeValue("Session Info Mode", new String[]{"Default","Exhi","Rise","Moon","Opai"}, "Default", this,() -> elements.isEnabled("Session Info"));
+    public final ModeValue sessionInfoMode = new ModeValue("Session Info Mode", new String[]{"Default","Exhi","Rise","Moon","Opai","Novo"}, "Default", this,() -> elements.isEnabled("Session Info"));
     public final BoolValue centerNotif = new BoolValue("Center Notification",true,this,() -> notificationMode.is("Exhi"));
     public final ModeValue color = new ModeValue("Color Setting", new String[]{"Custom", "Rainbow", "Dynamic", "Fade","Astolfo","NeverLose"}, "NeverLose", this);
     private final ColorValue mainColor = new ColorValue("Main Color", new Color(128, 128, 255), this,() -> !color.is("NeverLose"));
@@ -161,10 +163,11 @@ public class Interface extends Module {
 
         if (watemarkMode.canDisplay()) {
             switch (watemarkMode.get()) {
-                case "Text":
+                case "Text": {
                     Fonts.interBold.get(30).drawStringWithShadow(clientName.get(), 10, 10, color(0));
-                    break;
-                case "Styles":
+                }
+                break;
+                case "Styles": {
                     String dateString = dateFormat.format(new Date());
 
                     String name = " | " + Moonlight.INSTANCE.getVersion() +
@@ -180,8 +183,9 @@ public class Interface extends Module {
                     RoundedUtils.drawRound(x, y, width, height, 4, new Color(getModule(Interface.class).bgColor(), true));
                     Fonts.interBold.get(17).drawOutlinedString("ML", x + 2, y + 4.5f, -1, color());
                     Fonts.interRegular.get(17).drawStringWithShadow(name, Fonts.interBold.get(17).getStringWidth("ML") + x + 2, y + 4.5f, -1);
-                    break;
-                case "Styles 2":
+                }
+                break;
+                case "Styles 2": {
                     String dateString2 = dateFormat2.format(new Date());
 
                     String serverString;
@@ -195,15 +199,16 @@ public class Interface extends Module {
                             " | " + Minecraft.getDebugFPS() + "fps" +
                             " | " + serverString + " | " + dateString2;
 
-                    x = 7;
-                    y = 7;
-                    width = Fonts.interSemiBold.get(17).getStringWidth("") + Fonts.interSemiBold.get(17).getStringWidth(stylesname) + 5;
-                    height = Fonts.interSemiBold.get(17).getHeight() + 3;
+                    int x = 7;
+                    int y = 7;
+                    int width = Fonts.interSemiBold.get(17).getStringWidth("") + Fonts.interSemiBold.get(17).getStringWidth(stylesname) + 5;
+                    int height = Fonts.interSemiBold.get(17).getHeight() + 3;
 
                     RoundedUtils.drawRound(x, y, width, height, 4, new Color(getModule(Interface.class).bgColor(), true));
                     Fonts.interSemiBold.get(17).drawString(stylesname, Fonts.interBold.get(17).getStringWidth("") + x + 2, y + 4.5f, new Color(color(1)).getRGB());
-                    break;
-                case "Nursultan":
+                }
+                break;
+                case "Nursultan": {
                     RoundedUtils.drawRound(7, 7.5f, 20 + Fonts.interMedium.get(15).getStringWidth(INSTANCE.getVersion()) + 5, 15, 4, new Color(bgColor(0)));
                     Fonts.nursultan.get(16).drawString("P", 13, 14, color(0));
                     RenderUtils.drawRect(25, 10.5f, 1, 8.5f, new Color(47, 47, 47).getRGB());
@@ -213,20 +218,23 @@ public class Interface extends Module {
                     RoundedUtils.drawRound(7 + 20 + Fonts.interMedium.get(15).getStringWidth(INSTANCE.getVersion()) + 2.5f + 11, 7.5f, Fonts.interMedium.get(15).getStringWidth(mc.thePlayer.getName()) + 25, 15, 4, new Color(bgColor(0)));
                     Fonts.nursultan.get(16).drawString("W", 7 + 20 + Fonts.interMedium.get(15).getStringWidth(INSTANCE.getVersion()) + 2.5f + 11 + 5, 14, color(0));
                     Fonts.interMedium.get(15).drawString(mc.thePlayer.getName(), 7 + 20 + Fonts.interMedium.get(15).getStringWidth(INSTANCE.getVersion()) + 2.5f + 11 + 15 + 5, 13, -1);
-                    break;
-                case "Exhi":
+                }
+                break;
+                case "Exhi": {
                     boolean shouldChange = RenderUtils.COLOR_PATTERN.matcher(clientName.get()).find();
                     String text = shouldChange ? "§r" + clientName.get() : clientName.get().charAt(0) + "§r§f" + clientName.get().substring(1) +
                             "§7[§f" + Minecraft.getDebugFPS() + " FPS§7]§r ";
                     mc.fontRendererObj.drawStringWithShadow(text, 2.0f, 2.0f, color());
-                    break;
-                case "Exhi 2":
-                    shouldChange = RenderUtils.COLOR_PATTERN.matcher(clientName.get()).find();
-                    text = shouldChange ? "§r" + clientName.get() : clientName.get().charAt(0) + "§r§f" + clientName.get().substring(1) +
+                }
+                break;
+                case "Exhi 2": {
+                    boolean shouldChange = RenderUtils.COLOR_PATTERN.matcher(clientName.get()).find();
+                    String text = shouldChange ? "§r" + clientName.get() : clientName.get().charAt(0) + "§r§f" + clientName.get().substring(1) +
                             " §7[§f" + Minecraft.getDebugFPS() + " FPS§7]§r ";
                     Fonts.Tahoma.get(15).drawStringWithShadow(text, 1.0f, 2.0f, color());
-                    break;
-                case "Nursultan 2":
+                }
+                break;
+                case "Nursultan 2": {
                     float posX = 7f;
                     float posY = 7.5f;
                     float fontSize = 15f;
@@ -281,8 +289,9 @@ public class Interface extends Module {
                     Fonts.nursultan.get(18).drawString("Q", pingX + iconSize, positionY + 1 + iconSize, color());
 
                     Fonts.interMedium.get(fontSize).drawString(pingText, pingX + iconSize * 1.5F + rectWidth, positionY + rectWidth / 2.0F + 1.5F, -1);
-                    break;
-                case "NeverLose":
+                }
+                break;
+                case "NeverLose": {
                     //title
                     FontRenderer titleFont = Fonts.interBold.get(20);
 
@@ -324,11 +333,25 @@ public class Interface extends Module {
 
                     Fonts.nursultan.get(20).drawString(timeIcon, clockIconX - 6, textY, iconRGB);
                     info.drawString(times, clockIconX + Fonts.nursultan.get(20).getStringWidth(timeIcon) - 12, textY, textRGB);
+                }
+                break;
 
-                    break;
+                case "Novo": {
+                    float x = 1;
+                    String name = clientName.get().charAt(0) + "" + clientName.get().substring(1);
+                    for (int i = 0; i < name.length(); i++) {
+                        if (i == 0) {
+                            Fonts.interRegular.get(18).drawStringWithShadow(String.valueOf(name.charAt(i)), x, 4.0F, color(0));
+                        } else {
+                            Fonts.interRegular.get(18).drawStringWithShadow(WHITE + String.valueOf(name.charAt(i)), x, 4.0F, color(0));
+                        }
+                        x += Fonts.interRegular.get(18).getStringWidth(name.charAt(i) + "");
+                    }
+                    Fonts.interRegular.get(18).drawStringWithShadow(GRAY + "(" + WHITE + dateFormat.format(new Date()) + GRAY + ")", x, 4.0F, color());
+                }
+                break;
             }
         }
-
 
         if (infoMode.canDisplay()) {
             switch (infoMode.get()) {

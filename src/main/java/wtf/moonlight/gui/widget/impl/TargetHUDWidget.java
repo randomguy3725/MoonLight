@@ -90,6 +90,7 @@ public class TargetHUDWidget extends Widget {
             case "Novo 1", "Novo 2" -> 35 + mc.fontRendererObj.getStringWidth(entity.getName()) + 33;
             case "Novo 3" -> 35 + mc.fontRendererObj.getStringWidth(entity.getName()) + 34;
             case "Novo 4" -> 135.0f;
+            case "Novo 5" -> Math.max(118, Fonts.interSemiBold.get(17).getStringWidth(entity.getName()) + 38) + 27F;
             default -> 0;
         };
     }
@@ -107,6 +108,7 @@ public class TargetHUDWidget extends Widget {
             case "Novo 1" -> 37.5f;
             case "Novo 2", "Novo 3" -> 36f;
             case "Novo 4" -> 45.0f;
+            case "Novo 5" -> 47;
             default -> 0;
         };
     }
@@ -490,6 +492,30 @@ class TargetHUD implements InstanceAccess {
                     RenderUtils.drawRect(x - 1, y + 47, target.healthAnimation.getOutput(), 2f, ColorUtils.getHealthColor(target));
                 }
             }
+
+            break;
+
+            case "Novo 5": {
+
+                float healthPercentage = target.getHealth() / target.getMaxHealth();
+                float space = width - Fonts.interRegular.get(17).getStringWidth("20.0") - 3 - 3.2f;
+
+                target.healthAnimation.animate(space * MathHelper.clamp_float(healthPercentage, 0, 1), 30);
+
+                if (!shader) {
+                    RenderUtils.drawRect(x, y, width, height, setting.bgColor());
+                    Fonts.interRegular.get(20).drawStringWithShadow(target.getName(), x + 40f, y + 3.2f, -1);
+                    RenderUtils.renderPlayer2D(target, x + 3.2f, y + 3.2f, 33, 0, -1);
+                    RenderUtils.drawGradientRect(x + 3.2f, y + 39, target.healthAnimation.getOutput(), 4, true, setting.color(0), setting.color(90));
+                    RenderUtils.renderItemStack(target, x + 40f, y + 17, 1);
+                    String text = String.format("%.1f", target.getHealth());
+                    Fonts.interRegular.get(17).drawString(text, x + target.healthAnimation.getOutput() + 3, y + 37F, -1);
+                } else {
+                    RenderUtils.drawRect(x, y, width, height, setting.color(0));
+                }
+            }
+
+            break;
         }
         GlStateManager.popMatrix();
     }

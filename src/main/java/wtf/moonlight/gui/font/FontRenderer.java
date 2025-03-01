@@ -268,6 +268,7 @@ public class FontRenderer {
         return width / 2;
     }
 
+
     public final float getSize() {
         return size;
     }

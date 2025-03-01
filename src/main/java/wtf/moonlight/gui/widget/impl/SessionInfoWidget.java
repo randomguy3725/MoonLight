@@ -10,6 +10,7 @@
  */
 package wtf.moonlight.gui.widget.impl;
 
+import lombok.val;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import wtf.moonlight.events.impl.render.Shader2DEvent;
@@ -50,6 +51,8 @@ public class SessionInfoWidget extends Widget {
                     RoundedUtils.drawRound(renderX + 9, renderY,  width, height, 8f, new Color(setting.color(0)));
                 } else RoundedUtils.drawRound(renderX + 9, renderY, width, height, 8f, new Color(0, 0, 0,255));
 
+            case "Novo":
+                RoundedUtils.drawRound(renderX, renderY, width, height, 8f, new Color(setting.color(),true));
                 break;
         }
     }
@@ -139,7 +142,7 @@ public class SessionInfoWidget extends Widget {
                 this.width = Fonts.interSemiBold.get(17).getStringWidth(RenderUtils.sessionTime2()) + 110;
                 this.height = 65;
 
-                RoundedUtils.drawRound(renderX + 9, renderY, width, height, 8f, new Color(setting.bgColor(),false));
+                RoundedUtils.drawRound(renderX + 9, renderY, width, height, 8f, new Color(setting.bgColor(),true));
                 RoundedUtils.drawRound(renderX + 9, renderY, width, 14, 7.5f, new Color(ColorUtils.darker(setting.color(), 0.75f)));
                 RoundedUtils.drawRound(renderX + 9, renderY + 7.5F, width, 8.5F, 0f, new Color(ColorUtils.darker(setting.color(), 0.75f)));
                 RenderUtils.renderPlayer2D(mc.thePlayer, renderX + 13f, renderY + 24f, 37.5F, 10, -1);
@@ -147,6 +150,33 @@ public class SessionInfoWidget extends Widget {
                 Fonts.interSemiBold.get(17).drawString("§7Played for " + RenderUtils.sessionTime2(), renderX + 58, renderY + 31, -1);
                 Fonts.interSemiBold.get(17).drawString(setting.won + " wins", renderX + 58, renderY + 55, -1);
                 Fonts.interSemiBold.get(17).drawString(setting.killed + " kills", renderX + 58, renderY + 43, -1);
+                break;
+
+            case "Novo":
+
+                this.height = Fonts.interRegular.get(24).getHeight() + Fonts.interRegular.get(18).getHeight() * 3 + 3;
+                this.width = 140;
+                RoundedUtils.drawRound(renderX, renderY, width, height, 8f, new Color(setting.bgColor(),true));
+
+                float left = renderX + 5;
+                float right = renderX + width - 5;
+
+                float textY = renderY + 2 + 1;
+
+                Fonts.interRegular.get(24).drawCenteredStringWithShadow("Session Information",renderX + width / 2,textY,-1);
+
+                RenderUtils.drawGradientRect(left,textY + Fonts.interRegular.get(24).getHeight() - 1,width - 5 * 2,1,true,setting.color(0),setting.color(90));
+
+                textY += 2;
+
+                Fonts.interRegular.get(18).drawStringWithShadow("Play Time:",left,textY + Fonts.interRegular.get(24).getHeight(),-1);
+                Fonts.interRegular.get(18).drawStringWithShadow(RenderUtils.sessionTime(),right - Fonts.interRegular.get(18).getStringWidth(RenderUtils.sessionTime()),textY + Fonts.interRegular.get(24).getHeight(),-1);
+
+                Fonts.interRegular.get(18).drawStringWithShadow("Games Win:",left,textY + Fonts.interRegular.get(24).getHeight() + Fonts.interRegular.get(18).getHeight(),-1);
+                Fonts.interRegular.get(18).drawStringWithShadow(setting.won + "",right - Fonts.interRegular.get(18).getStringWidth(setting.won + ""),textY + Fonts.interRegular.get(24).getHeight() + Fonts.interRegular.get(18).getHeight(),-1);
+
+                Fonts.interRegular.get(18).drawStringWithShadow("Players Killed:",left,textY + Fonts.interRegular.get(24).getHeight() + Fonts.interRegular.get(18).getHeight() * 2,-1);
+                Fonts.interRegular.get(18).drawStringWithShadow(setting.killed + "",right - Fonts.interRegular.get(18).getStringWidth(setting.killed + ""),textY + Fonts.interRegular.get(24).getHeight() + Fonts.interRegular.get(18).getHeight() * 2,-1);
                 break;
 
         }

@@ -615,6 +615,25 @@ public class RenderUtils implements InstanceAccess {
         }
     }
 
+    public static void renderItemStack(EntityPlayer target, float x, float y, float scale) {
+        List<ItemStack> items = new ArrayList<>();
+        if (target.getHeldItem() != null) {
+            items.add(target.getHeldItem());
+        }
+        for (int index = 3; index >= 0; index--) {
+            ItemStack stack = target.inventory.armorInventory[index];
+            if (stack != null) {
+                items.add(stack);
+            }
+        }
+        float i = x;
+
+        for (ItemStack stack : items) {
+            RenderUtils.renderItemStack(stack, i, y, scale, false, 0);
+            i += 16;
+        }
+    }
+
     public static void renderEnchantText(ItemStack stack, double x, double y, float scale) {
         int unBreakingLevel;
         RenderHelper.disableStandardItemLighting();
@@ -731,7 +750,7 @@ public class RenderUtils implements InstanceAccess {
         elapsedTime = !hours.isEmpty() ? elapsedTime % 3600 : elapsedTime;
         String minutes = elapsedTime > 60 ? elapsedTime / 60 + "m " : "";
         elapsedTime = !minutes.isEmpty() ? elapsedTime % 60 : elapsedTime;
-        String seconds = elapsedTime > 0 ? elapsedTime + "s " : "";
+        String seconds = elapsedTime > 0 ? elapsedTime + "s" : "";
         return days + hours + minutes + seconds;
     }
 
@@ -776,7 +795,7 @@ public class RenderUtils implements InstanceAccess {
         GL11.glEnd();
         GL11.glDisable(3042);
         GL11.glShadeModel(7424);
-        //GLUtils.endBlend();
+        GLUtils.endBlend();
         GL11.glEnable(3553);
     }
 
