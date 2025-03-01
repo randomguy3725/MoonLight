@@ -401,7 +401,7 @@ public class RotationUtils implements InstanceAccess {
 
     public static MovingObjectPosition rayTrace(double blockReachDistance, float partialTicks) {
         Vec3 vec3 = mc.thePlayer.getPositionEyes(partialTicks);
-        Vec3 vec31 = mc.thePlayer.getLookCustom(currentRotation[0], currentRotation[1]);
+        Vec3 vec31 = mc.thePlayer.getLookCustom(serverRotation[0], serverRotation[1]);
         Vec3 vec32 = vec3.addVector(vec31.xCoord * blockReachDistance, vec31.yCoord * blockReachDistance, vec31.zCoord * blockReachDistance);
         return mc.theWorld.rayTraceBlocks(vec3, vec32, false, true, true);
     }
@@ -534,7 +534,7 @@ public class RotationUtils implements InstanceAccess {
                 d1 = objectMouseOver.hitVec.distanceTo(vec3);
             }
 
-            Vec3 vec31 = entity.getLookCustom(RotationUtils.currentRotation[0],RotationUtils.currentRotation[1]);
+            Vec3 vec31 = entity.getLookCustom(RotationUtils.serverRotation[0],RotationUtils.serverRotation[1]);
             Vec3 vec32 = vec3.addVector(vec31.xCoord * d0, vec31.yCoord * d0, vec31.zCoord * d0);
             Vec3 vec33 = null;
             float f = 1.0F;

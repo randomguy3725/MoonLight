@@ -54,6 +54,10 @@ public class SessionInfoWidget extends Widget {
             case "Novo":
                 RoundedUtils.drawRound(renderX, renderY, width, height, 8f, new Color(setting.color(),true));
                 break;
+
+            case "Novo 2":
+                RenderUtils.drawRect(renderX, renderY, width, height, setting.color());
+                break;
         }
     }
 

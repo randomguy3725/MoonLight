@@ -489,7 +489,7 @@ class TargetHUD implements InstanceAccess {
                 if(!shader) {
                     RenderUtils.drawRect(x - 1.0f, y + 4.0f, width, height, setting.bgColor());
                     mc.fontRendererObj.drawStringWithShadow(target.getName(), x + 30.0f, y + 13.0f, -1);
-                    RenderUtils.renderItemStack(target, x + 13, y + 25, 1, true, 0.5f);
+                    RenderUtils.renderItemStack(target, x + 13, y + 25, 1, 0.5f);
                     GuiInventory.drawEntityOnScreen(x + 15, y + 40, 15, target.rotationYaw, -target.rotationPitch, target);
                     RenderUtils.drawRect(x - 1, y + 47, target.healthAnimation.getOutput(), 2f, ColorUtils.getHealthColor(target));
                 }
@@ -507,11 +507,11 @@ class TargetHUD implements InstanceAccess {
                 if (!shader) {
                     RenderUtils.drawRect(x, y, width, height, setting.bgColor());
                     Fonts.interRegular.get(20).drawStringWithShadow(target.getName(), x + 40f, y + 3.2f + 1, -1);
-                    RenderUtils.renderPlayer2D(target, x + 3.2f, y + 3.2f, 33, 0, -1);
-                    RenderUtils.drawGradientRect(x + 3.2f, y + 39, target.healthAnimation.getOutput(), 4, true, setting.color(0), setting.color(90));
-                    RenderUtils.renderItemStack(target, x + 40f, y + 17, 1);
                     String text = String.format("%.1f", target.getHealth());
                     Fonts.interRegular.get(17).drawString(text, x + target.healthAnimation.getOutput() + 3, y + 37F, -1);
+                    RenderUtils.renderPlayer2D(target, x + 3.2f, y + 3.2f, 33, 0, -1);
+                    RenderUtils.drawGradientRect(x + 3.2f, y + 39, target.healthAnimation.getOutput(), 4, true, setting.color(0), setting.color(90));
+                    RenderUtils.renderItemStack(target, x + 40f, y + 15, 1,false,true);
 
                     if(setting.targetHudParticle.get()){
                         ParticleRenderer.renderParticle(target,x + 3.2f ,y + 3.2f);

@@ -61,24 +61,7 @@ public class RenderUtils implements InstanceAccess {
             bottom = j;
         }
 
-        float f3 = (float) (color >> 24 & 255) / 255.0F;
-        float f = (float) (color >> 16 & 255) / 255.0F;
-        float f1 = (float) (color >> 8 & 255) / 255.0F;
-        float f2 = (float) (color & 255) / 255.0F;
-        Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-        GlStateManager.enableBlend();
-        GlStateManager.disableTexture2D();
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-        GlStateManager.color(f, f1, f2, f3);
-        worldrenderer.begin(7, DefaultVertexFormats.POSITION);
-        worldrenderer.pos(left, bottom, 0.0D).endVertex();
-        worldrenderer.pos(right, bottom, 0.0D).endVertex();
-        worldrenderer.pos(right, top, 0.0D).endVertex();
-        worldrenderer.pos(left, top, 0.0D).endVertex();
-        tessellator.draw();
-        GlStateManager.enableTexture2D();
-        GlStateManager.disableBlend();
+        Gui.drawRect(left,top,right,bottom,color);
     }
 
     public static void bindTexture(int texture) {
@@ -266,28 +249,6 @@ public class RenderUtils implements InstanceAccess {
         resetColor();
     }
 
-    public static void drawArrow(double x, double y, int lineWidth, int color, double length) {
-        glEnable(3042);
-        glDisable(3553);
-        glBlendFunc(770, 771);
-        glEnable(2848);
-        GL11.glPushMatrix();
-        GL11.glLineWidth(lineWidth);
-        color(color);
-        GL11.glBegin(GL_LINE_STRIP);
-        GL11.glVertex2d(x, y);
-        GL11.glVertex2d(x + 3, y + length);
-        GL11.glVertex2d(x + 3 * 2, y);
-        GL11.glEnd();
-        GL11.glPopMatrix();
-        glEnable(3553);
-        glDisable(3042);
-        glDisable(2848);
-        enableTexture2D();
-        disableBlend();
-        glColor4f(1, 1, 1, 1);
-    }
-
     public static void drawArrow(final float x, final float y, final float size, final boolean rotate) {
         GL11.glPushMatrix();
         GL11.glTranslatef(x, y, 1.0f);
@@ -311,30 +272,6 @@ public class RenderUtils implements InstanceAccess {
         GL11.glEnable(3553);
         GLUtils.endBlend();
         GL11.glPopMatrix();
-    }
-
-    public static void drawCheck(double x, double y, int lineWidth, int color) {
-        glEnable(3042);
-        glDisable(3553);
-        glBlendFunc(770, 771);
-        glEnable(2848);
-
-        GL11.glPushMatrix();
-        GL11.glLineWidth(lineWidth);
-        setColor(color);
-        GL11.glBegin(GL_LINE_STRIP);
-        GL11.glVertex2d(x, y);
-        GL11.glVertex2d(x + 2, y + 3);
-        GL11.glVertex2d(x + 6, y - 2);
-        GL11.glEnd();
-        GL11.glPopMatrix();
-
-        glEnable(3553);
-        glDisable(3042);
-        glDisable(2848);
-        enableTexture2D();
-        disableBlend();
-        glColor4f(1, 1, 1, 1);
     }
 
     public static double deltaTime() {
@@ -410,7 +347,6 @@ public class RenderUtils implements InstanceAccess {
     }
 
     public static void drawFilledBoundingBox(final AxisAlignedBB bb,Color color) {
-
 
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
@@ -596,7 +532,7 @@ public class RenderUtils implements InstanceAccess {
         GlStateManager.popMatrix();
     }
 
-    public static void renderItemStack(EntityPlayer target, float x, float y, float scale, boolean enchantedText, float textScale) {
+    public static void renderItemStack(EntityPlayer target, float x, float y, float scale, boolean enchantedText, float textScale,boolean bg,boolean info) {
         List<ItemStack> items = new ArrayList<>();
         if (target.getHeldItem() != null) {
             items.add(target.getHeldItem());
@@ -610,28 +546,28 @@ public class RenderUtils implements InstanceAccess {
         float i = x;
 
         for (ItemStack stack : items) {
+            if(bg)
+                RenderUtils.drawRect(i,y,16 * scale,16 * scale,new Color(0,0,0,150).getRGB());
+            if(info) {
+                final int damage = stack.getMaxDamage() - stack.getItemDamage();
+
+                Fonts.interRegular.get(16 / 2f * scale).drawCenteredStringWithShadow(damage + "", i + (16 * scale) / 2, (y + 16 + 2) * scale, -1);
+            }
             RenderUtils.renderItemStack(stack, i, y, scale, enchantedText, textScale);
             i += 16;
         }
     }
 
-    public static void renderItemStack(EntityPlayer target, float x, float y, float scale) {
-        List<ItemStack> items = new ArrayList<>();
-        if (target.getHeldItem() != null) {
-            items.add(target.getHeldItem());
-        }
-        for (int index = 3; index >= 0; index--) {
-            ItemStack stack = target.inventory.armorInventory[index];
-            if (stack != null) {
-                items.add(stack);
-            }
-        }
-        float i = x;
+    public static void renderItemStack(EntityPlayer target, float x, float y, float scale,boolean bg,boolean info) {
+        renderItemStack(target,x,y,scale,false,0,bg,info);
+    }
 
-        for (ItemStack stack : items) {
-            RenderUtils.renderItemStack(stack, i, y, scale, false, 0);
-            i += 16;
-        }
+    public static void renderItemStack(EntityPlayer target, float x, float y, float scale, float textScale) {
+        renderItemStack(target,x,y,scale,true,textScale,false,false);
+    }
+
+    public static void renderItemStack(EntityPlayer target, float x, float y, float scale) {
+        renderItemStack(target,x,y,scale,scale);
     }
 
     public static void renderEnchantText(ItemStack stack, double x, double y, float scale) {

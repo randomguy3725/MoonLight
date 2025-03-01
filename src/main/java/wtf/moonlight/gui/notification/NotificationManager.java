@@ -160,7 +160,7 @@ public class NotificationManager implements InstanceAccess {
 
                     case "Type 2":
 
-                        notification.getAnimation().setDuration(200);
+                        notification.getAnimation().setDuration(150);
                         actualOffset = 3;
 
                         x = sr.getScaledWidth() - (width + 5);
@@ -171,8 +171,8 @@ public class NotificationManager implements InstanceAccess {
                         GlStateManager.scale(animation.getOutput(), animation.getOutput(), animation.getOutput());
                         GlStateManager.translate(-(x + width / 2F), -(y + height / 2F), 0);
 
-                        RoundedUtils.drawRound(x, y, width, height, 4, new Color(INSTANCE.getModuleManager().getModule(Interface.class).bgColor(), true));
                         if (!shader) {
+                            RoundedUtils.drawRound(x, y, width, height, 4, new Color(INSTANCE.getModuleManager().getModule(Interface.class).bgColor(), true));
                             RenderUtils.drawCircle(x + 16f, y + 15f, 0, 360, 13f, .1f, true, -1);
                             RenderUtils.drawGradientCircle(x + 16f, y + 15f, 0, 360, 13f, INSTANCE.getModuleManager().getModule(Interface.class).color(0), INSTANCE.getModuleManager().getModule(Interface.class).color(90));
                             if (notification.getNotificationType() == NotificationType.INFO) {
@@ -186,9 +186,11 @@ public class NotificationManager implements InstanceAccess {
                             }
                             Fonts.interMedium.get(20).drawStringNoFormat(notification.getTitle(), x + 34F, y + 4F, -1);
                             Fonts.interMedium.get(17).drawStringNoFormat(notification.getDescription(), x + 34F, y + 17F, -1);
+                        } else {
+                            RoundedUtils.drawRound(x, y, width, height, 4, new Color(INSTANCE.getModuleManager().getModule(Interface.class).color(), true));
                         }
 
-                        yOffset += (height + actualOffset);
+                        yOffset += (float) ((height + actualOffset) * animation.getOutput());
 
                         GlStateManager.popMatrix();
                         break;

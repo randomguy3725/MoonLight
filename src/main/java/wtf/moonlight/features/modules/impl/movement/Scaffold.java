@@ -153,9 +153,6 @@ public class Scaffold extends Module {
         previousRotation = new float[]{mc.thePlayer.rotationYaw + 180, 82};
 
         if (wdSprint.canDisplay() && wdSprint.is("Offset") && !(PlayerUtils.getBlock(mc.thePlayer.getPosition()) instanceof BlockLiquid) && !addons.isEnabled("Hover")) {
-            if (!mc.gameSettings.keyBindJump.isKeyDown()) {
-                MovementUtils.stop();
-            }
             if (mc.thePlayer.onGround) {
                 hoverState = HoverState.JUMP;
             } else {

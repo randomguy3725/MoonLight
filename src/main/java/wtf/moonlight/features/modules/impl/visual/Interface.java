@@ -112,8 +112,10 @@ public class Interface extends Module {
     public final SliderValue textHeight = new SliderValue("Text Height", 2, 0, 10, this, () -> elements.isEnabled("Module List"));
     public final ModeValue tags = new ModeValue("Suffix", new String[]{"None", "Simple", "Bracket", "Dash"}, "None", this, () -> elements.isEnabled("Module List"));
     public final BoolValue line = new BoolValue("Line",true,this, () -> elements.isEnabled("Module List"));
-    public final BoolValue outLine = new BoolValue("Outline",true,this, line::get);
-    public final ModeValue armorMode = new ModeValue("Armor Mode", new String[]{"Default"}, "Default", this,() -> elements.isEnabled("Armor"));
+    public final BoolValue outLine = new BoolValue("Outline",true,this, () -> line.canDisplay() && line.get());
+    public final BoolValue armorBg = new BoolValue("Armor Background",true,this, () -> elements.isEnabled("Armor"));
+    public final BoolValue armorEnchanted = new BoolValue("Armor Enchanted",true,this, () -> elements.isEnabled("Armor"));
+    public final BoolValue armorInfo = new BoolValue("Armor Info",true,this, () -> elements.isEnabled("Armor"));
     public final ModeValue infoMode = new ModeValue("Info Mode", new String[]{"Exhi", "Moon", "Moon 2","Tenacity"}, "Default", this,() -> elements.isEnabled("Info"));
     public final ModeValue versionMode = new ModeValue("Version Mode", new String[]{"Default"}, "Default",this,() -> elements.isEnabled("Version Info"));
     public final ModeValue potionHudMode = new ModeValue("Potion Mode", new String[]{"Default","Nursultan","Exhi","Moon","Sexy","Type 1","NeverLose","Mod"}, "Default", this,() -> elements.isEnabled("Potion HUD"));
@@ -391,7 +393,7 @@ public class Interface extends Module {
                     break;
                 case "Moon 2":
                     textY = (event.scaledResolution().getScaledHeight() - 6.5F) + (mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f);
-                    Fonts.interSemiBold.get(19).drawStringWithShadow("§fFPS: " + Minecraft.getDebugFPS(), 1.5F, textY, color(0));
+                    Fonts.interSemiBold.get(19).drawStringWithShadow("FPS: " + EnumChatFormatting.WHITE + Minecraft.getDebugFPS(), 1.5F, textY, color(0));
                     break;
                 case "Tenacity":
                     float XYZText = (event.scaledResolution().getScaledHeight() - 9);
@@ -416,26 +418,9 @@ public class Interface extends Module {
             }
         }
 
-        if (armorMode.canDisplay()) {
-            switch (armorMode.get()) {
-                case "Default":
-                    ArrayList<ItemStack> stuff = new ArrayList<>();
-                    boolean onWater = mc.thePlayer.isEntityAlive() && mc.thePlayer.isInsideOfMaterial(Material.water);
-                    int split = -3;
-                    for (int index = 3; index >= 0; --index) {
-                        ItemStack armor = mc.thePlayer.inventory.armorInventory[index];
-                        if (armor == null) continue;
-                        stuff.add(armor);
-                    }
-                    if (mc.thePlayer.getCurrentEquippedItem() != null) {
-                        stuff.add(mc.thePlayer.getCurrentEquippedItem());
-                    }
-                    for (ItemStack everything : stuff) {
-                        split += 16;
-                        RenderUtils.renderItemStack(everything, split + (double) event.scaledResolution().getScaledWidth() / 2 - 4, event.scaledResolution().getScaledHeight() - (onWater ? 65 : 55) + (mc.thePlayer.capabilities.isCreativeMode ? 14 : 0), 1, true, 0.5f);
-                    }
-                    break;
-            }
+        if (elements.isEnabled("Armor")) {
+            boolean onWater = mc.thePlayer.isEntityAlive() && mc.thePlayer.isInsideOfMaterial(Material.water);
+            RenderUtils.renderItemStack(mc.thePlayer, (float) event.scaledResolution().getScaledWidth() / 2 - 4, event.scaledResolution().getScaledHeight() - (onWater ? 65 : 55) + (mc.thePlayer.capabilities.isCreativeMode ? 14 : 0), 1, armorEnchanted.get(), 0.5f,armorBg.get(),armorInfo.get());
         }
 
         if (elements.isEnabled("Potion HUD") && potionHudMode.is("Exhi")) {
@@ -631,7 +616,15 @@ public class Interface extends Module {
                                     + 17
                             , Fonts.interRegular.get(20).getHeight() + 2, 4, NeverLose.bgColor);
                     RoundedUtils.drawRound(3, bgY, title.getStringWidth(clientName.getText()) + 10, Fonts.interSemiBold.get(20).getHeight() + 2, 4, NeverLose.bgColor);
+                    break;
 
+                case "Novo 2": {
+
+                    String novo2Info = clientName.get() + " " + GRAY + "(" + WHITE + dateFormat.format(new Date()) + GRAY + ")" + WHITE + " - " + INSTANCE.getVersion() + " Build";
+
+                    RenderUtils.drawRect(5, 5, Fonts.interSemiBold.get(20).getStringWidth(novo2Info) + 4, Fonts.interSemiBold.get(20).getHeight() + Fonts.interSemiBold.get(20).getHeight() / 2f, color());
+                }
+                break;
             }
         }
 
