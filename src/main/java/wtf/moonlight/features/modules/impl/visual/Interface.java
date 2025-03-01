@@ -105,7 +105,7 @@ public class Interface extends Module {
     public final BoolValue cFont = new BoolValue("C Fonts",true,this, () -> elements.isEnabled("Module List"));
     public final ModeValue fontMode = new ModeValue("C Fonts Mode", new String[]{"Bold","Semi Bold","Medium","Regular","Tahoma"}, "Semi Bold", this,() -> cFont.canDisplay() && cFont.get());
     public final SliderValue fontSize = new SliderValue("Font Size",15,10,25,this,cFont::get);
-    public final ModeValue watemarkMode = new ModeValue("Watermark Mode", new String[]{"Text","Styles","Styles 2","Nursultan","Exhi","Exhi 2","Nursultan 2","NeverLose"}, "Text", this,() -> elements.isEnabled("Watermark"));
+    public final ModeValue watemarkMode = new ModeValue("Watermark Mode", new String[]{"Text","Styles","Styles 2","Nursultan","Exhi","Exhi 2","Nursultan 2","NeverLose", "Onetap"}, "Text", this,() -> elements.isEnabled("Watermark"));
     public final ModeValue animation = new ModeValue("Animation", new String[]{"ScaleIn", "MoveIn","Slide In"}, "ScaleIn", this, () -> elements.isEnabled("Module List"));
     public final SliderValue textHeight = new SliderValue("Text Height", 2, 0, 10, this, () -> elements.isEnabled("Module List"));
     public final ModeValue tags = new ModeValue("Suffix", new String[]{"None", "Simple", "Bracket", "Dash"}, "None", this, () -> elements.isEnabled("Module List"));
@@ -325,6 +325,15 @@ public class Interface extends Module {
                     Fonts.nursultan.get(20).drawString(timeIcon, clockIconX - 6, textY, iconRGB);
                     info.drawString(times, clockIconX + Fonts.nursultan.get(20).getStringWidth(timeIcon) - 12, textY, textRGB);
 
+                    break;
+                case "Onetap":
+                    String dateString3 = dateFormat2.format(new Date());
+                    String serverip = mc.isSingleplayer() ? "localhost:25565" : !mc.getCurrentServerData().serverIP.contains(":") ? mc.getCurrentServerData().serverIP + ":25565" : mc.getCurrentServerData().serverIP;
+                    String onetapinfo = "moonlight | " + Moonlight.INSTANCE.getDiscordRP().getName() + " | "  + serverip + " | " + "delay: " + mc.getNetHandler().getPlayerInfo(mc.thePlayer.getUniqueID()).getResponseTime() + "ms | " + dateString3;
+
+                    RenderUtils.drawRect(5, 5, Fonts.interSemiBold.get(14).getStringWidth(onetapinfo) + 4, 12.5f, bgColor(1));
+                    RenderUtils.drawRoundedRect(5, 5, Fonts.interSemiBold.get(14).getStringWidth(onetapinfo) + 4, 2f, 1, new Color(230, 175, 115).getRGB());
+                    Fonts.interSemiBold.get(14).drawStringWithShadow(onetapinfo, 7, 11f, Color.WHITE.getRGB());
                     break;
             }
         }
