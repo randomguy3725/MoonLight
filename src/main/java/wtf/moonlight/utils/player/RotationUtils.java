@@ -438,26 +438,10 @@ public class RotationUtils implements InstanceAccess {
         return getRotations(vec.xCoord, vec.yCoord, vec.zCoord);
     }
 
-    public static float[] getRotationToBlock(BlockPos blockPos, EnumFacing direction) {
-
-        double centerX = blockPos.getX() + 0.5 + direction.getFrontOffsetX() * 0.5;
-        double centerY = blockPos.getY() + 0.5 + direction.getFrontOffsetY() * 0.5;
-        double centerZ = blockPos.getZ() + 0.5 + direction.getFrontOffsetZ() * 0.5;
-
-        double playerX = mc.thePlayer.posX;
-        double playerY = mc.thePlayer.posY + mc.thePlayer.getEyeHeight();
-        double playerZ = mc.thePlayer.posZ;
-
-        double deltaX = centerX - playerX;
-        double deltaY = centerY - playerY;
-        double deltaZ = centerZ - playerZ;
-
-        double distanceXZ = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
-        float yaw = (float) (Math.toDegrees(Math.atan2(deltaZ, deltaX)) - 90.0F);
-        float pitch = (float) -Math.toDegrees(Math.atan2(deltaY, distanceXZ));
-
-        return new float[]{yaw, pitch};
+    public static float[] getRotations(BlockPos blockPos) {
+        return getRotations(blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5, mc.thePlayer.posX, mc.thePlayer.posY + (double)mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
     }
+
 
     public static float calculateYawFromSrcToDst(final float yaw,
                                                  final double srcX,

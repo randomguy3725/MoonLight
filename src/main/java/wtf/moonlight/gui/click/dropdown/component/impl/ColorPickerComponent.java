@@ -96,10 +96,6 @@ public class ColorPickerComponent extends Component {
 
                 newAlpha = Math.max(0.0f, Math.min(1.0f, newAlpha));
 
-                if (newAlpha <= 0.021f) {
-                    newAlpha = 0.021F;
-                }
-
                 setting.setAlpha(newAlpha);
             }
 

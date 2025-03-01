@@ -110,7 +110,7 @@ public class BedNuker extends Module {
 
         if (bedPos != null) {
             if (rotate) {
-                float[] rot = RotationUtils.getRotationToBlock(bedPos, getEnumFacing(bedPos));
+                float[] rot = RotationUtils.getRotations(bedPos);
                 RotationUtils.setRotation(rot);
                 rotate = false;
             }
@@ -329,24 +329,6 @@ public class BedNuker extends Module {
         }
 
         return true;
-    }
-
-    public static EnumFacing getEnumFacing(BlockPos pos) {
-        Vec3 eyesPos = new Vec3(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
-
-        if (pos.getY() > eyesPos.yCoord) {
-            if (PlayerUtils.isReplaceable(pos.add(0, -1, 0))) {
-                return EnumFacing.DOWN;
-            } else {
-                return mc.thePlayer.getHorizontalFacing().getOpposite();
-            }
-        }
-
-        if (!PlayerUtils.isReplaceable(pos.add(0, 1, 0))) {
-            return mc.thePlayer.getHorizontalFacing().getOpposite();
-        }
-
-        return EnumFacing.UP;
     }
 
     public static float getBlockHardness(final BlockPos blockPos, final ItemStack itemStack, boolean ignoreSlow, boolean ignoreGround) {

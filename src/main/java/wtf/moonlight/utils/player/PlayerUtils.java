@@ -12,8 +12,7 @@ package wtf.moonlight.utils.player;
 
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockAir;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -404,5 +403,12 @@ public class PlayerUtils implements InstanceAccess {
     public static boolean canBeClick(BlockPos pos) {
         return mc.theWorld.getBlockState(pos).getBlock().canCollideCheck(mc.theWorld.getBlockState(pos), false) && mc.theWorld.getWorldBorder().contains(pos);
     }
+    public static boolean isInteractable(Block block) {
+        return block instanceof BlockFurnace || block instanceof BlockTrapDoor || block instanceof BlockDoor || block instanceof BlockContainer || block instanceof BlockJukebox || block instanceof BlockFenceGate || block instanceof BlockChest || block instanceof BlockEnderChest || block instanceof BlockEnchantmentTable || block instanceof BlockBrewingStand || block instanceof BlockBed || block instanceof BlockDropper || block instanceof BlockDispenser || block instanceof BlockHopper || block instanceof BlockAnvil || block instanceof BlockNote || block instanceof BlockWorkbench;
+    }
 
+    public static void fakeDamage() {
+        mc.thePlayer.handleStatusUpdate((byte) 2);
+        mc.ingameGUI.healthUpdateCounter = mc.ingameGUI.getUpdateCounter() + 20;
+    }
 }

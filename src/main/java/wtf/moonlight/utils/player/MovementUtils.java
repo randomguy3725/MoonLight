@@ -479,4 +479,14 @@ public class MovementUtils implements InstanceAccess {
         }
         return null;
     }
+    public static double clamp(double value, double minValue, double maxValue) {
+        return Math.max(value, Math.min(minValue, maxValue));
+    }
+    public static float handleX(float var0) {
+        return (float)(-Math.sin(Math.toRadians(var0)));
+    }
+
+    public static float handleZ(float var0) {
+        return (float) Math.cos(Math.toRadians(var0));
+    }
 }

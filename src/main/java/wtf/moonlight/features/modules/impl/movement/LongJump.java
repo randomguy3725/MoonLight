@@ -22,9 +22,7 @@ import org.lwjglx.input.Keyboard;
 import wtf.moonlight.events.annotations.EventTarget;
 import wtf.moonlight.events.impl.misc.WorldEvent;
 import wtf.moonlight.events.impl.packet.PacketEvent;
-import wtf.moonlight.events.impl.player.MotionEvent;
-import wtf.moonlight.events.impl.player.StrafeEvent;
-import wtf.moonlight.events.impl.player.UpdateEvent;
+import wtf.moonlight.events.impl.player.*;
 import wtf.moonlight.events.impl.render.Render2DEvent;
 import wtf.moonlight.features.modules.Module;
 import wtf.moonlight.features.modules.ModuleCategory;
@@ -34,44 +32,49 @@ import wtf.moonlight.features.values.impl.ModeValue;
 import wtf.moonlight.features.values.impl.SliderValue;
 import wtf.moonlight.gui.font.Fonts;
 import wtf.moonlight.utils.player.MovementUtils;
+import wtf.moonlight.utils.player.PlayerUtils;
 
 import java.util.Objects;
 
 @ModuleInfo(name = "LongJump", category = ModuleCategory.Movement, key = Keyboard.KEY_F)
 public class LongJump extends Module {
-    public final ModeValue mode = new ModeValue("Mode", new String[]{"Watchdog Fireball", "Old Matrix", "Miniblox"}, "Watchdog Fireball", this);
-    public final ModeValue wdFBMode = new ModeValue("Fireball Mode", new String[]{"Rise", "Chef", "Chef High"}, "Watchdog Fireball", this);
+    public final ModeValue mode = new ModeValue("Mode", new String[]{"Watchdog Fireball", "Old Matrix", "Miniblox","Watchdog Damage"}, "Watchdog Fireball", this);
+    public final ModeValue wdFBMode = new ModeValue("Fireball Mode", new String[]{"High"}, "High", this, () -> mode.is("Watchdog Fireball"));
     private final SliderValue oMatrixTimer = new SliderValue("Matrix Timer", 0.3f, 0.1f, 1, 0.01f, this, () -> mode.is("Old Matrix"));
     private final BoolValue boost = new BoolValue("Boost", true, this, () -> mode.is("Watchdog Fireball"));
     private int lastSlot = -1;
     //fb
     private int ticks = -1;
     private boolean setSpeed;
-    private int ticksSinceVelocity;
     public static boolean stopModules;
     private boolean sentPlace;
     private int initTicks;
     private boolean thrown;
-    private boolean velo;
 
     //matrix
     private boolean mPacket;
     private int matrixTimer = 0;
 
     //miniblox
-    private boolean jumped;
+    private boolean jumped = false;
     private int currentTimer = 0;
     private int pauseTimes = 0;
     private int activeTicks = 0;
 
+    //watchdog damage
+    public int dmgTicks;
+
     //others
+    private boolean velo;
     private double distance;
+    private int ticksSinceVelocity;
 
     @Override
     public void onEnable() {
         lastSlot = mc.thePlayer.inventory.currentItem;
         ticks = 0;
         distance = 0;
+
         if (mode.is("Watchdog Fireball")) {
             int fbSlot = getFBSlot();
             if (fbSlot == -1) {
@@ -80,6 +83,9 @@ public class LongJump extends Module {
 
             stopModules = true;
             initTicks = 0;
+        }
+        if (Objects.equals(mode.get(), "Watchdog Damage")) {
+            dmgTicks = 0;
         }
     }
 
@@ -94,8 +100,6 @@ public class LongJump extends Module {
             ticks = lastSlot = -1;
             setSpeed = stopModules = sentPlace = false;
             initTicks = 0;
-            ticksSinceVelocity = 0;
-            velo = false;
         }
 
         if (Objects.equals(mode.get(), "Old Matrix")) {
@@ -111,13 +115,13 @@ public class LongJump extends Module {
             activeTicks = 0;
             MovementUtils.stop();
         }
+        velo = false;
+        ticksSinceVelocity = 0;
     }
 
     @EventTarget
     public void onUpdate(UpdateEvent event) {
         setTag(mode.get());
-        if (velo)
-            ticksSinceVelocity++;
         switch (mode.get()) {
             case "Old Matrix":
                 if (!mPacket) {
@@ -195,6 +199,16 @@ public class LongJump extends Module {
                     }
                     break;
                 }
+
+            case "Watchdog Fireball":
+                if (velo)
+                    ticksSinceVelocity++;
+                break;
+
+            case "Watchdog Damage":
+                if (velo)
+                    ticksSinceVelocity++;
+                break;
         }
     }
 
@@ -213,7 +227,7 @@ public class LongJump extends Module {
                     }
 
                     switch (wdFBMode.get()) {
-                        case "Rise":
+                        case "High":
                             if (mc.thePlayer.hurtTime == 10) {
                                 mc.thePlayer.motionY = 1.1f;
                             }
@@ -236,20 +250,6 @@ public class LongJump extends Module {
 
                             if (ticksSinceVelocity >= 3 && ticksSinceVelocity <= 50) {
                                 MovementUtils.strafe();
-                            }
-                            break;
-                        case "Chef":
-                            if (velo) {
-                                if (ticksSinceVelocity >= 1 && ticksSinceVelocity <= 33) {
-                                    mc.thePlayer.motionY = 0.7 - ticksSinceVelocity * 0.015;
-                                }
-                            }
-                            break;
-                        case "Chef high":
-                            if (velo) {
-                                if (ticksSinceVelocity >= 1 && ticksSinceVelocity <= 28) {
-                                    mc.thePlayer.motionY = ticksSinceVelocity * 0.016;
-                                }
                             }
                             break;
                     }
@@ -298,6 +298,67 @@ public class LongJump extends Module {
                     }
                 }
 
+                break;
+
+            case "Watchdog Damage":
+                if (event.isPre()) {
+
+                    ++dmgTicks;
+
+                    if (dmgTicks < 44 && dmgTicks % 2 == 0) {
+                        event.setX(event.getX() - (double) handleX() * 0.09D);
+                        event.setZ(event.getZ() - (double) handleZ() * 0.09D);
+                    }
+
+                    if (dmgTicks == 1) {
+                        event.setY(event.getY() + 0.034949999302625656D);
+                        event.setOnGround(false);
+                    } else if (dmgTicks < 45) {
+                        event.setY(event.getY() + (dmgTicks % 2 != 0 ? 0.1449999064207077D : Math.random() / 5000.0D));
+                        event.setOnGround(false);
+                        if (dmgTicks == 44) {
+                            MovementUtils.strafe((0.2873 + MovementUtils.getSpeedEffect() * 0.2) - 0.005);
+                            mc.thePlayer.jump();
+                        }
+                    } else if (dmgTicks == 45) {
+                        event.setY(event.getY() + 1.0E-13D);
+                        sendPacket(new C03PacketPlayer(true));
+                    }
+
+                    if (ticksSinceVelocity > 3 && ticksSinceVelocity < 38 || ticksSinceVelocity > 37 && mc.thePlayer.motionY <= 0.0D) {
+                        mc.thePlayer.motionY += 0.0283D;
+                    }
+
+                    switch (ticksSinceVelocity) {
+                        case 1:
+                            mc.thePlayer.motionX *= 2.1;
+                            mc.thePlayer.motionZ *= 2.1;
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                        case 8:
+                        case 9:
+                        case 10:
+                        case 11:
+                        default:
+                            break;
+                        case 6:
+                            mc.thePlayer.motionY = 0.03D;
+                            break;
+                        case 7:
+                            mc.thePlayer.motionY = 0.03D;
+                            break;
+                        case 12:
+                            mc.thePlayer.motionY = 0.0D;
+                            break;
+                        case 13:
+                            mc.thePlayer.motionY += 0.01D;
+                    }
+
+                    if(velo && mc.thePlayer.onGround)
+                        toggle();
+                }
                 break;
         }
     }
@@ -371,11 +432,46 @@ public class LongJump extends Module {
                 }
             }
         }
+
+        if (mode.is("Watchdog Damage")) {
+            if (packet instanceof S12PacketEntityVelocity s12PacketEntityVelocity
+                    && s12PacketEntityVelocity.getEntityID() == mc.thePlayer.getEntityId()
+                    && !event.isCancelled()
+            ) {
+                double x = (double) s12PacketEntityVelocity.getMotionX() / 8000.0D;
+                double z = (double) s12PacketEntityVelocity.getMotionZ() / 8000.0D;
+                double speed = Math.hypot(x, z);
+                MovementUtils.strafe(MovementUtils.clamp(speed, 0.44D, 0.48D));
+                mc.thePlayer.motionY = (double) s12PacketEntityVelocity.getMotionY() / 8000.0D;
+                ticksSinceVelocity = 0;
+                event.setCancelled(true);
+                velo = true;
+            }
+        }
     }
 
     @EventTarget
     public void onRender2D(Render2DEvent event) {
         Fonts.interSemiBold.get(15).drawCenteredString((Math.round(distance * 100.0) / 100.0) + "blocks", (float) event.scaledResolution().getScaledWidth() / 2, (float) event.scaledResolution().getScaledHeight() / 2 - 30, -1);
+    }
+
+    @EventTarget
+    public void onMove(MoveEvent event) {
+        if (mode.is("Watchdog Damage")) {
+            if (dmgTicks < 44) {
+                event.setZ(0.0D);
+                event.setX(0.0D);
+            }
+        }
+    }
+
+    @EventTarget
+    public void onJump(JumpEvent event){
+        if (mode.is("Watchdog Damage")) {
+            if (dmgTicks < 44) {
+                event.setCancelled(true);
+            }
+        }
     }
 
     @EventTarget
@@ -391,5 +487,13 @@ public class LongJump extends Module {
             }
         }
         return -1;
+    }
+
+    public float handleX() {
+        return MovementUtils.handleX((float) mc.thePlayer.motionX);
+    }
+
+    public float handleZ() {
+        return MovementUtils.handleZ((float) mc.thePlayer.motionZ);
     }
 }

@@ -268,7 +268,7 @@ public class ModuleListWidget extends Widget {
     }
 
     private float calculateNextOffset(Module module, int height, float offset) {
-        return (float) (offset + (module.getAnimation().getOutput() * (height) + setting.textHeight.get()) + PADDING);
+        return (float) (offset + ((module.getAnimation().getOutput()) * (height + setting.textHeight.get())) + PADDING);
     }
 
     @Override
