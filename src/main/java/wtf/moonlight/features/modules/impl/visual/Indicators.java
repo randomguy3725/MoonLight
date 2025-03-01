@@ -41,6 +41,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class Indicators extends Module {
     private final SliderValue size = new SliderValue("Size", 6, 3, 30, this);
     private final SliderValue radius = new SliderValue("Radius", 100, 15, 250, 1, this);
+    private final BoolValue stretch  = new BoolValue("Stretch", true, this);
     private final BoolValue name = new BoolValue("Name", true, this);
     private final BoolValue outline = new BoolValue("Outline", true, this);
     private final BoolValue renderArrows = new BoolValue("Render Arrows", true, this);
@@ -48,6 +49,7 @@ public class Indicators extends Module {
     private final BoolValue renderFireballs = new BoolValue("Render Fireballs", true, this);
     private final BoolValue renderPlayers = new BoolValue("Render Player", false, this);
     private final BoolValue playerInfo = new BoolValue("Player Info", true, this, renderPlayers::get);
+    private final BoolValue onlyNotInView  = new BoolValue("Only Not In View", true, this);
 
     @EventTarget
     public void onRender2D(Render2DEvent event) {
@@ -72,9 +74,9 @@ public class Indicators extends Module {
         final double radius = this.radius.get();
 
         for (Entity entity : mc.theWorld.loadedEntityList) {
-            if (entity instanceof EntityPlayer && entity != mc.thePlayer && renderPlayers.get()
+            if ((!onlyNotInView.get() || onlyNotInView.get() && !RenderUtils.isInViewFrustum(entity))&& (entity instanceof EntityPlayer && entity != mc.thePlayer && renderPlayers.get()
                     || entity instanceof EntityArrow && !((EntityArrow) entity).inGround && renderArrows.get()
-                    || entity instanceof EntityFireball && renderFireballs.get() || entity instanceof EntityEnderPearl && renderPearls.get()) {
+                    || entity instanceof EntityFireball && renderFireballs.get() || entity instanceof EntityEnderPearl && renderPearls.get())) {
                 final Entity local = mc.thePlayer;
 
                 final float currentRotation = MathUtils.interpolate(local.prevRotationYaw, local.rotationYaw, partialTicks);
@@ -92,7 +94,7 @@ public class Indicators extends Module {
 
                 final double rads = Math.toRadians(yawToPlayer);
 
-                final double aspectRatio = scaledResolution.getScaledWidth_double() / scaledResolution.getScaledHeight_double();
+                final double aspectRatio = stretch.get() ? scaledResolution.getScaledWidth_double() / scaledResolution.getScaledHeight_double() : 1;
 
                 glTranslated(radius * Math.sin(rads) * aspectRatio,
                         radius * -Math.cos(rads), 0);
