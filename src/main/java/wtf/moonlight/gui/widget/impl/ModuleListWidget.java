@@ -25,7 +25,47 @@ public class ModuleListWidget extends Widget {
 
     @Override
     public void onShader(Shader2DEvent event) {
-        render();
+
+        if (!shouldRender()) return;
+
+        int middle = sr.getScaledWidth() / 2;
+        List<Module> enabledModules = getEnabledModules();
+
+        float offset = 0;
+        float lastWidth = 0;
+
+        for (int i = 0; i < enabledModules.size(); i++) {
+            Module module = enabledModules.get(i);
+            int width = getModuleWidth(module);
+            int height = getModuleHeight();
+
+            RenderPosition position = calculateRenderPosition(module, width, middle);
+
+            if (setting.animation.is("ScaleIn")) {
+                if (renderX < middle) {
+                    RenderUtils.scaleStart(position.x + (width / 2.0f),
+                            position.y + offset + mc.fontRendererObj.FONT_HEIGHT,
+                            (float) module.getAnimation().getOutput());
+                } else {
+                    RenderUtils.scaleStart(position.x - (width / 2.0f) + this.width,
+                            position.y + offset + mc.fontRendererObj.FONT_HEIGHT,
+                            (float) module.getAnimation().getOutput());
+                }
+            }
+
+            renderShaderModule(module, position.x, position.y, offset, width, height,
+                    position.alphaAnimation, middle, lastWidth, i, enabledModules.size());
+
+            if (setting.animation.is("ScaleIn")) {
+                RenderUtils.scaleEnd();
+            }
+
+            if (!module.isHidden()) {
+                offset = calculateNextOffset(module, height, offset);
+            }
+
+            lastWidth = width;
+        }
     }
 
     @Override
@@ -99,6 +139,19 @@ public class ModuleListWidget extends Widget {
                 setting.getFr().getHeight();
     }
 
+    private void renderShaderModule(Module module, float localX, float localY, float offset, int width, int height,
+                              float alphaAnimation, int middle, float lastWidth, int index, int totalModules) {
+        if (setting.background.get()) {
+            renderShaderBackground(localX, localY, offset, width, height, middle,index);
+        }
+
+        if (setting.line.get()) {
+            renderLines(localX, localY, offset, width, height, middle, lastWidth, index, totalModules);
+        }
+
+        renderText(module, localX, localY, offset, width, alphaAnimation, middle,index);
+    }
+
     private void renderModule(Module module, float localX, float localY, float offset, int width, int height,
                               float alphaAnimation, int middle, float lastWidth, int index, int totalModules) {
         if (setting.background.get()) {
@@ -121,6 +174,16 @@ public class ModuleListWidget extends Widget {
                     width + 3, height + PADDING + setting.textHeight.get(), setting.bgColor(index));
         }
     }
+    private void renderShaderBackground(float localX, float localY, float offset, int width, int height, int middle, int index) {
+        if (localX < middle) {
+            RenderUtils.drawRect(localX - PADDING, localY + offset, width + 3,
+                    height + PADDING + setting.textHeight.get(), setting.color(index));
+        } else {
+            RenderUtils.drawRect(localX + this.width - 4 - width, localY + offset + 1,
+                    width + 3, height + PADDING + setting.textHeight.get(), setting.color(index));
+        }
+    }
+
 
     private void renderLines(float localX, float localY, float offset, int width, int height,
                              int middle, float lastWidth, int index, int totalModules) {
