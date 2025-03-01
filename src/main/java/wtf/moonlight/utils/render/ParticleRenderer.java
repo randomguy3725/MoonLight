@@ -16,7 +16,7 @@ public class ParticleRenderer implements InstanceAccess {
     public static final TimerUtils timer = new TimerUtils();
     private static boolean sentParticles;
 
-    public static void renderParticle(EntityLivingBase target, float x, float y, float test) {
+    public static void renderParticle(EntityLivingBase target, float x, float y) {
 
         for (Particle p : particles) {
             GlStateManager.color(1, 1, 1, 1);

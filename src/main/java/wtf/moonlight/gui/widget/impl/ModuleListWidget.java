@@ -296,10 +296,10 @@ public class ModuleListWidget extends Widget {
         switch (setting.animation.get()) {
             case "MoveIn":
                 if (localX > middle) {
-                    localX += (float) Math.abs((Math.max(module.getAnimation().getOutput(), 0.1) - 1.0) *
-                            (MOVE_IN_SCALE + width));
+                    localX += (float) Math.abs(module.getAnimation().getOutput() - 1.0) *
+                            (MOVE_IN_SCALE + width);
                 } else {
-                    localX -= (float) Math.abs((Math.max(module.getAnimation().getOutput(), 0.1) - 1.0) *
+                    localX -= (float) Math.abs((module.getAnimation().getOutput() - 1.0) *
                             (MOVE_IN_SCALE + width));
                 }
                 break;

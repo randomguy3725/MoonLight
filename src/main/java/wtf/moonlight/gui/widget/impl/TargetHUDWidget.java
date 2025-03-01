@@ -91,6 +91,7 @@ public class TargetHUDWidget extends Widget {
             case "Novo 3" -> 35 + mc.fontRendererObj.getStringWidth(entity.getName()) + 34;
             case "Novo 4" -> 135.0f;
             case "Novo 5" -> Math.max(118, Fonts.interSemiBold.get(17).getStringWidth(entity.getName()) + 38) + 27F;
+            case "Akrien" -> 114 + ((35 + Fonts.interSemiBold.get(21).getStringWidth(entity.getName())) / 25f);
             default -> 0;
         };
     }
@@ -109,6 +110,7 @@ public class TargetHUDWidget extends Widget {
             case "Novo 2", "Novo 3" -> 36f;
             case "Novo 4" -> 45.0f;
             case "Novo 5" -> 47;
+            case "Akrien" -> 44;
             default -> 0;
         };
     }
@@ -187,7 +189,7 @@ class TargetHUD implements InstanceAccess {
             }
 
             if (setting.targetHudParticle.get()) {
-                ParticleRenderer.renderParticle(target, x + 4, y + 4, 34 / 2f);
+                ParticleRenderer.renderParticle(target, x + 4, y + 4);
             }
             break;
 
@@ -228,7 +230,7 @@ class TargetHUD implements InstanceAccess {
                 }
 
                 if (setting.targetHudParticle.get()) {
-                    ParticleRenderer.renderParticle(target, x + 5, y + 6.8f, 26.5f / 2f);
+                    ParticleRenderer.renderParticle(target, x + 5, y + 6.8f);
                 }
             }
             break;
@@ -320,7 +322,7 @@ class TargetHUD implements InstanceAccess {
                 }
 
                 if (setting.targetHudParticle.get()) {
-                    ParticleRenderer.renderParticle(target, x + padding, y + padding, (28 - padding) / 2);
+                    ParticleRenderer.renderParticle(target, x + padding, y + padding);
                 }
             }
             break;
@@ -347,7 +349,7 @@ class TargetHUD implements InstanceAccess {
                 }
 
                 if (setting.targetHudParticle.get()) {
-                    ParticleRenderer.renderParticle(target, x + 2.5f, y + 2.5f, 35 / 2f);
+                    ParticleRenderer.renderParticle(target, x + 2.5f, y + 2.5f);
                 }
             }
             break;
@@ -373,7 +375,7 @@ class TargetHUD implements InstanceAccess {
                 }
 
                 if (setting.targetHudParticle.get()) {
-                    ParticleRenderer.renderParticle(target, x + 2.5f, y + 2.5f, 35 / 2f);
+                    ParticleRenderer.renderParticle(target, x + 2.5f, y + 2.5f);
                 }
             }
             break;
@@ -401,7 +403,7 @@ class TargetHUD implements InstanceAccess {
                 }
 
                 if(setting.targetHudParticle.get()){
-                    ParticleRenderer.renderParticle(target,x + 2.5f, y + 2.5f,35 / 2f);
+                    ParticleRenderer.renderParticle(target,x + 2.5f, y + 2.5f);
                 }
             }
             break;
@@ -446,7 +448,7 @@ class TargetHUD implements InstanceAccess {
                 }
 
                 if(setting.targetHudParticle.get()){
-                    ParticleRenderer.renderParticle(target,(x + 1.5f + 1), (float) (y + 0.4), 35 /2f);
+                    ParticleRenderer.renderParticle(target,(x + 1.5f + 1), (float) (y + 0.4));
                 }
             }
             break;
@@ -472,7 +474,7 @@ class TargetHUD implements InstanceAccess {
             }
 
             if(setting.targetHudParticle.get()){
-                ParticleRenderer.renderParticle(target,(x + 1.5f + 1f), (float) (y + 0.4),35 / 2f);
+                ParticleRenderer.renderParticle(target,(x + 1.5f + 1f), (float) (y + 0.4));
             }
 
             break;
@@ -504,17 +506,53 @@ class TargetHUD implements InstanceAccess {
 
                 if (!shader) {
                     RenderUtils.drawRect(x, y, width, height, setting.bgColor());
-                    Fonts.interRegular.get(20).drawStringWithShadow(target.getName(), x + 40f, y + 3.2f, -1);
+                    Fonts.interRegular.get(20).drawStringWithShadow(target.getName(), x + 40f, y + 3.2f + 1, -1);
                     RenderUtils.renderPlayer2D(target, x + 3.2f, y + 3.2f, 33, 0, -1);
                     RenderUtils.drawGradientRect(x + 3.2f, y + 39, target.healthAnimation.getOutput(), 4, true, setting.color(0), setting.color(90));
                     RenderUtils.renderItemStack(target, x + 40f, y + 17, 1);
                     String text = String.format("%.1f", target.getHealth());
                     Fonts.interRegular.get(17).drawString(text, x + target.healthAnimation.getOutput() + 3, y + 37F, -1);
+
+                    if(setting.targetHudParticle.get()){
+                        ParticleRenderer.renderParticle(target,x + 3.2f ,y + 3.2f);
+                    }
+
                 } else {
                     RenderUtils.drawRect(x, y, width, height, setting.color(0));
                 }
             }
 
+            break;
+
+            case "Akrien":{
+
+                float healthPercentage = target.getHealth() / target.getMaxHealth();
+                float space = width - 2;
+
+                if(!shader) {
+                    target.healthAnimation.animate(space * MathHelper.clamp_float(healthPercentage, 0, 1), 30);
+                    RenderUtils.drawRect(x, y, width, height, setting.bgColor());
+                    RenderUtils.drawBorderedRect(x + 1, y + 35, space, 2.5f, 0.74f, new Color(0, 0, 0, 100).getRGB(), new Color(0, 0, 0, 100).getRGB());
+                    RenderUtils.drawBorderedRect(x + 1, y + 35, target.healthAnimation.getOutput(), 2.5f, 0.74f, new Color(64, 150, 64).getRGB(), new Color(0, 0, 0, 100).getRGB());
+
+                    RenderUtils.drawBorderedRect(x + 1, y + 35, space, 2.5f, 0.74f, new Color(0, 0, 0, 100).getRGB(), new Color(0, 0, 0, 100).getRGB());
+                    if (target.getTotalArmorValue() > 0) {
+                        RenderUtils.drawBorderedRect(x + 1, y + 38.5f, target.getTotalArmorValue() * 5.75f, 2.5f, 0.74f, new Color(32, 101, 150).getRGB(), new Color(0, 0, 0, 100).getRGB());
+                    }
+
+
+                    String text = String.format("%.1f", target.getHealth());
+                    String text2 = String.format("%.1f", mc.thePlayer.getDistanceToEntity(target));
+
+                    Fonts.interRegular.get(13).drawStringWithShadow("Health: " + text, x + 33.5 + 1, y + 15 + 2, -1);
+                    Fonts.interRegular.get(13).drawStringWithShadow("Distance: " + text2 + "m", x + 33.5 + 1, y + 23 + 2, -1);
+                    Fonts.interSemiBold.get(18).drawStringWithShadow(target.getName(), x + 33 + 1, y + 4 + 2, -1);
+
+                    RenderUtils.renderPlayer2D(target, x + 1, y + 3, 30, 0, -1);
+                } else {
+                    RenderUtils.drawRect(x, y, width, height, setting.color());
+                }
+            }
             break;
         }
         GlStateManager.popMatrix();
