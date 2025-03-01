@@ -37,7 +37,7 @@ public class ModuleListWidget extends Widget {
         for (int i = 0; i < enabledModules.size(); i++) {
             Module module = enabledModules.get(i);
             int width = getModuleWidth(module);
-            int height = getModuleHeight();
+            int height = getModuleHeight() - 2;
 
             RenderPosition position = calculateRenderPosition(module, width, middle);
 
@@ -81,7 +81,7 @@ public class ModuleListWidget extends Widget {
         for (int i = 0; i < enabledModules.size(); i++) {
             Module module = enabledModules.get(i);
             int width = getModuleWidth(module);
-            int height = getModuleHeight();
+            int height = getModuleHeight() - 2;
 
             RenderPosition position = calculateRenderPosition(module, width, middle);
 
