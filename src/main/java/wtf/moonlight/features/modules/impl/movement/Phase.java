@@ -64,15 +64,15 @@ public class Phase extends Module {
                 this.phasing = true;
             }
         }
-        if (mode.is("Intave")) {
-            mc.thePlayer.capabilities.allowEdit = true;
+            if (mode.is("Intave")) {
+                mc.thePlayer.capabilities.allowEdit = true;
 
-            if (canClip) {
-                mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY - 0.005, mc.thePlayer.posZ);
-                }
+                if (canClip) {
+                    mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY - 0.0052, mc.thePlayer.posZ);
+            }
             if (mc.thePlayer.isSneaking()) {
-                final double wdist = 0.05D;
-                final double sdist = -0.05D;
+                final double wdist = 0.00001D;
+                final double sdist = -0.00001D;
 
                 final double rotation = Math.toRadians(mc.thePlayer.rotationYaw);
 
@@ -80,7 +80,7 @@ public class Phase extends Module {
 
                     final double x = Math.sin(rotation) * wdist;
                     final double z = Math.cos(rotation) * wdist;
-                    
+
                     mc.thePlayer.setPosition(mc.thePlayer.posX - x, mc.thePlayer.posY, mc.thePlayer.posZ + z);
                 }
                 if (mc.gameSettings.keyBindBack.isKeyDown()) {
@@ -106,12 +106,12 @@ public class Phase extends Module {
         }
     }
 
-        @EventTarget
-        public void onRender3D (Render3DEvent e){
-            if (mode.is("Intave")) {
-                canClip = mc.playerController.curBlockDamageMP > 0.75;
-            }
+    @EventTarget
+    public void onRender3D (Render3DEvent e){
+        if (mode.is("Intave")) {
+            canClip = mc.playerController.curBlockDamageMP > 0.75;
         }
+    }
 
     @EventTarget
     public void onBlockAABB(BlockAABBEvent event) {

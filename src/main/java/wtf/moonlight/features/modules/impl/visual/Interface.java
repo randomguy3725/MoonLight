@@ -287,7 +287,7 @@ public class Interface extends Module {
                     FontRenderer titleFont = Fonts.interBold.get(20);
 
                     //info
-                    FontRenderer info = Fonts.interRegular.get(16);
+                    FontRenderer info = Fonts.interSemiBold.get(16);
                     String userIcon = "W ";
                     String fpsIcon = "X ";
                     String timeIcon = "V ";
@@ -313,17 +313,17 @@ public class Interface extends Module {
                                     info.getStringWidth(String.valueOf(Minecraft.getDebugFPS())) +
                                     Fonts.nursultan.get(20).getStringWidth(timeIcon) +
                                     info.getStringWidth(times)
-                                    + 27
+                                    + 17
                             , Fonts.interRegular.get(20).getHeight() + 2, 4, ColorUtils.applyOpacity(NeverLose.bgColor, 1f));
 
                     Fonts.nursultan.get(20).drawString(userIcon, userIconX, textY, iconRGB);
-                    info.drawString(mc.thePlayer.getName(), userIconX + Fonts.nursultan.get(20).getStringWidth(userIcon), 11, textRGB);
+                    info.drawString(mc.thePlayer.getName(), userIconX + Fonts.nursultan.get(20).getStringWidth(userIcon) - 6, 11, textRGB);
 
-                    Fonts.nursultan.get(20).drawString(fpsIcon, fpsIconX, textY, iconRGB);
-                    info.drawString(Minecraft.getDebugFPS() + "fps", fpsIconX + Fonts.nursultan.get(20).getStringWidth(fpsIcon), textY, textRGB);
+                    Fonts.nursultan.get(20).drawString(fpsIcon, fpsIconX - 7, textY, iconRGB);
+                    info.drawString(Minecraft.getDebugFPS() + "fps", fpsIconX + Fonts.nursultan.get(20).getStringWidth(fpsIcon) - 13, textY, textRGB);
 
-                    Fonts.nursultan.get(20).drawString(timeIcon, clockIconX, textY, iconRGB);
-                    info.drawString(times, clockIconX + Fonts.nursultan.get(20).getStringWidth(timeIcon) - 7, textY, textRGB);
+                    Fonts.nursultan.get(20).drawString(timeIcon, clockIconX - 6, textY, iconRGB);
+                    info.drawString(times, clockIconX + Fonts.nursultan.get(20).getStringWidth(timeIcon) - 12, textY, textRGB);
 
                     break;
             }
@@ -566,7 +566,7 @@ public class Interface extends Module {
                     FontRenderer title = Fonts.interBold.get(20);
 
                     //info
-                    FontRenderer info = Fonts.interRegular.get(16);
+                    FontRenderer info = Fonts.interSemiBold.get(16);
                     String userIcon = "W ";
                     String fpsIcon = "X ";
                     String timeIcon = "V ";
@@ -583,9 +583,9 @@ public class Interface extends Module {
                                     info.getStringWidth(String.valueOf(Minecraft.getDebugFPS())) +
                                     Fonts.nursultan.get(20).getStringWidth(timeIcon) +
                                     info.getStringWidth(times)
-                                    + 27
+                                    + 17
                             , Fonts.interRegular.get(20).getHeight() + 2, 4, NeverLose.bgColor);
-                    RoundedUtils.drawRound(3, bgY, title.getStringWidth(clientName.getText()) + 10, Fonts.interRegular.get(20).getHeight() + 2, 4, NeverLose.bgColor);
+                    RoundedUtils.drawRound(3, bgY, title.getStringWidth(clientName.getText()) + 10, Fonts.interSemiBold.get(20).getHeight() + 2, 4, NeverLose.bgColor);
 
             }
         }
@@ -852,6 +852,7 @@ public class Interface extends Module {
         FontRenderer fr = switch (fontMode.get()) {
             case "Bold" -> Fonts.interBold.get(fontSize.get());
             case "Semi Bold" -> Fonts.interSemiBold.get(fontSize.get());
+            case "Medium" -> Fonts.interMedium.get(fontSize.get());
             case "Regular" -> Fonts.interRegular.get(fontSize.get());
             case "Tahoma" -> Fonts.Tahoma.get(fontSize.get());
             default -> null;
