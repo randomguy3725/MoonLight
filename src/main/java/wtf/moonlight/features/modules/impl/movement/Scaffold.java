@@ -105,7 +105,7 @@ public class Scaffold extends Module {
     private final BoolValue unPatch = new BoolValue("Un Patch Test", true, this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint") && (addons.isEnabled("Keep Y") || addons.isEnabled("Speed Keep Y")));
     private final SliderValue straightSpeed = new SliderValue("Keep Y Straight Speed", 1, 0.5f, 1f, 0.01f, this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint") && (addons.isEnabled("Keep Y") || addons.isEnabled("Speed Keep Y")));
     private final SliderValue diagonalSpeed = new SliderValue("Keep Y Diagonal Speed", 0.95f, 0.5f, 1f, 0.01f, this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint") && (addons.isEnabled("Keep Y") || addons.isEnabled("Speed Keep Y")));
-    public final ModeValue counter = new ModeValue("Counter", new String[]{"None", "Simple", "Normal", "Exhibition", "Adjust"}, "Normal", this);
+    public final ModeValue counter = new ModeValue("Counter", new String[]{"None", "Simple", "Normal", "Exhibition", "Adjust","Novo"}, "Normal", this);
     public PlaceData data;
     private int oloSlot = -1;
     private double onGroundY;
@@ -866,7 +866,7 @@ public class Scaffold extends Module {
             maxZ = 0.9f;
         }
 
-        float[] bestRot = RotationUtils.getRotations(blockPos, face);
+        float[] bestRot = RotationUtils.getRotations(blockPos);
         double bestDist = RotationUtils.getRotationDifference(bestRot);
 
         for (float x = minX; x <= maxX; x += 0.1f) {

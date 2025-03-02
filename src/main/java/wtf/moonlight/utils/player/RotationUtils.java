@@ -396,28 +396,14 @@ public class RotationUtils implements InstanceAccess {
         Vec3 vec3 = mc.thePlayer.getPositionEyes(partialTicks);
         Vec3 vec31 = mc.thePlayer.getLookCustom(rot[0], rot[1]);
         Vec3 vec32 = vec3.addVector(vec31.xCoord * blockReachDistance, vec31.yCoord * blockReachDistance, vec31.zCoord * blockReachDistance);
-        return mc.theWorld.rayTraceBlocks(vec3, vec32, false, true, true);
+        return mc.theWorld.rayTraceBlocks(vec3, vec32, false, true, false);
     }
 
     public static MovingObjectPosition rayTrace(double blockReachDistance, float partialTicks) {
         Vec3 vec3 = mc.thePlayer.getPositionEyes(partialTicks);
         Vec3 vec31 = mc.thePlayer.getLookCustom(serverRotation[0], serverRotation[1]);
         Vec3 vec32 = vec3.addVector(vec31.xCoord * blockReachDistance, vec31.yCoord * blockReachDistance, vec31.zCoord * blockReachDistance);
-        return mc.theWorld.rayTraceBlocks(vec3, vec32, false, true, true);
-    }
-
-    public static float[] getRotations(BlockPos blockPos, EnumFacing enumFacing) {
-        return getRotations(blockPos, enumFacing, 0.25, 0.25);
-    }
-
-    public static float[] getRotations(BlockPos blockPos, EnumFacing enumFacing, double xz, double y) {
-        double d = blockPos.getX() + 0.5 - mc.thePlayer.posX + enumFacing.getFrontOffsetX() * xz;
-        double d2 = blockPos.getZ() + 0.5 - mc.thePlayer.posZ + enumFacing.getFrontOffsetZ() * xz;
-        double d3 = mc.thePlayer.posY + mc.thePlayer.getEyeHeight() - blockPos.getY() - enumFacing.getFrontOffsetY() * y;
-        double d4 = MathHelper.sqrt_double(d * d + d2 * d2);
-        float f = (float) (Math.atan2(d2, d) * 180.0 / Math.PI) - 90.0f;
-        float f2 = (float) (Math.atan2(d3, d4) * 180.0 / Math.PI);
-        return new float[]{MathHelper.wrapAngleTo180_float(f), f2};
+        return mc.theWorld.rayTraceBlocks(vec3, vec32, false, true, false);
     }
 
     public static float[] getRotations(double rotX, double rotY, double rotZ, double startX, double startY, double startZ) {

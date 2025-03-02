@@ -184,7 +184,7 @@ public class NotificationManager implements InstanceAccess {
                             } else {
                                 Fonts.noti2.get(42).drawStringNoFormat("M", x + 8F, y + 10F, 0);
                             }
-                            Fonts.interMedium.get(20).drawStringNoFormat(notification.getTitle(), x + 34F, y + 4F, -1);
+                            Fonts.interSemiBold.get(20).drawStringNoFormat(notification.getTitle(), x + 34F, y + 4F, -1);
                             Fonts.interMedium.get(17).drawStringNoFormat(notification.getDescription(), x + 34F, y + 17F, -1);
                         } else {
                             RoundedUtils.drawRound(x, y, width, height, 4, new Color(INSTANCE.getModuleManager().getModule(Interface.class).color(), true));

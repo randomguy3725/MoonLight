@@ -107,6 +107,7 @@ public class Interface extends Module {
     public final BoolValue cFont = new BoolValue("C Fonts",true,this, () -> elements.isEnabled("Module List"));
     public final ModeValue fontMode = new ModeValue("C Fonts Mode", new String[]{"Bold","Semi Bold","Medium","Regular","Tahoma"}, "Semi Bold", this,() -> cFont.canDisplay() && cFont.get());
     public final SliderValue fontSize = new SliderValue("Font Size",15,10,25,this,cFont::get);
+    public final SliderValue animSpeed = new SliderValue("anim Speed", 200, 100, 400, 25, this, () -> elements.isEnabled("Module List"));
     public final ModeValue watemarkMode = new ModeValue("Watermark Mode", new String[]{"Text","Styles","Styles 2","Nursultan","Exhi","Exhi 2","Nursultan 2","NeverLose","Novo","Novo 2","OneTap"}, "Text", this,() -> elements.isEnabled("Watermark"));
     public final ModeValue animation = new ModeValue("Animation", new String[]{"ScaleIn", "MoveIn","Slide In"}, "ScaleIn", this, () -> elements.isEnabled("Module List"));
     public final SliderValue textHeight = new SliderValue("Text Height", 2, 0, 10, this, () -> elements.isEnabled("Module List"));
@@ -139,6 +140,8 @@ public class Interface extends Module {
     public final BoolValue fixHeight = new BoolValue("Fix Height", true, this, customScoreboard::get);
     public final BoolValue hideBackground = new BoolValue("Hide Background", true, this, customScoreboard::get);
     public final BoolValue chatCombine = new BoolValue("Chat Combine", true, this);
+    public final BoolValue newButton = new BoolValue("New Button", true, this);
+    public final BoolValue hotBar = new BoolValue("New Hot Bar", false, this);
 
     public final BoolValue cape = new BoolValue("Cape", true, this);
     public final BoolValue wavey = new BoolValue("Wavey Cape", true, this);
@@ -848,7 +851,7 @@ public class Interface extends Module {
 
             final Matcher linkMatcher = LINK_PATTERN.matcher(s1);
             if(Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).isEnabled() && linkMatcher.find()) {
-                s1 = "Moonlight.wtf";
+                s1 = "MoonLight@github";
                 mc.fontRendererObj.drawGradientWithShadow(s1, l1, k,(index) -> new Color(Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).color(index)));
             } else {
                 mc.fontRendererObj.drawString(s1, l1, k, 553648127, true);

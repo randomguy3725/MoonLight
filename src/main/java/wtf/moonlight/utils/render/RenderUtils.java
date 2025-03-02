@@ -47,6 +47,11 @@ public class RenderUtils implements InstanceAccess {
     private static final Frustum FRUSTUM = new Frustum();
     public static final Pattern COLOR_PATTERN = Pattern.compile("(?i)§[0-9A-FK-OR]");
 
+
+    public static void drawRect(float left, float top, float width, float height, Color color) {
+        drawRect(left,top,width,height,color.getRGB());
+    }
+
     public static void drawRect(float left, float top, float width, float height, int color) {
         float right = left + width, bottom = top + height;
         if (left < right) {
@@ -523,7 +528,7 @@ public class RenderUtils implements InstanceAccess {
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         RenderHelper.enableGUIStandardItemLighting();
         mc.getRenderItem().renderItemAndEffectIntoGUI(stack, 0, 0);
-        mc.getRenderItem().renderItemOverlays(mc.fontRendererObj, stack, 0, 0);
+        //mc.getRenderItem().renderItemOverlays(mc.fontRendererObj, stack, 0, 0);
         if (enchantedText)
             renderEnchantText(stack, 0, 0, textScale);
         RenderHelper.disableStandardItemLighting();
@@ -958,7 +963,7 @@ public class RenderUtils implements InstanceAccess {
         GlStateManager.disableTexture2D();
         GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
         GL11.glEnable(GL11.GL_LINE_SMOOTH);
-        GL11.glLineWidth(2f);
+        GL11.glLineWidth(3);
         GL11.glBegin(GL11.GL_LINE_STRIP);
         var i = end;
         while (i >= start) {
@@ -1104,5 +1109,12 @@ public class RenderUtils implements InstanceAccess {
         GlStateManager.enableDepth();
 
         GL11.glColor3d(255, 255, 255);
+    }
+
+    public static void drawHorizontalGradientSideways(double x, double y, double width, double height, int leftColor, int rightColor) {
+        drawGradientRect(x,y,width,height,true,leftColor,rightColor);
+    }
+    public static void drawVerticalGradientSideways(double x, double y, double width, double height, int topColor, int bottomColor) {
+        drawGradientRect(x,y,width,height,false,topColor,bottomColor);
     }
 }

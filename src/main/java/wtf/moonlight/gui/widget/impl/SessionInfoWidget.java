@@ -169,7 +169,7 @@ public class SessionInfoWidget extends Widget {
 
                 Fonts.interRegular.get(24).drawCenteredStringWithShadow("Session Information", renderX + width / 2, textY, -1);
 
-                RenderUtils.drawGradientRect(left, textY + Fonts.interRegular.get(24).getHeight() - 1, width - 5 * 2, 1, true, setting.color(0), setting.color(90));
+                RenderUtils.drawGradientRect(left, textY + Fonts.interRegular.get(24).getHeight() - 2, width - 5 * 2, 1, true, setting.color(0), setting.color(90));
 
                 textY += 2;
 

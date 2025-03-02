@@ -93,8 +93,8 @@ public final class Stealer extends Module {
             "soul", "book", "recipe", "profile", "tele", "port", "map", "kit", "select", "lobby", "vault", "lock", "anticheat", "travel", "settings", //
             "user", "preference", "compass", "cake", "wars", "buy", "upgrade", "ranged", "potions", "utility"};
 
-    public void rotate(BlockPos blockPos, EnumFacing enumFacing) {
-        rotation = RotationUtils.getRotations(blockPos, enumFacing);
+    public void rotate(BlockPos blockPos) {
+        rotation = RotationUtils.getRotations(blockPos);
 
         RotationUtils.setRotation(rotation, MovementCorrection.SILENT);
     }
@@ -127,7 +127,7 @@ public final class Stealer extends Module {
         if (!isStealing) {
             for (TileEntity chest : tileEntityList()) {
                 if (!posList.contains(chest.getPos()) && timerAura.hasTimeElapsed(300)) {
-                    rotate(chest.getPos(), Block.getFacingDirection(chest.getPos()));
+                    rotate(chest.getPos());
                     if (RotationUtils.rayTrace(RotationUtils.currentRotation, range.get(), 1).getBlockPos().equals(chest.getPos()) && (chest instanceof TileEntityChest || brewingStand.get() && chest instanceof TileEntityBrewingStand || furnace.get() && chest instanceof TileEntityFurnace)) {
                         mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), chest.getPos(), Block.getFacingDirection(chest.getPos()), getVec3(chest.getPos()));
                         posList.add(chest.getPos());
@@ -153,7 +153,7 @@ public final class Stealer extends Module {
                 if (mc.theWorld.getBlockState(up).getBlock() == Blocks.air && getBlockSlot() != -1 && timerAvoid.hasTimeElapsed(1000)) {
                     prevItem = mc.thePlayer.inventory.currentItem;
                     mc.thePlayer.inventory.currentItem = getBlockSlot();
-                    rotate(pos, Block.getFacingDirection(pos));
+                    rotate(pos);
                     if (RotationUtils.rayTrace(RotationUtils.currentRotation, range.get(), 1).getBlockPos().equals(pos)) {
                         if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), up, Block.getFacingDirection(up), getVec3(up))) {
                             mc.thePlayer.swingItem();

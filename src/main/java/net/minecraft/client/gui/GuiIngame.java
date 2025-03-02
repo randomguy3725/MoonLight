@@ -37,6 +37,8 @@ import wtf.moonlight.events.impl.render.Render2DEvent;
 import wtf.moonlight.features.modules.impl.visual.Interface;
 import wtf.moonlight.features.modules.impl.visual.Shaders;
 import wtf.moonlight.utils.misc.SpoofSlotUtils;
+import wtf.moonlight.utils.render.RenderUtils;
+import wtf.moonlight.utils.render.RoundedUtils;
 
 import java.awt.*;
 import java.util.Collection;
@@ -303,13 +305,19 @@ public class GuiIngame extends Gui
     {
         if (this.mc.getRenderViewEntity() instanceof EntityPlayer entityplayer)
         {
+
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.mc.getTextureManager().bindTexture(widgetsTexPath);
             int i = sr.getScaledWidth() / 2;
             float f = this.zLevel;
             this.zLevel = -90.0F;
-            this.drawTexturedModalRect(i - 91, sr.getScaledHeight() - 22, 0, 0, 182, 22);
-            this.drawTexturedModalRect(i - 91 - 1 + SpoofSlotUtils.getSpoofedSlot() * 20, sr.getScaledHeight() - 22 - 1, 0, 22, 24, 22);
+            if(Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).isEnabled() && Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).hotBar.get()){
+                RoundedUtils.drawRound(i - 91, sr.getScaledHeight() - 22, 182, 22,6 ,new Color(0,0,0,100));
+                RoundedUtils.drawRoundOutline(i - 91 - 1 + SpoofSlotUtils.getSpoofedSlot() * 20, sr.getScaledHeight() - 22 - 1,24,22,6,0.5f,new Color(0,0,0,0),new Color(Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).color(),true));
+            } else {
+                this.drawTexturedModalRect(i - 91, sr.getScaledHeight() - 22, 0, 0, 182, 22);
+                this.drawTexturedModalRect(i - 91 - 1 + SpoofSlotUtils.getSpoofedSlot() * 20, sr.getScaledHeight() - 22 - 1, 0, 22, 24, 22);
+            }
             this.zLevel = f;
             GlStateManager.enableRescaleNormal();
             GlStateManager.enableBlend();

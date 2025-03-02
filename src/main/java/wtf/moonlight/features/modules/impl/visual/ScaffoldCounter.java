@@ -12,6 +12,7 @@ package wtf.moonlight.features.modules.impl.visual;
 
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.opengl.GL11;
@@ -60,7 +61,7 @@ public class ScaffoldCounter implements InstanceAccess {
                 GL11.glPushMatrix();
                 RenderUtils.scissor(x - 1.5, y - 1.5, totalWidth + 3, height + 3);
                 GL11.glEnable(GL11.GL_SCISSOR_TEST);
-                RoundedUtils.drawRound(x, y, totalWidth, height, 5, new Color(INSTANCE.getModuleManager().getModule(Interface.class).bgColor(),true));
+                RoundedUtils.drawRound(x, y, totalWidth, height, 5, new Color(INSTANCE.getModuleManager().getModule(Interface.class).bgColor(), true));
 
                 Fonts.interBold.get(18).drawString(text, x + 3 + blockWH + spacing, y + height / 2F - Fonts.interBold.get(18).getHeight() / 2F + 2.5f, -1);
 
@@ -94,7 +95,7 @@ public class ScaffoldCounter implements InstanceAccess {
                 //Fonts.interRegular.get(16).drawStringWithShadow("blocks", sr.getScaledWidth() / 2f + Fonts.Tahoma.get(16).getStringWidth(scaffold.getBlockCount() + "") / 2f, sr.getScaledHeight() / 2f + 22, new Color(255,255,255).getRGB());
                 //Fonts.Tahoma.get(16).drawStringWithShadow(scaffold.getBlockCount() + "", sr.getScaledWidth() / 2f - Fonts.interRegular.get(16).getStringWidth("blocks") / 2f, sr.getScaledHeight() / 2f + 22, new Color(Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).color()).getRGB());
 
-                Fonts.interRegular.get(16).drawCenteredStringWithShadow(scaffold.getBlockCount() + " " + EnumChatFormatting.GRAY + "blocks", sr.getScaledWidth() / 2f,sr.getScaledHeight() / 2f + 22,-1);
+                Fonts.interRegular.get(16).drawCenteredStringWithShadow(scaffold.getBlockCount() + " " + EnumChatFormatting.GRAY + "blocks", sr.getScaledWidth() / 2f, sr.getScaledHeight() / 2f + 22, -1);
                 break;
             case "simple": {
                 if (!scaffold.isEnabled()) return;
@@ -107,6 +108,21 @@ public class ScaffoldCounter implements InstanceAccess {
                 Fonts.interMedium.get(18).drawCenteredStringWithShadow(String.valueOf(scaffold.getBlockCount()), sr.getScaledWidth() / 2f, sr.getScaledHeight() / 2f + 10, new Color(c).brighter().getRGB());
                 break;
             }
+
+            case "novo": {
+                if (!scaffold.isEnabled()) return;
+                ItemStack stack = mc.thePlayer.inventory.getStackInSlot(scaffold.getBlockSlot());
+
+                if (stack != null && stack.getItem() instanceof ItemBlock) {
+                    float width = Fonts.interRegular.get(18).getStringWidth("/" + scaffold.getBlockCount());
+                    float x = sr.getScaledWidth() / 2f - width / 2, y = sr.getScaledHeight() / 2f;
+
+                    RenderUtils.renderItemStack(stack, x - 5.0F, y + 11, 1);
+                    Fonts.interRegular.get(18).drawStringWithShadow(Integer.toString(scaffold.getBlockCount()), x + 11.0F, y + 16, -1);
+                }
+            }
+
+            break;
         }
     }
 

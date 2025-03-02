@@ -6,6 +6,10 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import wtf.moonlight.Moonlight;
+import wtf.moonlight.features.modules.impl.visual.Interface;
+import wtf.moonlight.utils.render.GLUtils;
+import wtf.moonlight.utils.render.RenderUtils;
 
 public class GuiButton extends Gui
 {
@@ -58,6 +62,7 @@ public class GuiButton extends Gui
 
     public void drawButton(Minecraft mc, int mouseX, int mouseY)
     {
+
         if (this.visible)
         {
             FontRenderer fontrenderer = mc.fontRendererObj;
@@ -65,6 +70,18 @@ public class GuiButton extends Gui
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
             int i = this.getHoverState(this.hovered);
+
+            if(Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).isEnabled() && Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).newButton.get()){
+                GLUtils.startBlend();
+                final int outlineColour = Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).color();
+                final int backgroundColour = this.enabled ? 0x800E0E0E : 0x80070707;
+                final int textColour = this.enabled ? this.hovered ? Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).color() : 0xFFFFFFFF : 0xFF878787;
+
+                RenderUtils.drawBorderedRect(xPosition,yPosition,width,height,0.5f,backgroundColour,outlineColour);
+                this.drawCenteredString(fontrenderer, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, textColour);
+                return;
+            }
+
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
             GlStateManager.blendFunc(770, 771);

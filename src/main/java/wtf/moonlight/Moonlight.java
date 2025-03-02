@@ -25,6 +25,7 @@ import wtf.moonlight.features.friend.FriendManager;
 import wtf.moonlight.features.modules.ModuleManager;
 import wtf.moonlight.features.modules.impl.visual.ScaffoldCounter;
 import wtf.moonlight.gui.altmanager.repository.AltRepositoryGUI;
+import wtf.moonlight.gui.click.astolfo.AstolfoGui;
 import wtf.moonlight.gui.click.dropdown.DropdownGUI;
 import wtf.moonlight.gui.click.neverlose.NeverLose;
 import wtf.moonlight.gui.click.skeet.SkeetUI;
@@ -76,6 +77,7 @@ public class Moonlight {
     private NeverLose neverLose;
     private DropdownGUI dropdownGUI;
     private SkeetUI skeetGUI;
+    private AstolfoGui astolfoGui;
     private AltRepositoryGUI altRepositoryGUI;
     private DiscordInfo discordRP;
 
@@ -144,6 +146,7 @@ public class Moonlight {
         neverLose = new NeverLose();
         dropdownGUI = new DropdownGUI();
         skeetGUI = new SkeetUI();
+        astolfoGui = new AstolfoGui();
         altRepositoryGUI = new AltRepositoryGUI(this);
     }
 
