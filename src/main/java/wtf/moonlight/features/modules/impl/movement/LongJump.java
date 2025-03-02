@@ -42,6 +42,7 @@ public class LongJump extends Module {
     public final ModeValue wdFBMode = new ModeValue("Fireball Mode", new String[]{"High"}, "High", this, () -> mode.is("Watchdog Fireball"));
     private final SliderValue oMatrixTimer = new SliderValue("Matrix Timer", 0.3f, 0.1f, 1, 0.01f, this, () -> mode.is("Old Matrix"));
     private final BoolValue boost = new BoolValue("Boost", true, this, () -> mode.is("Watchdog Fireball"));
+    public final BoolValue noBob = new BoolValue("No Bob", true, this);
     private int lastSlot = -1;
     //fb
     private int ticks = -1;
@@ -311,25 +312,22 @@ public class LongJump extends Module {
                     }
 
                     if (dmgTicks == 1) {
-                        event.setY(event.getY() + 0.034949999302625656D);
+                        event.setY(event.getY() + 0.034939999302625656D);
                         event.setOnGround(false);
                     } else if (dmgTicks < 45) {
                         event.setY(event.getY() + (dmgTicks % 2 != 0 ? 0.1449999064207077D : Math.random() / 5000.0D));
                         event.setOnGround(false);
                         if (dmgTicks == 44) {
-                            MovementUtils.strafe((0.2873 + MovementUtils.getSpeedEffect() * 0.2) - 0.005);
+                            MovementUtils.strafe((0.28729 + MovementUtils.getSpeedEffect() * 0.2) - 0.005);
                             mc.thePlayer.jump();
                         }
                     } else if (dmgTicks == 45) {
-                        mc.timer.timerSpeed = 0.5f;
                         event.setY(event.getY() + 1.0E-13D);
                         sendPacket(new C03PacketPlayer(true));
-                    } else if(dmgTicks == 47){
-                        mc.timer.timerSpeed = 1;
                     }
 
                     if (ticksSinceVelocity > 3 && ticksSinceVelocity < 38 || ticksSinceVelocity > 37 && mc.thePlayer.motionY <= 0.0D) {
-                        mc.thePlayer.motionY += 0.0283D;
+                        mc.thePlayer.motionY += 0.02829D;
                     }
 
                     switch (ticksSinceVelocity) {
@@ -347,16 +345,16 @@ public class LongJump extends Module {
                         default:
                             break;
                         case 6:
-                            mc.thePlayer.motionY = 0.03D;
+                            mc.thePlayer.motionY = 0.02999D;
                             break;
                         case 7:
-                            mc.thePlayer.motionY = 0.03D;
+                            mc.thePlayer.motionY = 0.02999D;
                             break;
                         case 12:
                             mc.thePlayer.motionY = 0.0D;
                             break;
                         case 13:
-                            mc.thePlayer.motionY += 0.01D;
+                            mc.thePlayer.motionY += 0.00999D;
                     }
 
                     if(velo && mc.thePlayer.onGround)

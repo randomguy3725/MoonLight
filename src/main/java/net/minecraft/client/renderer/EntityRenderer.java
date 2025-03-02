@@ -623,7 +623,12 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
     private void setupViewBobbing(float partialTicks) {
 
-        if (Moonlight.INSTANCE.getModuleManager().getModule(Speed.class).isEnabled() && Moonlight.INSTANCE.getModuleManager().getModule(Speed.class).noBob.get())
+        if (Moonlight.INSTANCE.getModuleManager().getModule(LongJump.class).isEnabled() &&
+            Moonlight.INSTANCE.getModuleManager().getModule(LongJump.class).noBob.get())
+            return;
+
+        if (Moonlight.INSTANCE.getModuleManager().getModule(Speed.class).isEnabled() &&
+            Moonlight.INSTANCE.getModuleManager().getModule(Speed.class).noBob.get())
             return;
 
         if (this.mc.getRenderViewEntity() instanceof EntityPlayer entityplayer) {
