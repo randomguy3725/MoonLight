@@ -300,7 +300,6 @@ public class LongJump extends Module {
                 }
 
                 break;
-
             case "Watchdog Damage":
                 if (event.isPre()) {
 
@@ -322,8 +321,12 @@ public class LongJump extends Module {
                             mc.thePlayer.jump();
                         }
                     } else if (dmgTicks == 45) {
-                        event.setY(event.getY() + 1.0E-13D);
+                        mc.timer.timerSpeed = 0.5f;
+                        event.setY(event.getY() + 1.0E-5D);
                         sendPacket(new C03PacketPlayer(true));
+
+                    } else if(dmgTicks == 47){
+                        mc.timer.timerSpeed = 1;
                     }
 
                     if (ticksSinceVelocity > 3 && ticksSinceVelocity < 38 || ticksSinceVelocity > 37 && mc.thePlayer.motionY <= 0.0D) {
@@ -332,8 +335,8 @@ public class LongJump extends Module {
 
                     switch (ticksSinceVelocity) {
                         case 1:
-                            mc.thePlayer.motionX *= 2.1;
-                            mc.thePlayer.motionZ *= 2.1;
+                            mc.thePlayer.motionX *= 2.09999;
+                            mc.thePlayer.motionZ *= 2.09999;
                         case 2:
                         case 3:
                         case 4:
@@ -348,7 +351,7 @@ public class LongJump extends Module {
                             mc.thePlayer.motionY = 0.02999D;
                             break;
                         case 7:
-                            mc.thePlayer.motionY = 0.02999D;
+                            mc.thePlayer.motionY = 0.02995D;
                             break;
                         case 12:
                             mc.thePlayer.motionY = 0.0D;
