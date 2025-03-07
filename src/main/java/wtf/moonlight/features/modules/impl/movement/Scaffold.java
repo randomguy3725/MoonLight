@@ -11,9 +11,11 @@
 package wtf.moonlight.features.modules.impl.movement;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import net.minecraft.block.*;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Slot;
@@ -241,10 +243,11 @@ public class Scaffold extends Module {
             tellyTicks = MathUtils.randomizeInt((int) minTellyTicks.get(), (int) maxTellyTicks.get());
         }
 
-        int posX = (int) Math.floor(mc.thePlayer.posX);
-        int posZ = (int) Math.floor(mc.thePlayer.posZ);
+        double posX = mc.thePlayer.posX;
+        double posZ = mc.thePlayer.posZ;
 
-        locateBlocks(posX,(int) posY,posZ);
+        targetBlock = new BlockPos(posX,posY - 1,posZ);
+        data = grab(targetBlock);
 
         if (isEnabled(KillAura.class) && !getModule(KillAura.class).noScaffold.get() && getModule(KillAura.class).target != null && getModule(KillAura.class).shouldAttack() && data == null) {
             return;
@@ -678,13 +681,13 @@ public class Scaffold extends Module {
             case "Hypixel": {
                 float yaw = MovementUtils.getRawDirection();
                 if (MovementUtils.isMovingStraight()) {
-                    if (Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(data.blockPos)[0] - MovementUtils.getRawDirection() - 116)) < Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(data.blockPos)[0] - MovementUtils.getRawDirection() + 116))) {
+                    if (Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(targetBlock)[0] - MovementUtils.getRawDirection() - 116)) < Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(targetBlock)[0] - MovementUtils.getRawDirection() + 116))) {
                         yaw += 116;
                     } else {
                         yaw -= 116;
                     }
                 } else {
-                    if (Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(data.blockPos)[0] - MovementUtils.getRawDirection() - 125)) < Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(data.blockPos)[0] - MovementUtils.getRawDirection() + 125))) {
+                    if (Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(targetBlock)[0] - MovementUtils.getRawDirection() - 125)) < Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(targetBlock)[0] - MovementUtils.getRawDirection() + 125))) {
                         yaw += 125;
                     } else {
                         yaw -= 125;
@@ -695,6 +698,8 @@ public class Scaffold extends Module {
 
                 if (data != null){
                     rotation[1] = getBestRotation(data.blockPos, data.facing)[1];
+                } else {
+                    rotation = new float[]{yaw,previousRotation[1]};
                 }
             }
             break;
@@ -887,101 +892,32 @@ public class Scaffold extends Module {
         return bestRot;
     }
 
-    private void locateBlocks(int searchX,int searchY,int searchZ) {
-        List<PlaceData> blocksInfo = findBlocks(searchX,searchY,searchZ);
 
-        if (blocksInfo == null) {
-            return;
-        }
-
-        double sumX = 0, sumY = !mc.thePlayer.onGround ? 0 : blocksInfo.get(0).blockPos.getY(), sumZ = 0;
-        int index = 0;
-        for (PlaceData blockssInfo : blocksInfo) {
-            if (index > 1 || (MovementUtils.isMovingStraight() && index > 0 && mc.thePlayer.onGround)) {
-                break;
-            }
-            sumX += blockssInfo.blockPos.getX();
-            if (!mc.thePlayer.onGround) {
-                sumY += blockssInfo.blockPos.getY();
-            }
-            sumZ += blockssInfo.blockPos.getZ();
-            index++;
-        }
-
-        double avgX = sumX / index;
-        double avgY = !mc.thePlayer.onGround ? sumY / index : blocksInfo.get(0).blockPos.getY();
-        double avgZ = sumZ / index;
-
-        targetBlock = new BlockPos(avgX, avgY, avgZ);
-
-        PlaceData blockInfo2 = blocksInfo.get(0);
-        data = blockInfo2;
-    }
-
-    private ArrayList<PlaceData> findBlocks(int x,int y,int z) {
-        ArrayList<PlaceData> possibleBlocks = new ArrayList<>();
-
-        if (PlayerUtils.isReplaceable(new BlockPos(x, y - 1, z))) {
-            for (EnumFacing enumFacing : EnumFacing.values()) {
-                if (enumFacing != EnumFacing.UP) {
-                    BlockPos offsetPos = new BlockPos(x, y - 1, z).offset(enumFacing);
-                    if (!PlayerUtils.isReplaceable(offsetPos) && !PlayerUtils.isInteractable(PlayerUtils.getBlock(offsetPos))) {
-                        possibleBlocks.add(new PlaceData(offsetPos, enumFacing.getOpposite()));
-                    }
-                }
-            }
-            for (EnumFacing enumFacing2 : EnumFacing.values()) {
-                if (enumFacing2 != EnumFacing.UP) {
-                    BlockPos offsetPos2 = new BlockPos(x, y - 1, z).offset(enumFacing2);
-                    if (PlayerUtils.isReplaceable(offsetPos2)) {
-                        for (EnumFacing enumFacing3 : EnumFacing.values()) {
-                            if (enumFacing3 != EnumFacing.UP) {
-                                BlockPos offsetPos3 = offsetPos2.offset(enumFacing3);
-                                if (!PlayerUtils.isReplaceable(offsetPos3) && !PlayerUtils.isInteractable(PlayerUtils.getBlock(offsetPos3))) {
-                                    possibleBlocks.add(new PlaceData(offsetPos3, enumFacing3.getOpposite()));
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            if (mc.thePlayer.motionY > -0.0784) {
-                for (EnumFacing enumFacing5 : EnumFacing.values()) {
-                    if (enumFacing5 != EnumFacing.UP) {
-                        BlockPos offsetPos5 = new BlockPos(x, y - 2, z).offset(enumFacing5);
-                        if (PlayerUtils.isReplaceable(offsetPos5)) {
-                            for (EnumFacing enumFacing6 : EnumFacing.values()) {
-                                if (enumFacing6 != EnumFacing.UP) {
-                                    BlockPos offsetPos6 = offsetPos5.offset(enumFacing6);
-                                    if (!PlayerUtils.isReplaceable(offsetPos6) && !PlayerUtils.isInteractable(PlayerUtils.getBlock(offsetPos6))) {
-                                        possibleBlocks.add(new PlaceData(offsetPos6, enumFacing6.getOpposite()));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                for (EnumFacing enumFacing7 : EnumFacing.values()) {
-                    if (enumFacing7 != EnumFacing.UP) {
-                        BlockPos offsetPos7 = new BlockPos(x, y - 3, z).offset(enumFacing7);
-                        if (PlayerUtils.isReplaceable(offsetPos7)) {
-                            for (EnumFacing enumFacing8 : EnumFacing.values()) {
-                                if (enumFacing8 != EnumFacing.UP) {
-                                    BlockPos offsetPos8 = offsetPos7.offset(enumFacing8);
-                                    if (!PlayerUtils.isReplaceable(offsetPos8) && !PlayerUtils.isInteractable(PlayerUtils.getBlock(offsetPos8))) {
-                                        possibleBlocks.add(new PlaceData(offsetPos8, enumFacing8.getOpposite()));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        else {
+    private PlaceData grab(BlockPos pos){
+        if (!(PlayerUtils.getBlock(pos) instanceof BlockAir)) {
             return null;
         }
-        return possibleBlocks.isEmpty() ? null : possibleBlocks;
+
+        for (final EnumFacing facing : EnumFacing.VALUES) {
+            if (canBePlacedOn(pos.add(facing.getOpposite().getDirectionVec())))
+                return new PlaceData(pos.add(facing.getOpposite().getDirectionVec()), facing);
+        }
+
+        for (final EnumFacing enumFacing : EnumFacing.VALUES) {
+            final BlockPos currentPos = pos.add(enumFacing.getDirectionVec());
+
+            for (final EnumFacing facing : EnumFacing.VALUES) {
+                if (canBePlacedOn(currentPos.add(facing.getOpposite().getDirectionVec())))
+                    return new PlaceData(currentPos.add(facing.getOpposite().getDirectionVec()), facing);
+            }
+        }
+
+        return null;
+    }
+    public static boolean canBePlacedOn(final BlockPos blockPos) {
+        final Material material = mc.theWorld.getBlockState(blockPos).getBlock().getMaterial();
+
+        return (material.blocksMovement() && material.isSolid() && !(PlayerUtils.getBlock(blockPos) instanceof BlockAir));
     }
 
     private Vec3 getVec3(PlaceData data) {

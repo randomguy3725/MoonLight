@@ -101,7 +101,8 @@ public class Interface extends Module {
             new BoolValue("Pointer", true),
             new BoolValue("Session Info",true),
             new BoolValue("Key Bind", true),
-            new BoolValue("Version Info", true)
+            new BoolValue("Version Info", true),
+            new BoolValue("Radar", true)
     ), this);
 
     public final BoolValue cFont = new BoolValue("C Fonts",true,this, () -> elements.isEnabled("Module List"));
@@ -126,6 +127,7 @@ public class Interface extends Module {
     public final ModeValue keyBindMode = new ModeValue("Key Bind Mode", new String[]{"Type 1"}, "Type 1", this,() -> elements.isEnabled("Key Bind"));
     public final ModeValue sessionInfoMode = new ModeValue("Session Info Mode", new String[]{"Default","Exhi","Rise","Moon","Opai","Novo","Novo 2"}, "Default", this,() -> elements.isEnabled("Session Info"));
     public final BoolValue centerNotif = new BoolValue("Center Notification",true,this,() -> notificationMode.is("Exhi"));
+    public final SliderValue radarSize = new SliderValue("Radar Size",70, 25, 200,this,() -> elements.isEnabled("Radar"));
     public final ModeValue color = new ModeValue("Color Setting", new String[]{"Custom", "Rainbow", "Dynamic", "Fade","Astolfo","NeverLose"}, "NeverLose", this);
     private final ColorValue mainColor = new ColorValue("Main Color", new Color(128, 128, 255), this,() -> !color.is("NeverLose"));
     private final ColorValue secondColor = new ColorValue("Second Color", new Color(128, 255, 255), this, () -> color.is("Fade"));
