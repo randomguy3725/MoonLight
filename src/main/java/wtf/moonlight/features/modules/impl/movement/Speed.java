@@ -96,7 +96,7 @@ public class Speed extends Module {
         disable = false;
         couldStrafe = false;
         if(forceStop.get()){
-            MovementUtils.strafe(0);
+            MovementUtils.stopXZ();
         }
     }
 
