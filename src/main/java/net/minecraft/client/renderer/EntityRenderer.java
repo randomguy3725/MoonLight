@@ -19,6 +19,7 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiDownloadTerrain;
 import wtf.moonlight.events.impl.misc.MouseOverEvent;
+import wtf.moonlight.features.modules.impl.movement.LongJump;
 import wtf.moonlight.features.modules.impl.movement.Speed;
 import wtf.moonlight.features.modules.impl.visual.AspectRatio;
 import wtf.moonlight.features.modules.impl.visual.Atmosphere;
@@ -623,7 +624,12 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
     private void setupViewBobbing(float partialTicks) {
 
-        if (Moonlight.INSTANCE.getModuleManager().getModule(Speed.class).isEnabled() && Moonlight.INSTANCE.getModuleManager().getModule(Speed.class).noBob.get())
+        if (Moonlight.INSTANCE.getModuleManager().getModule(LongJump.class).isEnabled() &&
+                Moonlight.INSTANCE.getModuleManager().getModule(LongJump.class).noBob.get())
+            return;
+
+        if (Moonlight.INSTANCE.getModuleManager().getModule(Speed.class).isEnabled() &&
+                Moonlight.INSTANCE.getModuleManager().getModule(Speed.class).noBob.get())
             return;
 
         if (this.mc.getRenderViewEntity() instanceof EntityPlayer entityplayer) {
