@@ -182,7 +182,7 @@ public class Scaffold extends Module {
         }
         previousRotation = rotation = null;
         blocksPlaced = 0;
-        placing = false;
+        placed = placing = false;
         tellyTicks = 0;
         data = null;
         targetBlock = null;
@@ -250,11 +250,9 @@ public class Scaffold extends Module {
         data = grab(targetBlock);
 
         if (tower.canDisplay() && towering() && !isEnabled(Speed.class) && tower.is("Watchdog") && !placing) {
-            BlockPos xPos = data.blockPos.add(1, 0, 0), zPos = data.blockPos.add(0, 0, 1);
+            BlockPos xPos = data.blockPos.add(-1, 0, 0);
             if (canBePlacedOn(xPos)) {
                 data.blockPos = xPos;
-            } else if (canBePlacedOn(zPos)) {
-                data.blockPos = zPos;
             }
         }
 
@@ -293,8 +291,9 @@ public class Scaffold extends Module {
                 break;
         }
 
-        if (!placed)
+        if (!placed) {
             rotation = new float[]{mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch};
+        }
 
         canPlace = (mode.is("Telly") && mc.thePlayer.offGroundTicks >= tellyTicks || mode.is("Snap") && data != null || !mode.is("Telly") && !mode.is("Snap"));
 
