@@ -330,7 +330,7 @@ class TargetHUD implements InstanceAccess {
 
                 mc.fontRendererObj.drawStringWithShadow(name, (float)(n3 + 35), (float)(n2 + 3), -855638017);
                 if (mc.thePlayer != null) {
-                    RenderUtils.renderPlayer2D(target,n3 + 2, n2 + 2, 31, 64, -1);}
+                    RenderUtils.renderPlayer2D(target,n3 + 2, n2 + 2, 31, 0, -1);}
                 GlStateManager.disableBlend();
                 GlStateManager.popMatrix();
             }
