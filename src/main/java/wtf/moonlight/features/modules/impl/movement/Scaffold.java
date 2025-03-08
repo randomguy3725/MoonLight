@@ -698,10 +698,10 @@ public class Scaffold extends Module {
             case "Hypixel": {
                 float yaw = MovementUtils.getRawDirection();
                     if (MovementUtils.isMovingStraight()) {
-                        if (Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(targetBlock)[0] - MovementUtils.getRawDirection() - 125)) < Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(targetBlock)[0] - MovementUtils.getRawDirection() + 125))) {
-                            yaw += 125;
+                        if (Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(targetBlock)[0] - MovementUtils.getRawDirection() - 118)) < Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(targetBlock)[0] - MovementUtils.getRawDirection() + 118))) {
+                            yaw += 118;
                         } else {
-                            yaw -= 125;
+                            yaw -= 118;
                         }
                     } else {
                         yaw += 132;
