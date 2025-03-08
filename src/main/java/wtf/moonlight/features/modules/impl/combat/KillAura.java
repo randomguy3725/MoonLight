@@ -69,7 +69,7 @@ public class KillAura extends Module {
     private final BoolValue smartVec = new BoolValue("Smart Vec", true, this);
     private final BoolValue smartRotation = new BoolValue("Smart Rotation", true, this);
     private final BoolValue customRotationSetting = new BoolValue("Custom Rotation Setting", false, this);
-    private final ModeValue smoothMode = new ModeValue("Mode", RotationUtils.smoothModes, RotationUtils.smoothModes[0], this,() -> customRotationSetting.canDisplay() && customRotationSetting.get());
+    private final ModeValue smoothMode = new ModeValue("Rotations Smooth", RotationUtils.smoothModes, RotationUtils.smoothModes[0], this,() -> customRotationSetting.canDisplay() && customRotationSetting.get());
     private final SliderValue minYawRotSpeed = new SliderValue("Min Yaw Rotation Speed", 45, 1,180,1, this,() -> customRotationSetting.canDisplay() && customRotationSetting.get());
     private final SliderValue minPitchRotSpeed = new SliderValue("Min Pitch Rotation Speed", 45, 1,180,1, this,() -> customRotationSetting.canDisplay() && customRotationSetting.get());
     private final SliderValue maxYawRotSpeed = new SliderValue("Max Yaw Rotation Speed", 90, 1,180,1, this,() -> customRotationSetting.canDisplay() && customRotationSetting.get());

@@ -61,7 +61,7 @@ public class Scaffold extends Module {
     private final SliderValue minPitch = new SliderValue("Min Pitch Range", 55, 50, 90, .1f, this, () -> rotations.is("Custom") || rotations.is("God Bridge"));
     public final SliderValue maxPitch = new SliderValue("Max Pitch Range", 75, 50, 90, .1f, this, () -> rotations.is("Custom") || rotations.is("God Bridge"));
     private final BoolValue customRotationSetting = new BoolValue("Custom Rotation Setting", false, this);
-    private final ModeValue smoothMode = new ModeValue("Mode", RotationUtils.smoothModes, RotationUtils.smoothModes[0], this, customRotationSetting::get);
+    private final ModeValue smoothMode = new ModeValue("Rotations Smooth", RotationUtils.smoothModes, RotationUtils.smoothModes[0], this, customRotationSetting::get);
     private final SliderValue minYawRotSpeed = new SliderValue("Min Yaw Rotation Speed", 45, 1,180,1, this, customRotationSetting::get);
     private final SliderValue minPitchRotSpeed = new SliderValue("Min Pitch Rotation Speed", 45, 1,180,1, this, customRotationSetting::get);
     private final SliderValue maxYawRotSpeed = new SliderValue("Max Yaw Rotation Speed", 90, 1,180,1, this, customRotationSetting::get);
