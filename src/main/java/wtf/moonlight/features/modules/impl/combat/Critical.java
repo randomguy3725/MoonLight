@@ -38,6 +38,8 @@ public class Critical extends Module {
     @EventTarget
     public void onAttack(AttackEvent event) {
         if (mc.thePlayer.onGround && event.getTargetEntity() instanceof EntityLivingBase entity) {
+            if(entity.hurtTime == 9)
+                mc.thePlayer.onCriticalHit(entity);
             attacking = true;
         }
     }

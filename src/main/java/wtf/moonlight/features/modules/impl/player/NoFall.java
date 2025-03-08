@@ -28,7 +28,7 @@ import wtf.moonlight.utils.player.PlayerUtils;
 @ModuleInfo(name = "NoFall", category = ModuleCategory.Player)
 public class NoFall extends Module {
 
-    public final ModeValue mode = new ModeValue("Mode", new String[]{"NoGround", "Extra", "Blink", "Watchdog"}, "NoGround", this);
+    public final ModeValue mode = new ModeValue("Mode", new String[]{"NoGround", "Blink", "Extra"}, "NoGround", this);
     public final SliderValue minDistance = new SliderValue("Min Distance", 3, 0, 8, 1, this, () -> !mode.is("NoGround"));
     private boolean blinked = false;
     private boolean prevOnGround = false;
@@ -82,16 +82,6 @@ public class NoFall extends Module {
                 break;
 
             case "Extra":
-                float extra$fallDistance = mc.thePlayer.fallDistance;
-                mc.timer.timerSpeed = 1f;
-                if (extra$fallDistance - mc.thePlayer.motionY > minDistance.get()) {
-                    mc.timer.timerSpeed = 0.5f;
-                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer(true));
-                    mc.thePlayer.fallDistance = 0;
-                }
-                break;
-
-            case "Watchdog":
                 if (fallDistance >= minDistance.get() && !isEnabled(Scaffold.class)) {
                     mc.timer.timerSpeed = (float) 0.5;
                     timed = true;
