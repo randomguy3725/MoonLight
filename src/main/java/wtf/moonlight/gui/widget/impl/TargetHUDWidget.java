@@ -12,12 +12,19 @@ package wtf.moonlight.gui.widget.impl;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiChat;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
+import org.apache.commons.lang3.time.StopWatch;
+import org.lwjgl.opengl.GL11;
+import org.lwjglx.input.Mouse;
 import wtf.moonlight.events.impl.render.Shader2DEvent;
 import wtf.moonlight.features.modules.impl.visual.Interface;
 import wtf.moonlight.features.values.impl.ModeValue;
@@ -92,6 +99,7 @@ public class TargetHUDWidget extends Widget {
             case "Novo 4" -> 135.0f;
             case "Novo 5" -> Math.max(118, Fonts.interSemiBold.get(17).getStringWidth(entity.getName()) + 38) + 27F;
             case "Akrien" -> 114 + ((35 + Fonts.interSemiBold.get(21).getStringWidth(entity.getName())) / 25f);
+            case "Felix" -> 140.0f;
             default -> 0;
         };
     }
@@ -111,6 +119,7 @@ public class TargetHUDWidget extends Widget {
             case "Novo 4" -> 45.0f;
             case "Novo 5" -> 47;
             case "Akrien" -> 44;
+            case "Felix" -> 37.6f;
             default -> 0;
         };
     }
@@ -131,6 +140,10 @@ class TargetHUD implements InstanceAccess {
     private ModeValue style;
     private Interface setting = INSTANCE.getModuleManager().getModule(Interface.class);
     private final DecimalFormat decimalFormat = new DecimalFormat("0.0");
+    private final StopWatch animationStopwatch = new StopWatch();
+    private double healthBarWidth;
+    final ScaledResolution scaledResolution2;
+    final ScaledResolution scaledResolution = scaledResolution2 = new ScaledResolution(mc);
 
     public TargetHUD(float x, float y, EntityPlayer target, Animation animation, boolean shader, ModeValue style) {
         this.x = x;
@@ -279,6 +292,49 @@ class TargetHUD implements InstanceAccess {
                 GlStateManager.scale(0.31, 0.31, 0.31);
                 GlStateManager.translate(73.0f, 102.0f, 40.0f);
                 RenderUtils.drawEntityOnScreen(target.rotationYaw, target.rotationPitch, target);
+                GlStateManager.popMatrix();
+            }
+            break;
+            case "Felix": {
+                GlStateManager.pushMatrix();
+                GlStateManager.translate(x, y, 0);
+
+                GlStateManager.enableBlend();
+
+                final float n = 2;
+                scaledResolution2.scaledWidth *= 0;
+                scaledResolution.scaledHeight *= 0;
+                final float n2 = scaledResolution.getScaledHeight() / 2f;
+                final int n3 = scaledResolution.getScaledWidth() / 2;
+                RenderUtils.drawRect(n3 + 1f, n2 + 1f, 140.0f, 37.6f, new Color(25,25,25, 210));
+                String string = String.format("%.1f", mc.thePlayer.getHealth() / 2.0f);
+
+                GlStateManager.pushMatrix();
+                GlStateManager.scale(n, n, n);
+                mc.fontRendererObj.drawStringWithShadow(string.replace(".0", ""), (float)(n3 - 121 + 150), (float)(n2 - 93 + 100), ColorUtils.getHealthColor(target));
+                mc.fontRendererObj.drawStringWithShadow("\u2764", n3 - 130 + 150, n2 - 94 + 100, ColorUtils.getHealthColor(target));
+                GlStateManager.popMatrix();
+                final float n4 = 137.0f / mc.thePlayer.getMaxHealth() * (Math.min(mc.thePlayer.getHealth(), mc.thePlayer.getMaxHealth()));
+                if (animationStopwatch.isStopped()) {
+                    healthBarWidth = RenderUtils.animate(n4, (float)healthBarWidth, 0.05f);
+                    animationStopwatch.reset();
+                }
+
+                RenderUtils.drawRect((float)n3 + 2f, n2 + (float)34, 138, (float)3.5, (ColorUtils.darker(ColorUtils.getHealthColor(target), 0.35f)));
+                RenderUtils.drawRect((float)n3 + 2f, n2 + (float)34, (float)healthBarWidth + (float)0.9, (float)3.5, (ColorUtils.getHealthColor(target)));
+                RenderUtils.drawRect((float)n3 + 2f, n2 + (float)34, n4 + (float)0.9, (float)3.5, (ColorUtils.getHealthColor(target)));
+
+                final String name = mc.thePlayer != null ? mc.thePlayer.getGameProfile().getName() : target.getName();
+                GlStateManager.enableBlend();
+
+                mc.fontRendererObj.drawStringWithShadow(name, (float)(n3 + 35), (float)(n2 + 3), -855638017);
+                if (mc.thePlayer != null) {
+                    mc.getTextureManager().bindTexture(mc.thePlayer.getLocationSkin());
+                    GlStateManager.enableBlend();
+                    GL11.glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
+                    Gui.drawScaledCustomSizeModalRect(n3 + 2, n2 + 2, 8.0f, 8.0f, 8, 8, 31, 31, 64.0f, 64.0f);
+                }
+                GlStateManager.disableBlend();
                 GlStateManager.popMatrix();
             }
             break;
