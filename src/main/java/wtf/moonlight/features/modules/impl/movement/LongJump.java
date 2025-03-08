@@ -317,11 +317,11 @@ public class LongJump extends Module {
                         event.setY(event.getY() + (dmgTicks % 2 != 0 ? 0.1449999064207077D : Math.random() / 5000.0D));
                         event.setOnGround(false);
                         if (dmgTicks == 44) {
-                            MovementUtils.strafe((0.28729 + MovementUtils.getSpeedEffect() * 0.2) - 0.005);
+                            MovementUtils.strafe((0.2830 + MovementUtils.getSpeedEffect() * 0.2) - 0.005);
                             mc.thePlayer.jump();
                         }
                     } else if (dmgTicks == 45) {
-                        mc.timer.timerSpeed = 0.5f;
+                        mc.timer.timerSpeed = 0.6f;
                         event.setY(event.getY() + 1.0E-5D);
                         sendPacket(new C03PacketPlayer(true));
 
@@ -330,13 +330,13 @@ public class LongJump extends Module {
                     }
 
                     if (ticksSinceVelocity > 3 && ticksSinceVelocity < 38 || ticksSinceVelocity > 37 && mc.thePlayer.motionY <= 0.0D) {
-                        mc.thePlayer.motionY += 0.02829D;
+                        mc.thePlayer.motionY += 0.02830D;
                     }
 
                     switch (ticksSinceVelocity) {
                         case 1:
-                            mc.thePlayer.motionX *= 2.09999;
-                            mc.thePlayer.motionZ *= 2.09999;
+                            mc.thePlayer.motionX *= 2.1;
+                            mc.thePlayer.motionZ *= 2.1;
                         case 2:
                         case 3:
                         case 4:
