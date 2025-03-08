@@ -107,10 +107,10 @@ public class Interface extends Module {
     ), this);
 
     public final BoolValue cFont = new BoolValue("C Fonts",true,this, () -> elements.isEnabled("Module List"));
-    public final ModeValue fontMode = new ModeValue("C Fonts Mode", new String[]{"Bold","Semi Bold","Medium","Regular","Tahoma"}, "Semi Bold", this,() -> cFont.canDisplay() && cFont.get());
+    public final ModeValue fontMode = new ModeValue("C Fonts Mode", new String[]{"Bold","Semi Bold","Medium","Regular","Tahoma", "SFUI"}, "Semi Bold", this,() -> cFont.canDisplay() && cFont.get());
     public final SliderValue fontSize = new SliderValue("Font Size",15,10,25,this,cFont::get);
     public final SliderValue animSpeed = new SliderValue("anim Speed", 200, 100, 400, 25, this, () -> elements.isEnabled("Module List"));
-    public final ModeValue watemarkMode = new ModeValue("Watermark Mode", new String[]{"Text","Styles","Styles 2","Nursultan","Exhi","Exhi 2","Nursultan 2","NeverLose","Novo","Novo 2","OneTap"}, "Text", this,() -> elements.isEnabled("Watermark"));
+    public final ModeValue watemarkMode = new ModeValue("Watermark Mode", new String[]{"Text","Styles","Styles 2","Nursultan","Exhi","Exhi 2","Nursultan 2","NeverLose","Novo","Novo 2","Novo 3","OneTap"}, "Text", this,() -> elements.isEnabled("Watermark"));
     public final ModeValue animation = new ModeValue("Animation", new String[]{"ScaleIn", "MoveIn","Slide In"}, "ScaleIn", this, () -> elements.isEnabled("Module List"));
     public final SliderValue textHeight = new SliderValue("Text Height", 2, 0, 10, this, () -> elements.isEnabled("Module List"));
     public final ModeValue tags = new ModeValue("Suffix", new String[]{"None", "Simple", "Bracket", "Dash"}, "None", this, () -> elements.isEnabled("Module List"));
@@ -119,7 +119,7 @@ public class Interface extends Module {
     public final BoolValue armorBg = new BoolValue("Armor Background",true,this, () -> elements.isEnabled("Armor"));
     public final BoolValue armorEnchanted = new BoolValue("Armor Enchanted",true,this, () -> elements.isEnabled("Armor"));
     public final BoolValue armorInfo = new BoolValue("Armor Info",true,this, () -> elements.isEnabled("Armor"));
-    public final ModeValue infoMode = new ModeValue("Info Mode", new String[]{"Exhi", "Moon", "Moon 2","Tenacity"}, "Default", this,() -> elements.isEnabled("Info"));
+    public final ModeValue infoMode = new ModeValue("Info Mode", new String[]{"Exhi", "Moon", "Moon 2","Tenacity", "Astolfo"}, "Default", this,() -> elements.isEnabled("Info"));
     public final ModeValue versionMode = new ModeValue("Version Mode", new String[]{"Default"}, "Default",this,() -> elements.isEnabled("Version Info"));
     public final ModeValue potionHudMode = new ModeValue("Potion Mode", new String[]{"Default","Nursultan","Exhi","Moon","Sexy","Type 1","NeverLose","Mod"}, "Default", this,() -> elements.isEnabled("Potion HUD"));
     public final ModeValue targetHudMode = new ModeValue("TargetHUD Mode", new String[]{"Astolfo", "Type 1", "Type 2","Felix","Exhi","Adjust","Moon","Augustus","New","Novo 1","Novo 2","Novo 3","Novo 4","Novo 5","Akrien"}, "Astolfo", this,() -> elements.isEnabled("Target HUD"));
@@ -349,13 +349,28 @@ public class Interface extends Module {
                     String name = clientName.get().charAt(0) + "" + clientName.get().substring(1);
                     for (int i = 0; i < name.length(); i++) {
                         if (i == 0) {
-                            Fonts.interRegular.get(18).drawStringWithShadow(String.valueOf(name.charAt(i)), x, 4.0F, color(0));
+                            Fonts.sfui.get(20).drawStringWithShadow(String.valueOf(name.charAt(i)), x, 4.0F, color(0));
                         } else {
-                            Fonts.interRegular.get(18).drawStringWithShadow(WHITE + String.valueOf(name.charAt(i)), x, 4.0F, color(0));
+                            Fonts.sfui.get(20).drawStringWithShadow(WHITE + String.valueOf(name.charAt(i)), x, 4.0F, color(0));
                         }
-                        x += Fonts.interRegular.get(18).getStringWidth(name.charAt(i) + "");
+                        x += Fonts.sfui.get(20).getStringWidth(name.charAt(i) + "");
                     }
-                    Fonts.interRegular.get(18).drawStringWithShadow(GRAY + "(" + WHITE + dateFormat.format(new Date()) + GRAY + ")", x, 4.0F, color());
+                    Fonts.sfui.get(20).drawStringWithShadow(GRAY + " (" + WHITE + dateFormat.format(new Date()) + GRAY + ")", x, 4.0F, color());
+                }
+                break;
+
+                case "Novo 3": {
+                    float x = 1.0F;
+                    String name = clientName.get().charAt(0) + "" + clientName.get().substring(1);
+                    for (int i = 0; i < name.length(); i++) {
+                        if (i == 0) {
+                            Fonts.sfui.get(20).drawStringWithShadow(String.valueOf(name.charAt(i)), x, 2.0F, color(0));
+                        } else {
+                            Fonts.sfui.get(20).drawStringWithShadow(WHITE + String.valueOf(name.charAt(i)), x, 2.0F, color(0));
+                        }
+                        x += Fonts.sfui.get(20).getStringWidth(name.charAt(i) + "");
+                    }
+                    Fonts.sfui.get(20).drawStringWithShadow(GRAY + " [" + WHITE + fpsFormat.format(Minecraft.getDebugFPS()) + " FPS" + GRAY + "] " + "[" + WHITE + bpsFormat.format(MovementUtils.getBPS()) + " BPS" + GRAY + "]", x, 2.0F, color());
                 }
                 break;
 
@@ -400,6 +415,15 @@ public class Interface extends Module {
                 case "Moon 2":
                     textY = (event.scaledResolution().getScaledHeight() - 6.5F) + (mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f);
                     Fonts.interSemiBold.get(19).drawStringWithShadow("FPS: " + EnumChatFormatting.WHITE + Minecraft.getDebugFPS(), 1.5F, textY, color(0));
+                    break;
+                case "Astolfo":
+                    float xyz = (event.scaledResolution().getScaledHeight() - 10);
+                    float bps = (event.scaledResolution().getScaledHeight() - 20);
+                    float fps = (event.scaledResolution().getScaledHeight() - 29);
+
+                    Fonts.sfui.get(18).drawStringWithShadow(xyzFormat.format(mc.thePlayer.posX) + ", " + xyzFormat.format(mc.thePlayer.posY) + ", " + xyzFormat.format(mc.thePlayer.posZ), 2, xyz, -1 );
+                    Fonts.sfui.get(18).drawStringWithShadow(bpsFormat.format(MovementUtils.getBPS()) + " blocks/sec", 2, bps, -1);
+                    Fonts.sfui.get(18).drawStringWithShadow("FPS: " + fpsFormat.format(Minecraft.getDebugFPS()), 2, fps, -1);
                     break;
                 case "Tenacity":
                     float XYZText = (event.scaledResolution().getScaledHeight() - 9);
@@ -899,6 +923,7 @@ public class Interface extends Module {
             case "Medium" -> Fonts.interMedium.get(fontSize.get());
             case "Regular" -> Fonts.interRegular.get(fontSize.get());
             case "Tahoma" -> Fonts.Tahoma.get(fontSize.get());
+            case "SFUI" -> Fonts.sfui.get(fontSize.get());
             default -> null;
         };
 
