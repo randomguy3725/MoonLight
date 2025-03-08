@@ -428,6 +428,10 @@ public class ItemRenderer
                                             GlStateManager.rotate(-var7 * 43.0F, 1.0F, var7 / 3.0F, -0.0F);
                                             doBlockTransformations();
                                             break;
+                                        case "Virtue": {
+                                            transformFirstPersonItem(f - 0.30F, f1);
+                                            break;
+                                        }
                                         case "Small":
                                             GlStateManager.translate(-0.01F, 0.03f, -0.24F);
                                                 this.transformFirstPersonItem(0.0F, f1);
