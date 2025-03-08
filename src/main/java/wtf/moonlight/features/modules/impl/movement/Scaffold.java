@@ -556,9 +556,18 @@ public class Scaffold extends Module {
             if (tower.get().equals("Watchdog")) {
                 if (!mc.thePlayer.isPotionActive(Potion.jump) && placed) {
                     if (towering()) {
-                        int valY = (int) Math.round((event.y % 1) * 10000);
-
                         MovementUtils.stopXZ();
+
+                        if (mc.thePlayer.posY % 1 == 0.5) {
+                            mc.thePlayer.motionY = 0.42F;
+                        }
+
+                        if (mc.thePlayer.posX % 1.0 != 0.0 && !MovementUtils.isMoving()) {
+                            double velocityXAdjustment = (Math.round(mc.thePlayer.posX) - mc.thePlayer.posX);
+                            mc.thePlayer.motionX = Math.min(velocityXAdjustment, 0.281);
+                        }
+
+                        int valY = (int) Math.round((event.y % 1) * 10000);
 
                         if (valY == 0) {
                             mc.thePlayer.motionY = 0.42F;
