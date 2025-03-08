@@ -396,14 +396,14 @@ public class RotationUtils implements InstanceAccess {
         Vec3 vec3 = mc.thePlayer.getPositionEyes(partialTicks);
         Vec3 vec31 = mc.thePlayer.getLookCustom(rot[0], rot[1]);
         Vec3 vec32 = vec3.addVector(vec31.xCoord * blockReachDistance, vec31.yCoord * blockReachDistance, vec31.zCoord * blockReachDistance);
-        return mc.theWorld.rayTraceBlocks(vec3, vec32, false, true, false);
+        return mc.theWorld.rayTraceBlocks(vec3, vec32, false, false, false);
     }
 
     public static MovingObjectPosition rayTrace(double blockReachDistance, float partialTicks) {
         Vec3 vec3 = mc.thePlayer.getPositionEyes(partialTicks);
         Vec3 vec31 = mc.thePlayer.getLookCustom(serverRotation[0], serverRotation[1]);
         Vec3 vec32 = vec3.addVector(vec31.xCoord * blockReachDistance, vec31.yCoord * blockReachDistance, vec31.zCoord * blockReachDistance);
-        return mc.theWorld.rayTraceBlocks(vec3, vec32, false, true, false);
+        return mc.theWorld.rayTraceBlocks(vec3, vec32, false, false, false);
     }
 
     public static float[] getRotations(double rotX, double rotY, double rotZ, double startX, double startY, double startZ) {

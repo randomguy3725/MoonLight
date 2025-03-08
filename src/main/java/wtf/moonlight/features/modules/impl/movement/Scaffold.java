@@ -57,7 +57,7 @@ public class Scaffold extends Module {
     private final ModeValue mode = new ModeValue("Mode", new String[]{"Normal", "Telly", "Snap", "Watchdog"}, "Normal", this);
     private final SliderValue minTellyTicks = new SliderValue("Min Telly Ticks", 2, 1, 5, this, () -> mode.is("Telly"));
     private final SliderValue maxTellyTicks = new SliderValue("Max Telly Ticks", 4, 1, 5, this, () -> mode.is("Telly"));
-    private final ModeValue rotations = new ModeValue("Rotations", new String[]{"Normal", "Normal 2", "Strict", "God Bridge", "Reverse", "Custom", "Unfair Pitch", "Hypixel", "Best", "Derp"}, "Normal", this);
+    private final ModeValue rotations = new ModeValue("Rotations", new String[]{"Normal", "Normal 2","Normal 3", "Strict", "God Bridge", "Reverse", "Custom", "Unfair Pitch", "Hypixel", "Derp"}, "Normal", this);
     private final SliderValue customYaw = new SliderValue("Custom Yaw", 180, 0, 180, 1, this, () -> rotations.is("Custom"));
     private final SliderValue minPitch = new SliderValue("Min Pitch Range", 55, 50, 90, .1f, this, () -> rotations.is("Custom") || rotations.is("God Bridge"));
     public final SliderValue maxPitch = new SliderValue("Max Pitch Range", 75, 50, 90, .1f, this, () -> rotations.is("Custom") || rotations.is("God Bridge"));
@@ -180,7 +180,7 @@ public class Scaffold extends Module {
                 SpoofSlotUtils.stopSpoofing();
                 break;
         }
-        previousRotation = null;
+        previousRotation = rotation = null;
         blocksPlaced = 0;
         placing = false;
         tellyTicks = 0;
@@ -251,9 +251,9 @@ public class Scaffold extends Module {
 
         if (tower.canDisplay() && towering() && !isEnabled(Speed.class) && tower.is("Watchdog") && !placing) {
             BlockPos xPos = data.blockPos.add(1, 0, 0), zPos = data.blockPos.add(0, 0, 1);
-            if (!PlayerUtils.isAir(xPos)) {
+            if (canBePlacedOn(xPos)) {
                 data.blockPos = xPos;
-            } else if (!PlayerUtils.isAir(zPos)) {
+            } else if (canBePlacedOn(zPos)) {
                 data.blockPos = zPos;
             }
         }
@@ -641,6 +641,11 @@ public class Scaffold extends Module {
                     rotation = RotationUtils.getRotations(data.blockPos);
             }
             break;
+            case "Normal 3": {
+                if (data != null)
+                    rotation = getBestRotation(data.blockPos,data.facing);
+            }
+            break;
             case "Strict": {
                 if (data != null)
                     rotation = RotationUtils.getRotations(getHitVecOptimized(data.blockPos, data.facing));
@@ -668,14 +673,11 @@ public class Scaffold extends Module {
 
                 float finalYaw = Math.round(yaw / 45f) * 45f;
 
-                float increment = (float) (Math.random() / 20.0) + 0.05F;
-
-                for (float i = maxPitch.get(); i > minPitch.get(); i -= increment) {
+                for (float i = minPitch.get(); i < maxPitch.get(); i += 0.01f) {
                     float[] rot = new float[]{finalYaw, i};
                     MovingObjectPosition ray = RotationUtils.rayTrace(rot, mc.playerController.getBlockReachDistance(), 1);
 
-                    //if (ray.getBlockPos().equalsBlockPos(blockPos)) {
-                    if (ray.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+                    if (ray.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && ray.getBlockPos().equalsBlockPos(data.blockPos)) {
                         rotation = rot;
                     }
                 }
@@ -684,13 +686,11 @@ public class Scaffold extends Module {
             case "Custom": {
                 float yaw = MovementUtils.getRawDirection() + customYaw.get();
 
-                float increment = (float) (Math.random() / 20.0) + 0.05F;
-
-                for (float i = maxPitch.get(); i > minPitch.get(); i -= increment) {
+                for (float i = minPitch.get(); i < maxPitch.get(); i += 0.01f) {
                     float[] rot = new float[]{yaw, i};
                     MovingObjectPosition ray = RotationUtils.rayTrace(rot, mc.playerController.getBlockReachDistance(), 1);
 
-                    if (ray.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+                    if (ray.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && ray.getBlockPos().equalsBlockPos(data.blockPos)) {
                         rotation = rot;
                     }
                 }
@@ -698,28 +698,24 @@ public class Scaffold extends Module {
             break;
             case "Hypixel": {
                 float yaw = MovementUtils.getRawDirection();
-                if (MovementUtils.isMovingStraight()) {
-                    if (Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(targetBlock)[0] - MovementUtils.getRawDirection() - 125)) < Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(targetBlock)[0] - MovementUtils.getRawDirection() + 125))) {
-                        yaw += 125;
+                    if (MovementUtils.isMovingStraight()) {
+                        if (Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(targetBlock)[0] - MovementUtils.getRawDirection() - 125)) < Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(targetBlock)[0] - MovementUtils.getRawDirection() + 125))) {
+                            yaw += 125;
+                        } else {
+                            yaw -= 125;
+                        }
                     } else {
-                        yaw -= 125;
+                        yaw += 132;
                     }
-                } else {
-                    yaw += 137;
-                }
 
-                rotation[0] = yaw;
+                    rotation[0] = yaw;
 
-                if (data != null) {
-                    rotation[1] = getBestRotation(data.blockPos, data.facing)[1];
-                } else {
-                    rotation = new float[]{yaw, previousRotation[1]};
-                }
-            }
-            break;
-            case "Best": {
-                if (data != null)
-                    rotation = getBestRotation(data.blockPos, data.facing);
+                    if (data != null) {
+                        rotation[1] = getBestRotation(data.blockPos, data.facing)[1];
+                    } else {
+                        rotation = new float[]{yaw, previousRotation[1]};
+                    }
+
             }
             break;
             case "Unfair Pitch": {
@@ -825,13 +821,13 @@ public class Scaffold extends Module {
         }
     }
 
-    public static Vec3 getHitVecOptimized(BlockPos blockPos, EnumFacing facing) {
+    public Vec3 getHitVecOptimized(BlockPos blockPos, EnumFacing facing) {
         Vec3 eyes = new Vec3(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
 
         return MathUtils.closestPointOnFace(new AxisAlignedBB(blockPos, blockPos.add(1, 1, 1)), facing, eyes);
     }
 
-    public static float[] getBestRotation(BlockPos blockPos, EnumFacing face) {
+    public float[] getBestRotation(BlockPos blockPos, EnumFacing face) {
         Vec3i faceVec = face.getDirectionVec();
 
         float minX, maxX, minY, maxY, minZ, maxZ;
