@@ -10,6 +10,7 @@
  */
 package wtf.moonlight.features.modules.impl.movement;
 
+import com.viaversion.viaversion.protocols.protocol1_13to1_12_2.blockconnections.BlockData;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.minecraft.block.*;
@@ -61,7 +62,7 @@ public class Scaffold extends Module {
     private final SliderValue minPitch = new SliderValue("Min Pitch Range", 55, 50, 90, .1f, this, () -> rotations.is("Custom") || rotations.is("God Bridge"));
     public final SliderValue maxPitch = new SliderValue("Max Pitch Range", 75, 50, 90, .1f, this, () -> rotations.is("Custom") || rotations.is("God Bridge"));
     private final BoolValue customRotationSetting = new BoolValue("Custom Rotation Setting", false, this);
-    private final ModeValue smoothMode = new ModeValue("Mode", RotationUtils.smoothModes, RotationUtils.smoothModes[0], this, customRotationSetting::get);
+    private final ModeValue smoothMode = new ModeValue("Rotations Smooth", RotationUtils.smoothModes, RotationUtils.smoothModes[0], this, customRotationSetting::get);
     private final SliderValue minYawRotSpeed = new SliderValue("Min Yaw Rotation Speed", 45, 1,180,1, this, customRotationSetting::get);
     private final SliderValue minPitchRotSpeed = new SliderValue("Min Pitch Rotation Speed", 45, 1,180,1, this, customRotationSetting::get);
     private final SliderValue maxYawRotSpeed = new SliderValue("Max Yaw Rotation Speed", 90, 1,180,1, this, customRotationSetting::get);
@@ -245,6 +246,9 @@ public class Scaffold extends Module {
 
         double posX = mc.thePlayer.posX;
         double posZ = mc.thePlayer.posZ;
+
+        //targetBlock = new BlockPos(posX,posY,posZ);
+        //data = getBlockData(targetBlock);
 
         targetBlock = new BlockPos(posX,posY - 1,posZ);
         data = grab(targetBlock);
@@ -681,17 +685,13 @@ public class Scaffold extends Module {
             case "Hypixel": {
                 float yaw = MovementUtils.getRawDirection();
                 if (MovementUtils.isMovingStraight()) {
-                    if (Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(targetBlock)[0] - MovementUtils.getRawDirection() - 116)) < Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(targetBlock)[0] - MovementUtils.getRawDirection() + 116))) {
-                        yaw += 116;
-                    } else {
-                        yaw -= 116;
-                    }
-                } else {
                     if (Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(targetBlock)[0] - MovementUtils.getRawDirection() - 125)) < Math.abs(MathHelper.wrapAngleTo180_double(RotationUtils.getRotations(targetBlock)[0] - MovementUtils.getRawDirection() + 125))) {
                         yaw += 125;
                     } else {
                         yaw -= 125;
                     }
+                } else {
+                    yaw += 137;
                 }
 
                 rotation[0] = yaw;
@@ -914,6 +914,7 @@ public class Scaffold extends Module {
 
         return null;
     }
+
     public static boolean canBePlacedOn(final BlockPos blockPos) {
         final Material material = mc.theWorld.getBlockState(blockPos).getBlock().getMaterial();
 
@@ -938,6 +939,15 @@ public class Scaffold extends Module {
         public BlockPos blockPos;
         public EnumFacing facing;
     }
+
+    @Getter
+    @AllArgsConstructor
+    public static class OffsetFacing {
+
+        private final EnumFacing enumFacing;
+        private final Vec3 offset;
+    }
+
 
     enum HoverState {
         JUMP,

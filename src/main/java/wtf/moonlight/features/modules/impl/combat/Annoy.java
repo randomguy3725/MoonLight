@@ -36,7 +36,7 @@ public class Annoy extends Module {
     private final SliderValue fov = new SliderValue("FOV",180,1,180,this);
     public SliderValue delay = new SliderValue("Delay", 1000, 500, 5000, 250,this);
     private final BoolValue customRotationSetting = new BoolValue("Custom Rotation Setting", false, this);
-    private final ModeValue smoothMode = new ModeValue("Mode", RotationUtils.smoothModes, RotationUtils.smoothModes[0], this, customRotationSetting::get);
+    private final ModeValue smoothMode = new ModeValue("Rotations Smooth", RotationUtils.smoothModes, RotationUtils.smoothModes[0], this, customRotationSetting::get);
     private final SliderValue minYawRotSpeed = new SliderValue("Min Yaw Rotation Speed", 45, 1,180,1, this, customRotationSetting::get);
     private final SliderValue minPitchRotSpeed = new SliderValue("Min Pitch Rotation Speed", 45, 1,180,1, this, customRotationSetting::get);
     private final SliderValue maxYawRotSpeed = new SliderValue("Max Yaw Rotation Speed", 90, 1,180,1, this, customRotationSetting::get);
