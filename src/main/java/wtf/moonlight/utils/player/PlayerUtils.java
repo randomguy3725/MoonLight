@@ -400,11 +400,10 @@ public class PlayerUtils implements InstanceAccess {
         return blocks;
     }
 
-    public static boolean canBeClick(BlockPos pos) {
-        return mc.theWorld.getBlockState(pos).getBlock().canCollideCheck(mc.theWorld.getBlockState(pos), false) && mc.theWorld.getWorldBorder().contains(pos);
-    }
-    public static boolean isInteractable(Block block) {
-        return block instanceof BlockFurnace || block instanceof BlockTrapDoor || block instanceof BlockDoor || block instanceof BlockContainer || block instanceof BlockJukebox || block instanceof BlockFenceGate || block instanceof BlockChest || block instanceof BlockEnderChest || block instanceof BlockEnchantmentTable || block instanceof BlockBrewingStand || block instanceof BlockBed || block instanceof BlockDropper || block instanceof BlockDispenser || block instanceof BlockHopper || block instanceof BlockAnvil || block instanceof BlockNote || block instanceof BlockWorkbench;
+    public static boolean isAirOrLiquid(BlockPos pos) {
+        Block block = mc.theWorld.getBlockState(pos).getBlock();
+
+        return block instanceof BlockAir || block instanceof BlockLiquid;
     }
 
     public static void fakeDamage() {

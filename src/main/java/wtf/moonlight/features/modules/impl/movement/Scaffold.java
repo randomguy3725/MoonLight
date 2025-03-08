@@ -10,13 +10,9 @@
  */
 package wtf.moonlight.features.modules.impl.movement;
 
-import com.viaversion.viaversion.protocols.protocol1_13to1_12_2.blockconnections.BlockData;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Slot;
@@ -97,7 +93,11 @@ public class Scaffold extends Module {
     private final SliderValue blocksToSneak = new SliderValue("Blocks To Sneak", 7, 1, 8, this, () -> addons.isEnabled("Sneak"));
     private final SliderValue sneakDistance = new SliderValue("Sneak Distance", 0, 0, 0.5f, 0.01f, this, () -> addons.isEnabled("Sneak"));
     private final ModeValue tower = new ModeValue("Tower", new String[]{"Jump", "Vanilla", "Watchdog"}, "Jump", this, () -> !mode.is("Telly"));
+    private final BoolValue towerStop = new BoolValue("Tower Stop",true,this,() -> tower.is("Watchdog"));
+    private final SliderValue towerStopTick = new SliderValue("Tower Stop Tick",7,4,20,this,() -> towerStop.canDisplay() && towerStop.get());
     private final ModeValue towerMove = new ModeValue("Tower Move", new String[]{"Jump", "Vanilla", "Watchdog", "Low"}, "Jump", this, () -> !mode.is("Telly"));
+    private final BoolValue towerMoveStop = new BoolValue("Tower Move Stop",true,this,() -> tower.is("Watchdog"));
+    private final SliderValue towerMoveStopTick = new SliderValue("Tower Stop Tick",7,4,20,this,() -> towerMoveStop.canDisplay() && towerMoveStop.get());
     private final ModeValue wdSprint = new ModeValue("WD Sprint Mode", new String[]{"Offset"}, "Bottom", this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint") && !addons.isEnabled("Keep Y"));
     private final BoolValue sprintBoost = new BoolValue("Sprint Boost Test", true, this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint") && !addons.isEnabled("Keep Y"));
     private final ModeValue wdKeepY = new ModeValue("WD Keep Y Mode", new String[]{"Extra", "Vanilla"}, "Extra", this, () -> mode.is("Watchdog") && addons.isEnabled("Sprint") && (addons.isEnabled("Keep Y") || addons.isEnabled("Speed Keep Y")));
@@ -550,7 +550,7 @@ public class Scaffold extends Module {
 
         if (tower.canDisplay()) {
             if (tower.get().equals("Watchdog")) {
-                if (!mc.thePlayer.isPotionActive(Potion.jump) && placed) {
+                if (!mc.thePlayer.isPotionActive(Potion.jump) && (!towerStop.get() || towerStop.get() && mc.thePlayer.offGroundTicks < towerStopTick.get())) {
                     if (towering()) {
                         MovementUtils.stopXZ();
 
@@ -580,7 +580,7 @@ public class Scaffold extends Module {
 
         if (towerMove.canDisplay()) {
             if (towerMove.get().equals("Watchdog")) {
-                if (MovementUtils.isMoving() && MovementUtils.getSpeed() > 0.1 && !mc.thePlayer.isPotionActive(Potion.jump)) {
+                if (MovementUtils.isMoving() && MovementUtils.getSpeed() > 0.1 && !mc.thePlayer.isPotionActive(Potion.jump) && (!towerMoveStop.get() || towerMoveStop.get() && mc.thePlayer.offGroundTicks < towerMoveStopTick.get())) {
                     if (towerMoving()) {
                         int valY = (int) Math.round((event.y % 1) * 10000);
                         if (valY == 0) {
@@ -724,10 +724,6 @@ public class Scaffold extends Module {
         }
 
         if (tower.canDisplay() && tower.is("Watchdog") && towering()) {
-            rotation = getBestRotation(data.blockPos, data.facing);
-        }
-
-        if (towerMove.canDisplay() && towerMove.is("Watchdog") && towerMoving()) {
             rotation = getBestRotation(data.blockPos, data.facing);
         }
 
@@ -890,23 +886,32 @@ public class Scaffold extends Module {
 
 
     private PlaceData grab(BlockPos pos) {
-        if (!(PlayerUtils.getBlock(pos) instanceof BlockAir)) {
-            return null;
-        }
+        EnumFacing[] facings = {EnumFacing.EAST, EnumFacing.WEST, EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.UP};
+        BlockPos[] offsets = {new BlockPos(-1, 0, 0), new BlockPos(1, 0, 0), new BlockPos(0, 0, 1), new BlockPos(0, 0, -1), new BlockPos(0, -1, 0)};
 
-        for (final EnumFacing facing : EnumFacing.VALUES) {
-            if (canBePlacedOn(pos.add(facing.getOpposite().getDirectionVec())))
-                return new PlaceData(pos.add(facing.getOpposite().getDirectionVec()), facing);
-        }
-
-        for (final EnumFacing enumFacing : EnumFacing.VALUES) {
-            final BlockPos currentPos = pos.add(enumFacing.getDirectionVec());
-
-            for (final EnumFacing facing : EnumFacing.VALUES) {
-                if (canBePlacedOn(currentPos.add(facing.getOpposite().getDirectionVec())))
-                    return new PlaceData(currentPos.add(facing.getOpposite().getDirectionVec()), facing);
+        for (int i = 0; i < offsets.length; i++) {
+            BlockPos newPos = pos.add(offsets[i]);
+            if (canBePlacedOn(newPos)) {
+                return new PlaceData(facings[i], newPos);
             }
         }
+
+        BlockPos[] additionalOffsets = {
+                pos.add(-1, 0, 0),
+                pos.add(1, 0, 0),
+                pos.add(0, 0, 1),
+                pos.add(0, 0, -1),
+                pos.add(0, -1, 0),
+        };
+        for (BlockPos additionalPos : additionalOffsets) {
+            for (int i = 0; i < offsets.length; i++) {
+                BlockPos newPos = additionalPos.add(offsets[i]);
+                if (canBePlacedOn(newPos)) {
+                    return new PlaceData(facings[i], newPos);
+                }
+            }
+        }
+
 
         return null;
     }
@@ -932,8 +937,8 @@ public class Scaffold extends Module {
 
     @AllArgsConstructor
     public static class PlaceData {
-        public BlockPos blockPos;
         public EnumFacing facing;
+        public BlockPos blockPos;
     }
 
 
