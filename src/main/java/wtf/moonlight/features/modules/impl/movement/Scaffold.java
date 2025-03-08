@@ -250,9 +250,11 @@ public class Scaffold extends Module {
         data = grab(targetBlock);
 
         if (tower.canDisplay() && towering() && !isEnabled(Speed.class) && tower.is("Watchdog") && !placing) {
-            BlockPos xPos = data.blockPos.add(-1, 0, 0);
+            BlockPos xPos = data.blockPos.add(-1, 0, 0), zPos = data.blockPos.add(0, 0, -1);
             if (canBePlacedOn(xPos)) {
                 data.blockPos = xPos;
+            } else if (canBePlacedOn(zPos)) {
+                data.blockPos = zPos;
             }
         }
 
