@@ -140,10 +140,6 @@ class TargetHUD implements InstanceAccess {
     private ModeValue style;
     private Interface setting = INSTANCE.getModuleManager().getModule(Interface.class);
     private final DecimalFormat decimalFormat = new DecimalFormat("0.0");
-    private final StopWatch animationStopwatch = new StopWatch();
-    private double healthBarWidth;
-    final ScaledResolution scaledResolution2;
-    final ScaledResolution scaledResolution = scaledResolution2 = new ScaledResolution(mc);
 
     public TargetHUD(float x, float y, EntityPlayer target, Animation animation, boolean shader, ModeValue style) {
         this.x = x;
@@ -299,39 +295,28 @@ class TargetHUD implements InstanceAccess {
             case "Felix": {
                 GlStateManager.pushMatrix();
                 GlStateManager.translate(x, y, 0);
-
-                GlStateManager.enableBlend();
-
-                final float n = 2;
-                scaledResolution2.scaledWidth *= 0;
-                scaledResolution.scaledHeight *= 0;
-                final float n2 = scaledResolution.getScaledHeight() / 2f;
-                final int n3 = scaledResolution.getScaledWidth() / 2;
-                RenderUtils.drawRect(n3 + 1f, n2 + 1f, 140.0f, 37.6f, new Color(25,25,25, 210));
+                final float scale = 2;
+                RenderUtils.drawRect(1f, 1f, 140.0f, 37.6f, new Color(25, 25, 25, 210));
                 String string = String.format("%.1f", target.getHealth() / 2.0f);
 
                 GlStateManager.pushMatrix();
-                GlStateManager.scale(n, n, n);
-                mc.fontRendererObj.drawStringWithShadow(string.replace(".0", ""), (float)(n3 - 121 + 150), (float)(n2 - 93 + 100), ColorUtils.getHealthColor(target));
-                mc.fontRendererObj.drawStringWithShadow("\u2764", n3 - 130 + 150, n2 - 94 + 100, ColorUtils.getHealthColor(target));
+                GlStateManager.scale(scale, scale, scale);
+                mc.fontRendererObj.drawStringWithShadow(string.replace(".0", ""), (29), 7, ColorUtils.getHealthColor(target));
+                mc.fontRendererObj.drawStringWithShadow("❤", 20, 6, ColorUtils.getHealthColor(target));
                 GlStateManager.popMatrix();
-                final float n4 = 137.0f / target.getMaxHealth() * (Math.min(target.getHealth(), target.getMaxHealth()));
-                if (animationStopwatch.isStopped()) {
-                    healthBarWidth = RenderUtils.animate(n4, (float)healthBarWidth, 0.05f);
-                    animationStopwatch.reset();
-                }
 
-                RenderUtils.drawRect((float)n3 + 2f, n2 + (float)34, 138, (float)3.5, (ColorUtils.darker(ColorUtils.getHealthColor(target), 0.35f)));
-                RenderUtils.drawRect((float)n3 + 2f, n2 + (float)34, (float)healthBarWidth + (float)0.9, (float)3.5, (ColorUtils.getHealthColor(target)));
-                RenderUtils.drawRect((float)n3 + 2f, n2 + (float)34, n4 + (float)0.9, (float)3.5, (ColorUtils.getHealthColor(target)));
+                float healthPercentage = target.getHealth() / target.getMaxHealth();
+                float healthWidth = (width - 2) * healthPercentage;
+                target.healthAnimation.animate(healthWidth, 50);
+
+                RenderUtils.drawRect(2f, 34, 138, 3.5f, (ColorUtils.darker(ColorUtils.getHealthColor(target), 0.35f)));
+                RenderUtils.drawRect(2f, 34, target.healthAnimation.getOutput(), 3.5f, (ColorUtils.getHealthColor(target)));
 
                 final String name = target.getName();
-                GlStateManager.enableBlend();
 
-                mc.fontRendererObj.drawStringWithShadow(name, (float)(n3 + 35), (float)(n2 + 3), -855638017);
-                if (mc.thePlayer != null) {
-                    RenderUtils.renderPlayer2D(target,n3 + 2, n2 + 2, 31, 0, -1);}
-                GlStateManager.disableBlend();
+                mc.fontRendererObj.drawStringWithShadow(name, (35), (3), -855638017);
+                RenderUtils.renderPlayer2D(target, 2, 2, 31, 0, -1);
+
                 GlStateManager.popMatrix();
             }
             break;
@@ -592,7 +577,6 @@ class TargetHUD implements InstanceAccess {
                     if (target.getTotalArmorValue() > 0) {
                         RenderUtils.drawBorderedRect(x + 1, y + 38.5f, target.getTotalArmorValue() * 5.75f, 2.5f, 0.74f, new Color(32, 101, 150).getRGB(), new Color(0, 0, 0, 100).getRGB());
                     }
-
 
                     String text = String.format("%.1f", target.getHealth());
                     String text2 = String.format("%.1f", mc.thePlayer.getDistanceToEntity(target));
