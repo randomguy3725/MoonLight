@@ -321,7 +321,7 @@ public class LongJump extends Module {
                             mc.thePlayer.jump();
                         }
                     } else if (dmgTicks == 45) {
-                        mc.timer.timerSpeed = 0.2f;
+                        mc.timer.timerSpeed = 0.6f;
                         event.setY(event.getY() + 1.0E-5D);
                         sendPacket(new C03PacketPlayer(true));
 
