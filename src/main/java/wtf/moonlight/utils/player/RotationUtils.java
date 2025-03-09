@@ -486,6 +486,21 @@ public class RotationUtils implements InstanceAccess {
         return rayCast(rotation, range, mc.timer.renderPartialTicks);
     }
 
+    public static boolean isLookingAtEntity(Entity target, final double range) {
+        return isLookingAtEntity(target,RotationUtils.serverRotation,range);
+    }
+
+    public static boolean isLookingAtEntity(Entity target, float[] rotations, final double range) {
+        Vec3 src = mc.thePlayer.getPositionEyes(1.0f);
+        Vec3 rotationVec = mc.thePlayer.getLookCustom(rotations[0], rotations[1]);
+        Vec3 dest = src.addVector(rotationVec.xCoord * range, rotationVec.yCoord * range, rotationVec.zCoord * range);
+        MovingObjectPosition obj = mc.theWorld.rayTraceBlocks(src, dest, false, false, true);
+        if (obj == null) {
+            return false;
+        }
+        return target.getEntityBoundingBox().expand(target.getCollisionBorderSize(), target.getCollisionBorderSize(), target.getCollisionBorderSize()).calculateIntercept(src, dest) != null;
+    }
+
     public static MovingObjectPosition rayCast(final float[] rots, final double range, final float partialTicks) {
         MovingObjectPosition objectMouseOver = null;
         Entity entity = mc.getRenderViewEntity();

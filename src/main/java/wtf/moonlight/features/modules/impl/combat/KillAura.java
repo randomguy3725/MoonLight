@@ -495,24 +495,15 @@ public class KillAura extends Module {
     public void attack() {
         if (autoBlock.is("Release"))
             unblock();
-        MovingObjectPosition rayCast = RotationUtils.rayCast(RotationUtils.currentRotation, attackRange.get());
-        if (addons.isEnabled("Ray Cast") && rayCast.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY && rayCast.entityHit instanceof EntityLivingBase) {
-            if (canAttack((EntityLivingBase) rayCast.entityHit)) {
-                if (getModule(AutoGap.class).isEnabled() && getModule(AutoGap.class).alwaysAttack.get() && getModule(AutoGap.class).eating) {
-                    AttackOrder.sendFixedAttackNoPacketEvent(mc.thePlayer, rayCast.entityHit);
-                } else {
-                    AttackOrder.sendFixedAttack(mc.thePlayer, rayCast.entityHit);
-                }
-            }
-        } else {
-            if (canAttack(target)) {
-                if (getModule(AutoGap.class).isEnabled() && getModule(AutoGap.class).alwaysAttack.get() && getModule(AutoGap.class).eating) {
-                    AttackOrder.sendFixedAttackNoPacketEvent(mc.thePlayer, target);
-                } else {
-                    AttackOrder.sendFixedAttack(mc.thePlayer, target);
-                }
+        boolean test = RotationUtils.isLookingAtEntity(target, attackRange.get());
+        if (canAttack(target) && (addons.isEnabled("Ray Cast") && test || !addons.isEnabled("Ray Cast"))) {
+            if (getModule(AutoGap.class).isEnabled() && getModule(AutoGap.class).alwaysAttack.get() && getModule(AutoGap.class).eating) {
+                AttackOrder.sendFixedAttackNoPacketEvent(mc.thePlayer, target);
+            } else {
+                AttackOrder.sendFixedAttack(mc.thePlayer, target);
             }
         }
+
         perfectHitTimer.reset();
     }
 
