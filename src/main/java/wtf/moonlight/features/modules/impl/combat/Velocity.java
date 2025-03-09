@@ -10,6 +10,7 @@
  */
 package wtf.moonlight.features.modules.impl.combat;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.*;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
@@ -18,6 +19,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import wtf.moonlight.Moonlight;
 import wtf.moonlight.events.annotations.EventTarget;
 import wtf.moonlight.events.impl.packet.PacketEvent;
 import wtf.moonlight.events.impl.player.*;
@@ -26,6 +28,7 @@ import wtf.moonlight.features.modules.ModuleCategory;
 import wtf.moonlight.features.modules.ModuleInfo;
 import wtf.moonlight.features.modules.impl.movement.LongJump;
 import wtf.moonlight.features.modules.impl.movement.Scaffold;
+import wtf.moonlight.features.values.impl.BoolValue;
 import wtf.moonlight.features.values.impl.ModeValue;
 import wtf.moonlight.features.values.impl.SliderValue;
 import wtf.moonlight.utils.packet.PacketUtils;
@@ -37,10 +40,18 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 
+import static wtf.moonlight.utils.math.MathUtils.nextInt;
+
 @ModuleInfo(name = "Velocity", category = ModuleCategory.Combat)
 public class Velocity extends Module {
     private final ModeValue mode = new ModeValue("Mode", new String[]{"Cancel", "Air","Horizontal","Watchdog", "Boost", "Jump Reset", "GrimAC","Reduce","Legit"}, "Air", this);
-    private final ModeValue grimMode = new ModeValue("Grim Mode", new String[]{"Reduce", "1.17"}, "Reduce", this, () -> mode.is("GrimAC"));
+    private final ModeValue grimMode = new ModeValue("Grim Mode", new String[]{"Reduce", "1.17","Vertical"}, "Reduce", this, () -> mode.is("GrimAC"));
+    private final BoolValue smartVelo = new BoolValue("SmartVelo", true,this, () -> grimMode.is("Vertical") && mode.is("GrimAC"));
+    private final BoolValue sendc0fValue = new BoolValue("C0F", false,this, () -> grimMode.is("Vertical") && mode.is("GrimAC"));
+    private final SliderValue C0fpacketamount = new SliderValue("C0FPacketAmount", 0, 1, 40, this, () -> grimMode.is("Vertical") && mode.is("GrimAC") && sendc0fValue.get());
+    private final SliderValue C02packetamount = new SliderValue("C02PacketAmount", 8, 1, 40, this, () -> grimMode.is("Vertical") && mode.is("GrimAC"));
+    private final BoolValue callEvent = new BoolValue("CallEvent", true,this, () -> grimMode.is("Vertical") && mode.is("GrimAC"));
+    private final BoolValue via = new BoolValue("Via", true,this, () -> (grimMode.is("Vertical") || grimMode.is("Reduce")) && mode.is("GrimAC"));
     private final SliderValue reverseTick = new SliderValue("Boost Tick", 1, 1, 5, 1, this, () -> mode.is("Boost"));
     private final SliderValue reverseStrength = new SliderValue("Boost Strength", 1, 0.1f, 1, 0.01f, this, () -> mode.is("Boost"));
     private final ModeValue jumpResetMode = new ModeValue("Jump Reset Mode", new String[]{"Hurt Time", "Packet"}, "Packet", this, () -> mode.is("Jump Reset"));
@@ -51,6 +62,12 @@ public class Velocity extends Module {
     private boolean veloPacket = false;
     private boolean canSpoof, canCancel;
     private int idk = 0;
+//  Grim Vertical
+    private boolean attack = false;
+    private double motionXZ = 0.0;
+    private boolean velocityInput = false;
+    private boolean lastSprinting = false;
+
     private int reduceTick,reduceDamageTick;
     private long lastAttackTime;
     private boolean absorbedVelocity;
@@ -66,6 +83,27 @@ public class Velocity extends Module {
                         sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, mc.thePlayer.onGround));
                         sendPacketNoEvent(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, new BlockPos(mc.thePlayer).down(), EnumFacing.DOWN));
                         canSpoof = false;
+                    }
+                }
+                if (grimMode.is("Vertical")) {
+                    if (attack) {
+                        int packetAmount = (int) C02packetamount.get();
+                        for (int i = 0; i < packetAmount; i++) {
+                            KillAura killAura = (KillAura) Moonlight.INSTANCE.getModuleManager().getModule(KillAura.class);
+                            if (killAura != null && killAura.target != null) {
+                                attackEntity(killAura.target);
+                            }
+                        }
+
+                        if (smartVelo.get() && mc.thePlayer.onGround) {
+                            mc.thePlayer.motionX *= motionXZ;
+                            mc.thePlayer.motionZ *= motionXZ;
+                        } else {
+                            mc.thePlayer.motionX *= 0.077760000;
+                            mc.thePlayer.motionZ *= 0.077760000;
+                        }
+                        velocityInput = false;
+                        attack = false;
                     }
                 }
                 break;
@@ -175,6 +213,37 @@ public class Velocity extends Module {
                                 event.setCancelled(true);
                             }
                             break;
+                        case "Vertical":
+                            if (packet instanceof S12PacketEntityVelocity) {
+                                S12PacketEntityVelocity velocityPacket = (S12PacketEntityVelocity) packet;
+
+                                if (velocityPacket.getMotionX() == 0 && velocityPacket.getMotionZ() == 0 ||
+                                        mc.thePlayer == null ||
+                                        mc.theWorld.getEntityByID(velocityPacket.getEntityID()) != mc.thePlayer) { // ignore horizontal velocity
+                                    return;
+                                }
+
+
+                                velocityInput = true;
+                                motionXZ = getMotionNoXZ(velocityPacket);
+
+                                KillAura killAura = (KillAura) Moonlight.INSTANCE.getModuleManager().getModule(KillAura.class);
+                                if (killAura != null && killAura.isEnabled() && killAura.target != null ) {
+                                    if (mc.thePlayer.isSprinting() && mc.thePlayer.serverSprintState && MovementUtils.isMoving()) {
+                                        for (int i = 0; i < C0fpacketamount.get(); i++) {
+                                            if (sendc0fValue.get()) {
+                                                mc.getNetHandler().addToSendQueue(new C0FPacketConfirmTransaction(
+                                                        nextInt(102, 1000024123),
+                                                        (short) nextInt(102, 1000024123),
+                                                        true
+                                                ));
+                                            }
+                                        }
+                                        attack = true;
+                                    }
+                                }
+                            }
+                            break;
                     }
                     break;
 
@@ -278,6 +347,54 @@ public class Velocity extends Module {
                 mc.thePlayer.movementInput.moveStrafe = map.get(vec3s.get(0));
             }
         }
+    }
+
+    private void attackEntity(EntityLivingBase entity) {
+        AttackEvent event = new AttackEvent(entity);
+
+        if (callEvent.get()) {
+            Moonlight.INSTANCE.getEventManager().call(event);
+            if (event.isCancelled()) {
+                return;
+            }
+        }
+
+        if (via.get()) {
+            mc.getNetHandler().addToSendQueue(new C02PacketUseEntity(entity, C02PacketUseEntity.Action.ATTACK));
+            mc.getNetHandler().addToSendQueue(new C0APacketAnimation());
+        } else {
+            mc.getNetHandler().addToSendQueue(new C0APacketAnimation());
+            mc.getNetHandler().addToSendQueue(new C02PacketUseEntity(entity, C02PacketUseEntity.Action.ATTACK));
+        }
+    }
+
+    private double getMotionNoXZ(S12PacketEntityVelocity packetEntityVelocity) {
+        Vec3 vec = new Vec3(
+                packetEntityVelocity.getMotionX(),
+                packetEntityVelocity.getMotionY(),
+                packetEntityVelocity.getMotionZ()
+        );
+
+        double strength = vec.lengthVector();
+
+        double motionNoXZ;
+        if (strength >= 20000.0) {
+            if (mc.thePlayer.onGround) {
+                motionNoXZ = 0.06425;
+            } else {
+                motionNoXZ = 0.075;
+            }
+        } else if (strength >= 5000.0) {
+            if (mc.thePlayer.onGround) {
+                motionNoXZ = 0.02625;
+            } else {
+                motionNoXZ = 0.0552;
+            }
+        } else {
+            motionNoXZ = 0.0175;
+        }
+
+        return motionNoXZ;
     }
 
     private boolean checks() {
