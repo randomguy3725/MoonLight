@@ -344,6 +344,7 @@ public class KillAura extends Module {
 
     @EventTarget
     public void onRender2D(Render2DEvent event) {
+        if (!shouldAttack()) return;
         double min = minAps.get();
         double max = maxAps.get();
         switch (apsMode.get()) {
