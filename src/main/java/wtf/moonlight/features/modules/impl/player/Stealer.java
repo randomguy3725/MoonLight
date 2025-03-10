@@ -337,7 +337,7 @@ public final class Stealer extends Module {
             }
             if(startDelay.get())
                 timer.reset();
-            isStealing = packetOpenWindow.getGuiId().equals("minecraft:chest") || furnace.get() && packetOpenWindow.getGuiId().equals("minecraft:furnace")
+            isStealing = (packetOpenWindow.getGuiId().equals("minecraft:chest") || packetOpenWindow.getGuiId().equals("minecraft:container") )|| furnace.get() && packetOpenWindow.getGuiId().equals("minecraft:furnace")
             //bug
             //|| brewingStand.get() && packetOpenWindow.getGuiId().equals("minecraft:brewing_stand")
             ;
