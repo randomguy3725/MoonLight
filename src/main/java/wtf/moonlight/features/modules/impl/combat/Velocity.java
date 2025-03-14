@@ -72,10 +72,10 @@ public class Velocity extends Module {
 
             case "Reduce":
                 if (!veloPacket) return;
-               reduceTick++;
+                reduceTick++;
 
                 if (mc.thePlayer.hurtTime == 2) {
-                   reduceDamageTick++;
+                    reduceDamageTick++;
                     if (mc.thePlayer.onGround && reduceTick % 2 == 0 && reduceDamageTick <= 10) {
                         mc.thePlayer.jump();
                         reduceTick = 0;
@@ -246,7 +246,7 @@ public class Velocity extends Module {
 
     @EventTarget
     public void onAttack(AttackEvent event){
-       if(mode.is("Reduce")){
+        if(mode.is("Reduce")){
             if (mc.thePlayer.hurtTime == reduceHurtTime.get() && System.currentTimeMillis() - lastAttackTime <= 8000) {
                 mc.thePlayer.motionX *= reduceFactor.get();
                 mc.thePlayer.motionZ *= reduceFactor.get();
