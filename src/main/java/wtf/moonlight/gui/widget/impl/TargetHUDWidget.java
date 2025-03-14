@@ -571,21 +571,27 @@ class TargetHUD implements InstanceAccess {
 
                 if (!shader) {
                     target.healthAnimation.animate(space * MathHelper.clamp_float(healthPercentage, 0, 1), 30);
-                    RenderUtils.drawRect(x, y, width, height, setting.bgColor());
-                    RenderUtils.drawBorderedRect(x + 1, y + 35, space, 2.5f, 0.74f, new Color(0, 0, 0, 100).getRGB(), new Color(0, 0, 0, 100).getRGB());
-                    RenderUtils.drawBorderedRect(x + 1, y + 35, target.healthAnimation.getOutput(), 2.5f, 0.74f, new Color(64, 150, 64).getRGB(), new Color(0, 0, 0, 100).getRGB());
 
-                    RenderUtils.drawBorderedRect(x + 1, y + 35, space, 2.5f, 0.74f, new Color(0, 0, 0, 100).getRGB(), new Color(0, 0, 0, 100).getRGB());
+                    RenderUtils.drawRect(x, y + 2, width, height, setting.bgColor());
+                    RenderUtils.drawBorderedRect(x + 1, y + 34.5f, space, 2.5f, 0.74f, new Color(0, 0, 0, 100).getRGB(), new Color(0, 0, 0, 100).getRGB());
+                    RenderUtils.drawBorderedRect(x + 1, y + 38.5f, space, 2.5f, 0.74f, new Color(0, 0, 0, 100).getRGB(), new Color(0, 0, 0, 100).getRGB());
+
+                    RenderUtils.drawHorizontalGradientSideways(x + 1, y + 34.5f, target.healthAnimation.getOutput(), 2.5f,
+                            new Color(40, 145, 90).getRGB(),
+                            new Color(170, 255, 220).getRGB());
+
                     if (target.getTotalArmorValue() > 0) {
-                        RenderUtils.drawBorderedRect(x + 1, y + 38.5f, target.getTotalArmorValue() * 5.75f, 2.5f, 0.74f, new Color(32, 101, 150).getRGB(), new Color(0, 0, 0, 100).getRGB());
+                        RenderUtils.drawHorizontalGradientSideways(x + 1, y + 38.5f, target.getTotalArmorValue() * 5.75f, 2.5f,
+                                new Color(40, 110, 160).getRGB(),
+                                new Color(100, 225, 255).getRGB());
                     }
 
                     String text = String.format("%.1f", target.getHealth());
                     String text2 = String.format("%.1f", mc.thePlayer.getDistanceToEntity(target));
 
-                    Fonts.interRegular.get(13).drawStringWithShadow("Health: " + text, x + 33.5 + 1, y + 15 + 2, -1);
-                    Fonts.interRegular.get(13).drawStringWithShadow("Distance: " + text2 + "m", x + 33.5 + 1, y + 23 + 2, -1);
-                    Fonts.interSemiBold.get(18).drawStringWithShadow(target.getName(), x + 33 + 1, y + 4 + 2, -1);
+                    Fonts.psRegular.get(15).drawStringWithShadow("Health: " + text, x + 32.5f, y + 16f + 2, -1);
+                    Fonts.psRegular.get(15).drawStringWithShadow("Distance: " + text2 + "m", x + 32.5f, y + 24.5f + 2, -1);
+                    Fonts.psBold.get(21).drawStringWithShadow(target.getName(), x + 32.5f, y + 3 + 2, -1);
 
                     RenderUtils.renderPlayer2D(target, x + 1, y + 3, 30, 0, -1);
                 } else {

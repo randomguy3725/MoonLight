@@ -430,6 +430,7 @@ public class ItemRenderer
                                             break;
                                         case "Virtue": {
                                             transformFirstPersonItem(f - 0.30F, f1);
+                                            this.doBlockTransformations();
                                             break;
                                         }
                                         case "Small":

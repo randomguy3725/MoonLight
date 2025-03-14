@@ -27,6 +27,7 @@ import wtf.moonlight.features.values.impl.ColorValue;
 import wtf.moonlight.features.values.impl.ModeValue;
 import wtf.moonlight.features.values.impl.SliderValue;
 import wtf.moonlight.utils.math.MathUtils;
+import wtf.moonlight.utils.render.ColorUtils;
 import wtf.moonlight.utils.render.GLUtils;
 
 import java.awt.*;
@@ -35,13 +36,12 @@ import static org.lwjgl.opengl.GL11.*;
 
 @ModuleInfo(name = "Hat", category = ModuleCategory.Visual)
 public class Hat extends Module {
-    public final ModeValue mode = new ModeValue("Mode", new String[]{"Astolfo", "Sexy", "Fade", "Blend"}, "Sexy", this);
+    public final ModeValue mode = new ModeValue("Mode", new String[]{"Astolfo", "Sexy", "Fade", "Dynamic"}, "Sexy", this);
     public final SliderValue points = new SliderValue("Points", 30, 3, 180, this);
     public final SliderValue size = new SliderValue("Size", 0.5f, 0.1f, 3.0f, 0.1f, this);
     private final SliderValue offSetValue = new SliderValue("Off Set", 2000.0f, 0.0f, 5000.0f, 100.0f, this);
-    public final ColorValue colorValue = new ColorValue("Color", new Color(255, 255, 255), this, () -> mode.is("Fade") || mode.is("Blend"));
-    public final ColorValue secondColorValue = new ColorValue("Second Color", new Color(0, 0, 0), this, () -> mode.is("Blend"));
-    public final ColorValue thirdColorValue = new ColorValue("Third Color", new Color(0, 0, 0), this, () -> mode.is("Blend"));
+    public final ColorValue colorValue = new ColorValue("Color", new Color(255, 255, 255), this, () -> mode.is("Fade") || mode.is("Dynamic"));
+    public final ColorValue secondColorValue = new ColorValue("Second Color", new Color(0, 0, 0), this, () -> mode.is("Fade"));
     public final BoolValue target = new BoolValue("Target", true,this);
     private final double[][] positions = new double[(int) points.getMax() + 1][2];
     private int lastPoints;
@@ -125,9 +125,9 @@ public class Hat extends Module {
             case "Sexy" ->
                     new Color[]{new Color(255, 150, 255), new Color(255, 132, 199), new Color(211, 101, 187), new Color(160, 80, 158), new Color(120, 63, 160), new Color(123, 65, 168), new Color(104, 52, 152), new Color(142, 74, 175), new Color(160, 83, 179), new Color(255, 110, 189), new Color(255, 150, 255)};
             case "Fade" ->
-                    new Color[]{this.colorValue.get(), this.colorValue.get(), this.colorValue.get().darker(), this.colorValue.get().darker().darker(), this.colorValue.get(), this.colorValue.get().darker(), this.colorValue.get().darker().darker(), this.colorValue.get(), this.colorValue.get().darker(), this.colorValue.get().darker().darker(), this.colorValue.get(), this.colorValue.get()};
-            case "Blend" ->
-                    new Color[]{this.colorValue.get().darker().darker(), this.colorValue.get(), this.colorValue.get(), this.colorValue.get(), this.colorValue.get().darker().darker(), this.secondColorValue.get().darker().darker(), this.secondColorValue.get(), this.secondColorValue.get(), this.secondColorValue.get(), this.secondColorValue.get().darker().darker(), this.thirdColorValue.get().darker().darker(), this.thirdColorValue.get(), this.thirdColorValue.get(), this.thirdColorValue.get(), this.thirdColorValue.get().darker().darker()};
+                    new Color[]{this.colorValue.get(), this.secondColorValue.get(), this.colorValue.get()};
+            case "Dynamic" ->
+                    new Color[]{this.colorValue.get(), new Color(ColorUtils.darker(colorValue.get().getRGB(), 0.25F)), this.colorValue.get()};
             default -> colorMode;
         };
 

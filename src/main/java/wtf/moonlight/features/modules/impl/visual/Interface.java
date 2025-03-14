@@ -80,8 +80,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static net.minecraft.util.EnumChatFormatting.GRAY;
-import static net.minecraft.util.EnumChatFormatting.WHITE;
+import static net.minecraft.util.EnumChatFormatting.*;
 import static wtf.moonlight.gui.click.neverlose.NeverLose.*;
 
 @ModuleInfo(name = "Interface", category = ModuleCategory.Visual)
@@ -110,7 +109,7 @@ public class Interface extends Module {
     public final ModeValue fontMode = new ModeValue("C Fonts Mode", new String[]{"Bold","Semi Bold","Medium","Regular","Tahoma", "SFUI"}, "Semi Bold", this,() -> cFont.canDisplay() && cFont.get());
     public final SliderValue fontSize = new SliderValue("Font Size",15,10,25,this,cFont::get);
     public final SliderValue animSpeed = new SliderValue("anim Speed", 200, 100, 400, 25, this, () -> elements.isEnabled("Module List"));
-    public final ModeValue watemarkMode = new ModeValue("Watermark Mode", new String[]{"Text","Styles","Styles 2","Nursultan","Exhi","Exhi 2","Nursultan 2","NeverLose","Novo","Novo 2","Novo 3","OneTap"}, "Text", this,() -> elements.isEnabled("Watermark"));
+    public final ModeValue watemarkMode = new ModeValue("Watermark Mode", new String[]{"Text","Styles","Styles 2","Rect","Nursultan","Exhi","Exhi 2","Nursultan 2","NeverLose","Novo","Novo 2","Novo 3","OneTap"}, "Text", this,() -> elements.isEnabled("Watermark"));
     public final ModeValue animation = new ModeValue("Animation", new String[]{"ScaleIn", "MoveIn","Slide In"}, "ScaleIn", this, () -> elements.isEnabled("Module List"));
     public final SliderValue textHeight = new SliderValue("Text Height", 2, 0, 10, this, () -> elements.isEnabled("Module List"));
     public final ModeValue tags = new ModeValue("Suffix", new String[]{"None", "Simple", "Bracket", "Dash"}, "None", this, () -> elements.isEnabled("Module List"));
@@ -147,6 +146,7 @@ public class Interface extends Module {
     public final BoolValue hotBar = new BoolValue("New Hot Bar", false, this);
 
     public final BoolValue cape = new BoolValue("Cape", true, this);
+    public final ModeValue capeMode = new ModeValue("Cape Mode", new String[]{"Default", "Sexy", "Sexy 2"}, "Default", this);
     public final BoolValue wavey = new BoolValue("Wavey Cape", true, this);
     public final BoolValue enchanted = new BoolValue("Enchanted", true, this, () -> cape.get() && !wavey.get());
     private final DecimalFormat bpsFormat = new DecimalFormat("0.00");
@@ -374,6 +374,41 @@ public class Interface extends Module {
                 }
                 break;
 
+                // not going to add shaders to this one cuz it breaks the modulelist
+                case "Rect": {
+                    String rectText = WHITE + " - " + dateFormat.format(new Date()) + " - " + mc.thePlayer.getName() + " - " + fpsFormat.format(Minecraft.getDebugFPS());
+                    float x = 9.0F;
+                    String name = clientName.get().charAt(0) + "" + clientName.get().substring(1);
+
+                    RenderUtils.drawRect(x - 2.5f, 5.5f, 2 + Fonts.sfui.get(18).getStringWidth(clientName.get() + " - " + dateFormat.format(new Date()) + " - " + mc.thePlayer.getName() + " - " + fpsFormat.format(Minecraft.getDebugFPS()) + " FPS"), 12, bgColor());
+                    if (color.is("Fade")) {
+                        RenderUtils.drawHorizontalGradientSideways(x - 2.5f, 5.5f, 2 + Fonts.sfui.get(18).getStringWidth(clientName.get() + rectText), 1, getMainColor().getRGB(), getSecondColor().getRGB());
+                    } else if (color.is("Dynamic")) {
+                        RenderUtils.drawHorizontalGradientSideways(x - 2.5f, 5.5f, 2 + Fonts.sfui.get(18).getStringWidth(clientName.get() + rectText), 1, getMainColor().getRGB(), ColorUtils.darker(getMainColor().getRGB(), 0.25F));
+                    } else {
+                        RenderUtils.drawHorizontalGradientSideways(x - 2.5f, 5.5f, 2 + Fonts.sfui.get(18).getStringWidth(clientName.get() + rectText), 1, color(0), color(90));
+                    }
+                    for (int i = 0; i < name.length(); i++) {
+                        if (color.is("Fade") || color.is("Dynamic")) {
+                            if (i == 0) {
+                                    Fonts.sfui.get(18).drawStringWithShadow(String.valueOf(name.charAt(i)), x - 1.0f, 9.0f, getMainColor().getRGB());
+                                } else {
+                                    Fonts.sfui.get(18).drawStringWithShadow(WHITE + String.valueOf(name.charAt(i)), x - 1.0f, 9.0f, color(0));
+                                }
+                                x += Fonts.sfui.get(18).getStringWidth(name.charAt(i) + "");
+                        } else {
+                            if (i == 0) {
+                                Fonts.sfui.get(18).drawStringWithShadow(String.valueOf(name.charAt(i)), x - 1.0f, 9.0f, color(0));
+                            } else {
+                                Fonts.sfui.get(18).drawStringWithShadow(WHITE + String.valueOf(name.charAt(i)), x - 1.0f, 9.0f, color(0));
+                            }
+                            x += Fonts.sfui.get(18).getStringWidth(name.charAt(i) + "");
+                        }
+                    }
+                    Fonts.sfui.get(18).drawStringWithShadow(rectText + " FPS", x - 1.0f, 9.0f, color());
+                }
+                break;
+
                 case "OneTap": {
                     String dateString3 = dateFormat2.format(new Date());
                     String serverip = mc.isSingleplayer() ? "localhost:25565" : !mc.getCurrentServerData().serverIP.contains(":") ? mc.getCurrentServerData().serverIP + ":25565" : mc.getCurrentServerData().serverIP;
@@ -417,9 +452,9 @@ public class Interface extends Module {
                     Fonts.interSemiBold.get(19).drawStringWithShadow("FPS: " + EnumChatFormatting.WHITE + Minecraft.getDebugFPS(), 1.5F, textY, color(0));
                     break;
                 case "Astolfo":
-                    float xyz = (event.scaledResolution().getScaledHeight() - 10);
-                    float bps = (event.scaledResolution().getScaledHeight() - 20);
-                    float fps = (event.scaledResolution().getScaledHeight() - 29);
+                    float xyz = (event.scaledResolution().getScaledHeight() - 8);
+                    float bps = (event.scaledResolution().getScaledHeight() - 16.5f);
+                    float fps = (event.scaledResolution().getScaledHeight() - 24);
 
                     Fonts.sfui.get(18).drawStringWithShadow(xyzFormat.format(mc.thePlayer.posX) + ", " + xyzFormat.format(mc.thePlayer.posY) + ", " + xyzFormat.format(mc.thePlayer.posZ), 2, xyz, -1 );
                     Fonts.sfui.get(18).drawStringWithShadow(bpsFormat.format(MovementUtils.getBPS()) + " blocks/sec", 2, bps, -1);
