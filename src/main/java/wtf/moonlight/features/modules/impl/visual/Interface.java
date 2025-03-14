@@ -405,7 +405,7 @@ public class Interface extends Module {
                             x += Fonts.sfui.get(18).getStringWidth(name.charAt(i) + "");
                         }
                     }
-                    Fonts.sfui.get(18).drawStringWithShadow(rectText + " FPS", x - 1.0f, 9.0f, color());
+                    Fonts.sfui.get(18).drawStringWithShadow(rectText, x - 1.0f, 9.0f, color());
                 }
                 break;
 
