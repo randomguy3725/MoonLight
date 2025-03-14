@@ -376,7 +376,7 @@ public class Interface extends Module {
 
                 // not going to add shaders to this one cuz it breaks the modulelist
                 case "Rect": {
-                    String rectText = WHITE + " - " + dateFormat.format(new Date()) + " - " + mc.thePlayer.getName() + " - " + fpsFormat.format(Minecraft.getDebugFPS());
+                    String rectText = WHITE + " - " + dateFormat.format(new Date()) + " - " + mc.thePlayer.getName() + " - " + fpsFormat.format(Minecraft.getDebugFPS()) + " FPS";
                     float x = 9.0F;
                     String name = clientName.get().charAt(0) + "" + clientName.get().substring(1);
 
