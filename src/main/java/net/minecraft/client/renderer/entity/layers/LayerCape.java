@@ -28,7 +28,18 @@ public class LayerCape implements LayerRenderer<AbstractClientPlayer>
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
             if(entitylivingbaseIn.getName().equals(Minecraft.getMinecraft().getSession().getUsername()) && Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).cape.get()){
-                this.playerRenderer.bindTexture(new ResourceLocation("moonlight/texture/cape/cape.png"));
+                switch (Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).capeMode.get()) {
+                    case "Default":
+                    this.playerRenderer.bindTexture(new ResourceLocation("moonlight/texture/cape/cape.png"));
+                    break;
+                    case "Sexy":
+                    this.playerRenderer.bindTexture(new ResourceLocation("moonlight/texture/cape/sexycape.png"));
+                    break;
+                    case "Sexy 2":
+                    this.playerRenderer.bindTexture(new ResourceLocation("moonlight/texture/cape/sexycape2.png"));
+                    break;
+                }
+
             } else {
                 this.playerRenderer.bindTexture(entitylivingbaseIn.getLocationCape());
             }
@@ -76,22 +87,26 @@ public class LayerCape implements LayerRenderer<AbstractClientPlayer>
             this.playerRenderer.getMainModel().renderCape(0.0625F);
 
             if(entitylivingbaseIn.getName().equals(Minecraft.getMinecraft().getSession().getUsername()) && Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).cape.get()){
-                this.playerRenderer.bindTexture(new ResourceLocation("moonlight/texture/cape/overlay.png"));
-                int rgb = Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).color();
-                float alpha = 0.3F;
-                float red = (float) (rgb >> 16 & 255) / 255.0F;
-                float green = (float) (rgb >> 8 & 255) / 255.0F;
-                float blue = (float) (rgb & 255) / 255.0F;
-                GL11.glColor4f(red, green, blue, alpha);
-                this.playerRenderer.getMainModel().renderCape(0.0625F);
-                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                if (Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).enchanted.get()){
-                    for (Iterator<LayerRenderer<AbstractClientPlayer>> var32 = this.playerRenderer.getLayerRenderers().iterator(); var32.hasNext(); GlStateManager.resetColor()) {
-                        LayerRenderer var31 = var32.next();
-                        if (var31 instanceof LayerArmorBase) {
-                            ((LayerArmorBase<?>) var31).renderGlintCape(entitylivingbaseIn, this.playerRenderer.mainModel, p_177141_2_, p_177141_3_, partialTicks, p_177141_5_, p_177141_6_, p_177141_7_, scale);
+                switch (Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).capeMode.get()) {
+                    case "Default":
+                    this.playerRenderer.bindTexture(new ResourceLocation("moonlight/texture/cape/overlay.png"));
+                    int rgb = Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).color();
+                    float alpha = 0.3F;
+                    float red = (float) (rgb >> 16 & 255) / 255.0F;
+                    float green = (float) (rgb >> 8 & 255) / 255.0F;
+                    float blue = (float) (rgb & 255) / 255.0F;
+                    GL11.glColor4f(red, green, blue, alpha);
+                    this.playerRenderer.getMainModel().renderCape(0.0625F);
+                    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+                    if (Moonlight.INSTANCE.getModuleManager().getModule(Interface.class).enchanted.get()) {
+                        for (Iterator<LayerRenderer<AbstractClientPlayer>> var32 = this.playerRenderer.getLayerRenderers().iterator(); var32.hasNext(); GlStateManager.resetColor()) {
+                            LayerRenderer var31 = var32.next();
+                            if (var31 instanceof LayerArmorBase) {
+                                ((LayerArmorBase<?>) var31).renderGlintCape(entitylivingbaseIn, this.playerRenderer.mainModel, p_177141_2_, p_177141_3_, partialTicks, p_177141_5_, p_177141_6_, p_177141_7_, scale);
+                            }
                         }
                     }
+                    break;
                 }
             }
             
