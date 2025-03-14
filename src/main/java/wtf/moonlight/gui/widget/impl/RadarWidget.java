@@ -40,10 +40,10 @@ public class RadarWidget extends Widget {
         float cx = x + (width / 2f);
         float cy = y + (height / 2f);
 
-        RenderUtils.drawBorderedRect(x, y, width,  height, 1, 0xFF444444, 0xFF222222);
-        RenderUtils.drawRect(x + (width / 2f) - 0.5f, y, 1, height, 0xFF444444);
-        RenderUtils.drawRect(x, y + (height / 2f) - 0.5f, width, 1, 0xFF444444);
-        RenderUtils.drawRect(cx - 1, cy - 1, 2, 2, 0xFFFFFF00);
+        RenderUtils.drawBorderedRect(x, y, width,  height, 1, new Color(40, 40, 40, 255).getRGB(), new Color(29, 29, 29, 255).getRGB());
+        RenderUtils.drawRect(x + (width / 2f) - 0.5f, y, 1, height, new Color(255, 255, 255, 50).getRGB());
+        RenderUtils.drawRect(x, y + (height / 2f) - 0.5f, width, 1, new Color(255, 255, 255, 50).getRGB());
+        RenderUtils.drawRect(cx - 1, cy - 1, 2, 2, new Color(255, 255, 255, 50).getRGB());
 
         int maxDist = (int) (setting.radarSize.get() / 2);
         for (Entity entity : mc.theWorld.loadedEntityList) {

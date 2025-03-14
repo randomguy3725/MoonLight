@@ -122,7 +122,7 @@ public class Interface extends Module {
     public final ModeValue infoMode = new ModeValue("Info Mode", new String[]{"Exhi", "Moon", "Moon 2","Tenacity", "Astolfo"}, "Default", this,() -> elements.isEnabled("Info"));
     public final ModeValue versionMode = new ModeValue("Version Mode", new String[]{"Default"}, "Default",this,() -> elements.isEnabled("Version Info"));
     public final ModeValue potionHudMode = new ModeValue("Potion Mode", new String[]{"Default","Nursultan","Exhi","Moon","Sexy","Type 1","NeverLose","Mod"}, "Default", this,() -> elements.isEnabled("Potion HUD"));
-    public final ModeValue targetHudMode = new ModeValue("TargetHUD Mode", new String[]{"Astolfo", "Type 1", "Type 2","Felix","Exhi","Adjust","Moon","Augustus","New","Novo 1","Novo 2","Novo 3","Novo 4","Novo 5","Akrien"}, "Astolfo", this,() -> elements.isEnabled("Target HUD"));
+    public final ModeValue targetHudMode = new ModeValue("TargetHUD Mode", new String[]{"Astolfo", "Type 1", "Type 2","Felix","Exhi","Adjust","Moon","Augustus","New","Novo 1","Novo 2","Novo 3","Novo 4","Novo 5","Akrien","Innominate"}, "Astolfo", this,() -> elements.isEnabled("Target HUD"));
     public final BoolValue targetHudParticle = new BoolValue("TargetHUD Particle",true,this,() -> elements.isEnabled("Target HUD"));
     public final ModeValue notificationMode = new ModeValue("Notification Mode", new String[]{"Default", "Test","Type 2","Type 3","Type 4","Type 5", "Test2","Exhi"}, "Default", this,() -> elements.isEnabled("Notification"));
     public final ModeValue keyBindMode = new ModeValue("Key Bind Mode", new String[]{"Type 1"}, "Type 1", this,() -> elements.isEnabled("Key Bind"));

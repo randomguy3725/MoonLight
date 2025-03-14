@@ -41,12 +41,11 @@ import java.util.Objects;
 @ModuleInfo(name = "Speed", category = ModuleCategory.Movement, key = Keyboard.KEY_V)
 public class Speed extends Module {
     private final ModeValue mode = new ModeValue("Mode", new String[]{"Vanilla","Watchdog", "EntityCollide", "BlocksMC", "Intave", "NCP", "Miniblox"}, "Watchdog", this);
-    private final ModeValue wdMode = new ModeValue("Watchdog Mode", new String[]{"Fast", "Glide","Test"}, "Basic", this, () -> mode.is("Watchdog"));
+    private final ModeValue wdMode = new ModeValue("Watchdog Mode", new String[]{"Fast", "Glide","Ground Test"}, "Basic", this, () -> mode.is("Watchdog"));
     private final BoolValue fastFall = new BoolValue("Fast Fall", true, this, () -> mode.is("Watchdog") && wdMode.is("Fast"));
     private final BoolValue hurtTimeCheck = new BoolValue("Hurt Time Check", false, this, () -> mode.is("Watchdog") && (wdMode.is("Fast") || fastFall.canDisplay() && fastFall.get()));
     private final ModeValue wdFastFallMode = new ModeValue("Fast Fall Mode", new String[]{"7 Tick","8 Tick Strafe","8 Tick Fast","9 Tick"}, "8 Tick", this, () -> mode.is("Watchdog") && fastFall.canDisplay() && fastFall.get());
     private final BoolValue disableWhileScaffold = new BoolValue("Disable While Scaffold", true, this, () -> mode.is("Watchdog") && wdMode.is("Fast"));
-    private final BoolValue fallStrafe = new BoolValue("Fall Strafe", true, this, () -> mode.is("Watchdog") && wdMode.is("Fast"));
     private final BoolValue frictionOverride = new BoolValue("Friction Override", true, this, () -> mode.is("Watchdog") && wdMode.is("Fast"));
     private final BoolValue extraStrafe = new BoolValue("Extra Strafe", true, this, () -> mode.is("Watchdog") && wdMode.is("Fast"));
     private final BoolValue expand = new BoolValue("More Expand", false, this, () -> Objects.equals(mode.get(), "EntityCollide"));
@@ -75,6 +74,7 @@ public class Speed extends Module {
     public boolean couldStrafe;
     private double speed;
     private int ticksSinceTeleport;
+    private boolean valued;
 
     @Override
     public void onEnable() {
@@ -88,6 +88,7 @@ public class Speed extends Module {
             if(mc.thePlayer.offGroundTicks > 2){
                 disable = true;
             }
+            valued = false;
         }
     }
 
@@ -227,14 +228,13 @@ public class Speed extends Module {
                         couldStrafe = true;
                     }
                 }
-                break;
         }
     }
 
     @EventTarget
     public void onMotion(MotionEvent event) {
 
-        if(liquidCheck.get() && (mc.thePlayer.isInWater() || mc.thePlayer.isInLava()) || guiCheck.get() && mc.currentScreen instanceof GuiContainer)
+        if (liquidCheck.get() && (mc.thePlayer.isInWater() || mc.thePlayer.isInLava()) || guiCheck.get() && mc.currentScreen instanceof GuiContainer)
             return;
 
         if (isEnabled(Scaffold.class) && (getModule(Scaffold.class).towering() || getModule(Scaffold.class).towerMoving()))
@@ -282,7 +282,7 @@ public class Speed extends Module {
                 }
 
                 if (damageBoost.get() && mc.thePlayer.hurtTime > 0) {
-                    MovementUtils.strafe(Math.max(MovementUtils.getSpeed(),0.5));
+                    MovementUtils.strafe(Math.max(MovementUtils.getSpeed(), 0.5));
                 }
             }
             break;
@@ -308,7 +308,7 @@ public class Speed extends Module {
                         if (!mc.thePlayer.isCollidedHorizontally && (mc.thePlayer.ticksExisted > boostTicks)) {
                             recentlyCollided = false;
                         }
-                        
+
                         if (mc.thePlayer.onGround) {
                             disable3 = false;
                         }
@@ -330,7 +330,7 @@ public class Speed extends Module {
 
                     if (fastFall.canDisplay() && fastFall.get()) {
 
-                        if(mc.thePlayer.isInWater() ||
+                        if (mc.thePlayer.isInWater() ||
                                 mc.thePlayer.isInWeb ||
                                 mc.thePlayer.isInLava() ||
                                 hurtTimeCheck.get() && mc.thePlayer.hurtTime > 0
@@ -338,13 +338,25 @@ public class Speed extends Module {
                             disable = true;
                             return;
                         }
-                        
+
                         if (PlayerUtils.blockRelativeToPlayer(0, mc.thePlayer.motionY, 0) != Blocks.air) {
                             disable = false;
                         }
 
-                        if(mc.thePlayer.isCollidedVertically && !mc.thePlayer.onGround && PlayerUtils.isBlockOver(2.0)){
+                        if (mc.thePlayer.isCollidedVertically && !mc.thePlayer.onGround && PlayerUtils.isBlockOver(2.0)) {
                             disable = true;
+                        }
+                    }
+
+                    if (wdMode.is("Ground Test")) {
+                        if (valued) {
+                            if (mc.thePlayer.onGround) {
+                                event.setY(event.getY() + 1E-13F);
+                                mc.thePlayer.motionX *= 1.14 - MovementUtils.getSpeedEffect() * .01;
+                                mc.thePlayer.motionZ *= 1.14 - MovementUtils.getSpeedEffect() * .01;
+                                MovementUtils.strafe();
+                                couldStrafe = true;
+                            }
                         }
                     }
                 }
@@ -451,7 +463,7 @@ public class Speed extends Module {
                         mc.thePlayer.motionX = (mc.thePlayer.motionX * 1 + motionX3 * 2) / 3;
                     }
 
-                    if (mc.thePlayer.offGroundTicks > 1 && wdFastFallMode.is("8 Tick Strafe") && !disable && PlayerUtils.blockRelativeToPlayer(0, mc.thePlayer.motionY * 3, 0) != Blocks.air && PlayerUtils.blockRelativeToPlayer(0, mc.thePlayer.motionY * 3, 0).isFullBlock() && (disableWhileScaffold.get() && !isEnabled(Scaffold.class) || !disableWhileScaffold.get())) {
+                    if (mc.thePlayer.offGroundTicks == 6 && wdFastFallMode.is("8 Tick Strafe") && !disable && PlayerUtils.blockRelativeToPlayer(0, mc.thePlayer.motionY * 3, 0) != Blocks.air && PlayerUtils.blockRelativeToPlayer(0, mc.thePlayer.motionY * 3, 0).isFullBlock() && (disableWhileScaffold.get() && !isEnabled(Scaffold.class) || !disableWhileScaffold.get())) {
                         mc.thePlayer.motionY += 0.0754;
                         MovementUtils.strafe();
                         couldStrafe = true;
@@ -472,20 +484,11 @@ public class Speed extends Module {
                         couldStrafe = true;
                     }
 
-                    if (PlayerUtils.blockRelativeToPlayer(0, mc.thePlayer.motionY, 0) != Blocks.air && !disable && fallStrafe.get() && (mc.thePlayer.offGroundTicks > 7) && !disable3) {
-                        MovementUtils.strafe();
-                        couldStrafe = true;
-                        disable3 = true;
-                    } else if (PlayerUtils.blockRelativeToPlayer(0, mc.thePlayer.motionY, 0) != Blocks.air && !disable && mc.thePlayer.offGroundTicks > 6 && !disable3) {
-                        MovementUtils.strafe();
-                        couldStrafe = true;
-                        disable3 = true;
-                    } else if (PlayerUtils.blockRelativeToPlayer(0, mc.thePlayer.motionY, 0) != Blocks.air && mc.thePlayer.offGroundTicks > 5 && !disable3) {
+                    if (PlayerUtils.blockRelativeToPlayer(0, mc.thePlayer.motionY, 0) != Blocks.air && mc.thePlayer.offGroundTicks > 5 && !disable3) {
                         MovementUtils.strafe();
                         couldStrafe = true;
                         disable3 = true;
                     }
-
 
                     double speed2 = Math.hypot((mc.thePlayer.motionX - (mc.thePlayer.lastTickPosX - mc.thePlayer.lastLastTickPosX)), (mc.thePlayer.motionZ - (mc.thePlayer.lastTickPosZ - mc.thePlayer.lastLastTickPosZ)));
                     if (speed2 < .0125 && frictionOverride.get()) {
@@ -493,6 +496,13 @@ public class Speed extends Module {
                         couldStrafe = true;
                     }
 
+                    break;
+
+                case "Ground Test":
+                    if(!valued && mc.thePlayer.onGround){
+                        mc.thePlayer.jump();
+                        valued = true;
+                    }
                     break;
             }
         }

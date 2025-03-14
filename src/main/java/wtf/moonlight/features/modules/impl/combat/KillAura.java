@@ -636,7 +636,7 @@ public class KillAura extends Module {
         }
 
         if (bruteforce.get()) {
-            if (RotationUtils.rayCast(RotationUtils.getRotations(targetVec), rotationRange.get()).typeOfHit != MovingObjectPosition.MovingObjectType.ENTITY) {
+            if (!RotationUtils.isLookingAtEntity(RotationUtils.getRotations(targetVec), rotationRange.get())) {
                 final double xWidth = boundingBox.maxX - boundingBox.minX;
                 final double zWidth = boundingBox.maxZ - boundingBox.minZ;
                 final double height = boundingBox.maxY - boundingBox.minY;
@@ -644,7 +644,7 @@ public class KillAura extends Module {
                     for (double y = 0.0; y < 1.0; y += 0.2) {
                         for (double z = 0.0; z < 1.0; z += 0.2) {
                             final Vec3 hitVec = new Vec3(boundingBox.minX + xWidth * x, boundingBox.minY + height * y, boundingBox.minZ + zWidth * z);
-                            if (RotationUtils.rayCast(RotationUtils.getRotations(hitVec), rotationRange.get()).typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
+                            if (RotationUtils.isLookingAtEntity(RotationUtils.getRotations(hitVec), rotationRange.get())) {
                                 targetVec = hitVec;
                             }
                         }
@@ -669,8 +669,8 @@ public class KillAura extends Module {
         currentVec = targetVec;
 
         if (smartVec.get()) {
-            MovingObjectPosition test = RotationUtils.rayCast(RotationUtils.getRotations(prevVec), rotationRange.get());
-            if (test.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY && (addons.isEnabled("Ray Cast") || !addons.isEnabled("Ray Cast") && test.entityHit == target)) {
+            boolean test = RotationUtils.isLookingAtEntity(RotationUtils.getRotations(prevVec), rotationRange.get());
+            if (test) {
                 currentVec = prevVec;
             }
         }
@@ -708,18 +708,18 @@ public class KillAura extends Module {
         }
 
         if (smartRotation.get() && prevRotation != null) {
-            MovingObjectPosition test = RotationUtils.rayCast(prevRotation, rotationRange.get());
-            MovingObjectPosition test2 = RotationUtils.rayCast(new float[]{yaw, prevRotation[1]}, rotationRange.get());
-            MovingObjectPosition test3 = RotationUtils.rayCast(new float[]{prevRotation[0], pitch}, rotationRange.get());
+            boolean test = RotationUtils.isLookingAtEntity(prevRotation, rotationRange.get());
+            boolean test2 = RotationUtils.isLookingAtEntity(new float[]{yaw, prevRotation[1]}, rotationRange.get());
+            boolean test3 = RotationUtils.isLookingAtEntity(new float[]{prevRotation[0], pitch}, rotationRange.get());
 
-            if (test.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY && (addons.isEnabled("Ray Cast") || !addons.isEnabled("Ray Cast") && test.entityHit == target)) {
+            if (test) {
                 return prevRotation;
             }
 
-            if (test2.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY && (addons.isEnabled("Ray Cast") || !addons.isEnabled("Ray Cast") && test.entityHit == target)) {
+            if (test2) {
                 return new float[]{yaw, prevRotation[1]};
             }
-            if (test3.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY && (addons.isEnabled("Ray Cast") || !addons.isEnabled("Ray Cast") && test.entityHit == target)) {
+            if (test3) {
                 return new float[]{prevRotation[0], pitch};
             }
         }

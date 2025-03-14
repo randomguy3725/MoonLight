@@ -9,7 +9,6 @@
  * Author(s): [Randumbguy & wxdbie & opZywl & MukjepScarlet & lucas & eonian]
  */
 package wtf.moonlight.features.modules.impl.movement;
-
 import lombok.AllArgsConstructor;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -246,7 +245,7 @@ public class Scaffold extends Module {
 
         targetBlock = new BlockPos(posX, posY, posZ).offset(EnumFacing.DOWN);
 
-        data = grab(targetBlock);
+        data = getPlaceData(targetBlock);
 
         if (tower.canDisplay() && towering() && !isEnabled(Speed.class) && tower.is("Watchdog") && !placing) {
             BlockPos xPos = data.blockPos.add(-1, 0, 0);
@@ -802,7 +801,7 @@ public class Scaffold extends Module {
                 }
             } else {
                 MovingObjectPosition ray = RotationUtils.rayTrace(mc.playerController.getBlockReachDistance(), 1);
-                if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), ray.getBlockPos(), ray.sideHit, ray.hitVec)) {
+                if (ray.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), ray.getBlockPos(), ray.sideHit, ray.hitVec)) {
                     if (addons.isEnabled("Swing")) {
                         mc.thePlayer.swingItem();
                         mc.getItemRenderer().resetEquippedProgress();
@@ -884,36 +883,36 @@ public class Scaffold extends Module {
         return bestRot;
     }
 
-
-    private PlaceData grab(BlockPos pos) {
+    private PlaceData getPlaceData(final BlockPos pos) {
         EnumFacing[] facings = {EnumFacing.EAST, EnumFacing.WEST, EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.UP};
-        BlockPos[] offsets = {new BlockPos(-1, 0, 0), new BlockPos(1, 0, 0), new BlockPos(0, 0, 1), new BlockPos(0, 0, -1), new BlockPos(0, -1, 0)};
 
-        for (int i = 0; i < offsets.length; i++) {
-            BlockPos newPos = pos.add(offsets[i]);
-            if (canBePlacedOn(newPos)) {
-                return new PlaceData(facings[i], newPos);
+        // 1 of the 4 directions around player
+        for (EnumFacing facing : facings) {
+            final BlockPos blockPos = pos.add(facing.getOpposite().getDirectionVec());
+            if (canBePlacedOn(blockPos)) {
+                return new PlaceData(blockPos, facing);
             }
         }
 
-        BlockPos[] additionalOffsets = {
-                pos.add(-1, 0, 0),
-                pos.add(1, 0, 0),
-                pos.add(0, 0, 1),
-                pos.add(0, 0, -1),
-                pos.add(0, -1, 0),
-        };
-        for (BlockPos additionalPos : additionalOffsets) {
-            for (int i = 0; i < offsets.length; i++) {
-                BlockPos newPos = additionalPos.add(offsets[i]);
-                if (canBePlacedOn(newPos)) {
-                    return new PlaceData(facings[i], newPos);
+        // 2 Blocks Under e.g. When jumping
+        final BlockPos posBelow = pos.add(0, -1, 0);
+        if (canBePlacedOn(posBelow)) {
+            return new PlaceData(posBelow, EnumFacing.UP);
+        }
+
+        // 2 Block extension & diagonal
+        for (EnumFacing facing : facings) {
+            final BlockPos blockPos = pos.add(facing.getOpposite().getDirectionVec());
+            for (EnumFacing facing1 : facings) {
+                final BlockPos blockPos1 = blockPos.add(facing1.getOpposite().getDirectionVec());
+                if (canBePlacedOn(blockPos1)) {
+                    return new PlaceData(blockPos1, facing1);
                 }
             }
         }
 
-
         return null;
+
     }
 
     public static boolean canBePlacedOn(final BlockPos blockPos) {
@@ -937,8 +936,8 @@ public class Scaffold extends Module {
 
     @AllArgsConstructor
     public static class PlaceData {
-        public EnumFacing facing;
         public BlockPos blockPos;
+        public EnumFacing facing;
     }
 
 

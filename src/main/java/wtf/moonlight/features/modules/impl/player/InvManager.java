@@ -304,14 +304,14 @@ public class InvManager extends Module {
 
     private void open() {
         if (!this.clientOpen && !this.serverOpen) {
-            mc.thePlayer.sendQueue.addToSendQueue(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
+            sendPacket(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
             this.serverOpen = true;
         }
     }
 
     private void close() {
         if (!this.clientOpen && this.serverOpen) {
-            mc.thePlayer.sendQueue.addToSendQueue(new C0DPacketCloseWindow(mc.thePlayer.inventoryContainer.windowId));
+            sendPacket(new C0DPacketCloseWindow(mc.thePlayer.inventoryContainer.windowId));
             this.serverOpen = false;
             this.slot = -1;
         }

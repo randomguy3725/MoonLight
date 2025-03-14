@@ -486,6 +486,10 @@ public class RotationUtils implements InstanceAccess {
         return rayCast(rotation, range, mc.timer.renderPartialTicks);
     }
 
+    public static boolean isLookingAtEntity(final float[] rotation,final double range) {
+        return isLookingAtEntity(RotationUtils.rayCast(rotation,range).entityHit,rotation,range);
+    }
+
     public static boolean isLookingAtEntity(Entity target, final double range) {
         return isLookingAtEntity(target,RotationUtils.serverRotation,range);
     }

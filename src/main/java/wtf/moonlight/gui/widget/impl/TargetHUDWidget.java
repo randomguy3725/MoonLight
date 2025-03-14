@@ -100,6 +100,7 @@ public class TargetHUDWidget extends Widget {
             case "Novo 5" -> Math.max(118, Fonts.interSemiBold.get(17).getStringWidth(entity.getName()) + 38) + 27F;
             case "Akrien" -> 114 + ((35 + Fonts.interSemiBold.get(21).getStringWidth(entity.getName())) / 25f);
             case "Felix" -> 140.0f;
+            case "Innominate" -> Math.max(78, Fonts.interSemiBold.get(17).getStringWidth(entity.getName()) + 39) + 22;
             default -> 0;
         };
     }
@@ -120,6 +121,7 @@ public class TargetHUDWidget extends Widget {
             case "Novo 5" -> 47;
             case "Akrien" -> 44;
             case "Felix" -> 37.6f;
+            case "Innominate" -> 35;
             default -> 0;
         };
     }
@@ -401,11 +403,11 @@ class TargetHUD implements InstanceAccess {
                 target.healthAnimation.animate((100 * space) * MathHelper.clamp_float(healthPercentage, 0, 1), 30);
 
                 if (!shader) {
-                    RoundedUtils.drawRound(x, y, width, height, 8, new Color (0,0,0, 100));
+                    RoundedUtils.drawRound(x, y, width, height, 8, new Color(0, 0, 0, 100));
 
                     RoundedUtils.drawRound(x + 45, y + 23f, (100 * space), 10, 5, new Color(0, 0, 0, 255));
 
-                    RoundedUtils.drawRound(x + 45, y + 23f, target.healthAnimation.getOutput(), 10f, 4, new Color(255,0, 0));
+                    RoundedUtils.drawRound(x + 45, y + 23f, target.healthAnimation.getOutput(), 10f, 4, new Color(255, 0, 0));
                     RenderUtils.renderPlayer2D(target, x + 2.5f + (hurtTime) / 2, y + 2.5f + (hurtTime) / 2, 35 - hurtTime, 15, ColorUtils.interpolateColor2(Color.WHITE, Color.RED, hurtTime / 7));
                     Fonts.interSemiBold.get(18).drawString(target.getName(), x + 52.5F, y + 10.5f, -1);
                 } else {
@@ -419,7 +421,7 @@ class TargetHUD implements InstanceAccess {
             break;
             case "New": {
 
-                float healthPercentage =  target.getHealth() / target.getMaxHealth();
+                float healthPercentage = target.getHealth() / target.getMaxHealth();
                 float space = (width - 48) / 100;
 
                 target.healthAnimation.animate((100 * space) * MathHelper.clamp_float(healthPercentage, 0, 1), 30);
@@ -431,17 +433,17 @@ class TargetHUD implements InstanceAccess {
                     String text = String.format("%.1f", target.getHealth());
 
                     RoundedUtils.drawRound(x + 42, y + 22f, target.healthAnimation.getOutput(), 6f, 3, new Color(setting.color(0)));
-                    RoundedUtils.drawRoundOutline (x, y, this.width, this.height, 5, 0.1f, new Color(0, 0, 0, 0), new Color(setting.color(0)));
+                    RoundedUtils.drawRoundOutline(x, y, this.width, this.height, 5, 0.1f, new Color(0, 0, 0, 0), new Color(setting.color(0)));
                     RenderUtils.renderPlayer2D(target, x + 4.0f, y + 3.3f, 33, 12, -1);
                     Fonts.interSemiBold.get(19).drawString(text + "  ", x + 134, y + 9, setting.color());
                     Fonts.interSemiBold.get(17).drawString(target.getName(), x + 42, y + 9, setting.color());
                 } else {
                     RoundedUtils.drawRound(x, y, width, height, 3, new Color(setting.color()));
-                    RoundedUtils.drawRoundOutline (x, y, this.width, this.height, 5, 0.1f, new Color(0, 0, 0, 0), new Color(setting.color(0)));
+                    RoundedUtils.drawRoundOutline(x, y, this.width, this.height, 5, 0.1f, new Color(0, 0, 0, 0), new Color(setting.color(0)));
                 }
 
-                if(setting.targetHudParticle.get()){
-                    ParticleRenderer.renderParticle(target,x + 2.5f, y + 2.5f);
+                if (setting.targetHudParticle.get()) {
+                    ParticleRenderer.renderParticle(target, x + 2.5f, y + 2.5f);
                 }
             }
             break;
@@ -475,7 +477,7 @@ class TargetHUD implements InstanceAccess {
                 target.healthAnimation.animate((100 * space) * MathHelper.clamp_float(healthPercentage, 0, 1), 30);
 
                 if (!shader) {
-                    RenderUtils.drawBorderedRect(x, y, width, height, 1f, new Color(0, 0, 0, 50).getRGB(), new Color(40, 40, 40, 180).getRGB());
+                    RenderUtils.drawBorderedRect(x, y, width, height, 1f, new Color(0, 0, 0, 50).getRGB(), new Color(29, 29, 29, 180).getRGB());
                     RenderUtils.drawRect(x, y, width, height, new Color(40, 40, 40, 180).getRGB());
                     RenderUtils.renderPlayer2D(target, (x + 1.5f + 1), (float) (y + 0.4), 35, 0, -1);
                     String text = String.format("%.1f", target.getHealth());
@@ -485,8 +487,8 @@ class TargetHUD implements InstanceAccess {
                     mc.fontRendererObj.drawStringWithShadow(target.getName(), x + 40f, y + 4, -1);
                 }
 
-                if(setting.targetHudParticle.get()){
-                    ParticleRenderer.renderParticle(target,(x + 1.5f + 1), (float) (y + 0.4));
+                if (setting.targetHudParticle.get()) {
+                    ParticleRenderer.renderParticle(target, (x + 1.5f + 1), (float) (y + 0.4));
                 }
             }
             break;
@@ -500,7 +502,7 @@ class TargetHUD implements InstanceAccess {
 
                 if (!shader) {
 
-                    RenderUtils.drawBorderedRect(x, y, width, height, 1f, new Color(0, 0, 0, 50).getRGB(), new Color(29, 29, 29, 130).getRGB());
+                    RenderUtils.drawBorderedRect(x, y, width, height, 1f, new Color(0, 0, 0, 50).getRGB(), new Color(29, 29, 29, 180).getRGB());
                     RenderUtils.drawRect(x, y, width, height, new Color(40, 40, 40, 130).getRGB());
                     RenderUtils.drawRect(x + 40 + 1, y + 16.5f, 100 * space + 1, 10.8f, new Color(0, 0, 0, 50).getRGB());
                     RenderUtils.drawRect(x + 40 + 1, y + 16.5f, target.healthAnimation.getOutput(), 10.8f, setting.color());
@@ -511,8 +513,8 @@ class TargetHUD implements InstanceAccess {
                 }
             }
 
-            if(setting.targetHudParticle.get()){
-                ParticleRenderer.renderParticle(target,(x + 1.5f + 1f), (float) (y + 0.4));
+            if (setting.targetHudParticle.get()) {
+                ParticleRenderer.renderParticle(target, (x + 1.5f + 1f), (float) (y + 0.4));
             }
 
             break;
@@ -524,8 +526,8 @@ class TargetHUD implements InstanceAccess {
 
                 target.healthAnimation.animate(space * MathHelper.clamp_float(healthPercentage, 0, 1), 30);
 
-                if(!shader) {
-                    RenderUtils.drawRect(x - 1.0f, y + 4.0f, width, height, setting.bgColor());
+                if (!shader) {
+                    RenderUtils.drawRect(x - 1.0f, y + 4.0f, width, height, new Color(0, 0, 0, 150));
                     mc.fontRendererObj.drawStringWithShadow(target.getName(), x + 30.0f, y + 13.0f, -1);
                     RenderUtils.renderItemStack(target, x + 13, y + 25, 1, 0.5f);
                     GuiInventory.drawEntityOnScreen(x + 15, y + 40, 15, target.rotationYaw, -target.rotationPitch, target);
@@ -549,10 +551,10 @@ class TargetHUD implements InstanceAccess {
                     Fonts.interRegular.get(17).drawString(text, x + target.healthAnimation.getOutput() + 3, y + 37F, -1);
                     RenderUtils.renderPlayer2D(target, x + 3.2f, y + 3.2f, 33, 0, -1);
                     RenderUtils.drawGradientRect(x + 3.2f, y + 39, target.healthAnimation.getOutput(), 4, true, setting.color(0), setting.color(90));
-                    RenderUtils.renderItemStack(target, x + 40f, y + 15, 1,false,true);
+                    RenderUtils.renderItemStack(target, x + 40f, y + 15, 1, false, true);
 
-                    if(setting.targetHudParticle.get()){
-                        ParticleRenderer.renderParticle(target,x + 3.2f ,y + 3.2f);
+                    if (setting.targetHudParticle.get()) {
+                        ParticleRenderer.renderParticle(target, x + 3.2f, y + 3.2f);
                     }
 
                 } else {
@@ -562,12 +564,12 @@ class TargetHUD implements InstanceAccess {
 
             break;
 
-            case "Akrien":{
+            case "Akrien": {
 
                 float healthPercentage = target.getHealth() / target.getMaxHealth();
                 float space = width - 2;
 
-                if(!shader) {
+                if (!shader) {
                     target.healthAnimation.animate(space * MathHelper.clamp_float(healthPercentage, 0, 1), 30);
                     RenderUtils.drawRect(x, y, width, height, setting.bgColor());
                     RenderUtils.drawBorderedRect(x + 1, y + 35, space, 2.5f, 0.74f, new Color(0, 0, 0, 100).getRGB(), new Color(0, 0, 0, 100).getRGB());
@@ -590,6 +592,29 @@ class TargetHUD implements InstanceAccess {
                     RenderUtils.drawRect(x, y, width, height, setting.color());
                 }
             }
+            break;
+
+            case "Innominate": {
+                float healthPercentage = target.getHealth() / target.getMaxHealth();
+                float space = width - 4;
+
+                if (!shader) {
+                    target.healthAnimation.animate(space * MathHelper.clamp_float(healthPercentage, 0, 1), 30);
+                    RenderUtils.drawBorderedRect(x, y, width, height,1, Color.BLACK.getRGB(),Color.DARK_GRAY.getRGB());
+
+                    String text = String.format("%.1f", target.getHealth());
+                    Fonts.interRegular.get(16).drawStringWithShadow(target.getName() +  " | " + text, x + 2, y + 2 + 2, -1);
+
+                    RenderUtils.renderItemStack(target,x + 2,y + 2 + Fonts.interRegular.get(16).getHeight(),1);
+
+                    RenderUtils.drawBorderedRect(x + 2,y + 2 + Fonts.interRegular.get(16).getHeight() + 16,width - 4,5,1,Color.BLACK.getRGB(),Color.DARK_GRAY.getRGB());
+
+                    RenderUtils.drawBorderedRect(x + 2,y + 2 + Fonts.interRegular.get(16).getHeight() + 16,target.healthAnimation.getOutput(),5,1,setting.color(0),Color.DARK_GRAY.getRGB());
+                } else {
+                    RenderUtils.drawBorderedRect(x, y, width, height,1, Color.BLACK.getRGB(),Color.DARK_GRAY.getRGB());
+                }
+            }
+
             break;
         }
         GlStateManager.popMatrix();
