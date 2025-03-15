@@ -10,7 +10,6 @@
  */
 package wtf.moonlight.features.modules.impl.combat;
 
-import com.google.common.collect.Lists;
 import com.viaversion.viarewind.protocol.protocol1_8to1_9.Protocol1_8To1_9;
 import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.protocol.packet.PacketWrapper;

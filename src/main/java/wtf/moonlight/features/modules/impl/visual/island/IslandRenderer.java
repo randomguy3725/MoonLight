@@ -157,8 +157,8 @@ public class IslandRenderer implements InstanceAccess {
     }
 
     public void runToXy(float realX, float realY) {
-        animatedX.animate(getRenderX(realX), 40);
-        animatedY.animate(getRenderY(realY), 40);
+        animatedX.animate(getRenderX(realX), 20);
+        animatedY.animate(getRenderY(realY), 20);
     }
 
     public void drawBackgroundAuto(int identifier) {
