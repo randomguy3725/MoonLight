@@ -119,7 +119,7 @@ public class TargetHUDWidget extends Widget {
             case "Novo 2", "Novo 3" -> 36f;
             case "Novo 4" -> 45.0f;
             case "Novo 5" -> 47;
-            case "Akrien" -> 44;
+            case "Akrien" -> 39.5f;
             case "Felix" -> 37.6f;
             case "Innominate" -> 35;
             default -> 0;
