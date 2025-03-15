@@ -611,7 +611,7 @@ class TargetHUD implements InstanceAccess {
                     String text = String.format("%.1f", target.getHealth());
                     Fonts.interRegular.get(16).drawStringWithShadow(target.getName() +  " | " + text, x + 2, y + 2 + 2, -1);
 
-                    RenderUtils.renderItemStack(target,x + 2,y + 2 + Fonts.interRegular.get(16).getHeight(),1);
+                    RenderUtils.renderItemStack(target,x + 2,y + 2 + Fonts.interRegular.get(16).getHeight(),1,false,0,false,false);
 
                     RenderUtils.drawBorderedRect(x + 2,y + 2 + Fonts.interRegular.get(16).getHeight() + 16,width - 4,5,1,Color.BLACK.getRGB(),Color.DARK_GRAY.getRGB());
 
