@@ -235,21 +235,21 @@ public class IslandRenderer implements InstanceAccess {
         float renderHeight = ((y - animatedY.getOutput()) * 2) + (identifier == 1 ? 10 : 0);
 
         RenderUtils.scissor(animatedX.getOutput() - 1, animatedY.getOutput() - 1, ((x - animatedX.getOutput()) * 2) + 2 + 14, renderHeight + 2 + 4);
-        RoundedUtils.drawRound(animatedX.getOutput(), (float) animatedY.getOutput(), (x - animatedX.getOutput()) * 2 + 14, renderHeight + 4, 9, new Color(65, 65, 65, 255));
+        RoundedUtils.drawRound(animatedX.getOutput(), (float) animatedY.getOutput(), (x - animatedX.getOutput()) * 2 + 14, renderHeight + 4, 9, new Color(10, 10, 10, 180));
     }
 
     public void drawBackgroundAuto2(int identifier) {
         float renderHeight = ((y1 - animatedY.getOutput()) * 2) + (identifier == 1 ? 10 : 0);
 
         RenderUtils.scissor(animatedX.getOutput() - 1, animatedY.getOutput() - 1, ((x - animatedX.getOutput()) * 2) + 2 + 14, renderHeight + 2 + 4);
-        RoundedUtils.drawRound(animatedX.getOutput(), (float) animatedY.getOutput(), (x - animatedX.getOutput()) * 2 + 14, renderHeight + 4, 9, new Color(65, 65, 65, 255));
+        RoundedUtils.drawRound(animatedX.getOutput(), (float) animatedY.getOutput(), (x - animatedX.getOutput()) * 2 + 14, renderHeight + 4, 9, new Color(10, 10, 10, 180));
     }
 
     public void drawShaderBackgroundAuto2(int identifier) {
         float renderHeight = ((y1 - animatedY.getOutput()) * 2) + (identifier == 1 ? 10 : 0);
 
         RenderUtils.scissor(animatedX.getOutput() - 1, animatedY.getOutput() - 1, ((x - animatedX.getOutput()) * 2) + 2 + 14, renderHeight + 2 + 4);
-        RoundedUtils.drawRound(animatedX.getOutput(), animatedY.getOutput(), (x - animatedX.getOutput()) * 2 + 14, renderHeight + 4, 9, new Color(65, 65, 65, 255));
+        RoundedUtils.drawRound(animatedX.getOutput(), animatedY.getOutput(), (x - animatedX.getOutput()) * 2 + 14, renderHeight + 4, 9, new Color(10 10, 10, 255));
     }
 
 
