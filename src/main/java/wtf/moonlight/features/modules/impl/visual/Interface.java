@@ -128,6 +128,7 @@ public class Interface extends Module {
     public final ModeValue sessionInfoMode = new ModeValue("Session Info Mode", new String[]{"Default","Exhi","Rise","Moon","Opai","Novo","Novo 2"}, "Default", this,() -> elements.isEnabled("Session Info"));
     public final BoolValue centerNotif = new BoolValue("Center Notification",true,this,() -> notificationMode.is("Exhi"));
     public final SliderValue radarSize = new SliderValue("Radar Size",70, 25, 200,this,() -> elements.isEnabled("Radar"));
+    public final ModeValue radarMode = new ModeValue("Radar Mode", new String[]{"Default", "Exhi", "Astolfo"}, "Default", this,() -> elements.isEnabled("Radar"));
     public final ModeValue color = new ModeValue("Color Setting", new String[]{"Custom", "Rainbow", "Dynamic", "Fade","Astolfo","NeverLose"}, "NeverLose", this);
     private final ColorValue mainColor = new ColorValue("Main Color", new Color(128, 128, 255), this,() -> !color.is("NeverLose"));
     private final ColorValue secondColor = new ColorValue("Second Color", new Color(128, 255, 255), this, () -> color.is("Fade"));
