@@ -408,5 +408,11 @@
    "minimumLauncherVersion" : 14,
    "releaseTime" : "2015-12-03T09:24:39+00:00",
    "time" : "2015-12-03T09:24:39+00:00",
-   "type" : "release"
+   "type" : "release",
+   "arguments": {
+      "jvm": [
+          "-Dlog4j2.formatMsgNoLookups=true",
+          "-Dlog4j2.disableJndi=true"
+      ]
+  }
 }
