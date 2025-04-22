@@ -12,6 +12,7 @@ package wtf.moonlight.features.modules.impl.visual;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import de.florianmichael.vialoadingbase.ViaLoadingBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
