@@ -109,7 +109,7 @@ public class Interface extends Module {
     public final ModeValue fontMode = new ModeValue("C Fonts Mode", new String[]{"Bold","Semi Bold","Medium","Regular","Tahoma", "SFUI"}, "Semi Bold", this,() -> cFont.canDisplay() && cFont.get());
     public final SliderValue fontSize = new SliderValue("Font Size",15,10,25,this,cFont::get);
     public final SliderValue animSpeed = new SliderValue("anim Speed", 200, 100, 400, 25, this, () -> elements.isEnabled("Module List"));
-    public final ModeValue watemarkMode = new ModeValue("Watermark Mode", new String[]{"Text","Styles","Styles 2","Rect","Nursultan","Exhi","Exhi 2","Nursultan 2","NeverLose","Novo","Novo 2","Novo 3","OneTap"}, "Text", this,() -> elements.isEnabled("Watermark"));
+    public final ModeValue watemarkMode = new ModeValue("Watermark Mode", new String[]{"Text","Styles","Styles 2","Rect","Nursultan","Exhi","Exhi 2","Exhi 3","Nursultan 2","NeverLose","Novo","Novo 2","Novo 3","OneTap"}, "Text", this,() -> elements.isEnabled("Watermark"));
     public final ModeValue animation = new ModeValue("Animation", new String[]{"ScaleIn", "MoveIn","Slide In"}, "ScaleIn", this, () -> elements.isEnabled("Module List"));
     public final SliderValue textHeight = new SliderValue("Text Height", 2, 0, 10, this, () -> elements.isEnabled("Module List"));
     public final ModeValue tags = new ModeValue("Suffix", new String[]{"None", "Simple", "Bracket", "Dash"}, "None", this, () -> elements.isEnabled("Module List"));
@@ -118,8 +118,8 @@ public class Interface extends Module {
     public final BoolValue armorBg = new BoolValue("Armor Background",true,this, () -> elements.isEnabled("Armor"));
     public final BoolValue armorEnchanted = new BoolValue("Armor Enchanted",true,this, () -> elements.isEnabled("Armor"));
     public final BoolValue armorInfo = new BoolValue("Armor Info",true,this, () -> elements.isEnabled("Armor"));
-    public final ModeValue infoMode = new ModeValue("Info Mode", new String[]{"Exhi", "Moon", "Moon 2","Tenacity", "Astolfo"}, "Default", this,() -> elements.isEnabled("Info"));
-    public final ModeValue versionMode = new ModeValue("Version Mode", new String[]{"Default"}, "Default",this,() -> elements.isEnabled("Version Info"));
+    public final ModeValue infoMode = new ModeValue("Info Mode", new String[]{"Exhi", "Exhi 2", "Moon", "Moon 2","Tenacity", "Astolfo"}, "Default", this,() -> elements.isEnabled("Info"));
+    public final ModeValue versionMode = new ModeValue("Version Mode", new String[]{"Default", "Exhi"}, "Default",this,() -> elements.isEnabled("Version Info"));
     public final ModeValue potionHudMode = new ModeValue("Potion Mode", new String[]{"Default","Nursultan","Exhi","Moon","Sexy","Type 1","NeverLose","Mod"}, "Default", this,() -> elements.isEnabled("Potion HUD"));
     public final ModeValue targetHudMode = new ModeValue("TargetHUD Mode", new String[]{"Astolfo", "Type 1", "Type 2","Felix","Exhi","Adjust","Moon","Augustus","New","Novo 1","Novo 2","Novo 3","Novo 4","Novo 5","Akrien","Innominate"}, "Astolfo", this,() -> elements.isEnabled("Target HUD"));
     public final BoolValue targetHudParticle = new BoolValue("TargetHUD Particle",true,this,() -> elements.isEnabled("Target HUD"));
@@ -241,6 +241,13 @@ public class Interface extends Module {
                     String text = shouldChange ? "§r" + clientName.get() : clientName.get().charAt(0) + "§r§f" + clientName.get().substring(1) +
                             " §7[§f" + Minecraft.getDebugFPS() + " FPS§7]§r ";
                     Fonts.Tahoma.get(15).drawStringWithShadow(text, 1.0f, 2.0f, color());
+                }
+                break;
+                case "Exhi 3": {
+                    String text = "§7§l§o§n" + clientName.get() + "§r" +
+                            " §7[§f" + ViaLoadingBase.getInstance().getTargetVersion().getName() + "§7]§r" +
+                            " §7[§f" + Minecraft.getDebugFPS() + " FPS§7]§r ";
+                    mc.fontRendererObj.drawStringWithShadow(text, 2.0f, 2.0f, color());
                 }
                 break;
                 case "Nursultan 2": {
@@ -444,6 +451,14 @@ public class Interface extends Module {
                                     xyzFormat.format(mc.thePlayer.posZ) + " " + EnumChatFormatting.RESET + "BPS: " + EnumChatFormatting.WHITE + this.bpsFormat.format(MovementUtils.getBPS())
                             , 2, textY, color(0));
                     break;
+                case "Exhi 2":
+                    textY = (event.scaledResolution().getScaledHeight() - 9) + (mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f);
+                    mc.fontRendererObj.drawStringWithShadow("§7XYZ: " +  EnumChatFormatting.WHITE +
+                                    xyzFormat.format(mc.thePlayer.posX) + " " +
+                                    xyzFormat.format(mc.thePlayer.posY) + " " +
+                                    xyzFormat.format(mc.thePlayer.posZ) + " " + "§7b/s: " + EnumChatFormatting.WHITE + this.bpsFormat.format(MovementUtils.getBPS())
+                            , 2, textY + 3f, -1);
+                    break;    
                 case "Moon":
                     textY = (event.scaledResolution().getScaledHeight() - 9) + (mc.currentScreen instanceof GuiChat ? -14.0f : -3.0f);
                     mc.fontRendererObj.drawStringWithShadow("FPS: " + EnumChatFormatting.WHITE + Minecraft.getDebugFPS(), 2, textY, color(0));
@@ -481,6 +496,16 @@ public class Interface extends Module {
 
                     Fonts.interMedium.get(17).drawStringWithShadow(EnumChatFormatting.WHITE + Moonlight.INSTANCE.getVersion() + " §7- " + EnumChatFormatting.WHITE + Moonlight.INSTANCE.getDiscordRP().getName() + " §7- " + EnumChatFormatting.WHITE + "1.0", (float) event.scaledResolution().getScaledWidth() - Fonts.interMedium.get(17).getStringWidth(Moonlight.INSTANCE.getVersion() + " - "  + Moonlight.INSTANCE.getDiscordRP().getName() + " §7- " + EnumChatFormatting.WHITE + "1.0") - 2.0f, textY + 3.5, color (0));
                     break;
+                case "Exhi":
+                    textY = (event.scaledResolution().getScaledHeight() - 9) + (mc.currentScreen instanceof GuiChat ? -15.0f : -3.0f);
+
+                    mc.fontRendererObj.drawStringWithShadow(
+                            GRAY + INSTANCE.getVersion() +  " Build" + " - §f§l112519§r §7- " + INSTANCE.getDiscordRP().getName().replace(".", "").replace("_", "").replace("eoniann", "Eonian"),
+                            (float) event.scaledResolution().getScaledWidth() - mc.fontRendererObj.getStringWidth(
+                            GRAY + INSTANCE.getVersion() +  " Build" + " - §f§l112519§r §7- " + INSTANCE.getDiscordRP().getName().replace(".", "").replace("_", "").replace("eoniann", "Eonian")) - 1.0f,
+                            textY + 3.5f,
+                            color(0));
+                break;    
             }
         }
 
@@ -512,9 +537,8 @@ public class Interface extends Module {
                     type = type + " §7" + Potion.getDurationString(potionEffect);
                 }
                 GlStateManager.pushMatrix();
-                mc.fontRendererObj.drawString(potionName, (float) event.scaledResolution().getScaledWidth() - mc.fontRendererObj.getStringWidth(type + potionName) - 2.0f, (event.scaledResolution().getScaledHeight()  - (elements.isEnabled("Version Info") ? 15 : 9)) + y, new Color(potionType.getLiquidColor()).getRGB(), true);
-                mc.fontRendererObj.drawString(type, (float) event.scaledResolution().getScaledWidth() - mc.fontRendererObj.getStringWidth(type) - 2.0f, (event.scaledResolution().getScaledHeight() - (elements.isEnabled("Version Info") ? 15 : 9)) + y, new Color(255, 255, 255).getRGB(), true);
-
+                mc.fontRendererObj.drawString(potionName, (float) event.scaledResolution().getScaledWidth() - mc.fontRendererObj.getStringWidth(type + potionName) - 1.0f, (event.scaledResolution().getScaledHeight()  - (elements.isEnabled("Version Info") ? 15 : 9)) + y, new Color(potionType.getLiquidColor()).getRGB(), true);
+                mc.fontRendererObj.drawString(type, (float) event.scaledResolution().getScaledWidth() - mc.fontRendererObj.getStringWidth(type) - 1.0f, (event.scaledResolution().getScaledHeight() - (elements.isEnabled("Version Info") ? 15 : 9)) + y, new Color(255, 255, 255).getRGB(), true);
                 GlStateManager.popMatrix();
                 y -= 9.0f;
             }
